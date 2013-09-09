@@ -122,6 +122,7 @@
 	  Images[101].src = "Game/Images/Menus/login-button.png"	
 	  Images[102].src = "Game/Images/scrollup.png" 
 	  Images[103].src = "Game/Images/scrolldown.png"
+	  Images[104].src = "Game/Images/abilities/stealth.png"
 	  
 	}
 	

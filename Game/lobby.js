@@ -68,6 +68,11 @@ lobby.prototype.draw = function() {
 
 	this.chatRoom.draw()
 	this.chatBar.draw()	
+
+	this.context.drawImage(Images[ReturnUnitImage("Elemental")], 100, 300)	
+	
+	this.context.drawImage(Images[ReturnUnitImage("Elemental")], 0, 300)
+	this.context.drawImage(Images[104], 0, 300)
 	
 	
 }
