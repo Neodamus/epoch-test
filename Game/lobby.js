@@ -1,9 +1,4 @@
-function lobby() {
-	
-	var fileref=document.createElement('script')
-  	fileref.setAttribute("type","text/javascript")
-  	fileref.setAttribute("src", "Game/inputBox.js")
-	document.getElementsByTagName("head")[0].appendChild(fileref)	
+function lobby() {	
 
 	this.id = "lobby"
 
@@ -69,10 +64,10 @@ lobby.prototype.draw = function() {
 	this.chatRoom.draw()
 	this.chatBar.draw()	
 
-	this.context.drawImage(Images[ReturnUnitImage("Elemental")], 100, 300)	
+	/* this.context.drawImage(Images[ReturnUnitImage("Elemental")], 100, 300)	
 	
 	this.context.drawImage(Images[ReturnUnitImage("Elemental")], 0, 300)
-	this.context.drawImage(Images[104], 0, 300)
+	this.context.drawImage(Images[104], 0, 300) */
 	
 	
 }
@@ -172,6 +167,13 @@ function lobbyKeyDown(key) {
 	
 	}	
 	
+	if (key.keyCode == 27) {
+			
+			key.preventDefault()
+			currentScreen = new CreateMenus(document.getElementById('Mycanvas').width, document.getElementById('Mycanvas').height)
+			
+	}	
+	
 	if (key.keyCode == 13) {
 		
 		sendPacket2("addChat", { id: userName, text: chatBar.text } )
@@ -265,7 +267,7 @@ function textBox(x, y, width, height) {
 	this.height = Math.floor(height)
 	
 	this.context = document.getElementById('Mycanvas').getContext('2d')
-	this.textBoxColor = "White"
+	this.textBoxColor = "#777777"
 	
 	this.font =  14 + "px " + "FLORI" // "14px serif"
 	this.fontColor = "Black"

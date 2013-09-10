@@ -1,7 +1,7 @@
 //var $g = new globals()	
 //var game = loadGame()
 
-sizeCanvas()
+window.onload = function() { sizeCanvas() }
 
 function loadGame() {
 	
@@ -65,18 +65,22 @@ function sizeCanvas() {
 	canvas = document.getElementById('Mycanvas')
 	context = document.getElementById('Mycanvas').getContext('2d')
 		
-	canvas.width = window.innerWidth * 0.9
-    canvas.height = window.innerHeight * 0.9
-  
+	canvas.width = Math.floor(window.innerWidth - 400)
+    canvas.height = Math.floor(window.innerHeight - 150)
+	
 	if (canvas.width * 4 / 5 > canvas.height) {
 		
 		canvas.width = canvas.height * 5 / 4	
-		canvas.style.marginLeft = (window.innerWidth * 0.9 - canvas.width) / 2 + "px"
+		document.getElementById('gamewindow').style.paddingLeft = (window.innerWidth - canvas.width) / 2 + "px"
+		document.getElementById('gamewindow').style.paddingTop = "0px"
 		
 	} else if (canvas.width * 4 / 5 < canvas.height) {
 		
-		canvas.height = canvas.width * 4 / 5
+		canvas.height = canvas.width * 4 /5
+		document.getElementById('gamewindow').style.paddingTop = (window.innerHeight - canvas.height - 150) / 2 + "px"
+		document.getElementById('gamewindow').style.height = canvas.height + (window.innerHeight - canvas.height - 150) / 2 + "px";
+		document.getElementById('gamewindow').style.paddingLeft = (window.innerWidth - canvas.width) / 2 + "px"
 		
-	}		
+	}
 	
 }

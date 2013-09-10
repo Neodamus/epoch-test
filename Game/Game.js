@@ -30,7 +30,7 @@
 	 
 	 var Screen;
 	
-	canvas = document.getElementById('Mycanvas')
+	/* canvas = document.getElementById('Mycanvas')
 	context = document.getElementById('Mycanvas').getContext('2d')
 		
 	canvas.width = window.innerWidth * 0.9
@@ -45,7 +45,7 @@
 		
 		canvas.height = canvas.width * 4 / 5
 		
-	}	
+	}	*/
 	
 	var startGame = StartGame();
 	 
