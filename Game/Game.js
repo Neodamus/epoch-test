@@ -1,8 +1,16 @@
+	  //Code to run on game start
+	window.onload = function() {
+		sizeCanvas();		
+			var loadGame = StartGame();
+	
+		startSocket()
 
+		  
+	  };
 	  
 	 var numberOfUnits = 9;
-	 var Canvas =  document.getElementById('Mycanvas');
-	 var Context = Canvas.getContext('2d');
+	 var Canvas; 
+	 var Context;
 	 var Images = new Array(110); //Images
 	 var Mouse; //Mouse position (tied to 'click' event)
 	 var KeyPressed; //KeyChar pressed
@@ -14,7 +22,7 @@
 	 
 	 var shiftKey = false // returns true if it's down, false if it's up
 	 
-	 var ClientsTurn = true;
+	 var ClientsTurn = false;
 	 
 	 var currentScreen
 	 
@@ -29,25 +37,6 @@
 	 
 	 
 	 var Screen;
-	
-	/* canvas = document.getElementById('Mycanvas')
-	context = document.getElementById('Mycanvas').getContext('2d')
-		
-	canvas.width = window.innerWidth * 0.9
-    canvas.height = window.innerHeight * 0.9
-  
-	if (canvas.width * 4 / 5 > canvas.height) {
-		
-		canvas.width = canvas.height * 5 / 4	
-		canvas.style.marginLeft = (window.innerWidth * 0.9 - canvas.width) / 2 + "px"
-		
-	} else if (canvas.width * 4 / 5 < canvas.height) {
-		
-		canvas.height = canvas.width * 4 / 5
-		
-	}	*/
-	
-	var startGame = StartGame();
 	 
 	//Start game and attach events to canvas
 	function StartGame()
@@ -58,24 +47,19 @@
 	  
 	  Canvas = canvas;
 	  Context = context;
-	  canvas.oncontextmenu = function(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    return false;
-}; 
+	  canvas.oncontextmenu = function(event) { event.preventDefault(); event.stopPropagation(); return false; } //disables rightclick on canvas
 
 	  startEventHandlers()
 	  
 	  currentScreen = { id: "blank" }	  
 	  
 	  LoadImageContent();
+	  UnitStats = UnitStats(); //initialize unitstats
 	  
 	  //Start Draw updates
 	  globalFont = (Canvas.height * 0.021).toString() + 'px FLORI';
 	  globalFontSize = Canvas.height * 0.021;
 	  var frame = setInterval(function(){Draw(context, canvas)},FrameRate);
-	  
-		UnitStats = UnitStats(); //initialize unitstats
 	  
 	}
 	
@@ -122,7 +106,6 @@
 	  Images[101].src = "Game/Images/Menus/login-button.png"	
 	  Images[102].src = "Game/Images/scrollup.png" 
 	  Images[103].src = "Game/Images/scrolldown.png"
-	  Images[104].src = "Game/Images/abilities/stealth.png"
 	  
 	}
 	
@@ -300,6 +283,12 @@
 	  return (x + stringLength)} 
 	  return 0;} 
 	  
+	  function centreTextY(numberOfLines, y, height, fontSize) { 
+	  y += fontSize * 0.8; //not exact, fontSize is != actual height of font
+	  var stringSize = numberOfLines * (fontSize);  //isn't based on string, just number of lines - fix
+	  stringSize = (height - stringSize) * 0.50;          //height - 
+	  return (y + stringSize)} 
+	  
 	  
 	  
 	  
@@ -369,20 +358,20 @@
 		switch (currentScreen.id) {
 			
 			case "lobby": 
-				currentScreen.draw()
-				break
+				currentScreen.draw();
+				break;
 			
 			case "login":
-				currentScreen.draw()
-				break
+				currentScreen.draw();
+				break;
 				
 			case "menus":
-				currentScreen.Draw()
-				break
+				currentScreen.Draw();
+				break;
 				
 			case "blank":
-				context.fillStyle = "Black"
-				context.fillRect(0, 0, canvas.width, canvas.height)
+				context.fillStyle = "Black";
+				context.fillRect(0, 0, canvas.width, canvas.height);
 						
 		}
 		

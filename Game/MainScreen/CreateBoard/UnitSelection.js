@@ -1,6 +1,4 @@
-
-	  
-	  function SelectionScreen()
+	   function SelectionScreen()
 	  {
 		this.CreateRectanglesAndOrganizeUnits();
 		this.ClickedObject = this.MainUnitBox;
@@ -214,16 +212,32 @@
 	 SelectionScreen.prototype.CreateRectanglesAndOrganizeUnits = function()
 	 {
 		//background Colored rectangles to draw
-		this.MainUnitBox = new Rectangle(10, 10, Canvas.width - 20, Canvas.height * 0.8 - 20);
-	    this.FireUnitBox = new Rectangle(40, 20, Canvas.width / 5 - 40, Canvas.height / 2 - 40);
-		this.AirUnitBox = new Rectangle(40 + Canvas.width / 5 - 10, 20, Canvas.width / 5 - 40, Canvas.height / 2 - 40);
-		this.EarthUnitBox = new Rectangle(40 + ((Canvas.width / 5 - 10) * 2), 20, Canvas.width / 5 - 40, Canvas.height / 2 - 40);
-		this.LightningUnitBox = new Rectangle(40 + ((Canvas.width / 5 - 10) * 3), 20, Canvas.width / 5 - 40, Canvas.height / 2 - 40);
-		this.WaterUnitBox = new Rectangle(40 + ((Canvas.width / 5 - 10) * 4), 20, Canvas.width / 5 - 40, Canvas.height / 2 - 40);
-		this.StatsInfoBox = new Rectangle(40, 45 + Canvas.height / 2 - 40, Canvas.width - 80, (Canvas.height + 20 - (Canvas.height * 0.8 - 40) ));
+		var spacer1 = Canvas.width * 0.009;
+		this.MainUnitBox = new Rectangle(spacer1, spacer1, Canvas.width - spacer1 * 2, Canvas.height * 0.8 - spacer1 * 2); this.MainUnitBox.boxColor = "rgba(23, 30, 30, 1)";
+		
+		spacer = Canvas.width * 0.037;
+	    this.FireUnitBox = new Rectangle(spacer, spacer / 2, Canvas.width / 5 - spacer, Canvas.height / 2 - spacer);
+		this.FireUnitBox.boxColor = "rgba(100, 40, 40, 0.5)";
+		
+		this.AirUnitBox = new Rectangle(spacer + Canvas.width / 5 - spacer1, spacer / 2, Canvas.width / 5 - spacer, Canvas.height / 2 - spacer);
+		this.AirUnitBox.boxColor = "rgba(100, 100, 100, 0.5)";
+		
+		this.EarthUnitBox = new Rectangle(spacer + ((Canvas.width / 5 - spacer1) * 2), spacer / 2, Canvas.width / 5 - spacer, Canvas.height / 2 - spacer); 
+		this.EarthUnitBox.boxColor = "rgba(40, 100, 40, 0.5)";
+		
+		this.LightningUnitBox = new Rectangle(spacer + ((Canvas.width / 5 - spacer1) * 3), spacer / 2, Canvas.width / 5 - spacer, Canvas.height / 2 - spacer);
+		this.LightningUnitBox.boxColor = "rgba(150, 150, 40, 0.5)";
+		
+		this.WaterUnitBox = new Rectangle(spacer + ((Canvas.width / 5 - spacer1) * 4), spacer / 2, Canvas.width / 5 - spacer, Canvas.height / 2 - spacer); 
+		this.WaterUnitBox.boxColor = "rgba(40, 40, 100, 0.5)";
+		
+		this.StatsInfoBox = new Rectangle(spacer, Canvas.height / 2, Canvas.width - spacer * 2, (Canvas.height + spacer / 2 - (Canvas.height * 0.8 - spacer) ));
+		this.StatsInfoBox.boxColor =  "rgba(40, 40, 40, 1)";
 
-		this.SelectUnitBox = new Rectangle(this.StatsInfoBox.x + this.StatsInfoBox.width / 2 - (this.StatsInfoBox.width * 0.15 / 2), this.StatsInfoBox.y 
-		+ this.StatsInfoBox.height * 0.04, this.StatsInfoBox.width * 0.15, this.StatsInfoBox.y * 0.08)
+		this.SelectUnitBox = new Rectangle(this.StatsInfoBox.x + this.StatsInfoBox.width / 2 - (this.StatsInfoBox.width * 0.15 / 2), this.StatsInfoBox.y + this.StatsInfoBox.height * 0.04, this.StatsInfoBox.width * 0.15, this.StatsInfoBox.y * 0.08)
+		this.SelectUnitBox.boxColor =  "rgba(40, 200, 40, 1)";
+		//add text box to selectunitbox
+		
 		
 		this.NextStageBox = new Rectangle(this.StatsInfoBox.x + this.StatsInfoBox.width - (this.StatsInfoBox.width * 0.15 * 1.05), this.StatsInfoBox.y 
 		+ this.StatsInfoBox.height * 0.04, this.StatsInfoBox.width * 0.15, this.StatsInfoBox.y * 0.08)
@@ -231,7 +245,9 @@
 		this.RemoveSelectedBox = new Rectangle(this.StatsInfoBox.x + this.StatsInfoBox.width - (this.StatsInfoBox.width * 0.30 * 1.05), this.StatsInfoBox.y 
 		+ this.StatsInfoBox.height * 0.04, this.StatsInfoBox.width * 0.15, this.StatsInfoBox.y * 0.08)
 		
-		this.PickLine = new Rectangle(0, Canvas.height * 0.905, Canvas.width, Canvas.height * 0.007)
+		this.PickLine = new Rectangle(0, Canvas.height * 0.905, Canvas.width, Canvas.height * 0.007);
+		this.PickLine.boxColor = "rgba(100, 100, 100, 1)";
+		
 		var x = 0;
 		var y = 0;
 		var UnitSizeX = Canvas.width * 0.0447;

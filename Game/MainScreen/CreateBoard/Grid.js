@@ -1,26 +1,50 @@
 
 	  function Grid(x, y, Positionx, Positiony, Width, Height)
 	  {
-		this.x = x;
-		this.y = y;
-		this.Positionx = Positionx;
-		this.Positiony = Positiony;
+		this.x = x; //Gridpos[X]
+		this.y = y; //Gridpos[Y]
+		this.Positionx = Positionx; //pixel location X
+		this.Positiony = Positiony; //pixel location Y
 		this.ThisRectangle = new Rectangle(Positionx, Positiony, Width, Height);
+		
 		this.selected = false;
-		this.moveMarker = false;
+		
+		this.moveMarker = false;    //markers
 		this.attackMarker = false;
 		this.abilityMarker = false;
-		this.currentUnit;
+		
+		this.tileBuffList = new Array(); //Contains tile modifiers(auras included)
+		
+		this.visible = false;
 		this.allyVision = new Array();
 		this.enemyVision = new Array();
 		
-		this.visible = false;
+		this.currentUnit;				//current unit on tile
+	  }
+	  
+	  //tilemod
+	  Grid.prototype.tileModifier = function(procedure, modifier)
+	  {
+		switch(procedure){
+		
+		case "add":
+		     if (modifier.stacks == true) { this.tileBuffList.push(modifier); if (this.currentUnit != null) { }} //addbuff to unit... check if buff stacks and targetAlliance of aura is correct;
+			 if (modifier.stacks == false) { if (listContains(this.tileBuffList, modifier) == false) { this.tileBuffList.push(modifier);} if (this.currentUnit != null) { }} //removebuff from unit if applicable?
+		break;
+		
+		case "remove":
+			var listNumber = listReturnArray(this.tileBuffList, modifier);
+			if (listNumber != -1) { this.tileBuffList.splice(listNumber, 1); }
+		break;
+		
+		
+		}
 	  }
 	  
 	   Grid.prototype.visibleCheck = function()
 	   {
 		this.visible = false;
-		if (this.allyVision != undefined && this.allyVision.length > 0) //if vision = true
+		if (this.allyVision != undefined && this.allyVision.length > 0)  //if vision = true
 		{
 			this.visible = true;
 		}
@@ -51,7 +75,7 @@
 	  
 	  Grid.prototype.Draw = function(context, canvas)
 	  {
-		this.visibleCheck();
+		this.visibleCheck(); // THIS MIGHT be a more taxing way of checking if tile has sight
 		
 		context.drawImage(Images[1],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		

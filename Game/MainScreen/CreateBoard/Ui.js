@@ -4,8 +4,13 @@
 	  function Ui(pickedUnits)
 	  {
 		this.unitPicks = pickedUnits;
+		if (this.unitPicks != null){
+		this.createPlacementUi(); }
 		
-		this.unitUiBox = new Rectangle(Canvas.width - Canvas.width * 0.17 - Canvas.width * 0.08, 0, Canvas.width * 0.08, Canvas.height);
+		if (this.unitPicks == null) {
+		this.sandBoxUi();
+		}// create the sandbox mode here...
+		
 		
 		this.finishPlacementBox = new Rectangle(Canvas.width * 0.5 - Canvas.width * 0.21, Canvas.height * 0.5 - Canvas.height * 0.04, Canvas.width * 0.21, Canvas.height * 0.04);
 		this.finishTurnBox = new Rectangle(Canvas.width - Canvas.width * 0.17, 0, Canvas.width * 0.17, Canvas.height * 0.04);
@@ -22,9 +27,36 @@
 		this.combatLogRectangle = new Rectangle(5 , Canvas.height - Canvas.height * 0.17, Canvas.width * 0.81, Canvas.height * 0.17)
 		
 		this.endTurnText = "End Turn";
-		this.adjustPickedRectangles();
+		
 		
 		this.abilityCastNeedsClick = false;
+		
+	  }
+	  
+	  Ui.prototype.createPlacementUi = function()
+	  {
+		this.unitUiBox = new Rectangle(Canvas.width - Canvas.width * 0.17 - Canvas.width * 0.08, 0, Canvas.width * 0.08, Canvas.height);
+		this.adjustPickedRectangles();
+	  }
+	  
+	  Ui.prototype.sandBoxUi = function()
+	  {
+	    this.startGameBox = new Rectangle(Canvas.width * 0.5, 20, Canvas.width * 0.05, Canvas.height * 0.05); this.startGameBox.boxColor = "rgba(200, 0, 0, 1)";
+		this.sandboxRectangle = new Array(AllUnits.length);
+		this.sandBoxUi = new Rectangle(0, 0, Canvas.width, Canvas.height * 0.16); this.sandBoxUi.boxColor = "rgba(0, 30, 0, 1)";
+		var x = 0; var y = 0;
+		var sizeX = Canvas.width * 0.032;
+		var sizeY = Canvas.height * 0.05;
+		var unitsPerRow = 12;
+		var PositionX = 0;
+		var PositionY = 0;
+		var PositionSpacer = 10;
+		
+		for (var i = 0; i < AllUnits.length; i++) {
+			this.sandboxRectangle[i] = new Rectangle(PositionX + x * (sizeX + PositionSpacer), PositionY + y * (sizeY + PositionSpacer), sizeX, sizeY);
+			this.sandboxRectangle[i].customValue.push(AllUnits[i][0]);
+			
+			x++; if (x == unitsPerRow) { y++; x = 0; } }
 	  }
 	  
 	  Ui.prototype.setAbilityBoxes = function()
@@ -35,7 +67,7 @@
 		var thisheight = 25;
 		var abilitiesPerRow = 1;
 		var posX = this.standardUiBox.x;
-		var posY = this.unitUiBox.y + 300;
+		var posY = this.standardUiBox.y + 300;
 		var posSpacer = 10;
 		var numberOfAbilities = 4;
 		for (var i = 0; i < 4; i++)
@@ -69,20 +101,12 @@
 		var PositionY = this.unitUiBox.y + 5;
 		var PositionSpacer = 10;
 		
-		for (var i = 0; i < numberOfUnits; i++)
-		{
+		for (var i = 0; i < numberOfUnits; i++) {
 			this.unitPicks[i].x = PositionX + (x * (sizeX + PositionSpacer));
 			this.unitPicks[i].y = PositionY + (y * (sizeY + PositionSpacer));
 			this.unitPicks[i].width = sizeX;
 			this.unitPicks[i].height = sizeY;
-			
-			x++;
-			if (x == unitsPerRow)
-			{
-				y++;
-				x = 0;
-			}
-		}
+			x++; if (x == unitsPerRow) { y++; x = 0; } }
 	  }
 	  
 	    Ui.prototype.purge = function()
@@ -97,15 +121,7 @@
 	   Ui.prototype.useAbility = function(from, oldSpot)
 	  {
 	  if (this.currentUnit != null || oldSpot != null){
-		 
-		 //find if ability was clicked
-		 
-		 //Instructions 0 = Action(-1 Value == null)
-		//      	   1 = source.x, 2 = source.y,
-		//			   3 = target.x, 4 = target.y,
-	    //             5 = ?Ability,
-		// 			   6 = target2.x, 7 = target2.y;
-		//var instructions = new Array(Action, sourcex, sourcey, targetx, targety, Ability, target2x, target2y);
+
 		 switch(from)
 		 {
 			case "game":
@@ -160,6 +176,7 @@
 	  
 	   Ui.prototype.ClickisWithin = function(Mouse)
 	  {
+		if (this.unitPicks != null) {
 		 for (var i = 0; i < numberOfUnits; i++)
 		 {
 			if (this.unitPicks[i].Contains(Mouse) == true ) 
@@ -168,10 +185,27 @@
 				{
 			 this.SelectedUnit = this.unitPicks[i];
 			 this.SelectedUnit.clicked = true;
-			return true; 
+			 return true; } } } }
+		 
+		 //sandbox selection
+		 if (this.unitPicks == null && this.sandboxRectangle != null){
+		 
+			if (this.startGameBox.Contains(Mouse) == true){
+				if (PlacementStage == true) {
+			   PlacementStage = false; ClientsTurn = true; }
+			   else
+			   {
+			    PlacementStage = true; ClientsTurn = false; 
+			   }
 			}
-			}
-		 }
+
+		   for (var i = 0; i < this.sandboxRectangle.length; i++) {
+			  if (this.sandboxRectangle[i].Contains(Mouse) == true){
+				this.SelectedUnit = this.sandboxRectangle[i];
+				this.SelectedUnit.clicked = true;
+				return true; }}}
+		 
+		 
 		 if (ClientsTurn == true && this.finishTurnBox.Contains(Mouse) == true && ClientsTurn == true)
 		 {
 			var endTurn = new Array();
@@ -179,12 +213,9 @@
 			GameBoard.sendUnitInstruction(endTurn);
 			ClientsTurn = false;
 			for (var i = 0; i < GameBoard.EnemyUnits.length; i++) { GameBoard.EnemyUnits[i].turnFunction(); }
-			return;
-		 }
+			return; }
 		 
-		 
-		 
-		 if (this.unitUiBox.Contains(Mouse) == true || this.standardUiBox.Contains(Mouse) == true) { if (this.standardUiBox.Contains(Mouse) == true && ClientsTurn == true) {this.useAbility("ui", null);} return true; }
+		 if (this.unitUiBox != null && this.unitUiBox.Contains(Mouse) == true || this.standardUiBox.Contains(Mouse) == true) { if (this.standardUiBox.Contains(Mouse) == true && ClientsTurn == true) {this.useAbility("ui", null);} return true; }
 	  }
 	  
 	   Ui.prototype.abilityClickOff = function()
@@ -199,7 +230,7 @@
 	  }
 	  
 	  
-	  Ui.prototype.ReturnSelectedUnit = function()
+	  Ui.prototype.ReturnSelectedUnit = function() //no clue why i have this...
 	  {
 		return this.SelectedUnit;
 	  }
@@ -219,22 +250,40 @@
 		}	
 		//combatlog
 	  
-		
+		//SandBoxUI
+		if (this.unitPicks == null)
+		{
+			if (PlacementStage == true)
+			{
+		    this.sandBoxUi.draw();
+			for (var i = 0; i < this.sandboxRectangle.length; i++) {
+		   context.drawImage(Images[ReturnUnitImage(this.sandboxRectangle[i].customValue[0])], this.sandboxRectangle[i].x,
+			this.sandboxRectangle[i].y, this.sandboxRectangle[i].width, this.sandboxRectangle[i].height); 
+			}
+			}
+			this.startGameBox.draw();
+		}
 	  
 	  
 	    context.font = "bold 16px Arial";
 	    context.fillStyle = "rgba(5, 10, 5, 1)";
-		if (PlacementStage == true)
+		if (this.unitPicks != null && PlacementStage == true)
 		{
-		context.fillRect(this.unitUiBox.x, this.unitUiBox.y, this.unitUiBox.width, this.unitUiBox.height); 
+
+		this.unitUiBox.draw();
 		var tempBool = true;
-		for (var i = 0; i < this.unitPicks.length; i++) { if (this.unitPicks[i].customValue[0] != null) { tempBool = false; }}
+		for (var i = 0; i < this.unitPicks.length; i++) { if (this.unitPicks[i].customValue[0] != null) { tempBool = false; }} 
+		
+		
+		
 		}
 		
 		
-		
+		//Main UiBox
 		context.fillStyle = "rgba(5, 10, 5, 1)";
-		context.fillRect(Canvas.width - Canvas.width * 0.17, 0, Canvas.width * 0.17, Canvas.height);
+		this.standardUiBox.draw();
+		
+		
 		
 		//UnitStats///////////////
 		if (this.currentStats != null && this.currentStats[0] != null) {
@@ -250,24 +299,26 @@
 			this.currentAbilities[i].draw();
 			context.fillStyle = "White";
 			context.fillText(this.currentUnit.ability[i], this.currentAbilities[i].x, this.currentAbilities[i].y + 13);
+		} }
+		
+		
+		
+		if (this.unitPicks != null && PlacementStage == true) {
+			for (var i = 0; i < numberOfUnits; i++)
+			{
+			//rectangles of empty unitplacementspots
+			//if (this.unitPicks[i].customValue[0] == null){
+			//context.fillStyle = "rgba(0, 0, 0, 0)";
+			//this.unitPicks[i].draw(); //draw unitPick rectangles}
+			
+		
+			if (this.unitPicks[i].customValue[0] != null){
+			context.drawImage(Images[ReturnUnitImage(this.unitPicks[i].customValue[0][this.unitPicks[i].customValue[1]][0])], this.unitPicks[i].x,
+			this.unitPicks[i].y, this.unitPicks[i].width, this.unitPicks[i].height); }
+			}
 		}
 		
-		}
-		///////////////////////////////////////////////////////////////////////////
-		if (PlacementStage == true) {
-		for (var i = 0; i < numberOfUnits; i++)
-		{
-			//if unit pick doesnt exist draw rect
-			if (this.unitPicks[i].customValue[0] == null){
-			context.fillStyle = "rgba(0, 0, 0, 0)";
-			context.fillRect(this.unitPicks[i].x, this.unitPicks[i].y, this.unitPicks[i].width, this.unitPicks[i].height);
-			}
-			//if unit exists, draw image
-			if (this.unitPicks[i].customValue[0] != null){
-			context.drawImage(Images[ReturnUnitImage(this.unitPicks[i].customValue[0][this.unitPicks[i].customValue[1]][0])], this.unitPicks[i].x, this.unitPicks[i].y, this.unitPicks[i].width, this.unitPicks[i].height);
-			}
-		}
-		}
+		
 		context.fillStyle = "rgba(100, 0, 0, 1)";
 		// if selected, draw selection
 		if (this.SelectedUnit != null && this.SelectedUnit.clicked == true) {
@@ -280,7 +331,6 @@
 		{ 
 		context.save();
 		context.font = globalFont;
-		
 		if (ClientsTurn == true)
 		{
 		context.fillStyle = "rgba(5, 200, 5, 1)";

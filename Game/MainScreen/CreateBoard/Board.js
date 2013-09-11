@@ -12,8 +12,18 @@
 		var cg;
 		this.BoardX = 0;
 		this.BoardY = 0;
-		cg = CreateGrid(); 
+		cg = CreateGrid();
+		//PlacementStage = false;
+		if (userPicks != "sandbox")
+		{
 		Ui = new Ui(userPicks);
+		}
+		if (userPicks == "sandbox"){
+		Ui = new Ui(null); 
+		}
+		
+		
+		
 		ability = new ability();
 		
 		this.AllyUnits = new Array();
@@ -26,7 +36,6 @@
 	  //Handle Clicks
 	  Board.prototype.ClickGrid = function(Mouse, WhichClick)
 	  {
-	    console.warn(ClientsTurn);
 	    if (WhichClick == "2") { ability.removeMarkers(); Ui.abilityClickOff(); } //Ability stuff
 		//Turn off Selection
 		if (WhichClick == "0" && CurrentSelectedGrid != null) { CurrentSelectedGrid.Select("off"); Ui.currentStats = null; } // unless casting ability
@@ -315,11 +324,17 @@
 				if (CurrentTarget != null && GridSpot[CurrentTarget.x][CurrentTarget.y].currentUnit == null)
 				{
 				//Add unit to the board
-				var name = Ui.SelectedUnit.customValue[0][Ui.SelectedUnit.customValue[1]][0];
+				if (Ui.unitPicks != null) {
+				var name = Ui.SelectedUnit.customValue[0][Ui.SelectedUnit.customValue[1]][0];}
+				
+				if (Ui.unitPicks == null) { var name = Ui.SelectedUnit.customValue[0]; }
 				this.CreateUnit("ally", name, CurrentTarget.x, CurrentTarget.y, Ui.SelectedUnit.customValue[0], Ui.SelectedUnit.customValue[1]);
 				
-				Ui.SelectedUnit.customValue[0] = null;
-				Ui.SelectedUnit.clicked = false;
+				if (Ui.unitPicks != null) {
+				Ui.SelectedUnit.customValue[0] = null; 
+				Ui.SelectedUnit.clicked = false;}
+				
+				
 				if (CurrentSelectedGrid != undefined || CurrentSelectedGrid != null){
 				CurrentSelectedGrid.Select("off");}
 				}

@@ -15,7 +15,12 @@
 			this.buffStats[i] = 0;
 		}
 		
-		this.ability = stringParseForList(this.currentStats[13]); //Gets the abilities of the unit and puts them in a list.
+		this.auraNames = stringParseForList(this.currentStats[12]); //if (this.auras[0] == "") { this.auras = null; }
+		
+		this.auras = new Array();
+		
+		this.genericGridList = new Array();
+		this.ability = stringParseForList(this.currentStats[13]); //if (this.ability[0] == "") { this.ability = null; }//Gets the abilities of the unit and puts them in a list.
 	 	this.buffList = new Array();
 		this.noStealthList = new Array(); //reasons unit can not stealth or go invis.
 		this.visibleGridSpots = new Array(); //squares that this unit has vision over
@@ -89,13 +94,27 @@
 			if (Toggle == "off") { GridSpot[x][y].abilityMarker = false; }
 			break;
 			
-			}
-			
+			case "list":
+			this.genericGridList.push(GridSpot[x][y]);
+			break;
+		  }
 		}
 	  }
 	  
 	  
 	  //Put Toggle in these functions so they can be useable for on/off purposes.
+	    Unit.prototype.auraTileModifier = function(Toggle)
+	   {
+			if (Toggle == "on")
+			{
+			this.genericGridList = new Array();
+			this.AreaSelect("list", GridSpot[this.x][this.y], this.auras[i].customValue[5], Toggle, "");
+			}
+			var Instructions = new Array();
+			Instructions.push(Toggle); if (Toggle == "on") {Instructions.push(this.genericGridList);}
+			this.auras[i].affectedTiles(Instructions);
+	   }
+	  
 	   Unit.prototype.abilityMarkers = function(Toggle, range)
 	   {
 			this.AreaSelect("ability", GridSpot[this.x][this.y], range, Toggle, "");
