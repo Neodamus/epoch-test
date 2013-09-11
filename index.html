@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html>
+	<head>  
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">     
+        <style>
+	
+			html, body {
+				height: 100%;  
+			}
+		  
+			body {
+				margin: 0px;
+				padding: 0px;
+				background-color: #000;
+				background-image: url('background.png');
+				background-repeat: repeat;
+			}
+			
+			a {
+				color: #eee;	
+			}
+			
+			@font-face {
+				font-family: "FLORI";
+				src: url(newfont.ttf) format("truetype");
+			}
+			
+			p.newfont { 
+				font-family: "FLORI";
+			}
+			
+			@font-face {
+			  font-family: "outline";
+			  src: url(outline.ttf) format("truetype");
+			}
+			
+			p.outline { 
+			  font-family: "outline";
+			}
+			
+			#main-wrapper {
+				height: 100%;
+				width: 100%;
+				overflow: hidden;
+			}
+			
+			#left-wrapper {
+				height: 100%;
+				width: 200px;
+				float: left;		
+			}
+			
+			#middle-wrapper {
+				height: 100%;
+				float: left;
+				overflow: hidden;
+			}
+			
+			#right-wrapper {
+				height: 100%;
+				float: left;
+				width: 200px;	
+			}
+			
+			#adbox-left {
+				width: 180px;
+				height: 834px;
+				margin-left: 10px;
+				background-image: url('ad-border2.png');
+				float: left;				
+			}
+			
+			#adbox-right {
+				width: 180px;
+				height: 834px;
+				margin-left: 10px;
+				background-image: url('ad-border2.png');
+				float: left;				
+			}
+			
+			#header-div {
+				padding: 10px 0px;
+				height: 100px;
+				float: left;
+			}
+			
+			#gamewindow {
+				float: left;
+				min-width: 300px;
+				min-height: 150px;
+				background-color: #000;
+				border-style: solid;
+				border-width: 10px;				
+				border-image: url('border.png') 12 fill repeat;
+				box-shadow: 5px 5px 5px #111;
+			}
+			
+			#footer-div {
+				float: right;
+				width: 100%;
+				height: 50px;
+			}
+			
+			#header {
+				width: 100%;
+				height: 100px;
+				margin-left: auto;	
+				margin-right: auto;
+				float: left;
+				background-image: url('header.png');
+				background-repeat: no-repeat;
+				background-size: contain; 
+				max-width: 900px;
+			}
+			
+			#header-logo {
+				font-size: 24px;
+				font-family: Georgia, "Times New Roman", Times, serif;
+				color: #bbb;
+				margin: 16px;
+				text-align: center;					
+			}
+			
+			#header-links {
+				font-size: 18px;
+				font-family: Georgia, "Times New Roman", Times, serif;
+				color: #eee;
+				text-align: center;	
+			}
+      
+        </style> 
+	    <script src="loader.js" type="text/javascript"></script> 
+        
+    </head>
+  
+    <body>
+  
+        <div id="main-wrapper">       
+
+        	<div id="left-wrapper">       
+
+            
+            	<div id="adbox-left">
+                	<img src="placeholder.jpg" style="visibility: hidden;">
+                </div>
+                
+            </div>
+                
+                      
+            <div id="middle-wrapper">    <script>
+	document.getElementById('middle-wrapper').style.width = window.innerWidth - 400 + "px";</script>        
+          
+                <div id="header-div"> <script>
+	document.getElementById('header-div').style.width = window.innerWidth - 400 + "px";</script>              
+                
+                    <div id="header"><script>
+	document.getElementById('header').style.width = window.innerWidth - 400 + "px";</script> 
+                    
+                        <h1 id="header-logo">Epoch of Elements</h1>
+                        <div id="header-links">
+                        
+                          <a href="index.html">Play</a> &#9632;
+                          <a href="index.html">Info</a> &#9632;
+                          <a href="index.html">Blog</a> &#9632;
+                          <a href="index.html">Media</a> &#9632;
+                          <a href="index.html">Support</a> &#9632;
+                          <a href="index.html">Team</a> &#9632;
+                          <a href="index.html">Contact</a>
+                        
+                        </div>
+                        
+                    </div> 
+                </div> 
+                              
+                <div id="gamewindow">
+                    <canvas id="Mycanvas" onload="sizeCanvas()"></canvas>
+                </div>             
+                 
+                <div id="footer-div">
+                    <img src="placeholder.jpg" style="visibility: hidden;">
+                </div> 
+          
+            </div> 
+      
+            <div id="right-wrapper">
+                
+                <div id="adbox-right">
+                	<img src="placeholder.jpg" style="visibility: hidden;">
+                </div>
+                
+            </div>
+          
+        </div>
+    
+  <script src="Game/UnitStats.js" type="text/javascript"></script> 
+  <script src="Game/lobby.js?version=1" type="text/javascript"></script> 
+  <script src="Game/Rectangles.js" type="text/javascript"></script> 
+  <script src="Game/Game.js?version=1" type="text/javascript"></script>
+  <script src="Game/MainScreen/Menus.js" type="text/javascript"></script> 
+  <script src="Game/MainScreen/CreateBoard/Board.js" type="text/javascript"></script> 
+  <script src="Game/MainScreen/CreateBoard/UnitSelection.js" type="text/javascript"></script>     
+  <script src="Game/MainScreen/CreateBoard/CreateGrid.js" type="text/javascript"></script> 
+   <script src="Game/MainScreen/CreateBoard/Grid.js" type="text/javascript"></script> 
+   <script src="Game/MainScreen/CreateBoard/Ui.js" type="text/javascript"></script>  
+   <script src="Game/MainScreen/CreateBoard/Unit.js" type="text/javascript"></script>
+    <script src="Game/MainScreen/CreateBoard/abilities.js" type="text/javascript"></script> 
+    <script src="Game/MainScreen/CreateBoard/buff.js" type="text/javascript"></script>
+  <script src="Game/inputBox.js" type="text/javascript"></script>  
+  <script src="Game/websocket.js" type="text/javascript"></script> 
+ 
+
+   
+  </body>
+</html>

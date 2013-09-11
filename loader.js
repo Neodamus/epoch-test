@@ -65,22 +65,39 @@ function sizeCanvas() {
 	canvas = document.getElementById('Mycanvas')
 	context = document.getElementById('Mycanvas').getContext('2d')
 		
-	canvas.width = Math.floor(window.innerWidth - 400)
-    canvas.height = Math.floor(window.innerHeight - 150)
+	canvas.width = Math.floor(window.innerWidth - 420)
+    canvas.height = Math.floor(window.innerHeight - 190)
+	
+	console.warn("Window width: " + window.innerWidth + " - 420 \= canvas width: " + canvas.width)	
+	console.warn("Window height: " + window.innerHeight + " - 190 \= canvas height: " + canvas.height)
 	
 	if (canvas.width * 4 / 5 > canvas.height) {
 		
-		canvas.width = canvas.height * 5 / 4	
-		document.getElementById('gamewindow').style.paddingLeft = (window.innerWidth - canvas.width) / 2 + "px"
+		canvas.width = canvas.height * 5 / 4
+		
+		console.warn(canvas.width + " / " + canvas.height + " \= " + canvas.width / canvas.height);
+			
+		document.getElementById('gamewindow').style.paddingLeft = (window.innerWidth - canvas.width - 420) / 2  + "px"			
+		document.getElementById('gamewindow').style.width = canvas.width + (window.innerWidth - canvas.width - 420) / 2 + "px"
 		document.getElementById('gamewindow').style.paddingTop = "0px"
 		
 	} else if (canvas.width * 4 / 5 < canvas.height) {
 		
-		canvas.height = canvas.width * 4 /5
-		document.getElementById('gamewindow').style.paddingTop = (window.innerHeight - canvas.height - 150) / 2 + "px"
-		document.getElementById('gamewindow').style.height = canvas.height + (window.innerHeight - canvas.height - 150) / 2 + "px";
-		document.getElementById('gamewindow').style.paddingLeft = (window.innerWidth - canvas.width) / 2 + "px"
+		canvas.height = canvas.width * 4 / 5
 		
-	}
+		console.warn(canvas.width + " / " + canvas.height + " \= " + canvas.width / canvas.height);
+		
+		document.getElementById('gamewindow').style.paddingTop = (window.innerHeight - canvas.height - 190) / 2 + "px"
+		document.getElementById('gamewindow').style.height = canvas.height + (window.innerHeight - canvas.height - 190) / 2 + "px";
+		document.getElementById('gamewindow').style.paddingLeft = "0px"
+		
+	}	
+
+	document.getElementById('middle-wrapper').style.width = window.innerWidth - 400 + "px";
+	document.getElementById('header-div').style.width = window.innerWidth - 400 + "px";
+	document.getElementById('header').style.width = window.innerWidth - 400 + "px";
+	
+	document.getElementById('adbox-left').style.marginTop = (window.innerHeight - 834) / 2 + "px";
+	document.getElementById('adbox-right').style.marginTop = (window.innerHeight - 834) / 2 + "px";
 	
 }
