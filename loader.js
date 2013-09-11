@@ -62,42 +62,71 @@ window.onresize = function() { sizeCanvas() }
 
 function sizeCanvas() {
 	
-	canvas = document.getElementById('Mycanvas')
-	context = document.getElementById('Mycanvas').getContext('2d')
-		
-	canvas.width = Math.floor(window.innerWidth - 420)
-    canvas.height = Math.floor(window.innerHeight - 190)
-	
-	console.warn("Window width: " + window.innerWidth + " - 420 \= canvas width: " + canvas.width)	
-	console.warn("Window height: " + window.innerHeight + " - 190 \= canvas height: " + canvas.height)
-	
-	if (canvas.width * 4 / 5 > canvas.height) {
-		
-		canvas.width = canvas.height * 5 / 4
-		
-		console.warn(canvas.width + " / " + canvas.height + " \= " + canvas.width / canvas.height);
-			
-		document.getElementById('gamewindow').style.paddingLeft = (window.innerWidth - canvas.width - 420) / 2  + "px"			
-		document.getElementById('gamewindow').style.width = canvas.width + (window.innerWidth - canvas.width - 420) / 2 + "px"
-		document.getElementById('gamewindow').style.paddingTop = "0px"
-		
-	} else if (canvas.width * 4 / 5 < canvas.height) {
-		
-		canvas.height = canvas.width * 4 / 5
-		
-		console.warn(canvas.width + " / " + canvas.height + " \= " + canvas.width / canvas.height);
-		
-		document.getElementById('gamewindow').style.paddingTop = (window.innerHeight - canvas.height - 190) / 2 + "px"
-		document.getElementById('gamewindow').style.height = canvas.height + (window.innerHeight - canvas.height - 190) / 2 + "px";
-		document.getElementById('gamewindow').style.paddingLeft = "0px"
-		
-	}	
+	var M = {
+		border: 20,
+		width: Math.floor(window.innerWidth - 420), 
+		height: Math.floor(window.innerHeight - 190) 
+	}
 
-	document.getElementById('middle-wrapper').style.width = window.innerWidth - 400 + "px";
-	document.getElementById('header-div').style.width = window.innerWidth - 400 + "px";
-	document.getElementById('header').style.width = window.innerWidth - 400 + "px";
+	// resize middle divs
+	document.getElementById('middle-wrapper').style.width = M.width + M.border + "px";
+	document.getElementById('header-div').style.width = M.width + M.border + "px";
+	document.getElementById('header').style.width = M.width + M.border + "px";
 	
+	// center header
+	if (M.width + M.border > 900) {
+		document.getElementById('header').style.marginLeft = (M.width + M.border - 900) / 2 + "px"; 
+	} else {
+		document.getElementById('header').style.marginLeft = "0px";
+	}
+	
+	// align adboxes to middle
 	document.getElementById('adbox-left').style.marginTop = (window.innerHeight - 834) / 2 + "px";
 	document.getElementById('adbox-right').style.marginTop = (window.innerHeight - 834) / 2 + "px";
+
+	//resize main viewport div
+	main = document.getElementById('main')
 	
+	main.style.width = M.width + "px"
+	main.style.height = M.height + "px"
+	main.style.overflow = "auto"
+	
+	// resize canvas
+	canvas = document.getElementById('Mycanvas')
+	
+	if (canvas != null) {
+		
+		main.style.overflow = "hidden"
+		
+		context = document.getElementById('Mycanvas').getContext('2d')
+		  
+		canvas.width = M.width
+		canvas.height = M.height
+	   
+	    if (canvas.width * 4 / 5 > canvas.height) {
+		
+			canvas.width = canvas.height * 5 / 4
+			  
+			main.style.marginLeft = (M.width - canvas.width) / 2  + "px"			
+			main.style.width = canvas.width + "px"	
+			main.style.height = canvas.height + "px"
+			main.style.paddingTop = "0px"
+			  
+		} else if (canvas.width * 4 / 5 < canvas.height) {
+			  
+			canvas.height = canvas.width * 4 / 5
+			  
+			main.style.marginTop = (M.height - canvas.height) / 2 + "px"	
+			main.style.width = canvas.width + "px"
+			main.style.height = canvas.height + "px";
+			main.style.paddingLeft = "0px"
+			  
+		}
+				
+	} else {
+		
+		document.getElementById('content').style.width = Math.floor(M.width * 0.9) + "px"
+		document.getElementById('content').style.marginLeft = Math.floor(M.width * 0.05 - 20) + "px"
+	
+	}
 }

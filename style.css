@@ -1,0 +1,140 @@
+html, body {
+	height: 100%;  
+}
+
+body {
+	margin: 0px;
+	padding: 0px;
+	background-color: #000;
+	background-image: url('background.png');
+	background-repeat: repeat;
+}
+
+a {
+	color: #eee;	
+}
+
+p {
+	
+}
+
+@font-face {
+	font-family: "FLORI";
+	src: url(newfont.ttf) format("truetype");
+}
+
+p.newfont { 
+	font-family: "FLORI";
+}
+
+@font-face {
+  font-family: "outline";
+  src: url(outline.ttf) format("truetype");
+}
+
+p.outline { 
+  font-family: "outline";
+}
+
+#main-wrapper {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+#left-wrapper {
+	height: 100%;
+	width: 200px;
+	float: left;		
+}
+
+#middle-wrapper {
+	height: 100%;
+	float: left;
+	overflow: hidden;
+}
+
+#right-wrapper {
+	height: 100%;
+	float: left;
+	width: 200px;	
+}
+
+#adbox-left {
+	width: 180px;
+	height: 834px;
+	margin-left: 10px;
+	background-image: url('ad-border2.png');
+	float: left;				
+}
+
+#adbox-right {
+	width: 180px;
+	height: 834px;
+	margin-left: 10px;
+	background-image: url('ad-border2.png');
+	float: left;				
+}
+
+#header-div {
+	padding: 10px 0px;
+	height: 100px;
+	float: left;
+}
+
+#main {
+	float: left;
+	min-width: 300px;
+	min-height: 150px;
+	background-color: #000;
+	border-style: solid;
+	border-width: 10px;				
+	border-image: url('border.png') 10 fill repeat;
+	box-shadow: 5px 5px 5px #111;
+	overflow: auto;
+}
+
+#footer-div {
+	float: right;
+	width: 100%;
+	height: 50px;
+}
+
+#header {
+	width: 100%;
+	height: 100px;
+	margin-left: auto;	
+	margin-right: auto;
+	float: left;
+	background-image: url('header.png');
+	background-repeat: no-repeat;
+	background-size: contain; 
+	max-width: 900px;
+}
+
+#header-logo {
+	font-size: 24px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	color: #bbb;
+	margin: 16px;
+	text-align: center;					
+}
+
+#header-links {
+	font-size: 14px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	color: #eee;
+	text-align: center;	
+}
+
+#content {
+	width: 90%;
+	border-left: 2px solid #fff;
+	border-right: 2px solid #fff;
+	padding: 10px;
+	float: left;
+	font-size: 12px;	
+	font-family: Georgia, "Times New Roman", Times, serif;
+	color: #ccc;
+	background-color: rgb(30, 30, 30);
+}
