@@ -9,7 +9,7 @@
 	  };
 	  
 	 var numberOfUnits = 9;
-	 var Canvas; 
+	 var Canvas; //mine is 968 by 775
 	 var Context;
 	 var Images = new Array(110); //Images
 	 var Mouse; //Mouse position (tied to 'click' event)
@@ -48,7 +48,7 @@
 	  Canvas = canvas;
 	  Context = context;
 	  canvas.oncontextmenu = function(event) { event.preventDefault(); event.stopPropagation(); return false; } //disables rightclick on canvas
-
+	  canvas.onmousedown = function(){ return false;} //ON MOUSE DOWN -- Disable highlighting text on page
 	  startEventHandlers()
 	  
 	  currentScreen = { id: "blank" }	  

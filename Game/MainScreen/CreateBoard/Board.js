@@ -13,14 +13,9 @@
 		this.BoardX = 0;
 		this.BoardY = 0;
 		cg = CreateGrid();
-		//PlacementStage = false;
-		if (userPicks != "sandbox")
-		{
+		
 		Ui = new Ui(userPicks);
-		}
-		if (userPicks == "sandbox"){
-		Ui = new Ui(null); 
-		}
+
 		
 		
 		
@@ -172,7 +167,7 @@
 			
 			case "end":
 			for (var i = 0; i < this.AllyUnits.length; i++) { this.AllyUnits[i].turnFunction(); } 
-			ClientsTurn = true; 
+			ClientsTurn = true; combatLog.push("Turn End.");
 			break;
 			
 			case "ability":

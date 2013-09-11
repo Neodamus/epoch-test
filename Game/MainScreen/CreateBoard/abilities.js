@@ -153,7 +153,7 @@ ability.prototype.removeMarkers = function()
 {
 	if (this.abilityName != null){
 	var customValue = this.abilityStats(this.abilityName);
-	if (this.sourceUnit != null && customValue[5] != null) {this.sourceUnit.abilityMarkers("off", customValue[5]); }}
+	if (this.sourceUnit != null && customValue != 'undefined' && customValue != null) {this.sourceUnit.abilityMarkers("off", customValue[5]); }}
 }
 
 

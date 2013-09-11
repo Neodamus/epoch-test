@@ -75,7 +75,7 @@ Rectangle.prototype.draw = function() {
 	if (this.text != null) {
 	
 		this.context.save();
-		this.context.fillStyle = this.text[1];
+		this.context.fillStyle = this.text[1]; this.context.font = globalFont;
 		this.context.fillText(this.text[0], this.text[2], this.text[3]);
 		this.context.restore();
 	
