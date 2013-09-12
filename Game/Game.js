@@ -1,13 +1,3 @@
-	  //Code to run on game start
-	window.onload = function() {
-		sizeCanvas();		
-			var loadGame = StartGame();
-	
-		startSocket()
-
-		  
-	  };
-	  
 	 var numberOfUnits = 9;
 	 var Canvas; //mine is 968 by 775
 	 var Context;
@@ -26,14 +16,12 @@
 	 
 	 var currentScreen
 	 
-	 var connectionStatus = 0  // 0 = connecting, 1 = logging in, 2 = logged in
-	 var userName
+	 
 	 
 	 //public Classes
 	 var UnitStats;
 	 var UnitSelection;
 	 var GameBoard;
-	 var Lobby;
 	 
 	 
 	 var Screen;
@@ -41,12 +29,9 @@
 	//Start game and attach events to canvas
 	function StartGame()
 	{
-		
-	  var canvas = document.getElementById('Mycanvas');
-      var context = canvas.getContext('2d');
 	  
-	  Canvas = canvas;
-	  Context = context;
+	  Canvas = _.canvas;
+	  Context = _.context;
 	  canvas.oncontextmenu = function(event) { event.preventDefault(); event.stopPropagation(); return false; } //disables rightclick on canvas
 	  canvas.onmousedown = function(){ return false;} //ON MOUSE DOWN -- Disable highlighting text on page
 	  startEventHandlers()
@@ -139,7 +124,7 @@
 	
 	function startEventHandlers() {
 		
-		canvas = document.getElementById('Mycanvas')
+		canvas = _.canvas;
 		
 		canvas.addEventListener('mousemove', mouseMoveHandler, false)	
 		
@@ -162,7 +147,7 @@
 	
 	function mouseMoveHandler(mouse) {
 		
-        var rect = document.getElementById('Mycanvas').getBoundingClientRect()
+        var rect = _.canvas.getBoundingClientRect()
 		
         Mouse = { 
 		
@@ -183,7 +168,7 @@
 	
 	function mouseClickHandler(mouse) {
 	
-        var rect = document.getElementById('Mycanvas').getBoundingClientRect()
+        var rect = _.canvas.getBoundingClientRect()
 		
         Mouse = { 
 		
@@ -378,7 +363,7 @@
 		context.fillStyle = "White"
 		context.font = '15px Arial';
 		
-		switch (connectionStatus) {
+		switch (_.connectionStatus) {
 			
 			case 0:
 			
@@ -394,7 +379,7 @@
 				
 			case 2:
 
-				context.fillText("Logged in as " + userName, 5, 15)
+				context.fillText("Logged in as " + _.userName, 5, 15)
 				
 				break
 			

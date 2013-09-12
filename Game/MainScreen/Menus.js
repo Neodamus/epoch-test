@@ -60,7 +60,7 @@ function CreateMenus(Width, Height) {
 			localStorage.clear()
 			currentScreen = new login()
 			currentScreen.loginInput.text = "Guest"
-			connectionStatus = 1  
+			_.connectionStatus = 1  
 			break;
 			
 			case "sandbox":

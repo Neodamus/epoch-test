@@ -59,19 +59,22 @@
 	  
 	  SelectionScreen.prototype.AddPick = function()
 	  {
-		for (var i = 0; i < numberOfUnits; i++) //figures out where the selected unit goes...
-			{
-				if (this.pickRectangles[i].customValue[0] == null)
-				{ this.currentPick = i; break;}
-			}
-			if (this.currentPick < numberOfUnits) { 
-			var SendElement = this.ClickedObject.customValue[2];
-			var SendValue = this.ClickedObject.customValue[1];
-			this.pickRectangles[this.currentPick].customValue[0] = this.ClickedObject.customValue[0];
-			this.pickRectangles[this.currentPick].customValue[1] = this.ClickedObject.customValue[1];
-			this.pickRectangles[this.currentPick].customValue[2] = this.ClickedObject.customValue[2];
-			sendPacket3("selectUnit", SendElement, SendValue)
-			}
+		  if (ClientsTurn == true) {
+		  
+			  for (var i = 0; i < numberOfUnits; i++) //figures out where the selected unit goes...
+				  {
+					  if (this.pickRectangles[i].customValue[0] == null)
+					  { this.currentPick = i; break;}
+				  }
+				  if (this.currentPick < numberOfUnits) { 
+				  var SendElement = this.ClickedObject.customValue[2];
+				  var SendValue = this.ClickedObject.customValue[1];
+				  this.pickRectangles[this.currentPick].customValue[0] = this.ClickedObject.customValue[0];
+				  this.pickRectangles[this.currentPick].customValue[1] = this.ClickedObject.customValue[1];
+				  this.pickRectangles[this.currentPick].customValue[2] = this.ClickedObject.customValue[2];
+				  sendPacket3("selectUnit", SendElement, SendValue)
+				  }
+		  }
 	  }
 	  
 	  //Clicking*********
@@ -81,7 +84,12 @@
 		if (this.ClickedObject != null && this.RemoveSelectedBox.Contains(Mouse) == true && this.ClickedObject.clicked == true) { this.RemovePick(); }
 		if (this.ClickedObject != null && this.SelectUnitBox.Contains(Mouse) == true && this.ClickedObject.clicked == true) { this.AddPick(); return; }
 		
-	    if (this.NextStageBox.Contains(Mouse) == true) { GameBoard = new Board(this.pickRectangles);  }//(this.pickRectangles);
+	    if (this.NextStageBox.Contains(Mouse) == true) { 
+			ClientsTurn = false;
+			sendPacket2("endPhase", "selection");
+			GameBoard = new Board(this.pickRectangles);  
+		}
+		
 		this.UnitClicked(Mouse); //checks if a unit was clicked
 		
 		for (var i = 0; i < this.pickRectangles.length; i++) //Checks if a picked unit was selected

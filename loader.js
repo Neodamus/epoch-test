@@ -1,7 +1,13 @@
-//var $g = new globals()	
+var _	// globals
 //var game = loadGame()
 
-window.onload = function() { sizeCanvas() }
+window.onload = function() { 
+
+	sizeCanvas();
+	_ = new globals();	
+	StartGame();
+	
+}
 
 function loadGame() {
 	

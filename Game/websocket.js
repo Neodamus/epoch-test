@@ -19,21 +19,21 @@ function startSocket() {
 	socket.onopen = function() {
 		
 		sendPacket("connectSuccess")
-		connectionStatus = 1
+		_.connectionStatus = 1
 		
-		userName = localStorage.epochLogin
+		_.userName = localStorage.epochLogin
 		
-		if (userName == null) {
+		if (_.userName == null) {
 			
 			currentScreen = new login()
-			userName = "Guest"
-			currentScreen.loginInput.text = userName
+			_.userName = "Guest"
+			currentScreen.loginInput.text = _.userName
 			
 		} else {		
 			
 			currentScreen = new CreateMenus(document.getElementById('Mycanvas').width, document.getElementById('Mycanvas').height)
-			sendPacket2("loginRequest", userName)
-			connectionStatus = 2			
+			sendPacket2("loginRequest", _.userName)
+			_.connectionStatus = 2			
 			
 		}
 			
@@ -79,14 +79,15 @@ function messageHandler(message) {
 		
 		case "loginSuccess":
 		
-			userName = data
-			document.title = userName + " - Epoch of Elements"
-			connectionStatus = 2
+			_.userName = data
+			document.title = _.userName + " - Epoch of Elements"
+			_.connectionStatus = 2
 			
 			break
 		
 		case "createRoom":
 			UnitSelection = new SelectionScreen()
+			ClientsTurn = true
 			currentScreen = UnitSelection
 			break
 			
@@ -166,7 +167,11 @@ function messageHandler(message) {
 		case "startGame":
 		
 			ClientsTurn = data
+			break
 			
+		case "startTurn":
+		
+			ClientsTurn = true;
 			break
 			
 	}

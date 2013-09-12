@@ -176,7 +176,7 @@ function lobbyKeyDown(key) {
 	
 	if (key.keyCode == 13) {
 		
-		sendPacket2("addChat", { id: userName, text: chatBar.text } )
+		sendPacket2("addChat", { id: _.userName, text: chatBar.text } )
 		chatBar.text = ""			
 		
 	}
@@ -642,8 +642,8 @@ function loginEnter() {
 		if 	(input.text != "") {
 					
 			localStorage.epochLogin = input.text
-			userName = localStorage.epochLogin
-			sendPacket2("loginRequest", userName)
+			_.userName = localStorage.epochLogin
+			sendPacket2("loginRequest", _.userName)
 			
 			currentScreen = new CreateMenus(document.getElementById('Mycanvas').width, document.getElementById('Mycanvas').height)		
 			
