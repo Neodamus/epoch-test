@@ -18,8 +18,7 @@
 		this.auraNames = stringParseForList(this.currentStats[12]); //if (this.auras[0] == "") { this.auras = null; }
 		this.auras = new Array();
 		for (var i = 0; i < this.auraNames.length; i++) {
-		if (this.auraNames[i] != "") { this.auras.push(tileModifier(sourceUnit, name)); } } //making auras.
-		
+		if (this.auraNames[i] != "") { var newMod = new tileModifier(this, this.auraNames[i]); this.auras.push(newMod);} } //making auras.
 		this.genericGridList = new Array();//used for stuff like auras and abilities...
 		
 		this.ability = stringParseForList(this.currentStats[13]); //if (this.ability[0] == "") { this.ability = null; }//Gets the abilities of the unit and puts them in a list.
@@ -44,7 +43,7 @@
 		if (this.alliance == "ally"){
 		this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5], "on", "") }
 		
-		for (var i = 0; i < auras.length; i++) { this.auraTileModifier("on", aura[i]); }
+		for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("on", this.auras[i]); }
 		
 	  }
 	  
@@ -116,7 +115,7 @@
 			
 			var Instructions = new Array();
 			Instructions.push(Toggle); Instructions.push(this.genericGridList);
-			auras.affectedTiles(Instructions);
+			aura.affectedTiles(Instructions);
 	   }
 	  
 	   Unit.prototype.abilityMarkers = function(Toggle, range)

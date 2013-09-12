@@ -3,14 +3,14 @@
 
 function tileModifier(sourceUnit, name) 
 {  
-
+ if (name != 'undefined' && name != null && name != "" && name != "0") {
 this.sourceUnit = sourceUnit;
 this.name = name; //used to get aura stats
 this.tileList = new Array();
-
-var values = abilites.abilityStats(name);
-this.customValues = new Array();
+var values = ability.abilityStats(name);
+this.customValue = new Array();
 for (var i = 0; i < values.length; i++) { this.customValue.push(values[i]); }
+}
 }
 
 /*case "Panic Aura": 
@@ -70,15 +70,15 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 	switch(Instructions[0]) {
 	
 		case "on":
-			if (tileList instanceof Array) {for (var i = 0; i < Instructions[1].length; i++) { this.tileList.push(Instructions[1][i]); } } // needs to push all tiles affected...
-			else { this.tileList = tileList; } //if tile list is just one tile .. push
+			if (this.tileList instanceof Array) {for (var i = 0; i < Instructions[1].length; i++) { this.tileList.push(Instructions[1][i]); } } // needs to push all tiles affected...
+			else { this.tileList.push(Instructions[1]); } //if tile list is just one tile .. push
 		
 			for (var i = 0; i < this.tileList.length; i++) { this.tileList[i].tileBuffList.push(this); } //adding tile effects to grid
 			break;
 		
 		case "move":
 			//this is used for moving auras without a second buff.initialization occurring.
-			for (var i = 0; i < this.tileList.length; i++) { var rem = listContains(Instructions[1], this.tileList[i];
+			for (var i = 0; i < this.tileList.length; i++) { var rem = listContains(Instructions[1], this.tileList[i]);
 			if (rem == -1) { this.tileList.splice(rem, 1); } } // check if instruction has tilelist, if it doesn't, remove it.
 			break;
 		
