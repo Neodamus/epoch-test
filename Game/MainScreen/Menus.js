@@ -18,7 +18,7 @@ function CreateMenus(Width, Height) {
 	  this.FindBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 2 - MenuY, this.StartOptionBox.width, MenuHeight);
 	  this.quickGameBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 3 - MenuY, this.StartOptionBox.width, MenuHeight);
 	  this.WebsiteBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 4 - MenuY, this.StartOptionBox.width, MenuHeight);
-	  this.logoutBox = new Rectangle(Canvas.width * 0.9, 0, Canvas.width * 0.1, Canvas.height * 0.05)
+	  this.logoutBox = new Rectangle(Canvas.width * 0.9, 1, Canvas.width * 0.1, Canvas.height * 0.05)
 
 	  //Set text to be displayed inside the rectangle(position is set BASED on canvas, not rectangle!)                  centreTextY(numberOfLines, y, height, fontSize)
 	  var text = "Log Out";
@@ -47,8 +47,7 @@ function CreateMenus(Width, Height) {
 }
 	  
 		
-	  CreateMenus.prototype.ClickisWithin = function(Mouse)
-	  {
+	  CreateMenus.prototype.ClickisWithin = function(Mouse){
 	  
 		var button;
 		//Finds buttons selected

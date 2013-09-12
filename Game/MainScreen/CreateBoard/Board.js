@@ -282,7 +282,7 @@
 	  if (WhichClick == "2" && this.WhichGrid(Mouse, WhichClick) == true) 
 		{
 			//Removing Units
-			if (Ui.SelectedUnit != null && CurrentTarget.currentUnit != null)
+			if (CurrentTarget.currentUnit != null)
 			{
 				var targetCustomValue0 = CurrentTarget.currentUnit.element;
 				var targetCustomValue1 = CurrentTarget.currentUnit.value;
@@ -322,12 +322,12 @@
 				if (Ui.unitPicks != null) {
 				var name = Ui.SelectedUnit.customValue[0][Ui.SelectedUnit.customValue[1]][0];}
 				
-				if (Ui.unitPicks == null) { var name = Ui.SelectedUnit.customValue[0]; }
+				if (Ui.unitPicks == null) { var name = Ui.SelectedUnit.customValue[0]; } //sandbox
 				this.CreateUnit("ally", name, CurrentTarget.x, CurrentTarget.y, Ui.SelectedUnit.customValue[0], Ui.SelectedUnit.customValue[1]);
 				
-				if (Ui.unitPicks != null) {
+				if (Ui.unitPicks != null) { //game mode
 				Ui.SelectedUnit.customValue[0] = null; 
-				Ui.SelectedUnit.clicked = false;}
+				Ui.SelectedUnit.clicked = false; Ui.SelectedUnit = null; }
 				
 				
 				if (CurrentSelectedGrid != undefined || CurrentSelectedGrid != null){

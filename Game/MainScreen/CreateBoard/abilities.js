@@ -9,7 +9,7 @@ this.gridTargetList = new Array();
 
 ability.prototype.abilityStats = function(abilityName)
 {
-  var customValue = new Array(0, 0, 0, 0, 0, 0);
+  var customValue = new Array(8);
   switch(abilityName){
 		case "Engulf": 
 					customValue[0] = 3; 		//MaxTime
@@ -50,9 +50,7 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[6] = "local sight"//requirements for casting (note: sight is local to the unit, other unit's sight cannot be used)
 					return customValue; 			
 
-  return null;
-}
-}
+  return null; } }
 //cast time??,
 
 ability.prototype.specialAbilityList = function() { 

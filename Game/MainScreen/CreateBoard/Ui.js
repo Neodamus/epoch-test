@@ -27,7 +27,7 @@
 		this.standardUiBox.boxColor = "rgba(5, 10, 5, 1)";
 		
 		//Current selected unit on Ui
-		this.SelectedUnit = this.unitUiBox;
+		this.SelectedUnit;// = this.unitUiBox;
 		
 		//CombatLog
 		this.combatLogRectangle = new Rectangle(5 , Canvas.height - Canvas.height * 0.17, Canvas.width * 0.81, Canvas.height * 0.17)
@@ -135,7 +135,7 @@
 			combatLog.push("Turn End.");
 			return; }
 		 
-		 //If click is on Ui, Don't proceed board-clicks
+		 //If click is on Ui, Don't proceed to board-clicks
 		 if (this.unitUiBox != null && this.unitUiBox.Contains(Mouse) == true && PlacementStage == true || this.standardUiBox.Contains(Mouse) == true){ 
 		 if (this.standardUiBox.Contains(Mouse) == true && ClientsTurn == true) {this.useAbility("ui", null);} return true; }
 	  }
@@ -155,7 +155,6 @@
 	   
 		this.unitUiBox = new Rectangle(Canvas.width - Canvas.width * 0.17 - Canvas.width * 0.08, 0, Canvas.width * 0.08, Canvas.height);
 		this.unitUiBox.boxColor = "rgba(5, 10, 5, 1)";
-		this.SelectedUnit.setImage(Images[3]);
 		
 		var x = 0; var y = 0; var sizeX = this.unitPicks[0].width;
 		var sizeY = this.unitPicks[0].height; var unitsPerRow = 1;
@@ -221,9 +220,11 @@
 		//CombatLog
 		this.combatLogRectangle.draw();
 		context.save(); context.fillStyle = "White"; context.font = "bold 16px Arial";
-		var t = 0; for (var i = 0; i < combatLog.length; i++) { if (i > combatLog.length - 10) { 
-		t++; if (combatLog.length > 8) { context.globalAlpha = t *0.1; }
-		context.fillText(combatLog[i], this.combatLogRectangle.width * 0.02, this.combatLogRectangle.y + (t * 13) + 10); } }
+		var alphaVar = 0.2;
+		var t = 0; for (var i = 0; i < combatLog.length; i++) { if (i > combatLog.length - 9) { 
+		t++; if (i == combatLog.length - 1) {alphaVar = 1; } context.globalAlpha = alphaVar;
+		alphaVar += 0.1;
+		context.fillText(combatLog[i], this.combatLogRectangle.width * 0.02, this.combatLogRectangle.y + (t * 13) + 12); } }
 		context.restore();
 		
 		//SandBoxUI
@@ -243,7 +244,7 @@
 		//Display UnitStats
 		if (this.currentStats != null && this.currentStats[0] != null) {
 		context.fillStyle = "White"; for (var i = 0; i < this.currentStats.length; i++) {
-		context.fillText(this.currentStats[i], this.standardUiBox.x, this.standardUiBox.y + (i * 13) + 60); }
+		context.fillText(this.currentStats[i], this.standardUiBox.x, this.standardUiBox.y + (i * 18) + 60); }
 		
 		//Display Unit Abilities
 		for (var i = 0; i < this.currentUnit.ability.length; i++) {
