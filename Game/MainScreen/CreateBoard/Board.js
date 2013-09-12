@@ -37,7 +37,7 @@
 		CurrentTarget = null;
 		
 		//Unit Placement
-		if (PlacementStage == true) {this.UnitPlacement(Mouse, WhichClick); }
+		if (PlacementStage == true && ClientsTurn == true) {this.UnitPlacement(Mouse, WhichClick); }
 		
 		if (ClientsTurn == true) {
 		//Unit Actions
@@ -304,9 +304,6 @@
 					sendPacket2("removeBoardUnit", RemoveUnitArray);
 
 					CurrentTarget.currentUnit.Delete();
-					PlacementStage = false; Ui.unitUiBox.x = -500; //temporary moving of sidebar
-					ClientsTurn = false;
-					sendPacket("endPhase");
 					
 					break;
 				  }

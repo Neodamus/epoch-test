@@ -134,6 +134,13 @@
 			for (var i = 0; i < GameBoard.EnemyUnits.length; i++) { GameBoard.EnemyUnits[i].turnFunction(); }
 			combatLog.push("Turn End.");
 			return; }
+			
+		// End placement box
+		if (this.finishPlacementBox.Contains(Mouse) == true) {
+			PlacementStage = false; Ui.unitUiBox.x = -500; //temporary moving of sidebar
+			ClientsTurn = false;
+			sendPacket("endPhase");			
+		}
 		 
 		 //If click is on Ui, Don't proceed to board-clicks
 		 if (this.unitUiBox != null && this.unitUiBox.Contains(Mouse) == true && PlacementStage == true || this.standardUiBox.Contains(Mouse) == true){ 
@@ -236,7 +243,7 @@
 		if (this.unitPicks != null && PlacementStage == true) {
 		this.unitUiBox.draw();
 		var tempBool = true;
-		for (var i = 0; i < this.unitPicks.length; i++) { if (this.unitPicks[i].customValue[0] != null) { tempBool = false; }}  }
+		for (var i = 0; i < this.unitPicks.length; i++) { if (this.unitPicks[i].customValue[0] != null) { /* tempBool = false; */ }}  }
 		
 		//Main UiBox
 		this.standardUiBox.draw();
