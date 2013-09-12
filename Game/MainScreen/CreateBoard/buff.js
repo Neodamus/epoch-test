@@ -4,7 +4,7 @@
 		this.buffType = buff;
 		this.attachedUnit = targetUnit;
 		this.sourceUnit = source;
-		this.customValue = new Array(0, 0, 0, 0, 0, 0, 0, 0);
+		this.customValue = new Array(8);
 		this.procList = new Array();
 		this.eventProc("Initialize");
 	  }
@@ -12,15 +12,15 @@
 	  // Initialize, Turn, Removal                    Add: who is buff visible to is customValue[2];
 	  
 	 /* case "Panic Aura": 
-					customValue[0] = 3; 		//MaxTime
-					customValue[1] = 3; 		//CurrentTime
-					customValue[2] = "both";    //buff visibility
-					cusomValue[3] = false;      //Does it stack?
-					customValue[4] = 1; 	    //How many units can it affect per turn
-					customValue[5] = 4;         //range of aura
+					customValue[0] = 3; 		//MaxTime							(if buff gets refreshed, it gets refreshed to this number)
+					customValue[1] = 3; 		//CurrentTime						(how long the buff lasts)
+					customValue[2] = "both";    //buff visibility    				(both players can see the buff when unit is clicked)
+					cusomValue[3] = false;      //Does it stack?    				 (if buff doesnt stack... does it refresh CurrentTime?)
+					customValue[4] = 1; 	    //How many units can it affect per turn     (specific buff quality on panic aura...)
+					customValue[5] = 4;         //range of aura									
 					return customValue; 			*/
 	  
-	  
+	  //have specific buff properties. ie: Cannot be dispelled...   if (Procedure == "dispell") { do nothing. }
 	   newBuff.prototype.eventProc = function(Procedure)
 	    {
 		switch(this.buffType) {
@@ -134,8 +134,7 @@
 					break;
 				}   
 				break;
-				
-				
+
 				
 				
 				

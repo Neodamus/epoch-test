@@ -136,11 +136,11 @@
 			return; }
 			
 		// End placement box
-		if (this.finishPlacementBox.Contains(Mouse) == true) {
-			PlacementStage = false; Ui.unitUiBox.x = -500; //temporary moving of sidebar
+		/*if (this.unitUiBox != 'undefined' && this.unitUiBox != null && this.finishPlacementBox.Contains(Mouse) == true) {
+			PlacementStage = false; this.unitUiBox.x = -500; //temporary moving of sidebar
 			ClientsTurn = false;
 			sendPacket("endPhase");			
-		}
+		}*/
 		 
 		 //If click is on Ui, Don't proceed to board-clicks
 		 if (this.unitUiBox != null && this.unitUiBox.Contains(Mouse) == true && PlacementStage == true || this.standardUiBox.Contains(Mouse) == true){ 
@@ -198,9 +198,10 @@
 			x++; if (x == unitsPerRow) { y++; x = 0; } }
 	  }
 	  
-	  //Initialize Ability Boxes
+	  //Initialize Ability Boxes & buff Boxes
 	  Ui.prototype.setAbilityBoxes = function() {
 	  
+		//Abilities
 		var numberOfAbility = 4;
 	    this.currentAbilities = new Array(numberOfAbility);
 		this.abilityCastNeedsClick = false;
@@ -208,11 +209,27 @@
 		var x = 0; var y = 0;
 		var thiswidth = 130; var thisheight = 25;
 		var abilitiesPerRow = 1;
-		var posX = this.standardUiBox.x; var posY = this.standardUiBox.y + 300; var posSpacer = 10; var numberOfAbilities = 4;
+		var posX = this.standardUiBox.x; var posY = this.standardUiBox.y + 300; var posSpacer = 10; 
 		for (var i = 0; i < numberOfAbility; i++) {
 			this.currentAbilities[i] = new Rectangle(posX + (x * (thiswidth + posSpacer)), posY + (y * (thisheight + posSpacer)), thiswidth, thisheight);
 			this.currentAbilities[i].boxColor = "rgba(0, 0, 0, 1)";
 			x++; if (x == abilitiesPerRow) { y++; x = 0; } }
+		
+		//Buffs			
+		var numberOfBuffs = 10;
+	    this.currentBuffs = new Array(numberOfBuffs);
+		
+		var x = 0; var y = 0;
+		var thiswidth = 30; var thisheight = 30;
+		var buffsPerRow = 4;
+		var posX = this.standardUiBox.x + 10; var posY = this.standardUiBox.y + 400; var posSpacer = 8; 
+		for (var i = 0; i < numberOfBuffs; i++) {
+			this.currentBuffs[i] = new Rectangle(posX + (x * (thiswidth + posSpacer)), posY + (y * (thisheight + posSpacer)), thiswidth, thisheight);
+			this.currentBuffs[i].boxColor = "rgba(0, 0, 90, 1)";
+			x++; if (x == buffsPerRow) { y++; x = 0; } }	
+			
+			
+			
 	  }
 	  
 	  
@@ -248,17 +265,27 @@
 		//Main UiBox
 		this.standardUiBox.draw();
 		
+		context.save();
+		context.font = '15px Arial';
 		//Display UnitStats
 		if (this.currentStats != null && this.currentStats[0] != null) {
-		context.fillStyle = "White"; for (var i = 0; i < this.currentStats.length; i++) {
-		context.fillText(this.currentStats[i], this.standardUiBox.x, this.standardUiBox.y + (i * 18) + 60); }
+		context.fillStyle = "White"; for (var i = 0; i < this.currentStats.length; i++) { if (i < 10) {
+		context.fillText(this.currentStats[i], this.standardUiBox.x + 1, this.standardUiBox.y + (i * 18) + 60); } }
 		
 		//Display Unit Abilities
-		for (var i = 0; i < this.currentUnit.ability.length; i++) {
-			context.fillStyle = this.currentAbilities[i].customValue[0]; this.currentAbilities[i].draw();
+		for (var i = 0; i < this.currentUnit.ability.length; i++) { //may need reworking
+			context.fillStyle = this.currentAbilities[i].customValue[0]; this.currentAbilities[i].draw(); //draws as many boxes as there are abilities
 			context.fillStyle = "White";
-			context.fillText(this.currentUnit.ability[i], this.currentAbilities[i].x, this.currentAbilities[i].y + 13);
+			context.fillText(this.currentUnit.ability[i], this.currentAbilities[i].x + 1, this.currentAbilities[i].y + 13); //draws text on the abilities-^
+		} 
+		
+		context.restore();
+		//Display Unit Buffs
+		for (var i = 0; i < this.currentUnit.buffList.length; i++) { //may need reworking
+		/*if (this.currentBuffs[i].customValue[0] != null) { */this.currentBuffs[i].draw();//}
 		} }
+		
+		
 		
 		//Display Placeable units during PlacementPhase
 		if (this.unitPicks != null && PlacementStage == true) {

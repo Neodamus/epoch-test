@@ -13,16 +13,16 @@
 		this.BoardX = 0;
 		this.BoardY = 0;
 		cg = CreateGrid();
+		this.gameType = "normal";
+		if (userPicks == "sandbox") { this.gameType = "sandbox"; }
 		
 		Ui = new Ui(userPicks);
 
-		
-		
-		
-		ability = new ability();
+		ability = new ability(); //initialize abilities
 		
 		this.AllyUnits = new Array();
 		this.EnemyUnits = new Array();
+		
 		combatLog.push("Game Board was created.");
 		Screen = "GameBoard";
 	  }
@@ -37,7 +37,7 @@
 		CurrentTarget = null;
 		
 		//Unit Placement
-		if (PlacementStage == true && ClientsTurn == true) {this.UnitPlacement(Mouse, WhichClick); }
+		if (PlacementStage == true) {this.UnitPlacement(Mouse, WhichClick); }
 		
 		if (ClientsTurn == true) {
 		//Unit Actions
@@ -129,7 +129,8 @@
 	    //             5 = ?Ability,
 		// 			   6 = target2.x, 7 = target2.y;
 		//var instructions = new Array(Action, sourcex, sourcey, targetx, targety, Ability, target2x, target2y);
-		sendPacket2("unitAction", sendData);
+		if (this.gameType == "normal") {
+		sendPacket2("unitAction", sendData); }
 	  }
 	  
 	  //Removes unit from lists
@@ -184,8 +185,6 @@
 		//if (Alliance == "enemy") { this.EnemyUnits.push(new Unit(Alliance, Name, x, y, value1, value2));}
 		
 		var CreateUnitArray = new Array(Alliance, Name, x, y, value1, value2);
-		
-		sendPacket2("createUnit", CreateUnitArray);
 	  }
 	  
 	  
@@ -282,8 +281,9 @@
 	  if (WhichClick == "2" && this.WhichGrid(Mouse, WhichClick) == true) 
 		{
 			//Removing Units
-			if (CurrentTarget.currentUnit != null)
+			if (this.gameType == "normal") //Real game
 			{
+				if (Ui.unitPicks != null) {
 				var targetCustomValue0 = CurrentTarget.currentUnit.element;
 				var targetCustomValue1 = CurrentTarget.currentUnit.value;
 				for (var i = 0; i < Ui.unitPicks.length; i++)
@@ -301,15 +301,17 @@
 					 if (CurrentTarget.currentUnit.alliance == "ally") { newAlliance = "enemy";}
 					 if (CurrentTarget.currentUnit.alliance == "enemy") { newAlliance = "ally";}  
 					RemoveUnitArray[2] = newAlliance;
-					sendPacket2("removeBoardUnit", RemoveUnitArray);
+					
+					//senddata
+					if (this.gameType == "normal") {
+					sendPacket2("removeBoardUnit", RemoveUnitArray); }
 
 					CurrentTarget.currentUnit.Delete();
 					
-					break;
-				  }
-				}
-				
-			}
+					return;
+				  } } } }
+			if (this.gameType == "sandbox" && CurrentTarget.currentUnit != null) { CurrentTarget.currentUnit.Delete(); return; } //Sandbox
+			
 			// Placing Units
 			if (Ui.SelectedUnit != null && Ui.SelectedUnit.clicked != false)
 			{
@@ -320,12 +322,16 @@
 				var name = Ui.SelectedUnit.customValue[0][Ui.SelectedUnit.customValue[1]][0];}
 				
 				if (Ui.unitPicks == null) { var name = Ui.SelectedUnit.customValue[0]; } //sandbox
+				
+				//send data
+				var CreateUnitArray = new Array("ally", name, CurrentTarget.x, CurrentTarget.y, Ui.SelectedUnit.customValue[0], Ui.SelectedUnit.customValue[1]);
+				if (this.gameType == "normal") { sendPacket2("createUnit", CreateUnitArray); }
+				
 				this.CreateUnit("ally", name, CurrentTarget.x, CurrentTarget.y, Ui.SelectedUnit.customValue[0], Ui.SelectedUnit.customValue[1]);
 				
 				if (Ui.unitPicks != null) { //game mode
 				Ui.SelectedUnit.customValue[0] = null; 
 				Ui.SelectedUnit.clicked = false; Ui.SelectedUnit = null; }
-				
 				
 				if (CurrentSelectedGrid != undefined || CurrentSelectedGrid != null){
 				CurrentSelectedGrid.Select("off");}

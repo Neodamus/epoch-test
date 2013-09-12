@@ -23,21 +23,14 @@
 	  }
 	  
 	  //tilemod
-	  Grid.prototype.tileModifier = function(procedure, modifier)
+	  Grid.prototype.tileModifiers = function(procedure)
 	  {
-		switch(procedure){
+		if (this.currentUnit != null) { 
 		
-		case "add":
-		     if (modifier.stacks == true) { this.tileBuffList.push(modifier); if (this.currentUnit != null) { }} //addbuff to unit... check if buff stacks and targetAlliance of aura is correct;
-			 if (modifier.stacks == false) { if (listContains(this.tileBuffList, modifier) == false) { this.tileBuffList.push(modifier);} if (this.currentUnit != null) { }} //removebuff from unit if applicable?
-		break;
-		
-		case "remove":
-			var listNumber = listReturnArray(this.tileBuffList, modifier);
-			if (listNumber != -1) { this.tileBuffList.splice(listNumber, 1); }
-		break;
-		
-		
+			for (var i = 0; i < this.tileBuffList.length; i++){
+			
+				this.tileBuffList[i].eventProc(procedure, this.currentUnit);
+			}
 		}
 	  }
 	  
@@ -87,32 +80,49 @@
 			context.drawImage(Images[7],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		}
 		
-		
+		if (this.abilityMarker == true) { context.drawImage( Images[9],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
+		context.globalAlpha = 0.65;
 		if (this.selected == true) { context.drawImage( Images[3],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
-		context.globalAlpha = 0.7;
+		context.globalAlpha = 0.30;
 		if (this.moveMarker == true) { context.drawImage( Images[5],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		if (this.attackMarker == true && this.abilityMarker == false) { context.drawImage( Images[6],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
-		if (this.abilityMarker == true) { context.drawImage( Images[9],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
+		
 		context.globalAlpha = 1;
 		
 		
 		context.save();
 		context.font = '10px outline';
-		context.shadowBlur=0;
 		
-		context.shadowColor="black";
-		context.shadowOffsetX=1;
-		context.shadowOffsetY=1;
+		/*context.shadowBlur=0;
+		
+		context.shadowColor="White";
+		context.shadowOffsetX=-1;
+		context.shadowOffsetY=-1;
+		
+		context.strokeStyle= "Black";*/
 		//context.strokeStyle = 'black';
 		if (this.currentUnit != null && this.visible == true){ // UNIT DRAWING
+		
+		context.lineWidth=3;
+		context.fillStyle = "rgba(250, 250, 150, 1)";
+		context.strokeText(this.currentUnit.currentStats[4], this.ThisRectangle.x + 7, this.ThisRectangle.y + 23);
+		context.fillStyle = "rgba(255, 180, 180, 1)";
+		context.strokeText(this.currentUnit.currentStats[1], this.ThisRectangle.x + this.ThisRectangle.width - 15, this.ThisRectangle.y + 23);
+		context.fillStyle = "rgba(255, 255, 255, 1)";
+		context.strokeText(this.currentUnit.currentStats[2], this.ThisRectangle.x + 7, this.ThisRectangle.y + 42);
+		context.fillStyle = "rgba(170, 170, 255, 1)";
+		context.strokeText(this.currentUnit.currentStats[3], this.ThisRectangle.x + this.ThisRectangle.width - 15, this.ThisRectangle.y + 42);
+		
+		
 		context.fillStyle = "rgba(250, 250, 150, 1)";
 		context.fillText(this.currentUnit.currentStats[4], this.ThisRectangle.x + 7, this.ThisRectangle.y + 23);
 		context.fillStyle = "rgba(255, 180, 180, 1)";
 		context.fillText(this.currentUnit.currentStats[1], this.ThisRectangle.x + this.ThisRectangle.width - 15, this.ThisRectangle.y + 23);
 		context.fillStyle = "rgba(255, 255, 255, 1)";
-		context.fillText(this.currentUnit.currentStats[2], this.ThisRectangle.x + 7, this.ThisRectangle.y + 45);
+		context.fillText(this.currentUnit.currentStats[2], this.ThisRectangle.x + 7, this.ThisRectangle.y + 42);
 		context.fillStyle = "rgba(170, 170, 255, 1)";
-		context.fillText(this.currentUnit.currentStats[3], this.ThisRectangle.x + this.ThisRectangle.width - 15, this.ThisRectangle.y + 45);
+		context.fillText(this.currentUnit.currentStats[3], this.ThisRectangle.x + this.ThisRectangle.width - 15, this.ThisRectangle.y + 42);
+		
 		}
 		context.restore();
 	  }

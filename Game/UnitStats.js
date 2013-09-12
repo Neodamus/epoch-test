@@ -52,8 +52,8 @@ var Elemental = new Array(
 "2",      //#defend
 "0",      //onAttackAbility
 "0",      //onDefendAbility
-"2, 0",   //auras
-"Panic Aura, 0",   //ability
+"Panic Aura",   //auras
+"Panic Aura",   //ability
 "Fire"		//element
 );
  

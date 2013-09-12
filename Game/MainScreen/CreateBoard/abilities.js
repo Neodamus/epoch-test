@@ -21,13 +21,14 @@ ability.prototype.abilityStats = function(abilityName)
 					return customValue; 
 					
 		case "Panic Aura": 
-					customValue[0] = 3; 		//MaxTime
-					customValue[1] = 3; 		//CurrentTime
-					customValue[2] = "both";    //buff visibility
-					cusomValue[3] = false;      //Does it stack?
-					customValue[4] = 1; 	    //total-How many units can it affect per turn
-					customValue[5] = 4;         //range of aura
-					customValue[6] = 1;         //current-How many units can it affect per turn
+					customValue[0] = 3; 		//MaxTime (buff)
+					customValue[1] = 3; 		//CurrentTime (buff)
+					customValue[2] = "both";    //buff visibility (buff)
+					cusomValue[3] = false;      //Does it stack? (buff)
+					customValue[4] = 1; 	    //total-How many units can it affect per turn (aura)
+					customValue[5] = 4;         //range of aura (aura)
+					customValue[6] = 1;         //current-How many units can it affect per turn (aura)
+					customValue[7] = "enemy"    //alliance that aura gets applied to, compared to sourceUnit (aura)
 					return customValue; 			
 					
 		case "Torch": 
@@ -73,7 +74,7 @@ ability.prototype.receiveAbility = function(info)
 
 
 
-ability.prototype.cast = function(abilityName, sourceSpot)
+ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-> Ability setup or cast.
 {	
 	this.abilityName = abilityName;
 	this.sourceSpot = sourceSpot
