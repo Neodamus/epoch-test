@@ -103,24 +103,20 @@
 		//context.strokeStyle = 'black';
 		if (this.currentUnit != null && this.visible == true){ // UNIT DRAWING
 		
-		context.lineWidth=3;
-		context.fillStyle = "rgba(250, 250, 150, 1)";
+		context.lineWidth=4.2;
 		context.strokeText(this.currentUnit.currentStats[4], this.ThisRectangle.x + 7, this.ThisRectangle.y + 23);
-		context.fillStyle = "rgba(255, 180, 180, 1)";
 		context.strokeText(this.currentUnit.currentStats[1], this.ThisRectangle.x + this.ThisRectangle.width - 15, this.ThisRectangle.y + 23);
-		context.fillStyle = "rgba(255, 255, 255, 1)";
 		context.strokeText(this.currentUnit.currentStats[2], this.ThisRectangle.x + 7, this.ThisRectangle.y + 42);
-		context.fillStyle = "rgba(170, 170, 255, 1)";
 		context.strokeText(this.currentUnit.currentStats[3], this.ThisRectangle.x + this.ThisRectangle.width - 15, this.ThisRectangle.y + 42);
 		
 		
-		context.fillStyle = "rgba(250, 250, 150, 1)";
+		context.fillStyle = "rgba(250, 250, 60, 1)";
 		context.fillText(this.currentUnit.currentStats[4], this.ThisRectangle.x + 7, this.ThisRectangle.y + 23);
-		context.fillStyle = "rgba(255, 180, 180, 1)";
+		context.fillStyle = "rgba(255, 120, 120, 1)";
 		context.fillText(this.currentUnit.currentStats[1], this.ThisRectangle.x + this.ThisRectangle.width - 15, this.ThisRectangle.y + 23);
-		context.fillStyle = "rgba(255, 255, 255, 1)";
+		context.fillStyle = "rgba(220, 220, 220, 1)";
 		context.fillText(this.currentUnit.currentStats[2], this.ThisRectangle.x + 7, this.ThisRectangle.y + 42);
-		context.fillStyle = "rgba(170, 170, 255, 1)";
+		context.fillStyle = "rgba(140, 140, 250, 1)";
 		context.fillText(this.currentUnit.currentStats[3], this.ThisRectangle.x + this.ThisRectangle.width - 15, this.ThisRectangle.y + 42);
 		
 		}
