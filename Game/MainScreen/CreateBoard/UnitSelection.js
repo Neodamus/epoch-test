@@ -6,6 +6,11 @@
 		this.pickRectangles;
 		this.currentPick = 0;
 		this.enemyPick = 0;
+		this.numPicks = 9;	// replaces numberOfUnits
+		this.pickOrder = [9, 9]; //[1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1]; 	// holds the pick order array
+		this.pickIndex = 0; // determines where in the pick order
+		this.pickCount = this.pickOrder[this.pickIndex]; // determines how many units have been picked for current turn
+		this.pickHidden = [0, 1]; // determines which unit picks are hidden from other player, uses pickIndex
 		Screen = "UnitSelection";
 	  }
 	  
@@ -41,19 +46,23 @@
 	  
 	  SelectionScreen.prototype.RemovePick = function()
 	  {
-		var number = this.pickRectangles.indexOf(this.ClickedObject);
-		if (number < numberOfUnits && number != -1)          //Add stipulation of unit is inside current pickphase
-		{
-			sendPacket2("removeUnit", number)
-
-			var Removing = this.pickRectangles[number];
-			
-			Removing.customValue[0] = null;
-			Removing.customValue[1] = null;
-			Removing.customValue[2] = null;
-			
-			this.ClickedObject.clicked = false;
-		}
+		  if (ClientsTurn == true) {
+			  var number = this.pickRectangles.indexOf(this.ClickedObject);
+			  if (number < numberOfUnits && number != -1)          //Add stipulation of unit is inside current pickphase
+			  {
+				  sendPacket2("removeUnit", number)
+	  
+				  var Removing = this.pickRectangles[number];
+				  
+				  Removing.customValue[0] = null;
+				  Removing.customValue[1] = null;
+				  Removing.customValue[2] = null;
+				  
+				  this.ClickedObject.clicked = false;
+				  
+				  this.pickCount++;
+			  }
+		  }
 	  }
 	  
 	  
@@ -66,14 +75,18 @@
 					  if (this.pickRectangles[i].customValue[0] == null)
 					  { this.currentPick = i; break;}
 				  }
-				  if (this.currentPick < numberOfUnits) { 
+				  if (this.currentPick < numberOfUnits && this.pickCount > 0) { 
 				  var SendElement = this.ClickedObject.customValue[2];
 				  var SendValue = this.ClickedObject.customValue[1];
 				  this.pickRectangles[this.currentPick].customValue[0] = this.ClickedObject.customValue[0];
 				  this.pickRectangles[this.currentPick].customValue[1] = this.ClickedObject.customValue[1];
 				  this.pickRectangles[this.currentPick].customValue[2] = this.ClickedObject.customValue[2];
 				  sendPacket3("selectUnit", SendElement, SendValue)
+				  
+				  this.currentPick++;
+				  this.pickCount--;
 				  }
+				  
 		  }
 	  }
 	  
@@ -84,11 +97,34 @@
 		if (this.ClickedObject != null && this.RemoveSelectedBox.Contains(Mouse) == true && this.ClickedObject.clicked == true) { this.RemovePick(); }
 		if (this.ClickedObject != null && this.SelectUnitBox.Contains(Mouse) == true && this.ClickedObject.clicked == true) { this.AddPick(); return; }
 		
+		
+		// End turn / phase logic
 	    if (this.NextStageBox.Contains(Mouse) == true) { 
-			ClientsTurn = false;
-			sendPacket2("endPhase", "selection");
-			GameBoard = new Board(this.pickRectangles);  
+			
+			if (this.currentPick < this.numPicks) { // end turn
+			
+				if (this.pickCount == 0) {			
+					
+					this.pickIndex = this.pickIndex + 2;
+					this.pickCount = this.pickOrder[this.pickIndex];
+					
+					ClientsTurn = false;
+					sendPacket("endTurn");				
+					
+				} else {
+					
+					alert("Please pick " + this.pickCount + " more unit(s)")
+					
+				}
+ 
+			} else {	// end phase		
+			
+				ClientsTurn = false;
+				sendPacket2("endPhase", "selection");
+				GameBoard = new Board(this.pickRectangles); 
+			}
 		}
+			
 		
 		this.UnitClicked(Mouse); //checks if a unit was clicked
 		

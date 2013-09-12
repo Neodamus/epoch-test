@@ -87,19 +87,21 @@ function messageHandler(message) {
 		
 		case "createRoom":
 			UnitSelection = new SelectionScreen()
-			ClientsTurn = true
 			currentScreen = UnitSelection
 			break
 			
 		case "playerJoin":
-			alert("Player joined your room")
-			sendPacket("joinSuccess")
-			break
+			alert("Player joined your room");
+			ClientsTurn = true;
+			sendPacket("joinSuccess");
+			break;
 			
 		case "joinSuccess":
-			UnitSelection = new SelectionScreen()
-			currentScreen = UnitSelection
-			break
+			UnitSelection = new SelectionScreen();
+			UnitSelection.pickIndex = 1;
+			UnitSelection.pickCount = UnitSelection.pickOrder[UnitSelection.pickIndex];
+			currentScreen = UnitSelection;
+			break;
 					
 		case "getUsers":
 			currentScreen.numUsers = data
@@ -168,6 +170,11 @@ function messageHandler(message) {
 		
 			ClientsTurn = data
 			break
+			
+		case "endTurn":
+		
+			ClientsTurn = true;
+			break;
 			
 		case "startTurn":
 		

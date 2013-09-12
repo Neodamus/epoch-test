@@ -8,8 +8,12 @@ function lobby() {
 	this.lobbyWidth = Math.floor(this.canvas.width)
 	this.lobbyHeight = Math.floor(this.canvas.height)
 	
-	// rects and textboxes
+	// buttons
 	this.joinGame = new textBox(this.lobbyWidth * 0.1, this.lobbyHeight * 0.43, this.lobbyWidth * 0.2, this.lobbyHeight * 0.04)
+	
+	this.createGame = new Rectangle(this.lobbyWidth * 0.5, this.lobbyHeight * 0.43, this.lobbyWidth * 0.2, this.lobbyHeight * 0.04);
+	this.createGame.setText("Create", "#fff", this.createGame.x + this.createGame.width * 0.35, this.createGame.y + this.createGame.height * 0.7);
+	this.createGame.clicked = function() { UnitSelection = new SelectionScreen(); currentScreen = UnitSelection; sendPacket("createRoom"); }
 	
 	this.gamesList = new textBox(this.lobbyWidth * 0.05, this.lobbyHeight * 0.1, this.lobbyWidth * 0.7, this.lobbyHeight * 0.3)
 	this.gamesList.setColumns( [0, 0.35, 0.7] )
@@ -37,9 +41,13 @@ function lobby() {
 
 lobby.prototype.draw = function() {
 	
+	// background
 	this.context.drawImage(Images[4], 0, 0, this.lobbyWidth, this.lobbyHeight)
 	this.context.fillStyle = "Black"
-	this.context.font = "bold 16px serif"	
+	this.context.font = "bold 16px serif"
+	
+	// buttons
+	this.createGame.draw();	
 	
 	this.gamesList.draw()
 	
@@ -63,11 +71,6 @@ lobby.prototype.draw = function() {
 
 	this.chatRoom.draw()
 	this.chatBar.draw()	
-
-	/* this.context.drawImage(Images[ReturnUnitImage("Elemental")], 100, 300)	
-	
-	this.context.drawImage(Images[ReturnUnitImage("Elemental")], 0, 300)
-	this.context.drawImage(Images[104], 0, 300) */
 	
 	
 }
@@ -189,8 +192,9 @@ function lobbyClick() {
 	
 	var gamesList = lobby.gamesList
 	var joinGame = lobby.joinGame
+	var createGame = lobby.createGame
 	var chatRoom = lobby.chatRoom
-	var chatBar = lobby.chatBar
+	var chatBar = lobby.chatBar	
 	
 	// determine where in the gamesList user clicks
 	var x = Math.floor(Mouse.x) - gamesList.x
@@ -255,6 +259,13 @@ function lobbyClick() {
 	if (Mouse.x >= joinGame.x && Mouse.x <= joinGame.x + joinGame.width && Mouse.y >= joinGame.y && Mouse.y <= joinGame.y + joinGame.height) {
 		
 		gamesList.getSelectionData()	
+		
+	}
+	
+	// create game
+	if (createGame.Contains(Mouse)) {
+		
+		createGame.clicked();	
 		
 	}
 }
@@ -326,7 +337,86 @@ textBox.prototype.draw = function() {
 		this.context.fillRect(selectionX, selectionY, selectionWidth, selectionHeight)
 	}
 	
-	this.printText()	
+	this.drawText()	
+}
+
+textBox.prototype.drawText = function() {
+	
+	this.context.fillStyle = this.fontColor
+	this.context.font = this.font
+	
+	// determine if a scrollbar is needed	
+	if (this.textRows > this.maxRows) {
+		
+		this.scrollbar = true
+		
+	} else {
+			
+		this.scrollbar = false
+		this.scrollRow = 0		
+		
+	}
+	
+	var textOutput = []
+	var textScroll
+	
+	if (this.textReverse == true) {
+		
+		for (row = 0; row < this.textRows; row++) {
+			
+			for (col = 0; col < this.textColumns && col < this.columns; col++) {
+				
+				textOutput[row * this.textColumns + col] = this.text[(this.textRows - row - 1) * this.textColumns + col]
+				
+			}
+			
+		}
+		
+	} else {
+		
+		textOutput = this.text	
+		
+	}
+	
+	// printing loop!!!
+	if (this.scrollbar) {
+				
+		for (row = this.scrollRow; row < this.maxRows + this.scrollRow; row++) {
+		
+			for (col = 0; col < this.columns && col < this.textColumns; col++) {
+				
+				var text = textOutput[row * this.textColumns + col]
+				var x = this.x + this.leftPadding + this.textWidth * this.columnArray[col]
+				var y = this.y + this.topPadding + (this.rowHeight + this.rowBuffer) * (row - this.scrollRow + 1) - this.rowBuffer
+			
+				this.context.fillText(text, x, y)
+					
+			}
+			
+		}	
+	
+	this.scrollbarRect.draw()
+	this.scrollbarUp.draw()
+	this.scrollbarDown.draw()
+		
+	} else {
+	
+		for (row = 0; row < this.textRows; row++) {
+		
+			for (col = 0; col < this.columns && col < this.textColumns; col++) {
+				
+				var text = textOutput[row * this.textColumns + col]
+				var x = this.x + this.leftPadding + this.textWidth * this.columnArray[col]
+				var y = this.y + this.topPadding + (this.rowHeight + this.rowBuffer) * (row + 1) - this.rowBuffer
+			
+				this.context.fillText(text, x, y)
+					
+			}
+			
+		}
+		
+	}
+	
 }
 
 textBox.prototype.contains = function(mouse) {
@@ -416,85 +506,6 @@ textBox.prototype.inputObject = function(objectArray) {
 	this.textColumns = properties.length	
 	this.textRows = this.text.length / this.textColumns
 		
-}
-
-textBox.prototype.printText = function() {
-	
-	this.context.fillStyle = this.fontColor
-	this.context.font = this.font
-	
-	// determine if a scrollbar is needed	
-	if (this.textRows > this.maxRows) {
-		
-		this.scrollbar = true
-		
-	} else {
-			
-		this.scrollbar = false
-		this.scrollRow = 0		
-		
-	}
-	
-	var textOutput = []
-	var textScroll
-	
-	if (this.textReverse == true) {
-		
-		for (row = 0; row < this.textRows; row++) {
-			
-			for (col = 0; col < this.textColumns && col < this.columns; col++) {
-				
-				textOutput[row * this.textColumns + col] = this.text[(this.textRows - row - 1) * this.textColumns + col]
-				
-			}
-			
-		}
-		
-	} else {
-		
-		textOutput = this.text	
-		
-	}
-	
-	// printing loop!!!
-	if (this.scrollbar) {
-				
-		for (row = this.scrollRow; row < this.maxRows + this.scrollRow; row++) {
-		
-			for (col = 0; col < this.columns && col < this.textColumns; col++) {
-				
-				var text = textOutput[row * this.textColumns + col]
-				var x = this.x + this.leftPadding + this.textWidth * this.columnArray[col]
-				var y = this.y + this.topPadding + (this.rowHeight + this.rowBuffer) * (row - this.scrollRow + 1) - this.rowBuffer
-			
-				this.context.fillText(text, x, y)
-					
-			}
-			
-		}	
-	
-	this.scrollbarRect.draw()
-	this.scrollbarUp.draw()
-	this.scrollbarDown.draw()
-		
-	} else {
-	
-		for (row = 0; row < this.textRows; row++) {
-		
-			for (col = 0; col < this.columns && col < this.textColumns; col++) {
-				
-				var text = textOutput[row * this.textColumns + col]
-				var x = this.x + this.leftPadding + this.textWidth * this.columnArray[col]
-				var y = this.y + this.topPadding + (this.rowHeight + this.rowBuffer) * (row + 1) - this.rowBuffer
-			
-				this.context.fillText(text, x, y)
-					
-			}
-			
-		}
-		
-	}
-	
 }
 
 textBox.prototype.scrollToLastRow = function() {
