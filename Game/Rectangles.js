@@ -17,7 +17,7 @@ function Rectangle(x, y, width, height) {
 	
 	this.button;
 	
-	this.clicked;
+	this.clickfxn;
 	
 	this.text;
 }

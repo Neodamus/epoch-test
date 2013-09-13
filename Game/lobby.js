@@ -13,7 +13,7 @@ function lobby() {
 	
 	this.createGame = new Rectangle(this.lobbyWidth * 0.5, this.lobbyHeight * 0.43, this.lobbyWidth * 0.2, this.lobbyHeight * 0.04);
 	this.createGame.setText("Create", "#fff", this.createGame.x + this.createGame.width * 0.35, this.createGame.y + this.createGame.height * 0.7);
-	this.createGame.clicked = function() { UnitSelection = new SelectionScreen(); currentScreen = UnitSelection; sendPacket("createRoom"); }
+	this.createGame.clickfxn = function() { UnitSelection = new SelectionScreen(); currentScreen = UnitSelection; sendPacket("createRoom"); }
 	
 	// games list
 	this.gamesList = new textBox(this.lobbyWidth * 0.05, this.lobbyHeight * 0.1, this.lobbyWidth * 0.7, this.lobbyHeight * 0.3)
