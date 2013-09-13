@@ -15,6 +15,7 @@ function lobby() {
 	this.createGame.setText("Create", "#fff", this.createGame.x + this.createGame.width * 0.35, this.createGame.y + this.createGame.height * 0.7);
 	this.createGame.clicked = function() { UnitSelection = new SelectionScreen(); currentScreen = UnitSelection; sendPacket("createRoom"); }
 	
+	// games list
 	this.gamesList = new textBox(this.lobbyWidth * 0.05, this.lobbyHeight * 0.1, this.lobbyWidth * 0.7, this.lobbyHeight * 0.3)
 	this.gamesList.setColumns( [0, 0.35, 0.7] )
 	gamesListRequest()
