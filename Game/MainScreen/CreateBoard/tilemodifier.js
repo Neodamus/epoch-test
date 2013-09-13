@@ -50,52 +50,107 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 	switch(procedure) {
 	
 		case "initialize": //when aura is first turned on..
-		
+		 //if it is added....
+		if (listContains(currentUnit.currentTileMods, this) == false) {
+		currentUnit.currentTileMods.push(this);
+		var buffIt = new newBuff("Panic Aura", currentUnit, this.sourceUnit); 
+		}
 		break;
 		
 		case "move": //if a unit gains aura by moving into area..
-		
+		if (listContains(currentUnit.currentTileMods, this) == false) { // <---------- THIS IS IF THE AURA DOES NOT STACK!
+		currentUnit.currentTileMods.push(this);
+		var buffIt = new newBuff("Panic Aura", currentUnit, this.sourceUnit);
+		}
 		break;
 		
 		
 		case "remove": //if aura is removed from unit...
-	
+			var unitIsWithinAura = false;
+		    for (var i = 0; i < this.tileList.length; i++) {
+			if (currentUnit.x == this.tileList[i].x && currentUnit.y == this.tileList[i].y)
+			{ unitIsWithinAura = true; break; } }
+			
+			if (unitIsWithinAura == false) {    // <---------------- THIS IS IF THE AURA HAS NO BUFF COOLDOWN?? IDK LOOK AT THIS.
+				var rem = listReturnArray(currentUnit.currentTileMods, this);
+				currentUnit.currentTileMods.splice(rem, 1);
+					for (var i = 0; i < currentUnit.buffList.length; i++) {
+			
+						if (currentUnit.buffList[i].buffType == this.name){
+							currentUnit.buffList[i].eventProc("Removal"); } }
+							 console.warn("remove");
+				}
+				
+		break;
+		//var rem = listReturnArray(currentUnit.buffList, 
+		//this.buffList[i].eventProc("Turn");
+		//if buff on unit is only supposed to be on if it contains aura... remove buff here.
 		//other possible cases:     move but already has aura...
 	}
 
 }
 
 tileModifier.prototype.affectedTiles = function(Instructions)
-{
+{	//if (this.tileList instanceof Array) {} else { var t = Instructions; Intructions = new Array(); Instructions.push(t); } ??
 	switch(Instructions[0]) {
 	
 		case "on":
+		
 			if (this.tileList instanceof Array) {for (var i = 0; i < Instructions[1].length; i++) { this.tileList.push(Instructions[1][i]); } } // needs to push all tiles affected...
-			else { this.tileList.push(Instructions[1]); } //if tile list is just one tile .. push
-		
-			for (var i = 0; i < this.tileList.length; i++) { this.tileList[i].tileBuffList.push(this); } //adding tile effects to grid
+			else { this.tileList.push(Instructions[1]);  } //if tile list is just one tile .. push
+		   // console.warn(this.tileList);
+			for (var i = 0; i < this.tileList.length; i++) { 
+			
+			this.tileList[i].tileBuffList.push(this); } //adding tile effects to grid
+			for (var i = 0; i < this.tileList.length; i++) { this.tileList[i].tileModifiers(this, "initialize"); }
+			
 			break;
-		
+			
 		case "move":
-			//this is used for moving auras without a second buff.initialization occurring.
-			for (var i = 0; i < this.tileList.length; i++) { var rem = listContains(Instructions[1], this.tileList[i]);
-			if (rem == -1) { this.tileList.splice(rem, 1); } } // check if instruction has tilelist, if it doesn't, remove it.
+
+			for (var i = 0; i < Instructions[1].length; i++) { 
+				
+				if (listContains(this.tileList, Instructions[1][i]) == false) { 
+					
+					Instructions[1][i].tileBuffList.push(this);
+					Instructions[1][i].tileModifiers(this, "move"); 
+					this.tileList.push(Instructions[1][i]);}
+			 } 
+			
+			var oldUnitList = new Array();
+			
+			for (var i = 0; i < this.tileList.length; i++) {
+				if (listContains(Instructions[1], this.tileList[i]) == false) { 
+				
+					var remTile = listReturnArray(this.tileList[i].tileBuffList, this);
+					
+					if (remTile != -1) { this.tileList[i].tileBuffList.splice(remTile, 1); }
+					
+					if (this.tileList[i].currentUnit != null) { oldUnitList.push(this.tileList[i].currentUnit);  }
+
+					this.tileList.splice(i, 1); i--;  //i-- because the tileList is changing within, if you wanted to be safe, change: i = 0;
+				}
+			}
+			for (var i = 0; i < oldUnitList.length; i++) {  this.eventProc("remove", oldUnitList[i]); } //remove from units
 			break;
 		
+			//uncompleted- passover
 		case "off":
 			//remove from all tiles...
-			for (var i = 0; i < this.tileList.length; i++) { var rem = listContains(this.tileList[i].tileBuffList, this);
+			for (var i = 0; i < this.tileList.length; i++) {
+			this.tileList[i].tileModifiers(this, "remove");
+			var rem = listReturnArray(this.tileList[i].tileBuffList, this);
 			if (rem != -1) { this.tileList[i].tileBuffList.splice(rem, 1); } } // remove tile effects from each grid -
 			break;
 			
 		case "delete":
-			//removes aura from unit
-			var rem = listContains(this.sourceUnit.auras, this);
-			if (rem != -1) { this.sourceUnit.auras.splice(rem, 1); }
+			//removes aura from unit... (recommended that you use this."off" first.)
+			var rem = listReturnArray(this.sourceUnit.auras, this);
+			if (rem != -1) { this.sourceUnit.auras.splice(listReturnArray(this.sourceUnit.auras, this), 1); } //removes the aura from origin unit
 			break;
 			
 		case "add":
-			//adds aura to unit
+			//adds aura to unit(this is not the aura effect, this is giving the unit the origin aura...
 			this.sourceUnit.auras.push(this);
 	}
 }

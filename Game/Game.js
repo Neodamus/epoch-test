@@ -64,6 +64,8 @@
 		Images[7].src = "Game/Images/fog.png";
 		Images[8].src = "Game/Images/roundedbox.png";
 		Images[9].src = "Game/Images/borderspell.png";	  
+		Images[10].src = "Game/Images/auratest.png";	 
+		Images[11].src = "Game/Images/reveal.png";	 
 	  
 		//20 = first unit image (loaded in same order as "AllUnits Variable")
 	  Images[20].src = "Game/Images/Units/vangaurd.png";

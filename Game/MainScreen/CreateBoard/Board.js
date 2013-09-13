@@ -283,7 +283,7 @@
 			//Removing Units
 			if (this.gameType == "normal") //Real game
 			{
-				if (Ui.unitPicks != null) {
+				if (Ui.unitPicks != null && CurrentTarget != null && CurrentTarget.currentUnit != null) {
 				var targetCustomValue0 = CurrentTarget.currentUnit.element;
 				var targetCustomValue1 = CurrentTarget.currentUnit.value;
 				for (var i = 0; i < Ui.unitPicks.length; i++)

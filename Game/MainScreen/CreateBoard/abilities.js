@@ -26,7 +26,7 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[2] = "both";    //buff visibility (buff)
 					customValue[3] = false;      //Does it stack? (buff)
 					customValue[4] = 1; 	    //total-How many units can it affect per turn (aura)
-					customValue[5] = 4;         //range of aura (aura)
+					customValue[5] = 2;         //range of aura (aura)
 					customValue[6] = 1;         //current-How many units can it affect per turn (aura)
 					customValue[7] = "enemy"    //alliance that aura gets applied to, compared to sourceUnit (aura)
 					return customValue; 			

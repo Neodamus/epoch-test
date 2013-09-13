@@ -42,11 +42,15 @@
 		this.movementRange = 1;
 		
 		GridSpot[this.x][this.y].currentUnit = this;
+		this.currentTileMods = new Array();
+		GridSpot[this.x][this.y].tileModifiers("all", "move");
+		
 		if (this.alliance == "ally"){
 		this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5], "on", "") }
 		
-		for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("on", this.auras[i]); }
 		
+		
+		for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("on", this.auras[i]); }
 	  }
 	  
 	  
@@ -151,7 +155,7 @@
 	   {
 		  GridSpot[this.x][this.y].Select("off");
 		  
-		  for (var i = 0; i < auras.length; i++) { this.auraTileModifier("off", aura[i]); this.auraTileModifier("delete", aura[i]);}
+		  for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("off", this.auras[i]);}
 		  this.AreaSelect("vision", GridSpot[this.x][this.y],  this.currentStats[5], "off", "")
 		  GridSpot[this.x][this.y].currentUnit = null;
 		  GameBoard.removeUnitFromList(this);
@@ -244,8 +248,14 @@
 		 // make sure unit is alive before giving back vision
 		 if (this.alliance == "ally" && this.currentStats[1] > 0){
 		 this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5], "on", "") }
-		 for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("move", this.aura[i]); } 
-		 } 
+		 for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("move", this.auras[i]); } //move all aura origins
+		 
+		 for (var i = 0; i < this.currentTileMods.length; i++) {  this.currentTileMods[i].eventProc("remove", this); }
+		 
+		 NewGridSpot.tileModifiers("all", "move"); //get new tile modifiers
+		 
+		 
+		 }
 	  }
 	  
 	  
@@ -295,7 +305,7 @@
                              y >= 0 && y < GridSpot[0].length)
                         {
 
-                               this.markers(x, y, Toggle, Action, requirement);
+                            this.markers(x, y, Toggle, Action, requirement); 
 
 
                         }
@@ -310,6 +320,8 @@
                         }
                     }
                 }
+				
+
                 row = 1;
                 howmanyleft = 0;
                 push = 0;
@@ -334,7 +346,7 @@
 
 
 
-                               this.markers(x, y, Toggle, Action, requirement);
+                              this.markers(x, y, Toggle, Action, requirement);
 
 
                         }
@@ -368,7 +380,7 @@
                     if (x >= 0 && x < GridSpot.length &&
                          y >= 0 && y < GridSpot[0].length)
                     {
-                           this.markers(x, y, Toggle, Action, requirement);
+                          if (x != CentreGrid.x) { this.markers(x, y, Toggle, Action, requirement); }
                     }
                 }
 
@@ -396,7 +408,7 @@
                         if (x >= 0 && x < GridSpot.length &&
                              y >= 0 && y < GridSpot[0].length)
                         {
-                               this.markers(x, y, Toggle, Action, requirement);
+                              this.markers(x, y, Toggle, Action, requirement); 
 
                         }
                         howmanyleft--;

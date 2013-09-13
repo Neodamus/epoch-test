@@ -282,7 +282,7 @@
 		context.restore();
 		//Display Unit Buffs
 		for (var i = 0; i < this.currentUnit.buffList.length; i++) { //may need reworking
-		/*if (this.currentBuffs[i].customValue[0] != null) { */this.currentBuffs[i].draw();//}
+		if (this.currentBuffs.length > i) { this.currentBuffs[i].draw(); }
 		} }
 		
 		

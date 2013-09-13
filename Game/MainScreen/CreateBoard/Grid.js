@@ -23,15 +23,19 @@
 	  }
 	  
 	  //tilemod
-	  Grid.prototype.tileModifiers = function(procedure)
+	  Grid.prototype.tileModifiers = function(modifier, procedure)
 	  {
-		if (this.currentUnit != null) { 
 		
-			for (var i = 0; i < this.tileBuffList.length; i++){
+	  
+		if (this.currentUnit != null) { 
 			
-				this.tileBuffList[i].eventProc(procedure, this.currentUnit);
+			if (modifier == "all") { for (var i = 0; i < this.tileBuffList.length; i++) { this.tileBuffList[i].eventProc(procedure, this.currentUnit); } }
+		
+			if (modifier != "all") {
+			var add = listReturnArray(this.tileBuffList, modifier);
+			if (add != -1) { this.tileBuffList[add].eventProc(procedure, this.currentUnit); } } 
+			
 			}
-		}
 	  }
 	  
 	   Grid.prototype.visibleCheck = function()
@@ -89,6 +93,10 @@
 		
 		context.globalAlpha = 1;
 		
+		if (this.tileBuffList.length > 0) { 
+		context.save(); context.globalAlpha = 0.2;
+		context.drawImage( Images[11],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
+		context.restore();}
 		
 		context.save();
 		context.font = '10px outline';
