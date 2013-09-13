@@ -123,7 +123,7 @@
 			Instructions.push(Toggle); Instructions.push(this.genericGridList);
 			aura.affectedTiles(Instructions);
 	   }
-	  
+		
 	   Unit.prototype.abilityMarkers = function(Toggle, range)
 	   {
 			this.AreaSelect("ability", GridSpot[this.x][this.y], range, Toggle, "");

@@ -105,7 +105,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 
 
 
-ability.prototype.targetCast = function(targetSpot) // if finished returns true, send it off to server, if not... wait for another click?
+ability.prototype.targetCast = function(targetSpot) //if finished returns true, send it off to server, if not... wait for another click?
 {	
 
      var customValue = this.abilityStats(this.abilityName);

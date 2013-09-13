@@ -13,6 +13,8 @@
 		this.attackMarker = false;
 		this.abilityMarker = false;
 		
+		this.spawnMarker = false;
+		
 		this.tileBuffList = new Array(); //Contains tile modifiers(auras included)
 		
 		this.visible = false;
@@ -83,6 +85,9 @@
 		{
 			context.drawImage(Images[7],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		}
+		
+		
+		if (this.spawnMarker == true) { context.drawImage( Images[5],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		
 		if (this.abilityMarker == true) { context.drawImage( Images[9],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		context.globalAlpha = 0.65;

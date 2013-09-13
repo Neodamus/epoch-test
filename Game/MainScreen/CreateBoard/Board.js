@@ -25,6 +25,17 @@
 		
 		combatLog.push("Game Board was created.");
 		Screen = "GameBoard";
+		
+		//spawnzone ------------------------------
+		var x = 0; var y = 0; for (var i = 0; i < GridSpot[0].length * GridSpot.length; i++) {
+		//if host do this
+		if (y == 0 || y == 1) { GridSpot[x][y].spawnMarker = true; }
+		
+		//if joiner do
+		if (y == GridSpot[0].length - 1 || y == GridSpot[0].length - 2) {  GridSpot[x][y].spawnMarker = true; }
+		
+		x++; if (x == GridSpot.length) { x = 0; y++;} }
+		//spawnzone ------------------------------
 	  }
 	  
 	  
@@ -307,7 +318,7 @@
 					sendPacket2("removeBoardUnit", RemoveUnitArray); }
 
 					CurrentTarget.currentUnit.Delete();
-					
+					if (gameType == "normal") { CurrentTarget.spawnMarker = true; }
 					return;
 				  } } } }
 			if (this.gameType == "sandbox" && CurrentTarget.currentUnit != null) { CurrentTarget.currentUnit.Delete(); return; } //Sandbox
@@ -323,6 +334,8 @@
 				
 				if (Ui.unitPicks == null) { var name = Ui.SelectedUnit.customValue[0]; } //sandbox
 				
+				if (CurrentTarget != null && CurrentTarget.spawnMarker == true || this.gameType == "sandbox")
+					{
 				//send data
 				var CreateUnitArray = new Array("ally", name, CurrentTarget.x, CurrentTarget.y, Ui.SelectedUnit.customValue[0], Ui.SelectedUnit.customValue[1]);
 				if (this.gameType == "normal") { sendPacket2("createUnit", CreateUnitArray); }
@@ -333,8 +346,11 @@
 				Ui.SelectedUnit.customValue[0] = null; 
 				Ui.SelectedUnit.clicked = false; Ui.SelectedUnit = null; }
 				
+				if (gameType == "normal") { CurrentTarget.spawnMarker = false; }
+				
 				if (CurrentSelectedGrid != undefined || CurrentSelectedGrid != null){
 				CurrentSelectedGrid.Select("off");}
+					}
 				}
 				return;
 			}
