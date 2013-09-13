@@ -27,6 +27,7 @@
 		Screen = "GameBoard";
 		
 		//spawnzone ------------------------------
+		if (gameType == "normal") {
 		var x = 0; var y = 0; for (var i = 0; i < GridSpot[0].length * GridSpot.length; i++) {
 		//if host do this
 		if (y == 0 || y == 1) { GridSpot[x][y].spawnMarker = true; }
@@ -34,7 +35,7 @@
 		//if joiner do
 		if (y == GridSpot[0].length - 1 || y == GridSpot[0].length - 2) {  GridSpot[x][y].spawnMarker = true; }
 		
-		x++; if (x == GridSpot.length) { x = 0; y++;} }
+		x++; if (x == GridSpot.length) { x = 0; y++;} } }
 		//spawnzone ------------------------------
 	  }
 	  
