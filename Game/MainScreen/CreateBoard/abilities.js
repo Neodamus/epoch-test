@@ -262,7 +262,7 @@ ability.prototype.AreaSelect = function(CentreGrid, Radius)
                     if (x >= 0 && x < GridSpot.length &&
                          y >= 0 && y < GridSpot[0].length)
                     {
-                           this.markers(x, y, Toggle, Action, requirement);
+                             if (x != CentreGrid.x) { this.markers(x, y, Toggle, Action, requirement); }
                     }
                 }
 

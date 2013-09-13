@@ -154,8 +154,8 @@
 	   Unit.prototype.Delete = function() //deletes unit
 	   {
 		  GridSpot[this.x][this.y].Select("off");
-		  
-		  for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("off", this.auras[i]);}
+		  var instruct = new Array(); instruct.push("off");
+		  for (var i = 0; i < this.auras.length; i++) { this.auras[i].affectedTiles(instruct); }
 		  this.AreaSelect("vision", GridSpot[this.x][this.y],  this.currentStats[5], "off", "")
 		  GridSpot[this.x][this.y].currentUnit = null;
 		  GameBoard.removeUnitFromList(this);

@@ -67,9 +67,10 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 		
 		case "remove": //if aura is removed from unit...
 			var unitIsWithinAura = false;
+			if (this.tileList != null) {
 		    for (var i = 0; i < this.tileList.length; i++) {
 			if (currentUnit.x == this.tileList[i].x && currentUnit.y == this.tileList[i].y)
-			{ unitIsWithinAura = true; break; } }
+			{ unitIsWithinAura = true; break; } } }
 			
 			if (unitIsWithinAura == false) {    // <---------------- THIS IS IF THE AURA HAS NO BUFF COOLDOWN?? IDK LOOK AT THIS.
 				var rem = listReturnArray(currentUnit.currentTileMods, this);
@@ -82,10 +83,7 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 				}
 				
 		break;
-		//var rem = listReturnArray(currentUnit.buffList, 
-		//this.buffList[i].eventProc("Turn");
-		//if buff on unit is only supposed to be on if it contains aura... remove buff here.
-		//other possible cases:     move but already has aura...
+		
 	}
 
 }
@@ -137,12 +135,20 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 			//uncompleted- passover
 		case "off":
 			//remove from all tiles...
-			for (var i = 0; i < this.tileList.length; i++) {
-			this.tileList[i].tileModifiers(this, "remove");
-			var rem = listReturnArray(this.tileList[i].tileBuffList, this);
-			if (rem != -1) { this.tileList[i].tileBuffList.splice(rem, 1); } } // remove tile effects from each grid -
-			break;
+			var oldUnitList = new Array();
+			for (var i = 0; i < this.tileList.length; i++) { 
 			
+				this.tileList[i].tileModifiers(this, "remove");
+				if (this.tileList[i].currentUnit != null) { oldUnitList.push(this.tileList[i].currentUnit); }
+				
+				var rem = listReturnArray(this.tileList[i].tileBuffList, this);
+				if (rem != -1) { this.tileList[i].tileBuffList.splice(rem, 1); } }
+			
+			this.tileList = null;
+			for (var i = 0; i < oldUnitList.length; i++) {  this.eventProc("remove", oldUnitList[i]); }//remove from units
+			
+			break;
+		/*	
 		case "delete":
 			//removes aura from unit... (recommended that you use this."off" first.)
 			var rem = listReturnArray(this.sourceUnit.auras, this);
@@ -151,7 +157,7 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 			
 		case "add":
 			//adds aura to unit(this is not the aura effect, this is giving the unit the origin aura...
-			this.sourceUnit.auras.push(this);
+			this.sourceUnit.auras.push(this);*/
 	}
 }
 
