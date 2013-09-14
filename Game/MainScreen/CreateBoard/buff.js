@@ -205,8 +205,7 @@
 						
 						break;
 				}   
-			break;	
-					
+			break;					
 				
 			case "Torch":
 				switch(Procedure){

@@ -138,7 +138,10 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			finished = false;
 			break;
 			
-		case "Sprint":
+		case "Second Wind":
+			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			finished = true;
+			break;
 		
 		case "Torch":
 			//sourceUnit apply range
