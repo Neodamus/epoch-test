@@ -75,6 +75,7 @@
 			
 			this.currentStats[9] = this.baseStats[9] + this.buffStats[9]; //#defends
 			
+			this.currentStats[2] = this.baseStats[2] + this.buffStats[2]; // damage
 		 }
 		 
 		 
@@ -210,7 +211,7 @@
 		{
 		console.warn("Attacking unit.");
 		this.Select("off");
-		var damage = this.currentStats[2] + this.buffStats[2];
+		var damage = this.currentStats[2];
 		
 		//send damage variable to "On Attack buffs" for this unit
 		

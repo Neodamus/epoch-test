@@ -143,7 +143,8 @@
 						
 						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list
 						
-						this.attachedUnit.buffStats[2] += this.customValue[3]			
+						this.attachedUnit.buffStats[2] += this.customValue[3];	
+						
 						
 						break;
 				
@@ -163,7 +164,7 @@
 						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
 						this.attachedUnit.buffList.splice(removeArray, 1); 
 						
-						this.attachedUnit.buffStats[2] = 0;
+						this.attachedUnit.buffStats[2] -= this.customValue[3];	
 						
 						break;
 				}   
@@ -190,7 +191,6 @@
 						case "Removal":
 					removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
 					this.attachedUnit.buffList.splice(removeArray, 1); 
-					this.attachedUnit.buffStats[7] -= this.customValue[4];
 					break;
 				}   
 				break;
@@ -240,8 +240,7 @@
 						
 						this.attachedUnit.buffList.push(this);
 						this.attachedUnit.buffStats[8] += this.customValue[4];  //this sets where the attack# is reset to... because resetting is currentStats = baseStats + buffStats;
-						
-						this.attachedUnit.currentStats[8] += this.customValue[4]; //setting this will give the unit current stats that can be used this turn.
+						//setting this will give the unit current stats that can be used this turn.
 						
 						break;
 				
@@ -262,5 +261,7 @@
 				}   
 			break;			
 		}
+		
+		if (this.attachedUnit.currentStats != null) { this.attachedUnit.resetStats(); }
 	}
 
