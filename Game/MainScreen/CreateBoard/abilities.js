@@ -36,6 +36,7 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[2] = false;		// stacks
 					customValue[3] = 3;			// attack increase
 					customValue[4] = 4;			// cast range
+					return customValue;
 					
 		case "Panic Aura": 
 					customValue[0] = 3; 		//MaxTime (buff)
