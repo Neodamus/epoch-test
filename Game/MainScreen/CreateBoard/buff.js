@@ -152,7 +152,7 @@
 				
 					case "Turn":
 					
-						this.attachedUnit.currentStats[1] -= this.buffStats.damage;
+						this.attachedUnit.receivePureDamage(this.buffStats.damage, "Poison Tips")
 						
 						this.buffStats.duration--; //reduce buff time;  
 						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
@@ -326,7 +326,39 @@
 					
 						break;
 				}   
-			break;			
+			break;
+			
+			case "Wound":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+					
+						this.buffStats = JSON.parse(JSON.stringify(ability.abilityStats(this.buffType)))
+						
+						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list	
+						
+						this.attachedUnit.buffStats[4] += this.buffStats.speed				
+						
+						break;
+				
+					case "Turn":
+					
+						this.buffStats.duration--; //reduce buff time;  
+						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+						
+						break;
+					
+					case "Removal":
+					
+						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+						this.attachedUnit.buffList.splice(removeArray, 1);
+						
+						this.attachedUnit.buffStats[4] -= this.buffStats.speed	 	
+						
+						break;
+				}   
+			break;				
 		}
 		
 		if (this.attachedUnit.currentStats != null) { this.attachedUnit.resetStats(); }

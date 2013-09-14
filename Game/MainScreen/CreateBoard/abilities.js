@@ -51,14 +51,14 @@ ability.prototype.abilityStats = function(abilityName)
 					
 		case "Poison Tips":
 		
-					customValue = {
-						duration: 3,
-						visibility: "both",
-						stacks: false,
-						damage: 1
-					}
-					
-					return customValue;	
+			stats = {
+				duration: 3,
+				visibility: "both",
+				stacks: false,
+				damage: 1
+			}
+			
+			return stats;	
 					
 		case "Second Wind":
 					customValue[0] = 1;			// duration
@@ -94,7 +94,19 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[3] = false;      //Does it stack?
 					customValue[4] = 2; 		// additional attacks
 					customValue[5] = 0;			//cast range
-					return customValue; 			
+					return customValue; 
+					
+		case "Wound":
+		
+			stats = {
+				duration: 3,
+				visibility: "both",
+				stacks: false,
+				speed: -2,
+				range: 4
+			}
+			
+			return stats;				
 
   return null; } }
 //cast time??,
@@ -166,6 +178,10 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			   finished = false;
 			break;	
 		
+		case "Wound":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;
+			break;
 	}
 	
 	return finished; //require another click
@@ -228,6 +244,16 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			finished = true;
 			}
 			else { this.sourceUnit.abilityMarkers("off", customValue[5]); finished = false; Ui.abilityClickOff(); }
+			break;	
+			
+		case "Wound":
+			//apply affect to target
+			if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){
+			var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
+			this.sourceUnit.abilityMarkers("off", customValue.range);
+			finished = true;
+			}
+			else { this.sourceUnit.abilityMarkers("off", customValue.range); finished = false; Ui.abilityClickOff(); }
 			break;	
 	}
 	if (finished == null) { this.removeMarkers(); }
