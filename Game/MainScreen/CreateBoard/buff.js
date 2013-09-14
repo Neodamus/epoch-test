@@ -158,13 +158,15 @@
 					case "Attack":
 					
 						this.eventProc("Removal");
+						
+						break;
 					
 					case "Removal":
 					
 						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
 						this.attachedUnit.buffList.splice(removeArray, 1); 
 						
-						this.attachedUnit.buffStats[2] -= this.customValue[3];	
+						this.attachedUnit.buffStats[2] -=  this.customValue[3];		
 						
 						break;
 				}   

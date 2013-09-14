@@ -117,7 +117,7 @@
 		
 		//Attack Action		
 		if (CurrentSelectedGrid != null && CurrentTarget != null && CurrentTarget.currentUnit != null &&
-		CurrentSelectedGrid.currentUnit != null && CurrentSelectedGrid != CurrentTarget && CurrentTarget.attackMarker == true && CurrentSelectedGrid.currentUnit.alliance == "ally")
+		CurrentSelectedGrid.currentUnit != null && CurrentSelectedGrid != CurrentTarget) // && CurrentTarget.attackMarker == true && CurrentSelectedGrid.currentUnit.alliance == "ally")
 		{
 			instructions = new Array("attack", CurrentSelectedGrid.x, CurrentSelectedGrid.y, CurrentTarget.x, CurrentTarget.y); this.sendUnitInstruction(instructions);
 			
