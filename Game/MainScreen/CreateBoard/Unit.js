@@ -174,7 +174,17 @@
 	  //
 	  //used by AreaSelect to place movement Markers
 	  
-	  
+	  Unit.prototype.receivePureDamage = function(damage, from)
+	  {
+		
+		this.currentStats[1] -= damage;
+		if (this.currentStats[1] <= 0){
+		
+		combatLog.push(this.baseStats[0] + " has died.");
+		this.Delete(); //Removes unit selection/vision & splices from Teamlist arrays
+		}
+		
+	  }
 	  
 	  
 	   Unit.prototype.receivePhysicalDamage = function(damage, attackerUnit)

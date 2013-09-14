@@ -216,7 +216,7 @@
 			x++; if (x == abilitiesPerRow) { y++; x = 0; } }
 		
 		//Buffs			
-		var numberOfBuffs = 10;
+		var numberOfBuffs = 30;
 	    this.currentBuffs = new Array(numberOfBuffs);
 		
 		var x = 0; var y = 0;
