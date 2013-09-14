@@ -2,6 +2,7 @@
  function newBuff(buff, targetUnit, source)
 	  {
 		this.buffType = buff;
+		this.buffStats			// holds buffstats object
 		this.attachedUnit = targetUnit;
 		this.sourceUnit = source;
 		this.customValue = new Array(8);
@@ -136,6 +137,36 @@
 					break;
 				}   
 				break;
+				
+			case "Poison Tips":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+					
+						this.buffStats = JSON.parse(JSON.stringify(ability.abilityStats(this.buffType)))
+						
+						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list					
+						
+						break;
+				
+					case "Turn":
+					
+						this.attachedUnit.currentStats[1] -= this.buffStats.damage;
+						
+						this.buffStats.duration--; //reduce buff time;  
+						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+						
+						break;
+					
+					case "Removal":
+					
+						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+						this.attachedUnit.buffList.splice(removeArray, 1); 	
+						
+						break;
+				}   
+			break;	
 				
 			case "Precision": 
 			

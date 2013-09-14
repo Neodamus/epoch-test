@@ -212,7 +212,7 @@ var Ranger = new Array(
 "0",      //reveal
 "1",      //#attack
 "1",      //#defend
-"17",      //onAttackAbility
+"Poison Tips",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
 "Bark Armor, Poison Tips",   //ability

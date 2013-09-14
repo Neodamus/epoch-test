@@ -49,6 +49,17 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[7] = "enemy"    //alliance that aura gets applied to, compared to sourceUnit (aura)
 					return customValue; 
 					
+		case "Poison Tips":
+		
+					customValue = {
+						duration: 3,
+						visibility: "both",
+						stacks: false,
+						damage: 1
+					}
+					
+					return customValue;	
+					
 		case "Second Wind":
 					customValue[0] = 1;			// duration
 					customValue[1] = "both";	// buff visibility
