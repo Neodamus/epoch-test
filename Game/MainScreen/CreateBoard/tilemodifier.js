@@ -53,7 +53,7 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 		 //if it is added....
 		if (listContains(currentUnit.currentTileMods, this) == false) {
 		currentUnit.currentTileMods.push(this);
-		var buffIt = new newBuff("Panic Aura", currentUnit, this.sourceUnit); 
+		var buffIt = new newBuff("Panic Aura", currentUnit, this.sourceUnit); //change source unit to  "this"
 		}
 		break;
 		

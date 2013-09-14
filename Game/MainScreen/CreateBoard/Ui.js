@@ -296,9 +296,9 @@
 		
 		for (var i = 0; i < this.currentUnit.buffList.length; i++) { //may need reworking
 		if (this.currentBuffs.length > i) { this.currentBuffs[i].draw();
-			context.font = '8px Arial';
+			context.font = '7px Arial';
 		context.fillStyle = "White";
-			context.fillText(this.currentUnit.buffList[i].buffType, this.currentBuffs[i].x, this.currentBuffs[i].y + 8);
+			context.fillText(this.currentUnit.buffList[i].buffType, this.currentBuffs[i].x, this.currentBuffs[i].y + 8 + ((i % 4) * 5));
 		}
 		} }
 		

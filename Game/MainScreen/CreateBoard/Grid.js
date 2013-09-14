@@ -100,7 +100,7 @@
 		
 		if (this.tileBuffList.length > 0) { 
 		context.save(); context.globalAlpha = 0.2;
-		context.drawImage( Images[11],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
+		context.drawImage( Images[10],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		context.restore();}
 		
 		context.save();

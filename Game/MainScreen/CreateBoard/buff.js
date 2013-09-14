@@ -40,9 +40,10 @@
 						//this.procList.push("Removal"); //the purpose of them was to make the code do less work by checking the procList for what proc actions should be checked. Dont worry about adding them
 						
 						this.attachedUnit.buffList.push(this);
+						
 						this.attachedUnit.sight("off"); //refresh sight off
 						
-						this.subtractedVision = this.attachedUnit.currentStats[5] - 1; //because the removed sight number is dynamic, we need to make a new variable, used in removal*
+						this.subtractedVision = (this.attachedUnit.baseStats[5] + this.attachedUnit.buffStats[5]) - 1; //because the removed sight number is dynamic, we need to make a new variable, used in removal*
 						
 						this.attachedUnit.buffStats[5] -= (this.subtractedVision); 
 						
@@ -66,8 +67,11 @@
 					
 						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
 						this.attachedUnit.buffList.splice(removeArray, 1); 
+						
+						this.attachedUnit.sight("off");
 						this.attachedUnit.buffStats[5] += this.subtractedVision;
-					
+						this.attachedUnit.sight("on");
+						
 						break;
 				}   
 			break;
