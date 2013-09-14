@@ -2,8 +2,8 @@ function lobby() {
 
 	this.id = "lobby"
 
-	this.canvas = document.getElementById('Mycanvas')
-    this.context = this.canvas.getContext('2d')
+	this.canvas = _.canvas
+    this.context = _.context
 	
 	this.lobbyWidth = Math.floor(this.canvas.width)
 	this.lobbyHeight = Math.floor(this.canvas.height)
@@ -13,7 +13,7 @@ function lobby() {
 	
 	this.createGame = new Rectangle(this.lobbyWidth * 0.5, this.lobbyHeight * 0.43, this.lobbyWidth * 0.2, this.lobbyHeight * 0.04);
 	this.createGame.setText("Create", "#fff", this.createGame.x + this.createGame.width * 0.35, this.createGame.y + this.createGame.height * 0.7);
-	this.createGame.clickfxn = function() { UnitSelection = new SelectionScreen(); currentScreen = UnitSelection; sendPacket("createRoom"); }
+	this.createGame.clickfxn = function() { UnitSelection = new SelectionScreen(); _.currentMode = UnitSelection; sendPacket("createRoom"); }
 	
 	// games list
 	this.gamesList = new textBox(this.lobbyWidth * 0.05, this.lobbyHeight * 0.1, this.lobbyWidth * 0.7, this.lobbyHeight * 0.3)
@@ -80,7 +80,7 @@ function lobbyKeyDown(key) {
 	
 	// alert(key.keyCode)
 	
-	var chatBar = currentScreen.chatBar
+	var chatBar = _.currentMode.chatBar
 	var specials = [ 192, 173, 61, 219, 220, 221, 59, 222, 188, 190, 191 ]
 	
 	if (chatBar.active) {	
@@ -174,7 +174,7 @@ function lobbyKeyDown(key) {
 	if (key.keyCode == 27) {
 			
 			key.preventDefault()
-			currentScreen = new CreateMenus(document.getElementById('Mycanvas').width, document.getElementById('Mycanvas').height)
+			_.currentMode = new CreateMenus(document.getElementById('Mycanvas').width, document.getElementById('Mycanvas').height)
 			
 	}	
 	
@@ -189,7 +189,7 @@ function lobbyKeyDown(key) {
 
 function lobbyClick() {
 	
-	var lobby = currentScreen
+	var lobby = _.currentMode
 	
 	var gamesList = lobby.gamesList
 	var joinGame = lobby.joinGame
@@ -266,7 +266,7 @@ function lobbyClick() {
 	// create game
 	if (createGame.Contains(Mouse)) {
 		
-		createGame.clicked();	
+		createGame.clickfxn();	
 		
 	}
 }
@@ -595,7 +595,7 @@ login.prototype.draw = function() {
 
 function loginClick() {
 
-	var login = currentScreen	
+	var login = _.currentMode	
 	var input = login.loginInput
 	
 	if (input.containsClick()) {
@@ -612,7 +612,7 @@ function loginClick() {
 
 function loginKeydown(e) {
 
-	var login = currentScreen
+	var login = _.currentMode
 	var input = login.loginInput
 	
 	if (input.active) {	
@@ -646,7 +646,7 @@ function loginKeydown(e) {
 
 function loginEnter() {
 
-	var login = currentScreen
+	var login = _.currentMode
 	var input = login.loginInput
 	
 	if (login.loginButton.Contains(Mouse)) {
@@ -657,7 +657,7 @@ function loginEnter() {
 			_.userName = localStorage.epochLogin
 			sendPacket2("loginRequest", _.userName)
 			
-			currentScreen = new CreateMenus(document.getElementById('Mycanvas').width, document.getElementById('Mycanvas').height)		
+			_.currentMode = new CreateMenus(document.getElementById('Mycanvas').width, document.getElementById('Mycanvas').height)		
 			
 		} else {
 			

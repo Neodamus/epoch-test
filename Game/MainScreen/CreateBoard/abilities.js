@@ -11,6 +11,16 @@ ability.prototype.abilityStats = function(abilityName)
 {
   var customValue = new Array(8);
   switch(abilityName){
+	  
+	  	case "Blind": // Infiltrator -N
+					customValue[0] = 3; 		// MaxTime
+					customValue[1] = 3; 		// CurrentTime
+					customValue[2] = "both";    // buff visibility
+					customValue[3] = false;     // stacks
+					customValue[4] = 1; 		// sight range
+					customValue[5] = 3;			// cast range
+					return customValue; 
+	  
 		case "Engulf": 
 					customValue[0] = 3; 		//MaxTime
 					customValue[1] = 3; 		//CurrentTime
@@ -49,6 +59,15 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[4] = 2; 		//life per turn
 					customValue[5] = 5;			//cast range
 					customValue[6] = "local sight"//requirements for casting (note: sight is local to the unit, other unit's sight cannot be used)
+					return customValue; 
+					
+		case "Rapid Strikes": // Charger -N
+					customValue[0] = 3; 		//MaxTime
+					customValue[1] = 3; 		//CurrentTime
+					customValue[2] = "both";    //buff visibility
+					customValue[3] = false;      //Does it stack?
+					customValue[4] = 2; 		// additional attacks
+					customValue[5] = 0;			//cast range
 					return customValue; 			
 
   return null; } }
@@ -119,7 +138,8 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	
 	
 	if (listContains(this.twoTargetList, this.abilityName) == true) { return false; }
-	switch(this.abilityName){
+	switch(this.abilityName){	
+			
 		case "Torch":
 			//apply affect to target
 			if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){

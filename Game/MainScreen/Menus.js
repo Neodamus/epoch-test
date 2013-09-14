@@ -57,18 +57,18 @@ function CreateMenus(Width, Height) {
 			
 			case "logout":
 			localStorage.clear()
-			currentScreen = new login()
-			currentScreen.loginInput.text = "Guest"
+			_.currentMode = new login()
+			_.currentMode.loginInput.text = "Guest"
 			_.connectionStatus = 1  
 			break;
 			
 			case "sandbox":
-			//currentScreen = new SelectionScreen(); sendPacket("createRoom"); UnitSelection = currentScreen;
-			GameBoard = new Board("sandbox"); currentScreen.id = "";
+			//_.currentMode = new SelectionScreen(); sendPacket("createRoom"); UnitSelection = _.currentMode;
+			GameBoard = new Board("sandbox"); _.currentMode.id = "";
 			break;
 			
 			case "browse":
-			currentScreen = new lobby(); Screen = "lobby";
+			_.currentMode = new lobby(); Screen = "lobby";
 			break;
 			
 			case "quick":

@@ -14,8 +14,6 @@
 	 
 	 var ClientsTurn = false;
 	 
-	 var currentScreen
-	 
 	 
 	 
 	 //public Classes
@@ -158,10 +156,10 @@
 			
         }
 			
-		switch (currentScreen.id) { 
+		switch (_.currentMode.id) { 
 		
 			case "menus":
-				currentScreen.mousePosition(Mouse)
+				_.currentMode.mousePosition(Mouse)
 				break
 				
 		}
@@ -179,7 +177,7 @@
 			
         }
 		
-		switch(currentScreen.id) {
+		switch(_.currentMode.id) {
 			
 			case "lobby":
 				lobbyClick()
@@ -191,7 +189,7 @@
 				break
 				
 			case "menus":
-				currentScreen.ClickisWithin(Mouse)
+				_.currentMode.ClickisWithin(Mouse)
 				break
 		
 		}
@@ -217,7 +215,7 @@
 				
 		}
 		
-		switch(currentScreen.id) {
+		switch(_.currentMode.id) {
 		
 			case "login": 
 			
@@ -342,18 +340,18 @@
 			case "GameBoard": GameBoard.Draw(context, canvas); break;
 		}
 		
-		switch (currentScreen.id) {
+		switch (_.currentMode.id) {
 			
 			case "lobby": 
-				currentScreen.draw();
+				_.currentMode.draw();
 				break;
 			
 			case "login":
-				currentScreen.draw();
+				_.currentMode.draw();
 				break;
 				
 			case "menus":
-				currentScreen.Draw();
+				_.currentMode.Draw();
 				break;
 				
 			case "blank":

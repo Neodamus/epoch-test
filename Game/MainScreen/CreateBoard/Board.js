@@ -27,7 +27,7 @@
 		Screen = "GameBoard";
 		
 		//spawnzone ------------------------------
-		if (gameType == "normal") {
+		if (this.gameType == "normal") {
 		var x = 0; var y = 0; for (var i = 0; i < GridSpot[0].length * GridSpot.length; i++) {
 		//if host do this
 		if (y == 0 || y == 1) { GridSpot[x][y].spawnMarker = true; }
@@ -101,6 +101,8 @@
 	  {
 	  
 	     var instructions;
+		 		 
+		if (WhichClick == "2") {
 	
 		//Movement Action
 		if (CurrentSelectedGrid != null && CurrentTarget != null && CurrentTarget.moveMarker == true && CurrentTarget.currentUnit == null)
@@ -113,7 +115,7 @@
 			
 			return;}
 		
-		//Attack Action
+		//Attack Action		
 		if (CurrentSelectedGrid != null && CurrentTarget != null && CurrentTarget.currentUnit != null &&
 		CurrentSelectedGrid.currentUnit != null && CurrentSelectedGrid != CurrentTarget && CurrentTarget.attackMarker == true && CurrentSelectedGrid.currentUnit.alliance == "ally")
 		{
@@ -125,6 +127,7 @@
 		   //send instructions
 		    
 			return;}
+		}
 		
 		
 		
@@ -319,7 +322,7 @@
 					sendPacket2("removeBoardUnit", RemoveUnitArray); }
 
 					CurrentTarget.currentUnit.Delete();
-					if (gameType == "normal") { CurrentTarget.spawnMarker = true; }
+					if (this.gameType == "normal") { CurrentTarget.spawnMarker = true; }
 					return;
 				  } } } }
 			if (this.gameType == "sandbox" && CurrentTarget.currentUnit != null) { CurrentTarget.currentUnit.Delete(); return; } //Sandbox
@@ -347,7 +350,7 @@
 				Ui.SelectedUnit.customValue[0] = null; 
 				Ui.SelectedUnit.clicked = false; Ui.SelectedUnit = null; }
 				
-				if (gameType == "normal") { CurrentTarget.spawnMarker = false; }
+				if (this.gameType == "normal") { CurrentTarget.spawnMarker = false; }
 				
 				if (CurrentSelectedGrid != undefined || CurrentSelectedGrid != null){
 				CurrentSelectedGrid.Select("off");}

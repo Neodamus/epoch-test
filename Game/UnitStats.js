@@ -251,7 +251,7 @@ var Charger = new Array(
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
-"Multiple Attacks",   //ability
+"Rapid Strikes",   //ability
 "Lightning"	//element
 );
  

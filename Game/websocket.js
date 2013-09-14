@@ -25,13 +25,13 @@ function startSocket() {
 		
 		if (_.userName == null) {
 			
-			currentScreen = new login()
+			_.currentMode = new login()
 			_.userName = "Guest"
-			currentScreen.loginInput.text = _.userName
+			_.currentMode.loginInput.text = _.userName
 			
 		} else {		
 			
-			currentScreen = new CreateMenus(document.getElementById('Mycanvas').width, document.getElementById('Mycanvas').height)
+			_.currentMode = new CreateMenus(document.getElementById('Mycanvas').width, document.getElementById('Mycanvas').height)
 			sendPacket2("loginRequest", _.userName)
 			_.connectionStatus = 2			
 			
@@ -87,11 +87,12 @@ function messageHandler(message) {
 		
 		case "createRoom":
 			UnitSelection = new SelectionScreen()
-			currentScreen = UnitSelection
+			_.currentMode = UnitSelection
+			_.currentMode.waiting = true
 			break
 			
 		case "playerJoin":
-			alert("Player joined your room");
+			_.currentMode.waiting = false
 			ClientsTurn = true;
 			sendPacket("joinSuccess");
 			break;
@@ -100,11 +101,11 @@ function messageHandler(message) {
 			UnitSelection = new SelectionScreen();
 			UnitSelection.pickIndex = 1;
 			UnitSelection.pickCount = UnitSelection.pickOrder[UnitSelection.pickIndex];
-			currentScreen = UnitSelection;
+			_.currentMode = UnitSelection;
 			break;
 					
 		case "getUsers":
-			currentScreen.numUsers = data
+			_.currentMode.numUsers = data
 			break
 			
 		case "selectUnit":
@@ -129,9 +130,9 @@ function messageHandler(message) {
 			
 		case "getGamesList":
 		
-			if (currentScreen.id == "lobby") {
+			if (_.currentMode.id == "lobby") {
 				
-				currentScreen.gamesList.inputObject(data)		
+				_.currentMode.gamesList.inputObject(data)		
 				setTimeout(gamesListRequest, 1000)
 			  
 			}
@@ -140,11 +141,11 @@ function messageHandler(message) {
 			
 		case "getUsersList":		
 		
-			if (currentScreen.id == "lobby") {			
+			if (_.currentMode.id == "lobby") {			
 				
-				currentScreen.numUsers = data.length
+				_.currentMode.numUsers = data.length
 				
-				currentScreen.connectedUsersList.inputObject(data)		
+				_.currentMode.connectedUsersList.inputObject(data)		
 				setTimeout(sendPacket("getUsersList"), 1000)
 			  
 			}
@@ -153,12 +154,12 @@ function messageHandler(message) {
 			
 		case "getChat":
 		
-			switch (currentScreen.id) {
+			switch (_.currentMode.id) {
 			
 				case "lobby":
 				
-					currentScreen.chatRoom.inputObject(data)
-					currentScreen.chatRoom.scrollToLastRow()
+					_.currentMode.chatRoom.inputObject(data)
+					_.currentMode.chatRoom.scrollToLastRow()
 					
 					break	
 				
@@ -185,22 +186,10 @@ function messageHandler(message) {
 	
 }
 
-// deprecated 09/04/13
-/* function getUsersRequest() {
-	var p = new game_packet("getUsers")
-	socket.send(JSON.stringify(p))
-} */
-
 function gamesListRequest() {
 	var p = new game_packet("getGamesList")
 	socket.send(JSON.stringify(p))	
 }
-
-// deprecated 09/04/13
-/* function createRoomRequest() {	
-	var p = new game_packet("createRoom")
-	socket.send(JSON.stringify(p))
-} */
 
 function joinRoomRequest(room) {
 	var p = new game_packet("joinRoom", 0)

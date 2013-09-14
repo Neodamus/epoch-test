@@ -136,11 +136,11 @@
 			return; }
 			
 		// End placement box
-		/*if (this.unitUiBox != 'undefined' && this.unitUiBox != null && this.finishPlacementBox.Contains(Mouse) == true) {
+		if (this.unitUiBox != 'undefined' && this.unitUiBox != null && this.finishPlacementBox.Contains(Mouse) == true) {
 			PlacementStage = false; this.unitUiBox.x = -500; //temporary moving of sidebar
 			ClientsTurn = false;
-			sendPacket("endPhase");			
-		}*/
+			sendPacket2("endPhase", "placement");			
+		}
 		 
 		 //If click is on Ui, Don't proceed to board-clicks
 		 if (this.unitUiBox != null && this.unitUiBox.Contains(Mouse) == true && PlacementStage == true || this.standardUiBox.Contains(Mouse) == true){ 
@@ -299,9 +299,14 @@
 		context.drawImage(Images[3], this.SelectedUnit.x, this.SelectedUnit.y, this.SelectedUnit.width, this.SelectedUnit.height); }
 		
 		//End Turn & Finished Placement Boxes
-		if (PlacementStage == false || tempBool == true) { 
+		if (PlacementStage == true && GameBoard.gameType == "normal") { 
 			context.save(); context.font = globalFont;
-			if (ClientsTurn == true) { this.finishTurnBox.draw(); }
-			if (tempBool == true) { this.finishPlacementBox.draw(); }
-			context.restore(); }
+			this.finishPlacementBox.draw();
+			context.restore();
+		} else {
+			if (ClientsTurn == true) {
+				this.finishTurnBox.draw();
+			}
 		}
+	  }
+			

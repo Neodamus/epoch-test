@@ -58,7 +58,7 @@ function globals() {
 	 
 	this.shiftKey = false 									// returns true if shift is down, false if it's up
 	 
-	this.currentMode										// holds the currentMode object (ie: lobby, board) , identified by property -> id	 
+	this.currentMode =  { id: "blank" }					// holds the currentMode object (ie: lobby, board) , identified by property -> id	 
 	
 	this.userName
 	
