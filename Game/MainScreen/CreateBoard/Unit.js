@@ -131,7 +131,7 @@
 	  
 	    Unit.prototype.sight = function(Toggle)
 	   {
-			this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5], Toggle, "");
+			this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5] + this.buffStats[5], Toggle, "");
 	   }
 	   
 	   Unit.prototype.movementMarkers = function(Toggle)
@@ -236,8 +236,10 @@
 		{
 		 //Checks for on move event in buffs
 		 
-		 
 		 this.currentStats[4] -= 1;    //minus movement cost for this unit.
+		 
+		// this.sight("off");
+		 
 		 this.Remove(); //removes unit from grid && removes sight
 		 
 		 combatLog.push(this.baseStats[0] + " has moved.");
@@ -246,15 +248,16 @@
 		 this.y = NewGridSpot.y;
 		 
 		 // make sure unit is alive before giving back vision
-		 if (this.alliance == "ally" && this.currentStats[1] > 0){
-		 this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5], "on", "") }
-		 for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("move", this.auras[i]); } //move all aura origins
+			if (this.alliance == "ally" && this.currentStats[1] > 0){
 		 
-		 for (var i = 0; i < this.currentTileMods.length; i++) {  this.currentTileMods[i].eventProc("remove", this); }
+			this.sight("on");
 		 
-		 NewGridSpot.tileModifiers("all", "move"); //get new tile modifiers
+			for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("move", this.auras[i]); } //move all aura origins
 		 
+			for (var i = 0; i < this.currentTileMods.length; i++) {  this.currentTileMods[i].eventProc("remove", this); }
 		 
+			NewGridSpot.tileModifiers("all", "move"); //get new tile modifiers
+			}
 		 }
 	  }
 	  

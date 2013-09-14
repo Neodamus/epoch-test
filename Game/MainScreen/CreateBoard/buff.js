@@ -35,13 +35,24 @@
 						var buffStats = ability.abilityStats(this.buffType); 
 						for (var i = 0; i < buffStats.length; i++) { this.customValue[i] = buffStats[i]; }
 						
-						this.procList.push("Turn"); // why 3 pushes that are always done? why are these pushes here?
-						this.procList.push("Initialize");
-						this.procList.push("Removal");
+						//this.procList.push("Turn"); // why 3 pushes that are always done? why are these pushes here?
+						//this.procList.push("Initialize"); //they don't currently do anything and i'm not sure if we will be using them.
+						//this.procList.push("Removal"); //the purpose of them was to make the code do less work by checking the procList for what proc actions should be checked. Dont worry about adding them
 						
 						this.attachedUnit.buffList.push(this);
-						this.attachedUnit.buffStats[5] = 1 - this.attachedUnit.baseStats[5];
+						this.attachedUnit.sight("off"); //refresh sight off
 						
+						this.subtractedVision = this.attachedUnit.currentStats[5] - 1; //because the removed sight number is dynamic, we need to make a new variable, used in removal*
+						
+						this.attachedUnit.buffStats[5] -= (this.subtractedVision); 
+						
+						//before you had:     this.attachedUnit.baseStats[5] = 1 - this.attachedUnit.baseStats[5];   which is a negative value
+						
+						this.attachedUnit.sight("on"); //refresh sight on
+						//an example of base stats would be, the unit's original max health was... baseStats[1]... 
+						//so if i'm trying to heal a target i would adjust currentStats[1] making sure it doesn't pass baseStats[1]
+						
+						//baseStats isn't used physically by the unit.. it's more of a tracking stat to display to the user, like damage output is: currentStat,    tooltip: (baseStat ... + buffStat)
 						break;
 				
 					case "Turn":
@@ -55,7 +66,7 @@
 					
 						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
 						this.attachedUnit.buffList.splice(removeArray, 1); 
-						this.attachedUnit.buffStats[5] = 0;
+						this.attachedUnit.buffStats[5] += this.subtractedVision;
 					
 						break;
 				}   
@@ -181,12 +192,14 @@
 						var buffStats = ability.abilityStats(this.buffType); 
 						for (var i = 0; i < buffStats.length; i++) { this.customValue[i] = buffStats[i]; }
 						
-						this.procList.push("Turn");
-						this.procList.push("Initialize");
-						this.procList.push("Removal");
+						//this.procList.push("Turn");
+						//this.procList.push("Initialize");
+						//this.procList.push("Removal");
 						
 						this.attachedUnit.buffList.push(this);
-						this.attachedUnit.buffStats[8] += this.customValue[4];
+						this.attachedUnit.buffStats[8] += this.customValue[4];  //this sets where the attack# is reset to... because resetting is currentStats = baseStats + buffStats;
+						
+						this.attachedUnit.currentStats[8] += this.customValue[4]; //setting this will give the unit current stats that can be used this turn.
 						
 						break;
 				
@@ -201,7 +214,7 @@
 					
 						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
 						this.attachedUnit.buffList.splice(removeArray, 1); 
-						this.attachedUnit.buffStats[7] -= this.customValue[4];
+						this.attachedUnit.buffStats[8] -= this.customValue[4]; // you had buffStats[7] before. which is reveal.
 					
 						break;
 				}   

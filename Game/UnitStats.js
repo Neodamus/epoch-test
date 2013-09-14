@@ -246,7 +246,7 @@ var Charger = new Array(
 "3",      //sight
 "1",      //range
 "0",      //reveal
-"3",      //#attack
+"1",      //#attack
 "2",      //#defend
 "0",      //onAttackAbility
 "0",      //onDefendAbility

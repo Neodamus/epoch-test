@@ -267,10 +267,22 @@
 		
 		context.save();
 		context.font = '15px Arial';
-		//Display UnitStats
-		if (this.currentStats != null && this.currentStats[0] != null) {
-		context.fillStyle = "White"; for (var i = 0; i < this.currentStats.length; i++) { if (i < 10) {
-		context.fillText(this.currentStats[i], this.standardUiBox.x + 1, this.standardUiBox.y + (i * 18) + 60); } }
+
+		//Display unitStats
+		if (this.currentStats != null && this.currentUnit != null) {
+		context.fillStyle = "White"; for (var i = 0; i < this.currentUnit.currentStats.length; i++) { if (i < 10) {
+		var extra = " ";
+		if (i == 0) { extra = ""; } //Name: 
+		if (i == 1) { extra = "Hitpoints: "; }
+		if (i == 2) { extra = "Damage: "; }
+		if (i == 3) { extra = "Defence: "; }
+		if (i == 4) { extra = "Movement: "; }
+		if (i == 5) { extra = "Sight: "; }
+		if (i == 6) { extra = "Range: "; }
+		if (i == 7) { extra = "Reveal: "; }
+		if (i == 8) { extra = "Attacks: "; }
+		if (i == 9) { extra = "Defends: "; }
+		context.fillText(extra + this.currentUnit.currentStats[i], this.standardUiBox.x + 1, this.standardUiBox.y + (i * 23) + 60); } }
 		
 		//Display Unit Abilities
 		for (var i = 0; i < this.currentUnit.ability.length; i++) { //may need reworking
@@ -281,8 +293,13 @@
 		
 		context.restore();
 		//Display Unit Buffs
+		
 		for (var i = 0; i < this.currentUnit.buffList.length; i++) { //may need reworking
-		if (this.currentBuffs.length > i) { this.currentBuffs[i].draw(); }
+		if (this.currentBuffs.length > i) { this.currentBuffs[i].draw();
+			context.font = '8px Arial';
+		context.fillStyle = "White";
+			context.fillText(this.currentUnit.buffList[i].buffType, this.currentBuffs[i].x, this.currentBuffs[i].y + 8);
+		}
 		} }
 		
 		

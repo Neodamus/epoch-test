@@ -106,6 +106,18 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 	if (listContains(this.noCastList, this.abilityName) == true) { return null; }
 
 	switch(this.abilityName){
+	
+		case "Rapid Strikes":
+			 //this.sourceUnit.abilityMarkers("on", customValue[5]); casting is not needed
+			 var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit) // ("Rapid Strikes", target, sourceUnit)
+			 finished = true; //because this applies passively, we set finished to true because the buff was casted and does not require further information.
+			break;
+	
+		case "Blind":
+			 this.sourceUnit.abilityMarkers("on", customValue[5]);
+			 finished = false;
+			break;
+		
 		case "Torch":
 			//sourceUnit apply range
 			   this.sourceUnit.abilityMarkers("on", customValue[5]);
@@ -117,6 +129,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			   this.sourceUnit.abilityMarkers("on", customValue[5]);
 			   finished = false;
 			break;	
+		
 	}
 	
 	return finished; //require another click
@@ -139,6 +152,17 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	
 	if (listContains(this.twoTargetList, this.abilityName) == true) { return false; }
 	switch(this.abilityName){	
+	
+		case "Blind":
+			//apply affect to target
+			if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){ // must be enemy for blind--- change this to !=
+			var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
+			this.sourceUnit.abilityMarkers("off", customValue[5]);
+			finished = true;
+			}
+			else { this.sourceUnit.abilityMarkers("off", customValue[5]); finished = false; Ui.abilityClickOff(); }
+			//else { this.sourceUnit.abilityMarkers("off", customValue[5]); }
+			break;
 			
 		case "Torch":
 			//apply affect to target
@@ -148,7 +172,6 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			finished = true;
 			}
 			else { this.sourceUnit.abilityMarkers("off", customValue[5]); finished = false; Ui.abilityClickOff(); }
-			//else { this.sourceUnit.abilityMarkers("off", customValue[5]); }
 			break;
 			
 		case "Soulfire":
@@ -159,7 +182,6 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			finished = true;
 			}
 			else { this.sourceUnit.abilityMarkers("off", customValue[5]); finished = false; Ui.abilityClickOff(); }
-			//else { this.sourceUnit.abilityMarkers("off", customValue[5]); }
 			break;	
 	}
 	if (finished == null) { this.removeMarkers(); }
