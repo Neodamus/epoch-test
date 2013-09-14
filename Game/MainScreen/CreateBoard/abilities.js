@@ -12,7 +12,7 @@ ability.prototype.abilityStats = function(abilityName)
   var customValue = new Array(8);
   switch(abilityName){
 	  
-	  	case "Blind": // Infiltrator -N
+	  	case "Blind":
 					customValue[0] = 3; 		// MaxTime
 					customValue[1] = 3; 		// CurrentTime
 					customValue[2] = "both";    // buff visibility
@@ -29,6 +29,13 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[4] = 1; 	    //Damage dealt to attachedUnit
 					customValue[5] = 0;         //range
 					return customValue; 
+					
+		case "Precision":
+					customValue[0] = 2;			// duration
+					customValue[1] = "both";	// buff visibility
+					customValue[2] = false;		// stacks
+					customValue[3] = 3;			// attack increase
+					customValue[4] = 4;			// cast range
 					
 		case "Panic Aura": 
 					customValue[0] = 3; 		//MaxTime (buff)
@@ -114,8 +121,13 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 	
 		case "Blind":
-			 this.sourceUnit.abilityMarkers("on", customValue[5]);
-			 finished = false;
+			this.sourceUnit.abilityMarkers("on", customValue[5]);
+			finished = false;
+			break;
+			
+		case "Precision":
+			this.sourceUnit.abilityMarkers("on", customValue[4]);
+			finished = false;
 			break;
 		
 		case "Torch":
@@ -162,6 +174,16 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			}
 			else { this.sourceUnit.abilityMarkers("off", customValue[5]); finished = false; Ui.abilityClickOff(); }
 			//else { this.sourceUnit.abilityMarkers("off", customValue[5]); }
+			break;
+			
+		case "Precision":
+			//apply affect to target
+			if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance) {
+			var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
+			this.sourceUnit.abilityMarkers("off", customValue[4]);
+			finished = true;
+			}
+			else { this.sourceUnit.abilityMarkers("off", customValue[4]); finished = false; Ui.abilityClickOff(); }
 			break;
 			
 		case "Torch":

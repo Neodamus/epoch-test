@@ -186,6 +186,41 @@
 				}   
 				break;
 				
+			case "Precision": 
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+					
+						// disconnect variables
+						var buffStats = ability.abilityStats(this.buffType); 
+						for (var i = 0; i < buffStats.length; i++) { this.customValue[i] = buffStats[i]; }
+						
+						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list
+						
+						this.attachedUnit.buffStats[2] += this.customValue[3]
+						this.attachedUnit.currentStats[2] += this.customValue[3]				
+						
+						break;
+				
+					case "Turn":
+						
+						this.customValue[0]--; //reduce buff time;  
+						if (this.customValue[0] == 0) { this.eventProc("Removal"); }
+						
+						break;
+					
+					case "Removal":
+					
+						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+						this.attachedUnit.buffList.splice(removeArray, 1); 
+						
+						this.attachedUnit.buffStats[2] += this.customValue[3];
+						
+						break;
+				}   
+			break;
+				
 			case "Rapid Strikes": 
 			
 				switch(Procedure) {
