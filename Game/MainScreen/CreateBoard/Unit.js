@@ -225,6 +225,7 @@
 		
 		this.currentStats[4] -= this.attackMovementCost;
 		this.currentStats[8] -= this.attackCost;
+		for (var i = 0; i < this.buffList.length; i++) { this.buffList[i].eventProc("Attack");  }
 	  }
 	 }
 	  
