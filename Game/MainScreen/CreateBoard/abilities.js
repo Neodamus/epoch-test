@@ -47,7 +47,14 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[5] = 2;         //range of aura (aura)
 					customValue[6] = 1;         //current-How many units can it affect per turn (aura)
 					customValue[7] = "enemy"    //alliance that aura gets applied to, compared to sourceUnit (aura)
-					return customValue; 			
+					return customValue; 
+					
+		case "Second Wind":
+					customValue[0] = 1;			// duration
+					customValue[1] = "both";	// buff visibility
+					customValue[2] = false;		// stacks
+					customValue[3] = 3;			// movement increase
+					return customValue;								
 					
 		case "Torch": 
 					customValue[0] = 3; 		//MaxTime
@@ -69,7 +76,7 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[6] = "local sight"//requirements for casting (note: sight is local to the unit, other unit's sight cannot be used)
 					return customValue; 
 					
-		case "Rapid Strikes": // Charger -N
+		case "Rapid Strikes":
 					customValue[0] = 3; 		//MaxTime
 					customValue[1] = 3; 		//CurrentTime
 					customValue[2] = "both";    //buff visibility
@@ -130,6 +137,8 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			this.sourceUnit.abilityMarkers("on", customValue[4]);
 			finished = false;
 			break;
+			
+		case "Sprint":
 		
 		case "Torch":
 			//sourceUnit apply range

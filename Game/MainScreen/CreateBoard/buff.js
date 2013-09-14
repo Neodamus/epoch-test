@@ -23,6 +23,12 @@
 	  //have specific buff properties. ie: Cannot be dispelled...   if (Procedure == "dispell") { do nothing. }
 	   newBuff.prototype.eventProc = function(Procedure)
 	    {
+			
+		if (Procedure == "Initialize") {  // copies variables from ability stats
+			var buffStats = ability.abilityStats(this.buffType); 
+			for (var i = 0; i < buffStats.length; i++) { this.customValue[i] = buffStats[i]; }
+		}
+			
 		switch(this.buffType) {
 			
 			case "Blind": 
@@ -143,8 +149,7 @@
 						
 						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list
 						
-						this.attachedUnit.buffStats[2] += this.customValue[3];	
-						
+						this.attachedUnit.buffStats[2] += this.customValue[3];							
 						
 						break;
 				
@@ -171,7 +176,37 @@
 						break;
 				}   
 			break;	
+			
+			case "Second Wind":
+			
+				switch(Procedure) {
 				
+					case "Initialize":
+						
+						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list
+						
+						this.attachedUnit.buffStats[4] += this.customValue[3];							
+						
+						break;
+				
+					case "Turn":
+						
+						this.customValue[0]--; //reduce buff time;  
+						if (this.customValue[0] == 0) { this.eventProc("Removal"); }
+						
+						break;
+					
+					case "Removal":
+					
+						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+						this.attachedUnit.buffList.splice(removeArray, 1); 
+						
+						this.attachedUnit.buffStats[4] -= this.customValue[3];	
+						
+						break;
+				}   
+			break;	
+					
 				
 			case "Torch":
 				switch(Procedure){

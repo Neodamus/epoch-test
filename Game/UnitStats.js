@@ -143,7 +143,7 @@ var Sensei = new Array(
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
-"Precision",   //ability
+"Precision, Second Wind",   //ability
 "Air"		//element
 );
  
