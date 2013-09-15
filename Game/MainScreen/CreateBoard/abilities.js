@@ -73,11 +73,34 @@ ability.prototype.abilityStats = function(abilityName)
 			return stats;	
 					
 		case "Second Wind":
-					customValue[0] = 1;			// duration
-					customValue[1] = "both";	// buff visibility
-					customValue[2] = false;		// stacks
-					customValue[3] = 3;			// movement increase
-					return customValue;	
+					
+			stats = {
+				speed: 3
+			}
+			
+			return stats;
+					
+		case "Soulfire": 
+					
+			stats = {
+				target: "ally",
+				duration: 3,
+				hitpoints: 2,
+				range: 5
+			}
+			
+			return stats;	
+					
+		case "Static":	
+					
+			stats = {
+				target: "ally",
+				duration: 2,
+				damage: 2,
+				range: 4
+			}
+			
+			return stats;	
 					
 		case "Stomp":	
 					
@@ -92,6 +115,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Thunderclap":	
 					
 			stats = {
+				target: "enemy",
 				range: 1
 			}
 			
@@ -104,16 +128,6 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[3] = false;      //Does it stack?
 					customValue[4] = 3; 		//reveal buffstats
 					customValue[5] = 3;			//cast range
-					customValue[6] = "local sight"//requirements for casting (note: sight is local to the unit, other unit's sight cannot be used)
-					return customValue; 
-					
-		case "Soulfire": 
-					customValue[0] = 3; 		//MaxTime
-					customValue[1] = 3; 		//CurrentTime
-					customValue[2] = "both";    //buff visibility
-					customValue[3] = false;      //Does it stack?
-					customValue[4] = 2; 		//life per turn
-					customValue[5] = 5;			//cast range
 					customValue[6] = "local sight"//requirements for casting (note: sight is local to the unit, other unit's sight cannot be used)
 					return customValue; 
 					
@@ -181,9 +195,8 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 	
 		case "Rapid Strikes":
-			 //this.sourceUnit.abilityMarkers("on", customValue[5]); casting is not needed
-			 var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit) // ("Rapid Strikes", target, sourceUnit)
-			 finished = true; //because this applies passively, we set finished to true because the buff was casted and does not require further information.
+			 var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			 finished = true;
 			break;
 	
 		case "Blind":
@@ -199,6 +212,11 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 		case "Second Wind":
 			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
 			finished = true;
+			break;
+			
+		case "Static":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;						
 			break;
 			
 		case "Stomp":
@@ -224,9 +242,8 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 			
 		case "Soulfire":
-			//sourceUnit apply range
-			   this.sourceUnit.abilityMarkers("on", customValue[5]);
-			   finished = false;
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;
 			break;	
 		
 		case "Wound":
@@ -251,84 +268,134 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	this.targetUnit = this.targetSpot.currentUnit; }
 	var finished = null; //if it only requires one target, finished = true;
 	
-	
-	
 	if (listContains(this.twoTargetList, this.abilityName) == true) { return false; }
-	switch(this.abilityName){
-		
-		case "Bark Armor":
-			//apply affect to target
-			if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){
-			var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-			this.sourceUnit.abilityMarkers("off", customValue.range);
-			finished = true;
-			}
-			else { this.sourceUnit.abilityMarkers("off", customValue.range); finished = false; Ui.abilityClickOff(); }
-			//else { this.sourceUnit.abilityMarkers("off", customValue[5]); }
-			break;	
 	
-		case "Blind":
-			//apply affect to target
-			if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){ // must be enemy for blind--- change this to !=
-			var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-			this.sourceUnit.abilityMarkers("off", customValue[5]);
-			finished = true;
-			}
-			else { this.sourceUnit.abilityMarkers("off", customValue[5]); finished = false; Ui.abilityClickOff(); }
-			//else { this.sourceUnit.abilityMarkers("off", customValue[5]); }
-			break;
-			
-		case "Precision":
-			//apply affect to target
-			if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance) {
-			var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-			this.sourceUnit.abilityMarkers("off", customValue[4]);
-			finished = true;
-			}
-			else { this.sourceUnit.abilityMarkers("off", customValue[4]); finished = false; Ui.abilityClickOff(); }
-			break;
-			
-		case "Thunderclap":
-			//apply affect to target
-			if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance != this.sourceUnit.alliance){
-			var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-			this.sourceUnit.abilityMarkers("off", customValue.range);
-			finished = true;
-			}
-			else { this.sourceUnit.abilityMarkers("off", customValue.range); finished = false; Ui.abilityClickOff(); }
-			//else { this.sourceUnit.abilityMarkers("off", customValue[5]); }
-			break;
-			
-		case "Torch":
-			//apply affect to target
-			if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){
-			var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-			this.sourceUnit.abilityMarkers("off", customValue[5]);
-			finished = true;
-			}
-			else { this.sourceUnit.abilityMarkers("off", customValue[5]); finished = false; Ui.abilityClickOff(); }
-			break;
-			
-		case "Soulfire":
-			//apply affect to target
-			if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){
-			var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-			this.sourceUnit.abilityMarkers("off", customValue[5]);
-			finished = true;
-			}
-			else { this.sourceUnit.abilityMarkers("off", customValue[5]); finished = false; Ui.abilityClickOff(); }
-			break;	
-			
-		case "Wound":
-			//apply affect to target
-			if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){
-			var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-			this.sourceUnit.abilityMarkers("off", customValue.range);
-			finished = true;
-			}
-			else { this.sourceUnit.abilityMarkers("off", customValue.range); finished = false; Ui.abilityClickOff(); }
-			break;	
+	if (customValue != null) {
+		var target = customValue.target;	// holds whether target needs to be ally, enemy, or both
 	}
+	
+	if (this.targetSpot.abilityMarker == true && this.targetUnit != null) { // clicked on an ability marker with a unit in it
+	
+		if (target == "ally") {
+		
+			if (this.targetUnit.alliance == this.sourceUnit.alliance) {
+				
+				new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
+				this.sourceUnit.abilityMarkers("off", customValue.range);
+				finished = true;
+				
+			} else { // target is an enemy with an ally buff
+			
+				this.sourceUnit.abilityMarkers("off", customValue.range);
+				alert("You can't use " + this.abilityName + " on an enemy")
+			
+			}
+			
+		} else if (target == "enemy") {
+			
+			if (this.targetUnit.alliance != this.sourceUnit.alliance) {
+				
+				new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
+				this.sourceUnit.abilityMarkers("off", customValue.range);
+				finished = true;
+				
+			} else { // target is an ally with an enemy buff
+
+				this.sourceUnit.abilityMarkers("off", customValue.range);			
+				alert("You can't use " + this.abilityName + "on an ally")
+			
+			}			
+			
+		} else { // target = both
+			
+			new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
+			this.sourceUnit.abilityMarkers("off", customValue.range);
+			finished = true;			
+			
+		}
+		
+	} else {
+		
+		Ui.abilityClickOff();
+		
+	}
+	
+	/*	switch(this.abilityName){
+		
+			case "Bark Armor":
+				//apply affect to target
+				if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){
+				var addBuff = 
+				}
+				else { this.sourceUnit.abilityMarkers("off", customValue.range); finished = false; Ui.abilityClickOff(); }
+				//else { this.sourceUnit.abilityMarkers("off", customValue[5]); }
+				break;	
+		
+			case "Blind":
+				//apply affect to target
+				if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){ // must be enemy for blind--- change this to !=
+				var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
+				this.sourceUnit.abilityMarkers("off", customValue[5]);
+				finished = true;
+				}
+				else { this.sourceUnit.abilityMarkers("off", customValue[5]); finished = false; Ui.abilityClickOff(); }
+				//else { this.sourceUnit.abilityMarkers("off", customValue[5]); }
+				break;
+				
+			case "Precision":
+				//apply affect to target
+				if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance) {
+				var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
+				this.sourceUnit.abilityMarkers("off", customValue[4]);
+				finished = true;
+				}
+				else { this.sourceUnit.abilityMarkers("off", customValue[4]); finished = false; Ui.abilityClickOff(); }
+				break;
+				
+			case "Thunderclap":
+				//apply affect to target
+				if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance != this.sourceUnit.alliance){
+				var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
+				this.sourceUnit.abilityMarkers("off", customValue.range);
+				finished = true;
+				}
+				else { this.sourceUnit.abilityMarkers("off", customValue.range); finished = false; Ui.abilityClickOff(); }
+				//else { this.sourceUnit.abilityMarkers("off", customValue[5]); }
+				break;
+				
+			case "Torch":
+				//apply affect to target
+				if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){
+				var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
+				this.sourceUnit.abilityMarkers("off", customValue[5]);
+				finished = true;
+				}
+				else { this.sourceUnit.abilityMarkers("off", customValue[5]); finished = false; Ui.abilityClickOff(); }
+				break;
+				
+			case "Soulfire":
+				//apply affect to target
+				if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){
+				var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
+				this.sourceUnit.abilityMarkers("off", customValue[5]);
+				finished = true;
+				}
+				else { this.sourceUnit.abilityMarkers("off", customValue[5]); finished = false; Ui.abilityClickOff(); }
+				break;	
+				
+			case "Wound":
+				//apply affect to target
+				if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){
+				var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
+				this.sourceUnit.abilityMarkers("off", customValue.range);
+				finished = true;
+				}
+				else { this.sourceUnit.abilityMarkers("off", customValue.range); finished = false; Ui.abilityClickOff(); }
+				break;	
+		}
+	  
+	} */
+	
 	if (finished == null) { this.removeMarkers(); }
 	return finished; //require another click
 }

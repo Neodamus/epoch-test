@@ -266,14 +266,6 @@
 						if (this.customValue[1] == 0) { this.eventProc("Removal"); }
 						
 						break;
-						
-					/* case "Attack":					
-					
-						this.customValue[8]--; 
-						this.attachedUnit.buffStats[8]--;
-						if (this.customValue[8] == 0) { this.eventProc("Removal") } 
-					
-						break; */
 					
 					case "Removal":
 					
@@ -293,14 +285,7 @@
 						
 						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list
 						
-						this.attachedUnit.buffStats[4] += this.customValue[3];							
-						
-						break;
-				
-					case "Turn":
-						
-						this.customValue[0]--; //reduce buff time;  
-						if (this.customValue[0] == 0) { this.eventProc("Removal"); }
+						this.attachedUnit.currentStats[4] += this.buffStats.speed;							
 						
 						break;
 					
@@ -309,7 +294,65 @@
 						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
 						this.attachedUnit.buffList.splice(removeArray, 1); 
 						
-						this.attachedUnit.buffStats[4] -= this.customValue[3];	
+						break;
+				}   
+			break;
+			
+			case "Soulfire":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+						
+						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list		
+						
+						break;
+				
+					case "Turn":
+						
+						this.buffStats.duration--; //reduce buff time;  
+						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+						
+						this.attachedUnit.currentStats[4] += this.buffStats.hitpoints;	
+						
+						break;
+					
+					case "Removal":
+					
+						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+						this.attachedUnit.buffList.splice(removeArray, 1);	
+						
+						break;
+				}   
+			break;
+			
+			case "Static":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+						
+						this.attachedUnit.buffList.push(this);
+						
+						this.attachedUnit.currentStats[2] += this.buffStats.damage 
+						this.attachedUnit.buffStats[2] += this.buffStats.damage
+						
+						break;
+				
+					case "Turn":
+						
+						this.buffStats.duration--; 
+						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+						
+						break;
+					
+					case "Removal":
+					
+						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+						this.attachedUnit.buffList.splice(removeArray, 1);	
+						
+						this.attachedUnit.currentStats[2] -= this.buffStats.damage 
+						this.attachedUnit.buffStats[2] -= this.buffStats.damage						
 						
 						break;
 				}   
@@ -374,35 +417,6 @@
 				
 						case "Turn":
 					this.customValue[1]--; //reduce buff time;  
-						if (this.customValue[1] == 0) { this.eventProc("Removal"); }
-					break;
-					
-						case "Removal":
-					removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-					this.attachedUnit.buffList.splice(removeArray, 1); 
-					break;
-				}   
-				break;
-				
-				case "Soulfire":
-				switch(Procedure){
-				
-						case "Initialize":
-					var buffStats = ability.abilityStats(this.buffType); for (var i = 0; i < buffStats.length; i++) { this.customValue[i] = buffStats[i]; } //this disconnect variables...
-					this.procList.push("Turn");
-					this.procList.push("Initialize");
-					this.procList.push("Removal");
-					this.attachedUnit.buffList.push(this);
-					break;
-				
-						case "Turn":
-					this.customValue[1]--; //reduce buff time;
-					//this.attachedUnit.currentStats[1] += this.customValue[4];
-					var lifeMissing = this.attachedUnit.baseStats[1] - this.attachedUnit.currentStats[1];
-					var addingLife = this.customValue[4];
-					if (lifeMissing < addingLife) { addingLife -= lifeMissing; }
-					if (lifeMissing > 0) { this.attachedUnit.currentStats[1] += addingLife; }
-					
 						if (this.customValue[1] == 0) { this.eventProc("Removal"); }
 					break;
 					
