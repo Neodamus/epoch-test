@@ -110,7 +110,6 @@
 						
 						this.customValue[1]--; //reduce buff time;  
 						if (this.customValue[1] == 0) { this.eventProc("Removal"); }
-						
 						break;
 					
 					case "Removal":
@@ -200,6 +199,7 @@
 					//this.customValue[6] = this.customValue[4]; //reset how many units can be affected this turn
 					this.customValue[1]--; //reduce buff time;
 					this.sourceUnit.customValue[4] = 1;
+					if (listContains(this.attachedUnit.currentTileMods, this.sourceUnit) == true) { this.customValue[1] = this.customValue[0]; }
 						if (this.customValue[1] == 0) { this.eventProc("Removal"); }
 					break;
 					
