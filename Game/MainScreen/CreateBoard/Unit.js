@@ -69,15 +69,15 @@
 		 Unit.prototype.resetStats = function(resetFrom)
 		 { 		 
 			if (resetFrom == null) 
-			{
-			this.currentStats[3] = this.baseStats[3] + this.buffStats[3]; // defense
-			
+			{			
 			this.currentStats[4] = this.baseStats[4] + this.buffStats[4]; //movement
 			
 			this.currentStats[8] = this.baseStats[8] + this.buffStats[8];	//#attacks
 			
 			this.currentStats[9] = this.baseStats[9] + this.buffStats[9]; //#defends 
 			}
+			
+			this.currentStats[3] = this.baseStats[3] + this.buffStats[3]; // defense
 			
 			this.currentStats[2] = this.baseStats[2] + this.buffStats[2]; // damage
 		 }
