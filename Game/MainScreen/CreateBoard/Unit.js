@@ -67,8 +67,9 @@
 	  
 	  
 		 Unit.prototype.resetStats = function()
-		 { 
-		 
+		 { 		 
+			this.currentStats[3] = this.baseStats[3] + this.buffStats[3]; // defense
+			
 			this.currentStats[4] = this.baseStats[4] + this.buffStats[4]; //movement
 			
 			this.currentStats[8] = this.baseStats[8] + this.buffStats[8];	//#attacks
@@ -176,6 +177,7 @@
 	  
 	  Unit.prototype.receivePureDamage = function(damage, from)
 	  {
+		combatLog.push(this.baseStats[0] + " receives " + damage + " pure damage from " + from.baseStats[0])
 		
 		this.currentStats[1] -= damage;
 		if (this.currentStats[1] <= 0){
@@ -203,7 +205,7 @@
 
 		this.currentStats[1] -= damageDealt;
 		
-		combatLog.push(this.baseStats[0] + " has received " + totalDamage.toString() + " damage from " + attackerUnit.baseStats[0] + ". " + damageDefended.toString() + " damage was defended and " + 
+		combatLog.push(this.baseStats[0] + " receives " + totalDamage.toString() + " damage from " + attackerUnit.baseStats[0] + ". " + damageDefended.toString() + " damage was defended and " + 
 		damageDealt.toString() + " was dealt."); 
 		
 		if (this.currentStats[1] <= 0){
@@ -219,7 +221,6 @@
 	  {
 		if (this.currentStats[8] > 0)
 		{
-		console.warn("Attacking unit.");
 		this.Select("off");
 		var damage = this.currentStats[2];
 		
@@ -230,13 +231,15 @@
 		
 
 		NewGridSpot.currentUnit.receivePhysicalDamage(damage, this);
-		console.warn(this.currentStats[10]);
-		if (this.currentStats[10] != null) {
+		if (this.currentStats[10] != 0) {
 		var buffIt = new newBuff(this.currentStats[10], NewGridSpot.currentUnit, this); }
 		
 		this.currentStats[4] -= this.attackMovementCost;
 		this.currentStats[8] -= this.attackCost;
+		
 		for (var i = 0; i < this.buffList.length; i++) { this.buffList[i].eventProc("Attack");  }
+		
+		for (var i = 0; i < NewGridSpot.currentUnit.buffList.length; i++) { NewGridSpot.currentUnit.buffList[i].eventProc("Defend", this);  }
 	  }
 	 }
 	  

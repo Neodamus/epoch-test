@@ -22,15 +22,58 @@
 					return customValue; 			*/
 	  
 	  //have specific buff properties. ie: Cannot be dispelled...   if (Procedure == "dispell") { do nothing. }
-	   newBuff.prototype.eventProc = function(Procedure)
+	   newBuff.prototype.eventProc = function(Procedure, source)
 	    {
 			
 		if (Procedure == "Initialize") {  // copies variables from ability stats
-			var buffStats = ability.abilityStats(this.buffType); 
-			for (var i = 0; i < buffStats.length; i++) { this.customValue[i] = buffStats[i]; }
+		
+			var buffStats = ability.abilityStats(this.buffType);
+			
+			if (buffStats instanceof Array) {
+				for (var i = 0; i < buffStats.length; i++) { this.customValue[i] = buffStats[i]; }	
+			} else {				
+				this.buffStats = ability.abilityStats(this.buffType).clone()	// for buffStats using objects instead of arrays
+			}
+			
 		}
 			
 		switch(this.buffType) {
+			
+			case "Bark Armor":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+						
+						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list
+						
+						this.attachedUnit.buffStats[3] += this.buffStats.defense					
+						
+						break;
+				
+					case "Turn":
+						
+						this.buffStats.duration--; //reduce buff time;  
+						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+						
+						break;
+						
+					case "Defend":
+					
+						source.currentStats[8] = 0;
+					
+						break;
+					
+					case "Removal":
+					
+						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+						this.attachedUnit.buffList.splice(removeArray, 1);
+						
+						this.attachedUnit.buffStats[3] -= this.buffStats.defense 	
+						
+						break;
+				}   
+			break;
 			
 			case "Blind": 
 			
@@ -143,8 +186,6 @@
 				switch(Procedure) {
 				
 					case "Initialize":
-					
-						this.buffStats = JSON.parse(JSON.stringify(ability.abilityStats(this.buffType)))
 						
 						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list					
 						
@@ -206,6 +247,42 @@
 						
 						break;
 				}   
+			break;
+			
+			case "Rapid Strikes": 
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+						
+						this.attachedUnit.buffList.push(this);
+						this.attachedUnit.buffStats[8] += this.customValue[4];  
+						
+						break;
+				
+					case "Turn":
+						
+						this.customValue[1]--; //reduce buff time;  
+						if (this.customValue[1] == 0) { this.eventProc("Removal"); }
+						
+						break;
+						
+					/* case "Attack":					
+					
+						this.customValue[8]--; 
+						this.attachedUnit.buffStats[8]--;
+						if (this.customValue[8] == 0) { this.eventProc("Removal") } 
+					
+						break; */
+					
+					case "Removal":
+					
+						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+						this.attachedUnit.buffList.splice(removeArray, 1); 
+						this.attachedUnit.buffStats[8] -= this.customValue[4];
+					
+						break;
+				}   
 			break;	
 			
 			case "Second Wind":
@@ -233,6 +310,19 @@
 						this.attachedUnit.buffList.splice(removeArray, 1); 
 						
 						this.attachedUnit.buffStats[4] -= this.customValue[3];	
+						
+						break;
+				}   
+			break;
+			
+			case "Thunderclap":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+						
+						var damage = Math.ceil(this.attachedUnit.currentStats[1] / 2)
+						this.attachedUnit.receivePureDamage(damage, this.sourceUnit)
 						
 						break;
 				}   
@@ -290,51 +380,12 @@
 					break;
 				}   
 				break;
-				
-			case "Rapid Strikes": 
-			
-				switch(Procedure) {
-				
-					case "Initialize":
-					
-						// disconnect variables
-						var buffStats = ability.abilityStats(this.buffType); 
-						for (var i = 0; i < buffStats.length; i++) { this.customValue[i] = buffStats[i]; }
-						
-						//this.procList.push("Turn");
-						//this.procList.push("Initialize");
-						//this.procList.push("Removal");
-						
-						this.attachedUnit.buffList.push(this);
-						this.attachedUnit.buffStats[8] += this.customValue[4];  //this sets where the attack# is reset to... because resetting is currentStats = baseStats + buffStats;
-						//setting this will give the unit current stats that can be used this turn.
-						
-						break;
-				
-					case "Turn":
-						
-						this.customValue[1]--; //reduce buff time;  
-						if (this.customValue[1] == 0) { this.eventProc("Removal"); }
-						
-						break;
-					
-					case "Removal":
-					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1); 
-						this.attachedUnit.buffStats[8] -= this.customValue[4]; // you had buffStats[7] before. which is reveal.
-					
-						break;
-				}   
-			break;
 			
 			case "Wound":
 			
 				switch(Procedure) {
 				
 					case "Initialize":
-					
-						this.buffStats = JSON.parse(JSON.stringify(ability.abilityStats(this.buffType)))
 						
 						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list	
 						

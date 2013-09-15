@@ -136,3 +136,10 @@ function sizeCanvas() {
 	
 	}
 }
+
+// creates a clone of any object
+Object.prototype.clone = function() {
+	
+	return JSON.parse(JSON.stringify(this)) 
+	
+}

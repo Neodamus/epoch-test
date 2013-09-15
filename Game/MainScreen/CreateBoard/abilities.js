@@ -9,8 +9,20 @@ this.gridTargetList = new Array();
 
 ability.prototype.abilityStats = function(abilityName)
 {
-  var customValue = new Array(8);
-  switch(abilityName){
+	var customValue = new Array(8);
+	switch(abilityName){
+		
+		case "Bark Armor":
+		
+			stats = {
+				duration: 3,
+				visibility: "both",
+				stacks: false,
+				defense: 2,
+				range: 4
+			}
+			
+			return stats;				  
 	  
 	  	case "Blind":
 					customValue[0] = 3; 		// MaxTime
@@ -25,7 +37,7 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[0] = 3; 		//MaxTime
 					customValue[1] = 3; 		//CurrentTime
 					customValue[2] = "both";    //buff visibility
-					cusomValue[3] = false;      //Does it stack?
+					customValue[3] = false;      //Does it stack?
 					customValue[4] = 1; 	    //Damage dealt to attachedUnit
 					customValue[5] = 0;         //range
 					return customValue; 
@@ -65,7 +77,15 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[1] = "both";	// buff visibility
 					customValue[2] = false;		// stacks
 					customValue[3] = 3;			// movement increase
-					return customValue;								
+					return customValue;	
+			
+		case "Thunderclap":	
+					
+			stats = {
+				range: 1
+			}
+			
+			return stats;							
 					
 		case "Torch": 
 					customValue[0] = 3; 		//MaxTime
@@ -144,6 +164,11 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 	if (listContains(this.noCastList, this.abilityName) == true) { return null; }
 
 	switch(this.abilityName){
+		
+		case "Bark Armor":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;						
+			break;
 	
 		case "Rapid Strikes":
 			 //this.sourceUnit.abilityMarkers("on", customValue[5]); casting is not needed
@@ -164,6 +189,11 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 		case "Second Wind":
 			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
 			finished = true;
+			break;
+		
+		case "Thunderclap":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;						
 			break;
 		
 		case "Torch":
@@ -203,7 +233,18 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	
 	
 	if (listContains(this.twoTargetList, this.abilityName) == true) { return false; }
-	switch(this.abilityName){	
+	switch(this.abilityName){
+		
+		case "Bark Armor":
+			//apply affect to target
+			if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){
+			var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
+			this.sourceUnit.abilityMarkers("off", customValue.range);
+			finished = true;
+			}
+			else { this.sourceUnit.abilityMarkers("off", customValue.range); finished = false; Ui.abilityClickOff(); }
+			//else { this.sourceUnit.abilityMarkers("off", customValue[5]); }
+			break;	
 	
 		case "Blind":
 			//apply affect to target
@@ -224,6 +265,17 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			finished = true;
 			}
 			else { this.sourceUnit.abilityMarkers("off", customValue[4]); finished = false; Ui.abilityClickOff(); }
+			break;
+			
+		case "Thunderclap":
+			//apply affect to target
+			if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance != this.sourceUnit.alliance){
+			var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
+			this.sourceUnit.abilityMarkers("off", customValue.range);
+			finished = true;
+			}
+			else { this.sourceUnit.abilityMarkers("off", customValue.range); finished = false; Ui.abilityClickOff(); }
+			//else { this.sourceUnit.abilityMarkers("off", customValue[5]); }
 			break;
 			
 		case "Torch":
