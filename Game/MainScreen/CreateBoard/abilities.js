@@ -320,14 +320,13 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	
 	if (this.targetSpot.abilityMarker == true && this.targetUnit != null) { // clicked on an ability marker with a unit in it
 	
-		console.warn("s")
-	
 		if (target == "ally") {
 		
 			if (this.targetUnit.alliance == this.sourceUnit.alliance) {
 				
 				new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
 				this.sourceUnit.abilityMarkers("off", customValue.range);
+				this.castMode = false;
 				finished = true;
 				
 			} else { // target is an enemy with an ally buff
@@ -344,6 +343,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				
 				new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
 				this.sourceUnit.abilityMarkers("off", customValue.range);
+				this.castMode = false;
 				finished = true;
 				
 			} else { // target is an ally with an enemy buff
@@ -358,6 +358,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			
 			new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
 			this.sourceUnit.abilityMarkers("off", customValue.range);
+			this.castMode = false;
 			finished = true;			
 			
 		}
@@ -366,6 +367,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 		
 		this.sourceUnit.abilityMarkers("off", customValue.range);
 		Ui.abilityClickOff();
+		this.castMode = false;
 		
 	}
 	
