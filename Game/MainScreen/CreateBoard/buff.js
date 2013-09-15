@@ -279,6 +279,7 @@
 					
 						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
 						this.attachedUnit.buffList.splice(removeArray, 1); 
+						this.attachedUnit.buffStats[8] -= this.customValue[4];
 					
 						break;
 				}   
@@ -411,6 +412,6 @@
 			break;				
 		}
 		
-		if (this.attachedUnit.currentStats != null) { this.attachedUnit.resetStats(); }
+		if (this.attachedUnit.currentStats != null) { this.attachedUnit.resetStats("BUFF"); }
 	}
 
