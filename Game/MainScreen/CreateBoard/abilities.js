@@ -1,11 +1,11 @@
-function ability() { 
-	// this.abilityBeingCasted = false;
-	this.abilityName;
-	this.specialAbilityList(); 
-	this.sourceUnit;
-	// this.targetSpot2 = null;
-	this.targetList = [];
-	this.castMode = false;	// true if in castmode, false if not
+
+
+
+function ability() { this.abilityBeingCasted = false; this.specialAbilityList(); 
+this.sourceUnit;
+this.targetSpot2 = null;
+this.targetList = [];
+this.castMode = false;	// true if in castmode, false if not
 }
 
 ability.prototype.abilityStats = function(abilityName)
@@ -304,13 +304,11 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	if (customValue != null) {	// checks if multiple targets are casted
 		if (customValue.targets != null) {
 			if (this.targetList.length < customValue.targets) { 
-				this.targetList.push("Hello"); 
+				this.targetList.push("Hello");
+				alert(this.targetList.length + " units targeted"); 
 				return false; 
 			} else {
-				alert("You have enough targets!");
-				this.targetList = [];
-				this.castMode = false;
-				return true;
+				alert("You have enough targets!")
 			}
 		}
 	}

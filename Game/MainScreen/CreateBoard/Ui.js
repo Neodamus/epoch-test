@@ -64,22 +64,14 @@
 				combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");} //it casted
 				this.abilityClickOff(); 
 				if (castedAbility == false) { }//needs more click
-				if (castedAbility == null) { ability.removeMarkers(); this.abilityClickOff(); } //cancel cast
+				if (castedAbility == null) { ability.removeMarkers(); this.abilityClickOff(); }//cancel cast
 				break;
 			
 			case "ui":
 				ability.removeMarkers();
 				this.abilityClickOff();
 				this.clickedAbility;
-				
-				for (var i = 0; i < this.currentUnit.ability.length; i++) { 
-					if (this.currentAbilities[i].Contains(Mouse) == true) {  
-						this.clickedAbility = i; 
-						// ability.abiltyName = this.currentAbilities[i].text[0]   trying to display by knowing the active ability's name
-						break; 
-					}
-				}
-				
+				for (var i = 0; i < this.currentUnit.ability.length; i++) { if (this.currentAbilities[i].Contains(Mouse) == true) {  this.clickedAbility = i; break; } }
 				if (this.clickedAbility != null) {
 			    var clickedAbilityName = this.currentUnit.ability[this.clickedAbility];
 			    this.currentAbilities[this.clickedAbility].boxColor = "rgba(0,0,200,1)";

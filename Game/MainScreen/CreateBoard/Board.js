@@ -51,17 +51,9 @@
 		//Unit Placement
 		if (PlacementStage == true) {this.UnitPlacement(Mouse, WhichClick); }
 		
-		if (ClientsTurn == true && ability.castMode == false) {
+		if (ClientsTurn == true) {
 		//Unit Actions
 		if (PlacementStage == false) { this.WhichGrid(Mouse, WhichClick); this.UnitActions(Mouse, WhichClick); } 
-		}
-		
-		// Unit abilities
-		if (ClientsTurn == true && ability.castMode == true) {
-			if (PlacementStage == false) { 
-				this.WhichGrid(Mouse, WhichClick); 
-				Ui.useAbility("game", CurrentSelectedGrid);
-			} 
 		}
 		
 		//Turn On Selection
@@ -89,6 +81,7 @@
 			if (WhichClick == "0") {
 			var lastSelected = CurrentSelectedGrid;
 			CurrentSelectedGrid = GridSpot[x][y];
+			if (ClientsTurn == true && ability.castMode == true) { Ui.useAbility("game", lastSelected); }
 			}
 			if (WhichClick == "2") { CurrentTarget = GridSpot[x][y]; }
 			return true;
