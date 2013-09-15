@@ -57,7 +57,7 @@
 		}
 		
 		//Turn On Selection
-		if (WhichClick == "0" && this.WhichGrid(Mouse, WhichClick) == true)
+		if (WhichClick == "0" && this.WhichGrid(Mouse, WhichClick) == true && ability.castMode == false)
 		{ 
 		CurrentSelectedGrid.Select("on"); 
 		if (CurrentSelectedGrid.currentUnit != null) { 

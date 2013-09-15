@@ -3,8 +3,9 @@
 
 function ability() { this.abilityBeingCasted = false; this.specialAbilityList(); 
 this.sourceUnit;
-this.targetSpot2 = GridSpot[0][0];
-this.gridTargetList = new Array();
+this.targetSpot2 = null;
+this.targetList = [];
+this.castMode = false;	// true if in castmode, false if not
 }
 
 ability.prototype.abilityStats = function(abilityName)
@@ -67,7 +68,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Polarity":
 		
 			stats = {
-				target: "both",
+				target: "ally",
+				targets: 4,
 				range: 5
 			}
 			
@@ -231,7 +233,8 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			
 		case "Polarity":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
-			finished = false;						
+			finished = false;
+			this.castMode = true;						
 			break;
 			
 		case "Precision":
@@ -298,7 +301,18 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	this.targetUnit = this.targetSpot.currentUnit; }
 	var finished = null; //if it only requires one target, finished = true;
 	
-	if (listContains(this.twoTargetList, this.abilityName) == true) { return false; }
+	if (customValue != null) {	// checks if multiple targets are casted
+		if (customValue.targets != null) {
+			if (this.targetList.length < customValue.targets) { 
+				this.targetList.push("Hello");
+				alert(this.targetList.length + " units targeted"); 
+				return false; 
+			} else {
+				alert("You have enough targets!")
+			}
+		}
+	}
+	//if (listContains(this.twoTargetList, this.abilityName) == true) { return false; }
 	
 	if (customValue != null) {
 		var target = customValue.target;	// holds whether target needs to be ally, enemy, or both
@@ -318,6 +332,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			
 				this.sourceUnit.abilityMarkers("off", customValue.range);
 				alert("You can't use " + this.abilityName + " on an enemy")
+				finished = true;
 			
 			}
 			
@@ -332,7 +347,8 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			} else { // target is an ally with an enemy buff
 
 				this.sourceUnit.abilityMarkers("off", customValue.range);			
-				alert("You can't use " + this.abilityName + "on an ally")
+				alert("You can't use " + this.abilityName + "on an ally");
+				finished = true;
 			
 			}			
 			
