@@ -14,7 +14,10 @@ function CreateMenus(Width, Height) {
 	  
 	  //Create rectangles
 	  this.StartOptionBox = new Rectangle(Canvas.width * 0.5 - newwidth * 0.5, newyh, newwidth, newheight);
-	  this.CreateBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 1 - MenuY, this.StartOptionBox.width, MenuHeight);
+	  this.CreateBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 1 - MenuY - 23, this.StartOptionBox.width, MenuHeight + 20); 
+	  
+	  this.testBorder =  new Rectangle(this.StartOptionBox.x - 135, this.StartOptionBox.y + MenuYSpace * 1 - MenuY - 45, this.StartOptionBox.width + 268, MenuHeight + 60); 
+	  this.testBorder.setImage(Images[12]);
 	  this.FindBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 2 - MenuY, this.StartOptionBox.width, MenuHeight);
 	  this.quickGameBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 3 - MenuY, this.StartOptionBox.width, MenuHeight);
 	  this.WebsiteBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 4 - MenuY, this.StartOptionBox.width, MenuHeight);
@@ -136,5 +139,5 @@ function CreateMenus(Width, Height) {
 			this.quickGameBox.draw();
 			this.WebsiteBox.draw();
 			this.logoutBox.draw();
-			
+			  this.testBorder.draw();
 			}
