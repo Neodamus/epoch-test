@@ -59,7 +59,7 @@
 			case "game":
 				var castedAbility = ability.targetCast(CurrentSelectedGrid);
 				if (castedAbility == true) {
-				var sendData = new Array("ability", ability.sourceSpot.x, ability.sourceSpot.y, ability.targetSpot.x, ability.targetSpot.y, ability.abilityName, ability.targetSpot2.x, ability.targetSpot2.y);
+				var sendData = new Array("ability", ability.sourceSpot.x, ability.sourceSpot.y, ability.targetSpot.x, ability.targetSpot.y, ability.abilityName /*, ability.targetSpot2.x, ability.targetSpot2.y*/);
 				GameBoard.sendUnitInstruction(sendData);		
 				combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");} //it casted
 				this.abilityClickOff(); 

@@ -51,11 +51,6 @@
 		//Unit Placement
 		if (PlacementStage == true) {this.UnitPlacement(Mouse, WhichClick); }
 		
-		if (ClientsTurn == true) {
-		//Unit Actions
-		if (PlacementStage == false) { this.WhichGrid(Mouse, WhichClick); this.UnitActions(Mouse, WhichClick); } 
-		}
-		
 		//Turn On Selection
 		if (WhichClick == "0" && this.WhichGrid(Mouse, WhichClick) == true && ability.castMode == false)
 		{ 
@@ -64,6 +59,17 @@
 		Ui.currentStats = CurrentSelectedGrid.currentUnit.baseStats;
 		Ui.currentUnit = CurrentSelectedGrid.currentUnit;
 		}
+		}
+		
+		if (ClientsTurn == true && ability.castMode == false) {
+		//Unit Actions
+		if (PlacementStage == false) { this.WhichGrid(Mouse, WhichClick); this.UnitActions(Mouse, WhichClick); } 
+		}
+		
+		// Unit abilities
+		if (ClientsTurn == true && ability.castMode == true) {
+			if (PlacementStage == false) { this.WhichGrid(Mouse, WhichClick); Ui.useAbility("game", CurrentSelectedGrid); }
+			ability.castMode = false;
 		}
 		
 		if (CurrentSelectedGrid != null && CurrentSelectedGrid.selected == false) { ability.removeMarkers(); Ui.abilityClickOff(); } //Ability stuff  
@@ -79,10 +85,10 @@
 		if (GridSpot[x][y].Clicked(Mouse) == true)
 		{
 			if (WhichClick == "0") {
-			var lastSelected = CurrentSelectedGrid;
-			CurrentSelectedGrid = GridSpot[x][y];
-			if (ClientsTurn == true && ability.castMode == true) { Ui.useAbility("game", lastSelected); }
+				var lastSelected = CurrentSelectedGrid;
+				CurrentSelectedGrid = GridSpot[x][y];
 			}
+			
 			if (WhichClick == "2") { CurrentTarget = GridSpot[x][y]; }
 			return true;
 		}

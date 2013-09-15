@@ -200,6 +200,8 @@ ability.prototype.receiveAbility = function(info)
 ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-> Ability setup or cast.
 {	
 	this.abilityName = abilityName;
+	this.castMode = true;
+	
 	this.sourceSpot = sourceSpot
 	if (this.sourceSpot != null) {
 	this.sourceUnit = this.sourceSpot.currentUnit;}
@@ -233,8 +235,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			
 		case "Polarity":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
-			finished = false;
-			this.castMode = true;						
+			finished = false;						
 			break;
 			
 		case "Precision":
@@ -292,8 +293,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 
 ability.prototype.targetCast = function(targetSpot) //if finished returns true, send it off to server, if not... wait for another click?
 {	
-
-     var customValue = this.abilityStats(this.abilityName);
+    var customValue = this.abilityStats(this.abilityName);
 	
 	this.targetSpot = targetSpot;
 	
@@ -319,6 +319,8 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	}
 	
 	if (this.targetSpot.abilityMarker == true && this.targetUnit != null) { // clicked on an ability marker with a unit in it
+	
+		console.warn("s")
 	
 		if (target == "ally") {
 		
@@ -362,6 +364,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 		
 	} else {
 		
+		this.sourceUnit.abilityMarkers("off", customValue.range);
 		Ui.abilityClickOff();
 		
 	}
