@@ -130,8 +130,12 @@
 			var endTurn = new Array();
 			endTurn.push("end");
 			GameBoard.sendUnitInstruction(endTurn);
-			ClientsTurn = false;
-			for (var i = 0; i < GameBoard.EnemyUnits.length; i++) { GameBoard.EnemyUnits[i].turnFunction(); }
+			if (GameBoard.gameType == "normal") { 
+				ClientsTurn = false; 
+				for (var i = 0; i < GameBoard.EnemyUnits.length; i++) { GameBoard.EnemyUnits[i].turnFunction(); }
+			} else if (GameBoard.gameType == "sandbox") {
+				for (var i = 0; i < GameBoard.AllyUnits.length; i++) { GameBoard.AllyUnits[i].turnFunction(); }
+			}
 			combatLog.push("Turn End.");
 			return; }
 			

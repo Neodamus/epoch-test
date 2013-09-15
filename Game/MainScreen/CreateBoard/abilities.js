@@ -78,6 +78,15 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[2] = false;		// stacks
 					customValue[3] = 3;			// movement increase
 					return customValue;	
+					
+		case "Stomp":	
+					
+			stats = {
+				movement: -2,
+				range: 1
+			}
+			
+			return stats;	
 			
 		case "Thunderclap":	
 					
