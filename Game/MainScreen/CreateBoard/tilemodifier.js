@@ -4,12 +4,12 @@
 function tileModifier(sourceUnit, name) 
 {  
  if (name != 'undefined' && name != null && name != "" && name != "0") {
-	this.sourceUnit = sourceUnit;
-	this.name = name; //used to get aura stats
-	this.tileList = new Array();
-	var values = ability.abilityStats(name);
-	this.customValue = new Array();
-	for (var i = 0; i < values.length; i++) { this.customValue.push(values[i]); } }
+this.sourceUnit = sourceUnit;
+this.name = name; //used to get aura stats
+this.tileList = new Array();
+var values = ability.abilityStats(name);
+this.customValue = new Array();
+for (var i = 0; i < values.length; i++) { this.customValue.push(values[i]); } }
 }
 
 /*case "Panic Aura": 
@@ -52,14 +52,22 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 		 //if it is added....
 		if (listContains(currentUnit.currentTileMods, this) == false) {
 		currentUnit.currentTileMods.push(this);
-		var buffIt = new newBuff("Panic Aura", currentUnit, this.sourceUnit); //change source unit to  "this"
-		}
+		
+		var exists = false;
+		for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
+		
+		if (exists == false) { var buffIt = new newBuff("Panic Aura", currentUnit, this); } }
 		break;
 		
 		case "move": //if a unit gains aura by moving into area..
 		if (listContains(currentUnit.currentTileMods, this) == false) { // <---------- THIS IS IF THE AURA DOES NOT STACK!
 		currentUnit.currentTileMods.push(this);
-		var buffIt = new newBuff("Panic Aura", currentUnit, this.sourceUnit);
+		
+		var exists = false;
+		for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
+		
+		if (exists == false) {
+		var buffIt = new newBuff("Panic Aura", currentUnit, this); }
 		}
 		break;
 		
@@ -74,12 +82,16 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 			if (unitIsWithinAura == false) {    // <---------------- THIS IS IF THE AURA HAS NO BUFF COOLDOWN?? IDK LOOK AT THIS.
 				var rem = listReturnArray(currentUnit.currentTileMods, this);
 				currentUnit.currentTileMods.splice(rem, 1);
+				
+				var exists = false;
+				for (var i = 0; i < currentUnit.currentTileMods.length; i ++) { if (currentUnit.currentTileMods[i].name == this.name) { exists = true; } }
+					
+					if (exists == false) {
 					for (var i = 0; i < currentUnit.buffList.length; i++) {
 			
 						if (currentUnit.buffList[i].buffType == this.name){
-							currentUnit.buffList[i].eventProc("Removal"); } }
-							 console.warn("remove");
-				}
+							currentUnit.buffList[i].eventProc("Removal"); } } }
+							}
 				
 		break;
 		
@@ -147,16 +159,7 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 			for (var i = 0; i < oldUnitList.length; i++) {  this.eventProc("remove", oldUnitList[i]); }//remove from units
 			
 			break;
-		/*	
-		case "delete":
-			//removes aura from unit... (recommended that you use this."off" first.)
-			var rem = listReturnArray(this.sourceUnit.auras, this);
-			if (rem != -1) { this.sourceUnit.auras.splice(listReturnArray(this.sourceUnit.auras, this), 1); } //removes the aura from origin unit
-			break;
-			
-		case "add":
-			//adds aura to unit(this is not the aura effect, this is giving the unit the origin aura...
-			this.sourceUnit.auras.push(this);*/
+
 	}
 }
 
