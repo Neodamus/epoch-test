@@ -71,6 +71,7 @@
 			if (resetFrom == null) 
 			{			
 			this.currentStats[4] = this.baseStats[4] + this.buffStats[4]; //movement
+			if (this.currentStats[4] < 0) { this.currentStats[4] = 0 };
 			
 			this.currentStats[8] = this.baseStats[8] + this.buffStats[8];	//#attacks
 			

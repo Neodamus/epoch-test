@@ -15,13 +15,13 @@
 		
 		this.spawnMarker = false;
 		
-		this.tileBuffList = new Array(); //Contains tile modifiers(auras included)
+		this.tileBuffList = new Array(); //Contains tile modifiers (auras included)
 		
 		this.visible = false;
 		this.allyVision = new Array();
 		this.enemyVision = new Array();
 		
-		this.currentUnit;				//current unit on tile
+		this.currentUnit;				// current unit on tile
 	  }
 	  
 	  //tilemod

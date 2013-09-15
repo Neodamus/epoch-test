@@ -82,8 +82,9 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Stomp":	
 					
 			stats = {
-				movement: -2,
-				range: 1
+				duration: 2,
+				speed: -2,
+				radius: 1
 			}
 			
 			return stats;	
@@ -198,6 +199,17 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 		case "Second Wind":
 			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
 			finished = true;
+			break;
+			
+		case "Stomp":
+			var gridCenter = GridSpot[this.sourceUnit.x][this.sourceUnit.y];
+			var gridList = this.AreaSelect(gridCenter, customValue.radius)
+			for (i = 0; i < gridList.length; i++) {
+				if (gridList[i].currentUnit != null && gridList[i].currentUnit != this.sourceUnit) {
+					new newBuff(this.abilityName, gridList[i].currentUnit, this.sourceUnit)
+				}
+			}
+			finished = true;			
 			break;
 		
 		case "Thunderclap":
@@ -344,6 +356,9 @@ ability.prototype.AreaSelect = function(CentreGrid, Radius)
             var row = 1;
             var howmanyleft = 0;
             var push = 0;
+			
+			var gridList = [];		// holds the gridList to return
+			
             {
                 if (CentreGrid.y % 2 == 0)
                 {
@@ -364,8 +379,7 @@ ability.prototype.AreaSelect = function(CentreGrid, Radius)
                              y >= 0 && y < GridSpot[0].length)
                         {
 
-                               this.markers(x, y, Toggle, Action, requirement);
-
+                               gridList.push(GridSpot[x][y])
 
                         }
                         howmanyleft--;
@@ -403,7 +417,7 @@ ability.prototype.AreaSelect = function(CentreGrid, Radius)
 
 
 
-                               this.markers(x, y, Toggle, Action, requirement);
+                               gridList.push(GridSpot[x][y]);
 
 
                         }
@@ -427,7 +441,7 @@ ability.prototype.AreaSelect = function(CentreGrid, Radius)
                     if (x >= 0 && x < GridSpot.length &&
                          y >= 0 && y < GridSpot[0].length)
                     {
-                           this.markers(x, y, Toggle, Action, requirement);
+                           gridList.push(GridSpot[x][y]);
                     }
                 }
                 for (var i = 0; i < Radius + 1; i++)
@@ -437,7 +451,7 @@ ability.prototype.AreaSelect = function(CentreGrid, Radius)
                     if (x >= 0 && x < GridSpot.length &&
                          y >= 0 && y < GridSpot[0].length)
                     {
-                             if (x != CentreGrid.x) { this.markers(x, y, Toggle, Action, requirement); }
+                             if (x != CentreGrid.x) { gridList.push(GridSpot[x][y]); }
                     }
                 }
 
@@ -465,7 +479,7 @@ ability.prototype.AreaSelect = function(CentreGrid, Radius)
                         if (x >= 0 && x < GridSpot.length &&
                              y >= 0 && y < GridSpot[0].length)
                         {
-                               this.markers(x, y, Toggle, Action, requirement);
+                               gridList.push(GridSpot[x][y]);
 
                         }
                         howmanyleft--;
@@ -506,7 +520,7 @@ ability.prototype.AreaSelect = function(CentreGrid, Radius)
                         if (x >= 0 && x < GridSpot.length &&
                              y >= 0 && y < GridSpot[0].length)
                         {
-                               this.markers(x, y, Toggle, Action, requirement);
+                               gridList.push(GridSpot[x][y]);
                         }
                         howmanyleft--;
                         if (howmanyleft == -1)
@@ -520,6 +534,9 @@ ability.prototype.AreaSelect = function(CentreGrid, Radius)
                     }
                 }
             }
+			
+			return gridList;
+			
 	  }
 
 
