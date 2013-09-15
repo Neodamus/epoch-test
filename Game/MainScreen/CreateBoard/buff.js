@@ -289,25 +289,24 @@
 				switch(Procedure) {
 				
 					case "Initialize":
-						
+					
 						this.attachedUnit.buffList.push(this);
-						this.attachedUnit.buffStats[8] += this.customValue[4];  
+					
+						this.attachedUnit.currentStats[8] += this.buffStats.attacks;  
 						
 						break;
-				
+						
 					case "Turn":
 						
-						this.customValue[1]--; //reduce buff time;  
-						if (this.customValue[1] == 0) { this.eventProc("Removal"); }
+						this.eventProc("Removal");
 						
 						break;
 					
 					case "Removal":
 					
 						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1); 
-						this.attachedUnit.buffStats[8] -= this.customValue[4];
-					
+						this.attachedUnit.buffList.splice(removeArray, 1); 	
+						
 						break;
 				}   
 			break;	
@@ -318,16 +317,22 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list
+						this.attachedUnit.buffList.push(this);
 						
 						this.attachedUnit.currentStats[4] += this.buffStats.speed;							
+						
+						break;					
+						
+					case "Turn":
+						
+						this.eventProc("Removal");
 						
 						break;
 					
 					case "Removal":
 					
 						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1); 
+						this.attachedUnit.buffList.splice(removeArray, 1); 	
 						
 						break;
 				}   

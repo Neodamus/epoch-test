@@ -62,7 +62,7 @@
 				var sendData = new Array("ability", ability.sourceSpot.x, ability.sourceSpot.y, ability.targetSpot.x, ability.targetSpot.y, ability.abilityName /*, ability.targetSpot2.x, ability.targetSpot2.y*/);
 				GameBoard.sendUnitInstruction(sendData);		
 				combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");} //it casted
-				this.abilityClickOff(); 
+				if (ability.castMode == false) { this.abilityClickOff(); }
 				if (castedAbility == false) { }//needs more click
 				if (castedAbility == null) { ability.removeMarkers(); this.abilityClickOff(); }//cancel cast
 				break;

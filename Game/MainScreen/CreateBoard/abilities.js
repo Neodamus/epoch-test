@@ -69,7 +69,7 @@ ability.prototype.abilityStats = function(abilityName)
 		
 			stats = {
 				target: "ally",
-				targets: 4,
+				targets: 2,
 				range: 5
 			}
 			
@@ -93,6 +93,14 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[3] = 3;			// attack increase
 					customValue[4] = 4;			// cast range
 					return customValue;
+					
+		case "Rapid Strikes": 
+					
+			stats = {
+				attacks: 2
+			}
+			
+			return stats;	
 					
 		case "Second Wind":
 					
@@ -151,15 +159,6 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[4] = 3; 		//reveal buffstats
 					customValue[5] = 3;			//cast range
 					customValue[6] = "local sight"//requirements for casting (note: sight is local to the unit, other unit's sight cannot be used)
-					return customValue; 
-					
-		case "Rapid Strikes":
-					customValue[0] = 3; 		//MaxTime
-					customValue[1] = 3; 		//CurrentTime
-					customValue[2] = "both";    //buff visibility
-					customValue[3] = false;      //Does it stack?
-					customValue[4] = 2; 		// additional attacks
-					customValue[5] = 0;			//cast range
 					return customValue; 
 					
 		case "Wound":
@@ -221,6 +220,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 		case "Rapid Strikes":
 			 var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
 			 finished = true;
+			 this.castMode = false;
 			break;
 	
 		case "Blind":
@@ -246,6 +246,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 		case "Second Wind":
 			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
 			finished = true;
+			this.castMode = false;
 			break;
 			
 		case "Static":
@@ -261,7 +262,8 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 					new newBuff(this.abilityName, gridList[i].currentUnit, this.sourceUnit)
 				}
 			}
-			finished = true;			
+			finished = true;
+			this.castMode = false;			
 			break;
 		
 		case "Thunderclap":
@@ -303,12 +305,14 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	
 	if (customValue != null) {	// checks if multiple targets are casted
 		if (customValue.targets != null) {
-			if (this.targetList.length < customValue.targets) { 
+			if (this.targetList.length < customValue.targets - 1) { 
 				this.targetList.push("Hello");
-				alert(this.targetList.length + " units targeted"); 
+				console.warn(this.targetList.length + " units targeted"); 
 				return false; 
 			} else {
-				alert("You have enough targets!")
+				console.warn("You've selected " + customValue.targets + " targets");
+				this.targetList = [];
+				this.castMode = false;
 			}
 		}
 	}
@@ -367,7 +371,10 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 		
 		this.sourceUnit.abilityMarkers("off", customValue.range);
 		Ui.abilityClickOff();
-		this.castMode = false;
+		
+		if (customValue.targets == null) {
+			this.castMode = false;
+		}
 		
 	}
 	
