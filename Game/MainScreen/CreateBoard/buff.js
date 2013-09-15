@@ -153,6 +153,38 @@
 				}   
 				break;
 				
+			case "Haste":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+						
+						this.attachedUnit.buffList.push(this);
+						
+						this.attachedUnit.buffStats[4] += this.buffStats.speed
+						this.attachedUnit.currentStats[4] += this.buffStats.speed					
+						
+						break;
+				
+					case "Turn":
+						
+						this.buffStats.duration--; //reduce buff time;  
+						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+						
+						break;
+					
+					case "Removal":
+					
+						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+						this.attachedUnit.buffList.splice(removeArray, 1);
+						
+						this.attachedUnit.buffStats[4] -= this.buffStats.speed
+						this.attachedUnit.currentStats[4] -= this.buffStats.speed		
+						
+						break;
+				}   
+			break;
+				
 			case "Panic Aura":
 				switch(Procedure){
 				

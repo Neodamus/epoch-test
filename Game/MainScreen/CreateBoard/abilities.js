@@ -42,13 +42,16 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[5] = 0;         //range
 					return customValue; 
 					
-		case "Precision":
-					customValue[0] = 2;			// duration
-					customValue[1] = "both";	// buff visibility
-					customValue[2] = false;		// stacks
-					customValue[3] = 3;			// attack increase
-					customValue[4] = 4;			// cast range
-					return customValue;
+		case "Haste":	
+					
+			stats = {
+				target: "ally",
+				duration: 3,
+				speed: 3,
+				range: 4
+			}
+			
+			return stats;	
 					
 		case "Panic Aura": 
 					customValue[0] = 3; 		//MaxTime (buff)
@@ -61,6 +64,15 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[7] = "enemy"    //alliance that aura gets applied to, compared to sourceUnit (aura)
 					return customValue; 
 					
+		case "Polarity":
+		
+			stats = {
+				target: "both",
+				range: 5
+			}
+			
+			return stats;	
+					
 		case "Poison Tips":
 		
 			stats = {
@@ -71,6 +83,14 @@ ability.prototype.abilityStats = function(abilityName)
 			}
 			
 			return stats;	
+					
+		case "Precision":
+					customValue[0] = 2;			// duration
+					customValue[1] = "both";	// buff visibility
+					customValue[2] = false;		// stacks
+					customValue[3] = 3;			// attack increase
+					customValue[4] = 4;			// cast range
+					return customValue;
 					
 		case "Second Wind":
 					
@@ -160,7 +180,7 @@ this.noCastList = new Array();  //List of abilities that cannot be casted.
 this.noCastList.push("Engulf", "Panic Aura");
 
 this.twoTargetList = new Array(); //List of abilities that require two clicks.
-this.twoTargetList.push("test", "test1");
+this.twoTargetList.push("Polarity", "test1");
 }
 
 ability.prototype.receiveAbility = function(info)
@@ -202,6 +222,16 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 		case "Blind":
 			this.sourceUnit.abilityMarkers("on", customValue[5]);
 			finished = false;
+			break;
+			
+		case "Haste":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;						
+			break;
+			
+		case "Polarity":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;						
 			break;
 			
 		case "Precision":
