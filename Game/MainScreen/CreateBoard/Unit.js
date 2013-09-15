@@ -266,6 +266,8 @@
 		 this.x = NewGridSpot.x;
 		 this.y = NewGridSpot.y;
 		 
+		 for (var i = 0; i < this.buffList.length; i++) { this.buffList[i].eventProc("Move");  }
+		 
 		 // make sure unit is alive before giving back vision
 			if (this.alliance == "ally" && this.currentStats[1] > 0){
 		 

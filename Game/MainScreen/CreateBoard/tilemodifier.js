@@ -51,24 +51,24 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 		case "initialize": //when aura is first turned on..
 		 //if it is added....
 		if (listContains(currentUnit.currentTileMods, this) == false) {
-		currentUnit.currentTileMods.push(this);
+		currentUnit.currentTileMods.push(this); }
 		
 		var exists = false;
 		for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
 		
-		if (exists == false) { var buffIt = new newBuff("Panic Aura", currentUnit, this); } }
+		if (exists == false) { var buffIt = new newBuff("Panic Aura", currentUnit, this); } 
 		break;
 		
 		case "move": //if a unit gains aura by moving into area..
 		if (listContains(currentUnit.currentTileMods, this) == false) { // <---------- THIS IS IF THE AURA DOES NOT STACK!
-		currentUnit.currentTileMods.push(this);
+		currentUnit.currentTileMods.push(this); }
 		
 		var exists = false;
 		for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
 		
 		if (exists == false) {
 		var buffIt = new newBuff("Panic Aura", currentUnit, this); }
-		}
+		
 		break;
 		
 		
@@ -89,9 +89,8 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 					if (exists == false) {
 					for (var i = 0; i < currentUnit.buffList.length; i++) {
 			
-						if (currentUnit.buffList[i].buffType == this.name){
-							currentUnit.buffList[i].eventProc("Removal"); } } }
-							}
+						if (currentUnit.buffList[i].buffType == this.name && currentUnit.buffList[i].customValue[1] == null){
+							currentUnit.buffList[i].eventProc("Removal"); } } } }
 				
 		break;
 		

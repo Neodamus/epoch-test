@@ -190,10 +190,8 @@
 				
 						case "Initialize":
 					var buffStats = ability.abilityStats(this.buffType); for (var i = 0; i < buffStats.length; i++) { this.customValue[i] = buffStats[i]; } //this disconnect variables...
-					this.procList.push("Turn");
-					this.procList.push("Initialize");
-					this.procList.push("Removal");
-					this.attachedUnit.noStealthList.push(this);
+					console.warn(this.sourceUnit);
+					if (this.sourceUnit.customValue[4] > 0) { this.attachedUnit.currentStats[4] = 0; this.sourceUnit.customValue[4]--; }
 					this.attachedUnit.buffList.push(this);
 					//aura based ability holder
 					break;
@@ -201,12 +199,17 @@
 						case "Turn":
 					//this.customValue[6] = this.customValue[4]; //reset how many units can be affected this turn
 					this.customValue[1]--; //reduce buff time;
+					this.sourceUnit.customValue[4] = 1;
 						if (this.customValue[1] == 0) { this.eventProc("Removal"); }
 					break;
 					
+						case "Move":
+						 //take out movement
+						this.customValue[1] = this.customValue[0]; //reset duration
+					break;
+						
 						case "Removal":
 					var removeArray = listReturnArray(this.attachedUnit.noStealthList, this);
-					this.attachedUnit.noStealthList.splice(removeArray, 1);
 					removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
 					this.attachedUnit.buffList.splice(removeArray, 1); 
 					break;
