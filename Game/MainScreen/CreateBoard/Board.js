@@ -81,7 +81,7 @@
 			if (WhichClick == "0") {
 			var lastSelected = CurrentSelectedGrid;
 			CurrentSelectedGrid = GridSpot[x][y];
-			if (ClientsTurn == true) { Ui.useAbility("game", lastSelected); }
+			if (ClientsTurn == true && ability.castMode == false) { Ui.useAbility("game", lastSelected); }
 			}
 			if (WhichClick == "2") { CurrentTarget = GridSpot[x][y]; }
 			return true;
