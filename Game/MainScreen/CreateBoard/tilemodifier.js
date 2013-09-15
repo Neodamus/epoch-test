@@ -4,13 +4,12 @@
 function tileModifier(sourceUnit, name) 
 {  
  if (name != 'undefined' && name != null && name != "" && name != "0") {
-this.sourceUnit = sourceUnit;
-this.name = name; //used to get aura stats
-this.tileList = new Array();
-var values = ability.abilityStats(name);
-this.customValue = new Array();
-for (var i = 0; i < values.length; i++) { this.customValue.push(values[i]); }
-}
+	this.sourceUnit = sourceUnit;
+	this.name = name; //used to get aura stats
+	this.tileList = new Array();
+	var values = ability.abilityStats(name);
+	this.customValue = new Array();
+	for (var i = 0; i < values.length; i++) { this.customValue.push(values[i]); } }
 }
 
 /*case "Panic Aura": 
