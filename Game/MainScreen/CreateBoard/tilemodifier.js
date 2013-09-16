@@ -12,19 +12,6 @@ this.customValue = new Array();
 for (var i = 0; i < values.length; i++) { this.customValue.push(values[i]); } }
 }
 
-/*case "Panic Aura": 
-					customValue[0] = 3; 		//MaxTime
-					customValue[1] = 3; 		//CurrentTime
-					customValue[2] = "both";    //buff visibility
-					cusomValue[3] = false;      //Does it stack?
-					customValue[4] = 1; 	    //total-How many units can it affect per turn
-					customValue[5] = 4;         //range of aura
-					customValue[6] = 1;         //current-How many units can it affect per turn
-					customValue[7] = "enemy"    //alliance that aura gets applied to, compared to sourceUnit (aura)
-					return customValue; 		*/	
-
-
-
 
 tileModifier.prototype.turnRefresh = function(alliance)
 {

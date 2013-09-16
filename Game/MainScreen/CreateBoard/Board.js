@@ -6,6 +6,7 @@
 	  var PlacementStage = true;
 	  var combatLog = new Array();
 	  var ability
+	  var gridSpotList;
 	  //initialize board requirements
 	  function Board(userPicks)
 	  {

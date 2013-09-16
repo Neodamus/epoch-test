@@ -151,7 +151,17 @@
 					break;
 				}   
 				break;
+			
+			case "Firewall":
 				
+				switch(Procedure) {
+				
+				//buffstats... debuff stuff that is spawned from the tilemod
+				
+				}
+
+				break;
+			
 			case "Frostbite":
 			
 				switch(Procedure) {

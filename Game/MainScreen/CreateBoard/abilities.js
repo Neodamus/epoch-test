@@ -575,7 +575,36 @@ ability.prototype.removeMarkers = function()
 
 
 
+	ability.prototype.specialAreaSelect = function(mousePosition, selectionType, numberOfTiles) // (mousePos, "line", 2) selectionType and number of tiles might need to be set inside abilities rather than passed here.
+	{
+		for (var t = 0; t < gridSpotList; t++) {    //go through gridlist to find centreGrid
+	    if(gridSpotList[t].ThisRectangle.Contains(mousePosition) == true){
+		var gridList = [];       //if centregrid is found make a new gridList..
+		
+		gridList.push(gridSpotList[i]); break; } //push centre grid and break it from the loop.
+		
+		}
+		
+		
+		if (gridList != 'undefined' && gridList != null && gridList.length > 0)   //if centregrid is found we will add in the other firewall selected grids based on the centreGrid.
+		{
+		
+		switch (selectionType) {
+		
+				case "line": 
+					for (var i = 0; i < numberOfTiles / 2; i++) {
+					if (GridSpot[gridList[0].x - i][gridList[0].y] != null) {gridList.push(GridSpot[gridList[0].x - i][gridList[0].y]);}  //left of centre grid
+					if (GridSpot[gridList[0].x + i][gridList[0].y] != null) {gridList.push(GridSpot[gridList[0].x - i][gridList[0].y]);}  //right of centre grid
+					}
 
+				break;
+			}
+			
+			this.highLightTheseSpots = gridList; //might need to parse these to not be linked!     for now we can tell each highlightspots.movementMarker = true; and when removing old selections make it false.
+												//if a click goes through and this.highlighted is != null, then we will set tilemods for firewall on this list.
+		//	return gridList; 
+		}
+	}
 
 ability.prototype.AreaSelect = function(CentreGrid, Radius)
 	  {

@@ -26,7 +26,7 @@
 		{
 			GridSpot[i] = new Array(Rows); 
 		}
-		
+		gridSpotList = new Array();
 		for (var i = 0; i < GridSpot.length * GridSpot[0].length;i++)
 		{
 			this.ycope = -(this.GridSizeY * 0.22);
@@ -35,6 +35,7 @@
 			GridSpot[this.x][this.y] = new Grid(x, y, this.xcope +this.StartX + this.x*(this.Spacing+1) + this.x*(this.GridSizeX+1),
 													  this.StartY + this.y*(this.Spacing+this.ycope) + this.y*(this.GridSizeY+1),
 													  this.GridSizeX, this.GridSizeY);
+			gridSpotList.push(GridSpot[this.x][this.y]);
 			this.x++;
 			if (this.x==this.Columns)
 			{
