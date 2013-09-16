@@ -10,7 +10,7 @@ function ability() {
 	this.castMode = false;	// true if in castmode, false if not
 	this.castType = "single";		// type of casting area, ie: single, line, radius, chain
 	this.castHighlight = GridSpot[0][0];		// holds center highlighted gridspot
-	this.castHighlightList; // holds list of highlighted gridspots
+	this.castHighlightList = []; // holds list of highlighted gridspots
 
 }
 
@@ -63,6 +63,15 @@ ability.prototype.abilityStats = function(abilityName)
 				target: "enemy",
 				hitpoints: -2,
 				damage: 5,
+				range: 4
+			}
+			
+			return stats; 
+					
+		case "Fire Wall":	
+					
+			stats = {
+				damage: 3,
 				range: 4
 			}
 			
@@ -285,7 +294,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			
 		case "Fire Wall":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
-			finished = true;
+			finished = false;
 			this.castType = "line";									
 			break;
 			
@@ -546,6 +555,7 @@ ability.prototype.removeMarkers = function()
 		this.castMode = false;
 		this.castHighlight.moveMarker = false;
 		this.castType = "single";
+		this.castHightlightList = [];
 	}
 }
 
@@ -577,6 +587,26 @@ ability.prototype.castModeHighlight = function() {
 						
 						break;
 						
+					case "line":
+					
+						if (gridSpot == this.castHighlight) {
+							
+						} else {
+							
+							this.castHighlight.moveMarker = false;
+							this.castHighlight = gridSpot;
+							this.castHighlight.moveMarker = true;
+							
+							/* this.castHighlightList = this.specialAreaSelect(mousePosition, 2)
+							
+							for (i = 0; i < this.castHighlightList.length; i++) {
+								this.castHighlightList[i].moveMarker = true;	
+							} */
+							
+						}						
+					
+						break;
+						
 				}
 			  
 			}
@@ -587,13 +617,13 @@ ability.prototype.castModeHighlight = function() {
 	
 }
 
-	ability.prototype.specialAreaSelect = function(mousePosition, selectionType, numberOfTiles) // (mousePos, "line", 2) selectionType and number of tiles might need to be set inside abilities rather than passed here.
+	ability.prototype.specialAreaSelect = function(mousePosition, numberOfTiles) // (mousePos, "line", 2) selectionType and number of tiles might need to be set inside abilities rather than passed here.
 	{
-		for (var t = 0; t < gridSpotList; t++) {    //go through gridlist to find centreGrid
+		for (var t = 0; t < gridSpotList.length; t++) {    //go through gridlist to find centreGrid
 	    if(gridSpotList[t].ThisRectangle.Contains(mousePosition) == true){
 		var gridList = [];       //if centregrid is found make a new gridList..
 		
-		gridList.push(gridSpotList[i]); break; } //push centre grid and break it from the loop.
+		gridList.push(gridSpotList[t]); break; } //push centre grid and break it from the loop.
 		
 		}
 		
@@ -601,13 +631,15 @@ ability.prototype.castModeHighlight = function() {
 		if (gridList != 'undefined' && gridList != null && gridList.length > 0)   //if centregrid is found we will add in the other firewall selected grids based on the centreGrid.
 		{
 		
-		switch (selectionType) {
+		switch (this.castType) {
 		
 				case "line": 
 					for (var i = 0; i < numberOfTiles / 2; i++) {
 					if (GridSpot[gridList[0].x - i][gridList[0].y] != null) {gridList.push(GridSpot[gridList[0].x - i][gridList[0].y]);}  //left of centre grid
 					if (GridSpot[gridList[0].x + i][gridList[0].y] != null) {gridList.push(GridSpot[gridList[0].x - i][gridList[0].y]);}  //right of centre grid
 					}
+					
+					return gridList;
 
 				break;
 			}
