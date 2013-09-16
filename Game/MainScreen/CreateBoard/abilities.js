@@ -5,7 +5,11 @@ this.specialAbilityList();
 this.sourceUnit;
 this.targetSpot2 = null;
 this.targetList = [];
+
 this.castMode = false;	// true if in castmode, false if not
+this.castHighlight = GridSpot[0][0];		// holds center highlighted gridspot
+this.castHighlightList; // holds list of highlighted gridspots
+
 }
 
 ability.prototype.abilityStats = function(abilityName)
@@ -436,14 +440,13 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			if (this.targetUnit.alliance == this.sourceUnit.alliance) {
 				
 			    combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
-				new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-				this.sourceUnit.abilityMarkers("off", customValue.range);
-				this.castMode = false;
+				new newBuff(this.abilityName, this.targetUnit, this.sourceUnit);
+				this.removeMarkers();
 				finished = true;
 				
 			} else { // target is an enemy with an ally buff
 			
-				this.sourceUnit.abilityMarkers("off", customValue.range);
+				this.removeMarkers();
 				alert("You can't use " + this.abilityName + " on an enemy")
 				finished = true;
 			
@@ -455,13 +458,12 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				
 			    combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
 				new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-				this.sourceUnit.abilityMarkers("off", customValue.range);
-				this.castMode = false;
+				this.removeMarkers();
 				finished = true;
 				
 			} else { // target is an ally with an enemy buff
 
-				this.sourceUnit.abilityMarkers("off", customValue.range);			
+				this.removeMarkers();			
 				alert("You can't use " + this.abilityName + "on an ally");
 				finished = true;
 			
@@ -471,15 +473,14 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			
 			combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
 			new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-			this.sourceUnit.abilityMarkers("off", customValue.range);
-			this.castMode = false;
+			this.removeMarkers();
 			finished = true;			
 			
 		}
 		
 	} else {
 		
-		this.sourceUnit.abilityMarkers("off", customValue.range);
+		this.removeMarkers();
 		Ui.abilityClickOff();
 		
 		if (customValue.targets == null) {
@@ -487,82 +488,6 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 		}
 		
 	}
-	
-	/*	switch(this.abilityName){
-		
-			case "Bark Armor":
-				//apply affect to target
-				if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){
-				var addBuff = 
-				}
-				else { this.sourceUnit.abilityMarkers("off", customValue.range); finished = false; Ui.abilityClickOff(); }
-				//else { this.sourceUnit.abilityMarkers("off", customValue[5]); }
-				break;	
-		
-			case "Blind":
-				//apply affect to target
-				if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){ // must be enemy for blind--- change this to !=
-				var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-				this.sourceUnit.abilityMarkers("off", customValue[5]);
-				finished = true;
-				}
-				else { this.sourceUnit.abilityMarkers("off", customValue[5]); finished = false; Ui.abilityClickOff(); }
-				//else { this.sourceUnit.abilityMarkers("off", customValue[5]); }
-				break;
-				
-			case "Precision":
-				//apply affect to target
-				if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance) {
-				var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-				this.sourceUnit.abilityMarkers("off", customValue[4]);
-				finished = true;
-				}
-				else { this.sourceUnit.abilityMarkers("off", customValue[4]); finished = false; Ui.abilityClickOff(); }
-				break;
-				
-			case "Thunderclap":
-				//apply affect to target
-				if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance != this.sourceUnit.alliance){
-				var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-				this.sourceUnit.abilityMarkers("off", customValue.range);
-				finished = true;
-				}
-				else { this.sourceUnit.abilityMarkers("off", customValue.range); finished = false; Ui.abilityClickOff(); }
-				//else { this.sourceUnit.abilityMarkers("off", customValue[5]); }
-				break;
-				
-			case "Torch":
-				//apply affect to target
-				if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){
-				var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-				this.sourceUnit.abilityMarkers("off", customValue[5]);
-				finished = true;
-				}
-				else { this.sourceUnit.abilityMarkers("off", customValue[5]); finished = false; Ui.abilityClickOff(); }
-				break;
-				
-			case "Soulfire":
-				//apply affect to target
-				if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){
-				var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-				this.sourceUnit.abilityMarkers("off", customValue[5]);
-				finished = true;
-				}
-				else { this.sourceUnit.abilityMarkers("off", customValue[5]); finished = false; Ui.abilityClickOff(); }
-				break;	
-				
-			case "Wound":
-				//apply affect to target
-				if (this.targetSpot.abilityMarker == true && this.targetUnit != null && this.targetUnit.alliance == this.sourceUnit.alliance){
-				var addBuff = new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-				this.sourceUnit.abilityMarkers("off", customValue.range);
-				finished = true;
-				}
-				else { this.sourceUnit.abilityMarkers("off", customValue.range); finished = false; Ui.abilityClickOff(); }
-				break;	
-		}
-	  
-	} */
 	
 	if (finished == null) { this.removeMarkers(); }
 	return finished; //require another click
@@ -603,13 +528,39 @@ ability.prototype.removeMarkers = function()
 	if (this.castMode == true) {
 		this.sourceUnit.abilityMarkers("off", this.abilityStats(this.abilityName).range);
 		this.castMode = false;
+		this.castHighlight.moveMarker = false;
 	}
 }
 
-
-
-
-
+ability.prototype.castModeHighlight = function() {
+	
+	var mousePosition = { x: Mouse.x, y: Mouse.y };
+	
+	if (this.castMode)	{
+		
+		for (i = 0; i < gridSpotList.length; i++) {
+			
+			gridSpot = gridSpotList[i];
+			
+			if (gridSpot.ThisRectangle.Contains(mousePosition) == true) {
+			
+				if (gridSpot == this.castHighlight) {
+					
+				} else {
+					
+					this.castHighlight.moveMarker = false;
+					this.castHighlight = gridSpot;
+					this.castHighlight.moveMarker = true;
+					
+				}
+			  
+			}
+			
+		}
+		
+	}
+	
+}
 
 	ability.prototype.specialAreaSelect = function(mousePosition, selectionType, numberOfTiles) // (mousePos, "line", 2) selectionType and number of tiles might need to be set inside abilities rather than passed here.
 	{

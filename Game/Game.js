@@ -115,7 +115,7 @@
 			case "Ironfist": return 33; 
 			case "Inductor": return 34;
 			case "Titan": return 35;
-			case "Lifeforce": return 36; 
+			case "Ice Spirit": return 36; 
 			case "Theurgist": return 37; 
 			case "Healer": return 38;
 			case "Rainmaker": return 39; 
@@ -163,6 +163,14 @@
 				_.currentMode.mousePosition(Mouse)
 				break
 				
+		}
+		
+		switch (Screen) {
+				
+			case "GameBoard":
+				ability.castModeHighlight();
+				break;		
+		
 		}
 		
 	}

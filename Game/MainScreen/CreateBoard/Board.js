@@ -10,6 +10,8 @@
 	  //initialize board requirements
 	  function Board(userPicks)
 	  {
+		this.id = "game";
+		  
 		var cg;
 		this.BoardX = 0;
 		this.BoardY = 0;
