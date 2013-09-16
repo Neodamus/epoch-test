@@ -472,11 +472,17 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);
 						this.attachedUnit.stealth("on");
+						if (this.attachedUnit.unitStealth == true) {
+						this.attachedUnit.buffList.push(this); }
 						
 						break;
-				
+					
+					case "Attack":
+					
+						this.eventProc("Removal");
+						break;
+						
 					case "StealthRemoval":
 						
 						this.eventProc("Removal");
