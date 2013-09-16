@@ -1,14 +1,16 @@
 function ability() { 
-//this.abilityBeingCasted = false; 
-this.abilityName;
-this.specialAbilityList(); 
-this.sourceUnit;
-this.targetSpot2 = null;
-this.targetList = [];
 
-this.castMode = false;	// true if in castmode, false if not
-this.castHighlight = GridSpot[0][0];		// holds center highlighted gridspot
-this.castHighlightList; // holds list of highlighted gridspots
+	//this.abilityBeingCasted = false; 
+	this.abilityName;
+	this.specialAbilityList(); 
+	this.sourceUnit;
+	this.targetSpot2 = null;
+	this.targetList = [];
+	
+	this.castMode = false;	// true if in castmode, false if not
+	this.castType = "single";		// type of casting area, ie: single, line, radius, chain
+	this.castHighlight = GridSpot[0][0];		// holds center highlighted gridspot
+	this.castHighlightList; // holds list of highlighted gridspots
 
 }
 
@@ -276,7 +278,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 		case "Fire Wall":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = true;
-									
+			this.castType = "line";									
 			break;
 			
 		case "Haste":
@@ -529,6 +531,7 @@ ability.prototype.removeMarkers = function()
 		this.sourceUnit.abilityMarkers("off", this.abilityStats(this.abilityName).range);
 		this.castMode = false;
 		this.castHighlight.moveMarker = false;
+		this.castType = "single";
 	}
 }
 
@@ -544,14 +547,22 @@ ability.prototype.castModeHighlight = function() {
 			
 			if (gridSpot.ThisRectangle.Contains(mousePosition) == true) {
 			
-				if (gridSpot == this.castHighlight) {
+				switch(this.castType) {
+				
+					case "single":
 					
-				} else {
-					
-					this.castHighlight.moveMarker = false;
-					this.castHighlight = gridSpot;
-					this.castHighlight.moveMarker = true;
-					
+						if (gridSpot == this.castHighlight) {
+							
+						} else {
+							
+							this.castHighlight.moveMarker = false;
+							this.castHighlight = gridSpot;
+							this.castHighlight.moveMarker = true;
+							
+						}
+						
+						break;
+						
 				}
 			  
 			}
