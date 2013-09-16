@@ -157,8 +157,6 @@
 				switch(Procedure) {
 				
 					case "Initialize":
-					
-						console.warn("S")
 						
 						if (this.attachedUnit.lastDamageLoss < this.buffStats.damage) {
 							
