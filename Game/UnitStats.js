@@ -9,7 +9,7 @@ Vangaurd, Elemental, Firebringer, Seer,     		 //fire units
 Assassin, Infiltrator, Sensei, Illusionist,   		 //air units
 Crossbowman, Sharpshooter, Ranger, Grovekeeper, 	 //earth units
 Charger, Ironfist, Inductor, Titan,                  //lightning units
-Lifeforce, Theurgist, Healer, Rainmaker);			 //water units
+IceSpirit, Theurgist, Healer, Rainmaker);			 //water units
 }
 
 function returnUnitStats(name)
@@ -89,7 +89,7 @@ var Seer = new Array(
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
-"Lay Mine, Firewall",   //ability
+"Lay Mine, Fire Wall",   //ability
 "Fire"		//element
 );
  
@@ -309,8 +309,8 @@ var Titan = new Array(
 "Lightning"	//element
 );
  
-var Lifeforce = new Array(
-"Lifeforce",       //name
+var IceSpirit = new Array(
+"Ice Spirit",       //name
 "15",      //hitpoints
 "5",      //damage
 "6",      //defence
@@ -323,7 +323,7 @@ var Lifeforce = new Array(
 "Frostbite",      //onAttackAbility
 "0",     //onDefendAbility
 "0, 0",   //auras
-"Frostbite",   //ability
+"Frostbite, Absolute Zero",   //ability
 "Water"	//element
 );
  
@@ -341,7 +341,7 @@ var Theurgist = new Array(
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
-"Entanglement, Vapourize",   //ability
+"Entanglement, Vaporize",   //ability
 "Water"	//element
 );
  
