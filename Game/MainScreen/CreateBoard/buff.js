@@ -157,10 +157,9 @@
 				
 						case "Initialize":
 					var buffStats = ability.abilityStats(this.buffType); for (var i = 0; i < buffStats.length; i++) { this.customValue[i] = buffStats[i]; } //this disconnect variables...
-					this.procList.push("Turn");
-					this.procList.push("Initialize");
-					this.procList.push("Removal");
-					this.attachedUnit.noStealthList.push(this);
+
+					this.attachedUnit.stealth("off", this)
+					//this.attachedUnit.noStealthList.push(this);
 					this.attachedUnit.buffList.push(this);
 					break;
 				
@@ -462,6 +461,32 @@
 						
 						this.attachedUnit.currentStats[2] -= this.buffStats.damage 
 						this.attachedUnit.buffStats[2] -= this.buffStats.damage						
+						
+						break;
+				}   
+			break;
+			
+			case "Stealth":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+						
+						this.attachedUnit.buffList.push(this);
+						this.attachedUnit.stealth("on");
+						
+						break;
+				
+					case "StealthRemoval":
+						
+						this.eventProc("Removal");
+						break;
+					
+					case "Removal":
+					
+						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+						this.attachedUnit.buffList.splice(removeArray, 1);	
+						this.attachedUnit.stealth("off");					
 						
 						break;
 				}   

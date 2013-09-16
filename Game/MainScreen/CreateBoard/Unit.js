@@ -34,9 +34,12 @@
 		this.lastDamageHit;		// last damage amount this unit inflicted	
 		this.lastDamageLoss; 	// last damage amout this unit suffered
 		
+		this.unitStealth = false;
+		
 		this.name = Name;                //not necessary(may need to remove any uses before removing this)
 		this.element = Element; 	     //not necessary(may need to remove any uses before removing this)
 		this.value = Value; 		     //not necessary(may need to remove any uses before removing this)
+		
 		
 		//Costs
 		this.movementCost = 1;
@@ -141,6 +144,20 @@
 	    Unit.prototype.sight = function(Toggle)
 	   {
 			this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5] + this.buffStats[5], Toggle, "");
+	   }
+	   
+	    Unit.prototype.stealth = function(Toggle, noStealthReason)
+	   {
+			switch(Toggle) {
+				case: "on"
+					if (noStealthList == null || noStealthList.length < 1) { this.unitStealth = true; } //turns stealth on
+				break;
+				
+				case: "off"
+					this.unitStealth = false; //turns stealth off
+					for (var i = 0; i < this.buffList.length; i++) { this.buffList[i].eventProc("StealthRemoval");  } //removes stealth buffs
+					if (noStealthReason != null) { noStealthList.push(noStealthReason); } //tells unit why it cannot stealth
+				break;
 	   }
 	   
 	   Unit.prototype.movementMarkers = function(Toggle)
