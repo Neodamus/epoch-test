@@ -149,15 +149,16 @@
 	    Unit.prototype.stealth = function(Toggle, noStealthReason)
 	   {
 			switch(Toggle) {
-				case: "on"
+				case "on":
 					if (noStealthList == null || noStealthList.length < 1) { this.unitStealth = true; } //turns stealth on
 				break;
 				
-				case: "off"
+				case "off":
 					this.unitStealth = false; //turns stealth off
 					for (var i = 0; i < this.buffList.length; i++) { this.buffList[i].eventProc("StealthRemoval");  } //removes stealth buffs
 					if (noStealthReason != null) { noStealthList.push(noStealthReason); } //tells unit why it cannot stealth
 				break;
+			}
 	   }
 	   
 	   Unit.prototype.movementMarkers = function(Toggle)

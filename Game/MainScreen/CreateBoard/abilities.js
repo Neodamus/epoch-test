@@ -165,7 +165,15 @@ ability.prototype.abilityStats = function(abilityName)
 			}
 			
 			return stats;	
+		
+		case "Stealth":	
 					
+			stats = {
+				empty: 0
+			}
+			
+			return stats;	
+		
 		case "Stomp":	
 					
 			stats = {
@@ -306,7 +314,13 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;						
 			break;
-			
+		
+		case "Stealth":
+			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			finished = true;
+			this.castMode = false;
+			break;
+		
 		case "Stomp":
 			var gridCenter = GridSpot[this.sourceUnit.x][this.sourceUnit.y];
 			var gridList = this.AreaSelect(gridCenter, customValue.radius)

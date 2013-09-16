@@ -79,8 +79,10 @@
 		context.drawImage(Images[1],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		
 		if (this.currentUnit != null && this.visible == true){  // UNIT DRAWING
+		if (this.currentUnit.unitStealth == true) { context.globalAlpha = 0.3; }
 		context.drawImage(Images[ReturnUnitImage(this.currentUnit.name)], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width,
-		this.ThisRectangle.height); }
+		this.ThisRectangle.height); 
+		if (this.currentUnit.unitStealth == true) {context.globalAlpha = 1; } }
 		if (this.visible == false)		//Fog of war
 		{
 			context.drawImage(Images[7],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
