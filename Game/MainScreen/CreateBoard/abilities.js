@@ -1,7 +1,7 @@
-
-
-
-function ability() { this.abilityBeingCasted = false; this.specialAbilityList(); 
+function ability() { 
+//this.abilityBeingCasted = false; 
+this.abilityName;
+this.specialAbilityList(); 
 this.sourceUnit;
 this.targetSpot2 = null;
 this.targetList = [];
@@ -41,7 +41,15 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[3] = false;      //Does it stack?
 					customValue[4] = 1; 	    //Damage dealt to attachedUnit
 					customValue[5] = 0;         //range
-					return customValue; 
+					return customValue;
+					
+		case "Frostbite":	
+					
+			stats = {
+				damage: 3
+			}
+			
+			return stats; 
 					
 		case "Haste":	
 					
@@ -68,7 +76,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Polarity":
 		
 			stats = {
-				target: "ally",
+				targetSelf: true,
+				target: "both",
 				targets: 2,
 				range: 5
 			}
@@ -199,11 +208,13 @@ ability.prototype.receiveAbility = function(info)
 ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-> Ability setup or cast.
 {	
 	this.abilityName = abilityName;
-	this.castMode = true;
 	
-	this.sourceSpot = sourceSpot
-	if (this.sourceSpot != null) {
-	this.sourceUnit = this.sourceSpot.currentUnit;}
+	if (this.castMode == false) {
+		this.sourceSpot = sourceSpot
+		if (this.sourceSpot != null) { this.sourceUnit = this.sourceSpot.currentUnit;}
+	}
+	
+	this.castMode = true;
 	
 	var customValue = this.abilityStats(this.abilityName);
 	
@@ -301,33 +312,94 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	
 	if (this.sourceSpot != null) {
 	this.targetUnit = this.targetSpot.currentUnit; }
-	var finished = null; //if it only requires one target, finished = true;
-	
-	if (customValue != null) {	// checks if multiple targets are casted
-		if (customValue.targets != null) {
-			if (this.targetList.length < customValue.targets - 1) { 
-				this.targetList.push("Hello");
-				console.warn(this.targetList.length + " units targeted"); 
-				return false; 
-			} else {
-				console.warn("You've selected " + customValue.targets + " targets");
-				this.targetList = [];
-				this.castMode = false;
-			}
-		}
-	}
-	//if (listContains(this.twoTargetList, this.abilityName) == true) { return false; }
+	var finished = null; //if it only requires one target, finished = true;	
 	
 	if (customValue != null) {
 		var target = customValue.target;	// holds whether target needs to be ally, enemy, or both
 	}
 	
-	if (this.targetSpot.abilityMarker == true && this.targetUnit != null) { // clicked on an ability marker with a unit in it
+	// checks if multiple targets are needed
+	if (customValue.targets != null && this.targetSpot.abilityMarker == true && this.targetUnit != null) {	
+	
+		if ((this.targetUnit == this.sourceUnit == customValue.targetSelf) || this.targetUnit != this.sourceUnit) {	
+		
+			// -------------- ADD IN SAME TARGET PREVENTER HERE
+		
+			if (target == "ally") {
+				
+				if (this.targetUnit.alliance == this.sourceUnit.alliance) {				
+					
+					this.targetList.push(this.targetUnit)
+					
+					if (this.targetList.length < customValue.targets) { 
+						return false; 				
+					} else {
+						combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
+						this.multiCast();
+						this.targetList = [];
+						this.castMode = false;
+					}	
+					
+				} else {
+					
+					alert("You can't use " + this.abilityName + " on an enemy")
+					return false;				
+					
+				}
+			
+			} else if (target == "enemy") {
+				
+				if (this.targetUnit.alliance != this.sourceUnit.alliance) {				
+					
+					this.targetList.push(this.targetUnit)
+					
+					if (this.targetList.length < customValue.targets) { 
+						return false; 				
+					} else {
+						combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
+						this.multiCast();
+						this.targetList = [];
+						this.castMode = false;
+					}					
+					
+				} else {
+					
+					alert("You can't use " + this.abilityName + " on an ally")	
+					return false			
+					
+				}				
+				
+			} else if (target == "both") {
+				
+				this.targetList.push(this.targetUnit)
+				
+				if (this.targetList.length < customValue.targets) { 
+					return false; 				
+				} else {
+					combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
+					this.multiCast();
+					this.targetList = [];
+					this.castMode = false;
+				}			
+				
+			}
+			
+		} else {
+			
+			alert("You cannot target yourself");
+			return false;
+			
+		}
+	}
+	
+	// single target casting
+	if (this.targetSpot.abilityMarker == true && this.targetUnit != null) {
 	
 		if (target == "ally") {
 		
 			if (this.targetUnit.alliance == this.sourceUnit.alliance) {
 				
+			    combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
 				new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
 				this.sourceUnit.abilityMarkers("off", customValue.range);
 				this.castMode = false;
@@ -345,6 +417,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			
 			if (this.targetUnit.alliance != this.sourceUnit.alliance) {
 				
+			    combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
 				new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
 				this.sourceUnit.abilityMarkers("off", customValue.range);
 				this.castMode = false;
@@ -360,6 +433,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			
 		} else { // target = both
 			
+			combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
 			new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
 			this.sourceUnit.abilityMarkers("off", customValue.range);
 			this.castMode = false;
@@ -458,13 +532,42 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	return finished; //require another click
 }
 
+ability.prototype.multiCast = function() {
+	
+	switch (this.abilityName) {
+		
+		case "Polarity": // 2 targets
+		
+			var coords = { x: this.targetList[0].x, y: this.targetList[0].y }
+			
+			var target1 = this.targetList[0]
+			var target2 = this.targetList[1]
+			
+			target1.x = target2.x;
+			target1.y = target2.y;
+			
+			target2.x = coords.x
+			target2.y = coords.y;
+			
+			GridSpot[target2.x][target2.y].currentUnit = target2;
+			GridSpot[target1.x][target1.y].currentUnit = target1;	
+			
+			combatLog.push(target1.baseStats[0] + " swapped places with " + target2.baseStats[0])		
+			
+			break;
+		
+	}
+	
+}
+
 
 
 ability.prototype.removeMarkers = function()
 {
-	if (this.abilityName != null){
-	var customValue = this.abilityStats(this.abilityName);
-	if (this.sourceUnit != null && customValue != 'undefined' && customValue != null) {this.sourceUnit.abilityMarkers("off", customValue[5]); }}
+	if (this.castMode == true) {
+		this.sourceUnit.abilityMarkers("off", this.abilityStats(this.abilityName).range);
+		this.castMode = false;
+	}
 }
 
 

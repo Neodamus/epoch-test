@@ -320,7 +320,7 @@ var Lifeforce = new Array(
 "0",      //reveal
 "1",      //#attack
 "1",      //#defend
-"27",      //onAttackAbility
+"Frostbite",      //onAttackAbility
 "0",     //onDefendAbility
 "0, 0",   //auras
 "Frostbite",   //ability

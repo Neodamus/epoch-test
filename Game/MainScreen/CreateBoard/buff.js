@@ -152,6 +152,26 @@
 				}   
 				break;
 				
+			case "Frostbite":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+					
+						console.warn("S")
+						
+						if (this.attachedUnit.lastDamageLoss < this.buffStats.damage) {
+							
+							this.attachedUnit.receivePureDamage(this.buffStats.damage - this.attachedUnit.lastDamageLoss, "Frostbite")
+							
+						}
+						
+						break;
+						
+				}
+						
+			break;
+				
 			case "Haste":
 			
 				switch(Procedure) {

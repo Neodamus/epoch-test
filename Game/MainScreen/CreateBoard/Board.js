@@ -68,9 +68,14 @@
 		
 		// Unit abilities
 		if (ClientsTurn == true && ability.castMode == true) {
-			if (PlacementStage == false) { this.WhichGrid(Mouse, WhichClick); Ui.useAbility("game", CurrentSelectedGrid); }
 			
-			GridSpot[ability.sourceUnit.x][ability.sourceUnit.y].Select("on")
+			if (PlacementStage == false) { 
+				this.WhichGrid(Mouse, WhichClick); 
+				Ui.useAbility("game", CurrentSelectedGrid);			// take out of UI's hands if possible, move to ability??
+			}
+			
+			CurrentSelectedGrid = GridSpot[ability.sourceUnit.x][ability.sourceUnit.y]
+			CurrentSelectedGrid.Select("on")
 			Ui.currentStats = ability.sourceUnit.baseStats;
 			Ui.currentUnit = ability.sourceUnit;
 		}

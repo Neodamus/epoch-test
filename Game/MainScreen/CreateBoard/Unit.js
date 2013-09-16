@@ -31,6 +31,9 @@
 		this.x = x;
 		this.y = y;
 		
+		this.lastDamageHit;		// last damage amount this unit inflicted	
+		this.lastDamageLoss; 	// last damage amout this unit suffered
+		
 		this.name = Name;                //not necessary(may need to remove any uses before removing this)
 		this.element = Element; 	     //not necessary(may need to remove any uses before removing this)
 		this.value = Value; 		     //not necessary(may need to remove any uses before removing this)
@@ -181,7 +184,7 @@
 	  
 	  Unit.prototype.receivePureDamage = function(damage, from)
 	  {
-		combatLog.push(this.baseStats[0] + " receives " + damage + " pure damage from " + from.baseStats[0])
+		combatLog.push(this.baseStats[0] + " receives " + damage + " pure damage from " + from)
 		
 		this.currentStats[1] -= damage;
 		if (this.currentStats[1] <= 0){
@@ -210,7 +213,10 @@
 		this.currentStats[1] -= damageDealt;
 		
 		combatLog.push(this.baseStats[0] + " receives " + totalDamage.toString() + " damage from " + attackerUnit.baseStats[0] + ". " + damageDefended.toString() + " damage was defended and " + 
-		damageDealt.toString() + " was dealt."); 
+		damageDealt.toString() + " was dealt.");
+		 
+		this.lastDamageLoss = damageDealt;
+		attackerUnit.lastDamageHit = damageDealt;
 		
 		if (this.currentStats[1] <= 0){
 		
@@ -230,11 +236,10 @@
 		
 		//send damage variable to "On Attack buffs" for this unit
 		
-		combatLog.push(this.baseStats[0] + " has attacked " + NewGridSpot.currentUnit.baseStats[0] + " with " + damage.toString() +" damage.");
-		
-		
+		combatLog.push(this.baseStats[0] + " has attacked " + NewGridSpot.currentUnit.baseStats[0] + " with " + damage.toString() +" damage.");		
 
 		NewGridSpot.currentUnit.receivePhysicalDamage(damage, this);
+		
 		if (this.currentStats[10] != 0) {
 		var buffIt = new newBuff(this.currentStats[10], NewGridSpot.currentUnit, this); }
 		
@@ -243,7 +248,7 @@
 		
 		for (var i = 0; i < NewGridSpot.currentUnit.buffList.length; i++) { NewGridSpot.currentUnit.buffList[i].eventProc("Defend", this);  }
 		
-		for (var i = 0; i < this.buffList.length; i++) { this.buffList[i].eventProc("Attack");  }
+		for (var i = 0; i < this.buffList.length; i++) { this.buffList[i].eventProc("Attack", damage);  }
 	  }
 	 }
 	  
