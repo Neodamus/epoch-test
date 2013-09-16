@@ -631,22 +631,20 @@ ability.prototype.castModeHighlight = function() {
 		if (gridList != 'undefined' && gridList != null && gridList.length > 0)   //if centregrid is found we will add in the other firewall selected grids based on the centreGrid.
 		{
 		
-		switch (this.castType) {
+			switch (this.castType) {
 		
 				case "line": 
 					for (var i = 0; i < numberOfTiles / 2; i++) {
 					if (GridSpot[gridList[0].x - i][gridList[0].y] != null) {gridList.push(GridSpot[gridList[0].x - i][gridList[0].y]);}  //left of centre grid
 					if (GridSpot[gridList[0].x + i][gridList[0].y] != null) {gridList.push(GridSpot[gridList[0].x - i][gridList[0].y]);}  //right of centre grid
 					}
-					
-					return gridList;
 
 				break;
 			}
 			
-			this.highLightTheseSpots = gridList; //might need to parse these to not be linked!     for now we can tell each highlightspots.movementMarker = true; and when removing old selections make it false.
+			//this.highLightTheseSpots = gridList; //might need to parse these to not be linked!     for now we can tell each highlightspots.movementMarker = true; and when removing old selections make it false.
 												//if a click goes through and this.highlighted is != null, then we will set tilemods for firewall on this list.
-		//	return gridList; 
+			return gridList;
 		}
 	}
 
