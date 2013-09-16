@@ -11,7 +11,15 @@ this.castMode = false;	// true if in castmode, false if not
 ability.prototype.abilityStats = function(abilityName)
 {
 	var customValue = new Array(8);
-	switch(abilityName){
+	switch(abilityName){	
+					
+		case "Absolute Zero":
+					
+			stats = {
+				blocks: 2
+			}
+			
+			return stats; 
 		
 		case "Bark Armor":
 		
@@ -42,6 +50,17 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[4] = 1; 	    //Damage dealt to attachedUnit
 					customValue[5] = 0;         //range
 					return customValue;
+			
+		case "Entanglement":	
+					
+			stats = {
+				target: "enemy",
+				hitpoints: -2,
+				damage: 5,
+				range: 4
+			}
+			
+			return stats; 
 					
 		case "Frostbite":	
 					
@@ -223,6 +242,12 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 
 	switch(this.abilityName){
 		
+		case "Absolute Zero":
+			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			finished = true;
+			this.castMode = false;
+			break;
+		
 		case "Bark Armor":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;						
@@ -237,6 +262,17 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 		case "Blind":
 			this.sourceUnit.abilityMarkers("on", customValue[5]);
 			finished = false;
+			break;
+		
+		case "Entanglement":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;						
+			break;	
+			
+		case "Fire Wall":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = true;
+									
 			break;
 			
 		case "Haste":

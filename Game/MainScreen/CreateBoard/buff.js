@@ -39,6 +39,33 @@
 			
 		switch(this.buffType) {
 			
+			case "Absolute Zero":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+						
+						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list
+					
+						this.attachedUnit.currentStats[9] += this.buffStats.blocks					
+						
+						break;
+				
+					case "Turn":
+					
+						this.eventProc("Removal");
+						
+						break;
+					
+					case "Removal":
+					
+						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+						this.attachedUnit.buffList.splice(removeArray, 1);	
+						
+						break;
+				}   
+			break;
+			
 			case "Bark Armor":
 			
 				switch(Procedure) {
@@ -151,6 +178,20 @@
 					break;
 				}   
 				break;
+				
+			case "Entanglement":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+						
+						this.sourceUnit.receivePureDamage(-(this.buffStats.hitpoints), this.buffType);
+					
+						this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
+						
+						break;
+				}   
+			break;
 			
 			case "Firewall":
 				
