@@ -43,6 +43,7 @@ ability.prototype.abilityStats = function(abilityName)
 	  	case "Blind":
 		
 			stats = {
+				target: "enemy",
 				duration: 2,
 				range: 3,
 				sight: 1				

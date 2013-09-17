@@ -80,7 +80,13 @@
 		 Unit.prototype.resetStats = function(resetFrom)
 		 { 		 
 			if (resetFrom == null) 
-			{			
+			{						
+			this.sight("off");
+			this.currentStats[5] = this.baseStats[5] + this.buffStats[5]; // sight
+			this.sight("on");
+			
+			this.currentStats[6] = this.baseStats[6] + this.buffStats[6]; // range
+					
 			this.currentStats[4] = this.baseStats[4] + this.buffStats[4]; //movement
 			if (this.currentStats[4] < 0) { this.currentStats[4] = 0 };
 			
@@ -148,7 +154,7 @@
 	  
 	    Unit.prototype.sight = function(Toggle)
 	   {
-			this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5] + this.buffStats[5], Toggle, "");
+			this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5], Toggle, "");
 	   }
 	   
 	    Unit.prototype.stealth = function(Toggle, noStealthReason)

@@ -94,8 +94,7 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1);
+						this.removeBuff();
 						
 						this.attachedUnit.buffStats[3] -= this.buffStats.defense 	
 						
@@ -112,22 +111,22 @@
 						this.attachedUnit.buffList.push(this);
 					
 						this.attachedUnit.sight("off");
-					
-						this.attachedUnit.currentStats[5] = this.buffStats.sight 
-						if (this.attachedUnit.baseStats[6] > this.buffStats.sight) { this.attachedUnit.currentStats[6] = this.buffStats.sight; }
+						
+						this.buffStats.sightDebuff = this.buffStats.sight - this.attachedUnit.currentStats[5];					
+						this.attachedUnit.buffStats[5] += this.buffStats.sightDebuff;			
+						this.attachedUnit.currentStats[5] += this.buffStats.sightDebuff;						
 					
 						this.attachedUnit.sight("on");
 						
+						if (this.attachedUnit.currentStats[6] > this.buffStats.sight) {  // range greater than sight
+							this.buffStats.rangeDebuff = this.buffStats.sight - this.attachedUnit.currentStats[6];
+							this.attachedUnit.buffStats[6] += this.buffStats.rangeDebuff;		
+							this.attachedUnit.currentStats[6] += this.buffStats.rangeDebuff;
+						}
+						
 					break;
 				
-					case "Turn":
-					
-						this.attachedUnit.sight("off");
-					
-						this.attachedUnit.currentStats[5] = this.buffStats.sight 
-						if (this.attachedUnit.baseStats[6] > this.buffStats.sight) { this.attachedUnit.currentStats[6] = this.buffStats.sight; }
-					
-						this.attachedUnit.sight("on");						
+					case "Turn":						
 						
 						this.buffStats.duration--; 
 						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
@@ -136,8 +135,12 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1);						
+						this.removeBuff();
+											
+						this.attachedUnit.buffStats[5] -= this.buffStats.sightDebuff;
+						this.attachedUnit.buffStats[6] -= this.buffStats.rangeDebuff;	
+						
+						this.					
 						
 					break;
 				}   
@@ -187,8 +190,7 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1);	
+						this.removeBuff();	
 						
 						break;
 				}   
@@ -221,8 +223,7 @@
 						var removeArray = listReturnArray(this.attachedUnit.noStealthList, this);
 						this.attachedUnit.noStealthList.splice(removeArray, 1);
 						
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1); 
+						this.removeBuff(); 
 						
 					break;
 				}   
@@ -262,8 +263,7 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1);	
+						this.removeBuff();	
 						
 						break;
 				}   
@@ -319,8 +319,7 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1);
+						this.removeBuff();
 						
 						this.attachedUnit.buffStats[4] -= this.buffStats.speed
 						this.attachedUnit.currentStats[4] -= this.buffStats.speed		
@@ -398,8 +397,7 @@
 						var removeArray = listReturnArray(this.attachedUnit.noStealthList, this);
 						this.attachedUnit.noStealthList.splice(removeArray, 1);				
 						
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1); 
+						this.removeBuff(); 
 						
 					break;
 				}
@@ -457,8 +455,7 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1); 	
+						this.removeBuff(); 	
 						
 						break;
 				}   
@@ -492,8 +489,7 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1); 
+						this.removeBuff(); 
 						
 						this.attachedUnit.buffStats[2] -=  this.buffStats.damage;		
 						
@@ -538,8 +534,7 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1);
+						this.removeBuff();
 						
 						this.attachedUnit.buffStats[3] -= this.buffStats.defense 	
 						
@@ -567,8 +562,7 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1); 	
+						this.removeBuff(); 	
 						
 						break;
 				}   
@@ -594,8 +588,7 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1); 	
+						this.removeBuff(); 	
 						
 						break;
 				}   
@@ -622,8 +615,7 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1);	
+						this.removeBuff();	
 						
 						break;
 				}   
@@ -651,8 +643,7 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1);	
+						this.removeBuff();	
 						
 						this.attachedUnit.currentStats[2] -= this.buffStats.damage 
 						this.attachedUnit.buffStats[2] -= this.buffStats.damage						
@@ -719,8 +710,7 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1);
+						this.removeBuff();
 						
 						this.attachedUnit.buffStats[4] -= this.buffStats.speed; 	
 						
@@ -785,8 +775,7 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1);	
+						this.removeBuff();	
 						
 						this.attachedUnit.buffStats[2] -= this.buffStats.reveal;						
 						
@@ -815,8 +804,7 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1);
+						this.removeBuff();
 						
 						this.attachedUnit.buffStats[4] -= this.buffStats.speed	 	
 						
@@ -827,4 +815,15 @@
 		
 		if (this.attachedUnit.currentStats != null) { this.attachedUnit.resetStats("BUFF"); }
 	}
-
+	
+newBuff.prototype.removeBuff = function() {
+					
+	removeArray = listReturnArray(this.attachedUnit.buffList, this);
+	
+	if (removeArray != -1) {
+		this.attachedUnit.buffList.splice(removeArray, 1);
+	} else {
+		alert("Buff being removed outside of buff class");
+	}
+	
+}
