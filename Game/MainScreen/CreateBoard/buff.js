@@ -202,7 +202,7 @@
 					
 						this.attachedUnit.buffList.push(this);
 					
-						this.attachedUnit.stealth("off", this)
+						this.attachedUnit.stealth("off", this);
 						//this.attachedUnit.noStealthList.push(this);
 						
 					break;
@@ -348,43 +348,60 @@
 			case "Magma Trap":
 			
 				var targetGridSpot = this.attachedUnit;
-				this.hasAlreadyInitialized;
 			
 				switch(Procedure) {
 				
 					case "Initialize": //initialize modifier
 						
 						if (this.attachedUnit.name == null) {
-						this.hasAlreadyInitialized = true; 
-						var Trap = new tileModifier(this.sourceUnit, this.buffType) 
+							
+							var Trap = new tileModifier(this.sourceUnit, this.buffType) 
 						
-						var Instructions = new Array();
+							var Instructions = new Array();
 						
-						Instructions.push("on");
-						var targetSpots = [targetGridSpot];
-						Instructions.push(targetSpots);
-						Trap.affectedTiles(Instructions) }
+							Instructions.push("on");
+							Instructions.push( [targetGridSpot] );
+							Trap.affectedTiles(Instructions);
+						}
+						
 						// targetGridSpot.push
-						if (this.attachedUnit != undefined && this.attachedUnit.buffList != undefined) 
-						{
-						var rem = listReturnArray(this.attachedUnit.currentTileMods, this.sourceUnit);
-						var test = [ "off" ];
-						if (rem != -1) { this.attachedUnit.currentTileMods[rem].affectedTiles(test); }
-						this.attachedUnit.buffList.push(this);
-						
-						
-						}   // Do not display buff??
-						
-						
-						
-						break;	
+						if (this.attachedUnit != undefined && this.attachedUnit.buffList != undefined) {
+							
+							var rem = listReturnArray(this.attachedUnit.currentTileMods, this.sourceUnit);
+							var test = [ "off" ];
+							
+							if (rem != -1) { this.attachedUnit.currentTileMods[rem].affectedTiles(test); }
+							
+							this.attachedUnit.buffList.push(this);		
+							
+							this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
 					
-					case "Removal":
+							this.attachedUnit.stealth("off", this);				
+						
+						}   // Do not display buff??						
+						
+					break;
 					
+					case "Turn":
+					
+						this.buffStats.damage--;
+						this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
+					
+						this.buffStats.duration--;
+						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+						
+					
+					break;
+					
+					case "Removal":	
+					
+						var removeArray = listReturnArray(this.attachedUnit.noStealthList, this);
+						this.attachedUnit.noStealthList.splice(removeArray, 1);				
 						
 						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
 						this.attachedUnit.buffList.splice(removeArray, 1); 
-						break;
+						
+					break;
 				}
 			break;
 				

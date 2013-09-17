@@ -128,8 +128,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Magma Trap":
 		
 			stats = {
-				duration: 3,
 				target: "tile",
+				duration: 3,
 				range: 3,
 				damage: 2				
 			}
@@ -555,9 +555,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	}
 	
 	// single target casting
-	if (this.targetSpot.abilityMarker == true && this.targetUnit != null) {
-		
-		
+	if (this.targetSpot.abilityMarker == true && this.targetUnit != null) {		
 		
 		if (target == "ally") {
 		
