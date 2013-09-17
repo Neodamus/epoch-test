@@ -419,10 +419,10 @@
 					break;
 				
 						case "Turn":
-					
+					console.warn(this.buffStats.duration);
 					this.buffStats.duration--; 
 					this.sourceUnit.stats.unitAffectNumber = this.buffStats.unitAffectNumber; //we reset the aura's stats by using this.buffStats because we're not modifying the buffstats of that variable here.
-					if (listContains(this.attachedUnit.currentTileMods, this.sourceUnit) == true) { this.buffStats.duration = this.sourceUnit.stats.duration; }
+					if (listContains(this.attachedUnit.currentTileMods, this.sourceUnit) == true) { this.buffStats.duration = 3; }
 						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
 					break;
 					
@@ -432,7 +432,6 @@
 					break;
 						
 						case "Removal":
-					var removeArray = listReturnArray(this.attachedUnit.noStealthList, this);
 					removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
 					this.attachedUnit.buffList.splice(removeArray, 1); 
 					break;
