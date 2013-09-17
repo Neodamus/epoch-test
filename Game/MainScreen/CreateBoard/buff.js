@@ -350,8 +350,9 @@
 			
 				switch(Procedure) {
 				
-					case "Initialize": //initialize modifier
-						
+					case "Initialize":
+					
+						// if placing trap	
 						if (this.attachedUnit.name == null) {
 							
 							var Trap = new tileModifier(this.sourceUnit, this.buffType) 
@@ -363,12 +364,12 @@
 							Trap.affectedTiles(Instructions);
 						}
 						
-						// targetGridSpot.push
+						// if unit steps on trap
 						if (this.attachedUnit != undefined && this.attachedUnit.buffList != undefined) {
 							
 							var rem = listReturnArray(this.attachedUnit.currentTileMods, this.sourceUnit);
-							var test = [ "off" ];
 							
+							var test = [ "off" ];							
 							if (rem != -1) { this.attachedUnit.currentTileMods[rem].affectedTiles(test); }
 							
 							this.attachedUnit.buffList.push(this);		
@@ -384,20 +385,22 @@
 					case "Turn":
 					
 						this.buffStats.damage--;
-						this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
-					
-						this.buffStats.duration--;
-						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+						
+						if (this.buffStats.damage != 0) {
+							this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
+						} else {
+							this.eventProc("Removal");	
+						}
 						
 					
 					break;
 					
-					case "Removal":	
+					case "Removal":					
+						
+						this.removeBuff();
 					
 						var removeArray = listReturnArray(this.attachedUnit.noStealthList, this);
-						this.attachedUnit.noStealthList.splice(removeArray, 1);				
-						
-						this.removeBuff(); 
+						this.attachedUnit.noStealthList.splice(removeArray, 1);
 						
 					break;
 				}

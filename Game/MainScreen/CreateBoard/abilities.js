@@ -130,7 +130,6 @@ ability.prototype.abilityStats = function(abilityName)
 		
 			stats = {
 				target: "tile",
-				duration: 3,
 				range: 3,
 				damage: 2				
 			}
