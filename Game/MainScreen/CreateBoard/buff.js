@@ -687,9 +687,11 @@
 					
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1);	
-						this.attachedUnit.stealth("off");					
+						
+						//if (removeArray != -1) {
+						//this.attachedUnit.stealth("off"); 
+						var removeArray = listReturnArray(this.attachedUnit.buffList, this);
+						this.attachedUnit.buffList.splice(removeArray, 1);	//}
 						
 						break;
 				}   
