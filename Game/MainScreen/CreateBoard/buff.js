@@ -39,33 +39,6 @@
 			
 		switch(this.buffType) {
 			
-			case "Absolute Zero":
-			
-				switch(Procedure) {
-				
-					case "Initialize":
-						
-						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list
-					
-						this.attachedUnit.currentStats[9] += this.buffStats.blocks					
-						
-						break;
-				
-					case "Turn":
-					
-						this.eventProc("Removal");
-						
-						break;
-					
-					case "Removal":
-					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
-						this.attachedUnit.buffList.splice(removeArray, 1);	
-						
-						break;
-				}   
-			break;
-			
 			case "Bark Armor":
 			
 				switch(Procedure) {
@@ -151,6 +124,57 @@
 						break;
 				}   
 			break;
+			
+			case "Condense": // channeled
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+						
+						this.attachedUnit.buffList.push(this);
+						
+						break;
+				
+					case "Turn":
+						
+						if (this.attachedUnit.currentStats[1] + this.buffStats.hitpoints < this.attachedUnit.baseStats[1]) {
+							this.attachedUnit.currentStats[1] += this.buffStats.hitpoints;
+						} else {
+							this.attachedUnit.currentStats[1] = this.attachedUnit.baseStats[1];
+							this.eventProc("Removal");
+						}
+						
+						this.buffStats.duration--;  
+						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+						
+						break;
+						
+					case "Move":
+					
+						this.eventProc("Removal");
+						
+						break;
+						
+					case "Attack":
+					
+						this.eventProc("Removal");
+						
+						break;
+						
+					case "Defend":
+					
+						this.eventProc("Removal");
+						
+						break;
+					
+					case "Removal":
+					
+						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+						this.attachedUnit.buffList.splice(removeArray, 1);	
+						
+						break;
+				}   
+			break;
 		
 			case "Engulf":
 				switch(Procedure){
@@ -187,6 +211,33 @@
 						this.sourceUnit.receivePureDamage(-(this.buffStats.hitpoints), this.buffType);
 					
 						this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
+						
+						break;
+				}   
+			break;
+			
+			case "Exothermia":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+						
+						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list
+					
+						this.attachedUnit.currentStats[9] += this.buffStats.blocks					
+						
+						break;
+				
+					case "Turn":
+					
+						this.eventProc("Removal");
+						
+						break;
+					
+					case "Removal":
+					
+						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+						this.attachedUnit.buffList.splice(removeArray, 1);	
 						
 						break;
 				}   

@@ -323,7 +323,7 @@ var IceSpirit = new Array(
 "Frostbite",      //onAttackAbility
 "0",     //onDefendAbility
 "0, 0",   //auras
-"Frostbite, Absolute Zero",   //ability
+"Frostbite, Exothermia",   //ability
 "Water"	//element
 );
  
@@ -341,7 +341,7 @@ var Theurgist = new Array(
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
-"Entanglement, Vaporize",   //ability
+"Entanglement, Condense",   //ability
 "Water"	//element
 );
  

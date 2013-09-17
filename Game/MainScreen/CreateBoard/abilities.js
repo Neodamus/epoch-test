@@ -18,18 +18,11 @@ ability.prototype.abilityStats = function(abilityName)
 {
 	var customValue = new Array(8);
 	switch(abilityName){	
-					
-		case "Absolute Zero":
-					
-			stats = {
-				blocks: 2
-			}
-			
-			return stats; 
 		
 		case "Bark Armor":
 		
 			stats = {
+				target: "ally",
 				duration: 3,
 				visibility: "both",
 				stacks: false,
@@ -46,7 +39,16 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[3] = false;     // stacks
 					customValue[4] = 1; 		// sight range
 					customValue[5] = 3;			// cast range
-					return customValue; 
+					return customValue;
+					
+		case "Condense":	
+					
+			stats = {
+				duration: 3,
+				hitpoints: 2
+			}
+			
+			return stats; 
 	  
 		case "Engulf": 
 					customValue[0] = 3; 		//MaxTime
@@ -64,6 +66,14 @@ ability.prototype.abilityStats = function(abilityName)
 				hitpoints: -2,
 				damage: 5,
 				range: 4
+			}
+			
+			return stats; 
+					
+		case "Exothermia":
+					
+			stats = {
+				blocks: 2
 			}
 			
 			return stats; 
@@ -193,6 +203,15 @@ ability.prototype.abilityStats = function(abilityName)
 			
 			return stats;	
 			
+		case "Teleport":	
+					
+			stats = {
+				target: "tile",
+				range: 7
+			}
+			
+			return stats;	
+			
 		case "Thunderclap":	
 					
 			stats = {
@@ -265,12 +284,6 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 
 	switch(this.abilityName){
 		
-		case "Absolute Zero":
-			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
-			finished = true;
-			this.castMode = false;
-			break;
-		
 		case "Bark Armor":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;						
@@ -287,10 +300,22 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			finished = false;
 			break;
 		
+		case "Condense":
+			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			finished = true;
+			this.castMode = false;
+			break;
+		
 		case "Entanglement":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;						
 			break;	
+		
+		case "Exothermia":
+			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			finished = true;
+			this.castMode = false;
+			break;
 			
 		case "Fire Wall":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
@@ -383,7 +408,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 		var target = customValue.target;	// holds whether target needs to be ally, enemy, or both
 	}
 	
-	// checks if multiple targets are needed
+	// multi target casting -- ex. polarity
 	if (customValue.targets != null && this.targetSpot.abilityMarker == true && this.targetUnit != null) {	
 	
 		if ((this.targetUnit == this.sourceUnit == customValue.targetSelf) || this.targetUnit != this.sourceUnit) {	
@@ -502,6 +527,13 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			finished = true;			
 			
 		}
+		
+	} else if (this.targetSpot.abilityMarker == true && this.targetUnit == null && customValue.target == "tile") {
+		
+		combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");		
+		new newBuff (this.abilityName, this.targetSpot, this.sourceUnit);
+		this.reemoveMarkers();
+		finished = true;
 		
 	} else {
 		
