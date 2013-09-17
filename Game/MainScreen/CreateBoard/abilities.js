@@ -128,6 +128,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Magma Trap":
 		
 			stats = {
+				duration: 3,
 				target: "tile",
 				range: 3,
 				damage: 2				
@@ -136,6 +137,18 @@ ability.prototype.abilityStats = function(abilityName)
 			return stats;
 					
 		case "Panic Aura": 
+		
+			stats = {
+				duration: 3,
+				unitAffectNumber: 1,
+				auraRange: 2,
+				auraTarget: "enemy"
+			}
+			
+			return stats;
+			
+			
+			/*
 					customValue[0] = 3; 		//MaxTime (buff)
 					customValue[1] = 3; 		//CurrentTime (buff)
 					customValue[2] = "both";    //buff visibility (buff)
@@ -144,7 +157,7 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[5] = 2;         //range of aura (aura)
 					customValue[6] = 1;         //current-How many units can it affect per turn (aura)
 					customValue[7] = "enemy"    //alliance that aura gets applied to, compared to sourceUnit (aura)
-					return customValue; 
+					return customValue; */
 					
 		case "Polarity":
 		
@@ -543,7 +556,9 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	
 	// single target casting
 	if (this.targetSpot.abilityMarker == true && this.targetUnit != null) {
-	
+		
+		
+		
 		if (target == "ally") {
 		
 			if (this.targetUnit.alliance == this.sourceUnit.alliance) {

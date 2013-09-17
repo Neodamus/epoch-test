@@ -8,8 +8,11 @@ this.sourceUnit = sourceUnit;
 this.name = name; //used to get aura stats
 this.tileList = new Array();
 var values = ability.abilityStats(name);
-this.customValue = new Array();
-for (var i = 0; i < values.length; i++) { this.customValue.push(values[i]); } }
+
+this.stats = values;
+ }
+//this.customValue = new Array();
+//for (var i = 0; i < values.length; i++) { this.customValue.push(values[i]); } }
 }
 
 
@@ -43,7 +46,7 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 		var exists = false;
 		for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
 		
-		if (exists == false) { var buffIt = new newBuff("Panic Aura", currentUnit, this); } 
+		if (exists == false) { var buffIt = new newBuff(this.name, currentUnit, this); } 
 		break;
 		
 		case "move": //if a unit gains aura by moving into area..
@@ -54,7 +57,7 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 		for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
 		
 		if (exists == false) {
-		var buffIt = new newBuff("Panic Aura", currentUnit, this); }
+		var buffIt = new newBuff(this.name, currentUnit, this); }
 		
 		break;
 		
@@ -76,7 +79,7 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 					if (exists == false) {
 					for (var i = 0; i < currentUnit.buffList.length; i++) {
 			
-						if (currentUnit.buffList[i].buffType == this.name && currentUnit.buffList[i].customValue[1] == null){
+						if (currentUnit.buffList[i].buffType == this.name && this.stats.duration == null){
 							currentUnit.buffList[i].eventProc("Removal"); } } } }
 				
 		break;
@@ -90,7 +93,7 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 	switch(Instructions[0]) {
 	
 		case "on":
-		
+			
 			if (this.tileList instanceof Array) {for (var i = 0; i < Instructions[1].length; i++) { this.tileList.push(Instructions[1][i]); } } // needs to push all tiles affected...
 			else { this.tileList.push(Instructions[1]);  } //if tile list is just one tile .. push
 		   // console.warn(this.tileList);

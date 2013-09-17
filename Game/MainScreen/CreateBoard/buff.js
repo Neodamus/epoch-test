@@ -348,39 +348,70 @@
 			case "Magma Trap":
 			
 				var targetGridSpot = this.attachedUnit;
+				this.hasAlreadyInitialized;
 			
 				switch(Procedure) {
 				
-					case "Initialize":
-					
+					case "Initialize": //initialize modifier
+						
+						if (this.attachedUnit.name == null) {
+						this.hasAlreadyInitialized = true; 
+						var Trap = new tileModifier(this.sourceUnit, this.buffType) 
+						
+						var Instructions = new Array();
+						
+						Instructions.push("on");
+						var targetSpots = [targetGridSpot];
+						Instructions.push(targetSpots);
+						Trap.affectedTiles(Instructions) }
 						// targetGridSpot.push
+						if (this.attachedUnit != undefined && this.attachedUnit.buffList != undefined) 
+						{
+						var rem = listReturnArray(this.attachedUnit.currentTileMods, this.sourceUnit);
+						var test = [ "off" ];
+						if (rem != -1) { this.attachedUnit.currentTileMods[rem].affectedTiles(test); }
+						this.attachedUnit.buffList.push(this);
+						
+						
+						}   // Do not display buff??
+						
+						
 						
 						break;	
-				}   
+					
+					case "Removal":
+					
+						
+						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+						this.attachedUnit.buffList.splice(removeArray, 1); 
+						break;
+				}
 			break;
 				
 			case "Panic Aura":
-				switch(Procedure){
+
+				switch(Procedure) {
 				
 						case "Initialize":
-					var buffStats = ability.abilityStats(this.buffType); for (var i = 0; i < buffStats.length; i++) { this.customValue[i] = buffStats[i]; } //this disconnect variables...
-					console.warn(this.sourceUnit);
-					if (this.sourceUnit.customValue[4] > 0) { this.attachedUnit.currentStats[4] = 0; this.sourceUnit.customValue[4]--; }
+						
+					
+					//We use the sourceUnit for the AURA.stats, that way any future buffs have to obey what the aura can currently do:
+					if (this.sourceUnit.stats.unitAffectNumber > 0) { this.attachedUnit.currentStats[4] = 0; this.sourceUnit.stats.unitAffectNumber--; } //aura can only affect 1 unit per turn.
 					this.attachedUnit.buffList.push(this);
-					//aura based ability holder
+					
 					break;
 				
 						case "Turn":
-					//this.customValue[6] = this.customValue[4]; //reset how many units can be affected this turn
-					this.customValue[1]--; //reduce buff time;
-					this.sourceUnit.customValue[4] = 1;
-					if (listContains(this.attachedUnit.currentTileMods, this.sourceUnit) == true) { this.customValue[1] = this.customValue[0]; }
-						if (this.customValue[1] == 0) { this.eventProc("Removal"); }
+					
+					this.buffStats.duration--; 
+					this.sourceUnit.stats.unitAffectNumber = this.buffStats.unitAffectNumber; //we reset the aura's stats by using this.buffStats because we're not modifying the buffstats of that variable here.
+					if (listContains(this.attachedUnit.currentTileMods, this.sourceUnit) == true) { this.buffStats.duration = this.resetDuration; }
+						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
 					break;
 					
 						case "Move":
 						 //take out movement
-						this.customValue[1] = this.customValue[0]; //reset duration
+						if (listContains(this.attachedUnit.currentTileMods, this.sourceUnit) == true) { this.buffStats.duration = this.resetDuration; }  //reset duration if moves and still has aura tilemod
 					break;
 						
 						case "Removal":
@@ -388,7 +419,7 @@
 					removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
 					this.attachedUnit.buffList.splice(removeArray, 1); 
 					break;
-				}   
+				}
 				break;
 				
 			case "Poison Tips":

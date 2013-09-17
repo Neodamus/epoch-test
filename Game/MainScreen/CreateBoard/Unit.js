@@ -134,7 +134,7 @@
 	   {
 			this.genericGridList = new Array();
 			
-			if (Toggle == "on" || Toggle == "move") { this.AreaSelect("list", GridSpot[this.x][this.y], aura.customValue[5], Toggle, ""); }
+			if (Toggle == "on" || Toggle == "move") { this.AreaSelect("list", GridSpot[this.x][this.y], aura.stats.auraRange, Toggle, ""); }
 			
 			var Instructions = new Array();
 			Instructions.push(Toggle); Instructions.push(this.genericGridList);
