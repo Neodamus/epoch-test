@@ -161,7 +161,7 @@
 				case "off":
 					this.unitStealth = false; //turns stealth off
 					for (var i = 0; i < this.buffList.length; i++) { this.buffList[i].eventProc("StealthRemoval");  } //removes stealth buffs
-					if (noStealthReason != null) { this.noStealthList.push(noStealthReason); } //tells unit why it cannot stealth
+					if (noStealthReason != 'undefined' && noStealthReason != null) { this.noStealthList.push(noStealthReason); } //tells unit why it cannot stealth
 				break;
 			}
 	   }

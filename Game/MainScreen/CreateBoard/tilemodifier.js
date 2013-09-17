@@ -66,12 +66,12 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 			var unitIsWithinAura = false;
 			if (this.tileList != null) {
 		    for (var i = 0; i < this.tileList.length; i++) {
-			if (currentUnit.x == this.tileList[i].x && currentUnit.y == this.tileList[i].y)
-			{ unitIsWithinAura = true; break; } } }
+				if (currentUnit.x == this.tileList[i].x && currentUnit.y == this.tileList[i].y)
+					{ unitIsWithinAura = true; break; } } }
 			
-			if (unitIsWithinAura == false) {    // <---------------- THIS IS IF THE AURA HAS NO BUFF COOLDOWN?? IDK LOOK AT THIS.
-				var rem = listReturnArray(currentUnit.currentTileMods, this);
-				currentUnit.currentTileMods.splice(rem, 1);
+				if (unitIsWithinAura == false) {    // <---------------- THIS IS IF THE AURA HAS NO BUFF COOLDOWN?? IDK LOOK AT THIS.
+					var rem = listReturnArray(currentUnit.currentTileMods, this);
+					currentUnit.currentTileMods.splice(rem, 1);
 				
 				var exists = false;
 				for (var i = 0; i < currentUnit.currentTileMods.length; i ++) { if (currentUnit.currentTileMods[i].name == this.name) { exists = true; } }

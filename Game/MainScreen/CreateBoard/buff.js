@@ -422,7 +422,7 @@
 					
 					this.buffStats.duration--; 
 					this.sourceUnit.stats.unitAffectNumber = this.buffStats.unitAffectNumber; //we reset the aura's stats by using this.buffStats because we're not modifying the buffstats of that variable here.
-					if (listContains(this.attachedUnit.currentTileMods, this.sourceUnit) == true) { this.buffStats.duration = this.resetDuration; }
+					if (listContains(this.attachedUnit.currentTileMods, this.sourceUnit) == true) { this.buffStats.duration = this.sourceUnit.stats.duration; }
 						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
 					break;
 					
