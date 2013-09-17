@@ -41,13 +41,14 @@ ability.prototype.abilityStats = function(abilityName)
 			return stats;				  
 	  
 	  	case "Blind":
-					customValue[0] = 3; 		// MaxTime
-					customValue[1] = 3; 		// CurrentTime
-					customValue[2] = "both";    // buff visibility
-					customValue[3] = false;     // stacks
-					customValue[4] = 1; 		// sight range
-					customValue[5] = 3;			// cast range
-					return customValue;
+		
+			stats = {
+				duration: 2,
+				range: 3,
+				sight: 1				
+			}
+			
+			return stats;
 					
 		case "Condense":	
 					
@@ -59,14 +60,14 @@ ability.prototype.abilityStats = function(abilityName)
 			return stats; 
 	  
 		case "Engulf": 
-					customValue[0] = 3; 		//MaxTime
-					customValue[1] = 3; 		//CurrentTime
-					customValue[2] = "both";    //buff visibility
-					customValue[3] = false;      //Does it stack?
-					customValue[4] = 1; 	    //Damage dealt to attachedUnit
-					customValue[5] = 0;         //range
-					return customValue;
+		
+			stats = {				
+				duration: 3,
+				damage: 1
+			}
 			
+			return stats;
+							
 		case "Entanglement":	
 					
 			stats = {
@@ -122,7 +123,17 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4
 			}
 			
-			return stats;	
+			return stats;
+			
+		case "Magma Trap":
+		
+			stats = {
+				target: "tile",
+				range: 3,
+				damage: 2				
+			}
+			
+			return stats;
 					
 		case "Panic Aura": 
 					customValue[0] = 3; 		//MaxTime (buff)
@@ -158,12 +169,14 @@ ability.prototype.abilityStats = function(abilityName)
 			return stats;	
 					
 		case "Precision":
-					customValue[0] = 2;			// duration
-					customValue[1] = "both";	// buff visibility
-					customValue[2] = false;		// stacks
-					customValue[3] = 3;			// attack increase
-					customValue[4] = 4;			// cast range
-					return customValue;	
+		
+			stats = {
+				duration: 3,
+				damage: 4,
+				range: 2
+			}
+			
+			return stats;	
 					
 		case "Rain Shield":	
 					
@@ -252,21 +265,20 @@ ability.prototype.abilityStats = function(abilityName)
 			return stats;							
 					
 		case "Torch": 
-					customValue[0] = 3; 		//MaxTime
-					customValue[1] = 3; 		//CurrentTime
-					customValue[2] = "both";    //buff visibility
-					customValue[3] = false;      //Does it stack?
-					customValue[4] = 3; 		//reveal buffstats
-					customValue[5] = 3;			//cast range
-					customValue[6] = "local sight"//requirements for casting (note: sight is local to the unit, other unit's sight cannot be used)
-					return customValue; 
+		
+			stats = {
+				target: "ally",
+				duration: 3,
+				reveal: 2,
+				range: 4				
+			}
+			
+			return stats;
 					
 		case "Wound":
 		
 			stats = {
 				duration: 3,
-				visibility: "both",
-				stacks: false,
 				speed: -2,
 				range: 4
 			}
@@ -300,6 +312,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 {	
 	this.abilityName = abilityName;
 	
+	// maintains the casting source in case of multiple targets
 	if (this.castMode == false) {
 		this.sourceSpot = sourceSpot
 		if (this.sourceSpot != null) { this.sourceUnit = this.sourceSpot.currentUnit;}
@@ -326,7 +339,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 	
 		case "Blind":
-			this.sourceUnit.abilityMarkers("on", customValue[5]);
+			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;
 			break;
 		
@@ -363,13 +376,18 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			finished = false;						
 			break;
 			
+		case "Magma Trap":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;						
+			break;
+			
 		case "Polarity":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;						
 			break;
 			
 		case "Precision":
-			this.sourceUnit.abilityMarkers("on", customValue[4]);
+			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;
 			break;
 		
@@ -382,6 +400,11 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
 			finished = true;
 			this.castMode = false;
+			break;
+			
+		case "Soulfire":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;
 			break;
 			
 		case "Static":
@@ -418,12 +441,6 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 		
 		case "Torch":
-			//sourceUnit apply range
-			   this.sourceUnit.abilityMarkers("on", customValue[5]);
-			   finished = false;
-			break;
-			
-		case "Soulfire":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;
 			break;	
@@ -471,8 +488,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 					} else {
 						combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
 						this.multiCast();
-						this.targetList = [];
-						this.castMode = false;
+						this.removeMarkers();
 					}	
 					
 				} else {
@@ -493,8 +509,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 					} else {
 						combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
 						this.multiCast();
-						this.targetList = [];
-						this.castMode = false;
+						this.removeMarkers();
 					}					
 					
 				} else {
@@ -513,8 +528,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				} else {
 					combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
 					this.multiCast();
-					this.targetList = [];
-					this.castMode = false;
+					this.removeMarkers();
 				}			
 				
 			}
@@ -601,6 +615,8 @@ ability.prototype.multiCast = function() {
 		
 		case "Polarity": // 2 targets
 		
+			this.sourceUnit.abilityMarkers("off", this.abilityStats(this.abilityName).range);
+		
 			var coords = { x: this.targetList[0].x, y: this.targetList[0].y }
 			
 			var target1 = this.targetList[0]
@@ -629,9 +645,11 @@ ability.prototype.removeMarkers = function()
 {
 	if (this.castMode == true) {
 		this.sourceUnit.abilityMarkers("off", this.abilityStats(this.abilityName).range);
+		Ui.abilityClickOff();
 		this.castMode = false;
 		this.castHighlight.moveMarker = false;
 		this.castType = "single";
+		this.targetList = [];
 		this.castHightlightList = [];
 	}
 }

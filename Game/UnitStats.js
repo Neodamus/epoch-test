@@ -5,7 +5,7 @@ function UnitStats()
 {
 //Initializing Global variables cannot include other variables in their definition-- so I define them here.
 AllUnits = new Array(
-Vangaurd, Elemental, Firebringer, Seer,     		 //fire units
+Vangaurd, Nightmare, Firebringer, Seer,     		 //fire units
 Assassin, Infiltrator, Sensei, Illusionist,   		 //air units
 Crossbowman, Sharpshooter, Ranger, Grovekeeper, 	 //earth units
 Charger, Ironfist, Inductor, Titan,                  //lightning units
@@ -39,8 +39,8 @@ var Vangaurd = new Array(
 "Fire"	   //element14
 );
  
-var Elemental = new Array(
-"Elemental",     //name
+var Nightmare = new Array(
+"Nightmare",     //name
 "8",      //hitpoints
 "6",      //damage
 "3",      //defence
@@ -89,7 +89,7 @@ var Seer = new Array(
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
-"Lay Mine, Fire Wall",   //ability
+"Magma Trap, Fire Wall",   //ability
 "Fire"		//element
 );
  

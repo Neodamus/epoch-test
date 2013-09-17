@@ -100,7 +100,7 @@
 	{
 		switch(name){
 			case "Vangaurd": return 20; 
-			case "Elemental": return 21;
+			case "Nightmare": return 21;
 			case "Firebringer": return 22; 
 			case "Seer": return 23; 
 			case "Assassin": return 24; 
