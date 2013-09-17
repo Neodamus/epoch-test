@@ -422,17 +422,15 @@
 					console.warn(this.buffStats.duration);
 					this.buffStats.duration--; 
 					this.sourceUnit.stats.unitAffectNumber = this.buffStats.unitAffectNumber; //we reset the aura's stats by using this.buffStats because we're not modifying the buffstats of that variable here.
-					if (listContains(this.attachedUnit.currentTileMods, this.sourceUnit) == true) { this.buffStats.duration = 3; }
+					if (listContains(this.attachedUnit.currentTileMods, this.sourceUnit) == true) { this.buffStats.duration++; }
 						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
 					break;
 					
-						case "Move":
-						 //take out movement
-						if (listContains(this.attachedUnit.currentTileMods, this.sourceUnit) == true) { this.buffStats.duration = this.resetDuration; }  //reset duration if moves and still has aura tilemod
-					break;
+					/*	case "Move":
+					break;*/
 						
 						case "Removal":
-					removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+					removeArray = listReturnArray(this.attachedUnit.buffList, this);
 					this.attachedUnit.buffList.splice(removeArray, 1); 
 					break;
 				}
