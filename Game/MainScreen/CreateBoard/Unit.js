@@ -31,8 +31,13 @@
 		this.x = x;
 		this.y = y;
 		
-		this.lastDamageHit;		// last damage amount this unit inflicted	
-		this.lastDamageLoss; 	// last damage amout this unit suffered
+		// attack properties
+		this.stealthedLastAttack;	// determines if stealth was active at last physical attack
+		this.blockedLastAttack;		// determines if unit blocked last physical attack
+		this.lastPhysicalAttack;	// keeps track of a unit's attack stat during its last attack
+		this.lastPhysicalBlock;		// keeps track of a unit's block stat during its last block
+		this.lastDamageHit;			// last damage amount this unit inflicted	
+		this.lastDamageLoss;	 	// last damage amout this unit suffered
 		
 		this.unitStealth = false;
 		
@@ -223,11 +228,17 @@
 		
 		if (this.currentStats[9] > 0)
 		{
+			this.blockedLastAttack = true;
+			this.lastPhysicalBlock = this.currentStats[3];
 			if (this.currentStats[3] <= damage) { damageDealt = damage - this.currentStats[3]; damageDefended = totalDamage - damageDealt; }
 			if (this.currentStats[3] > damage) { damageDealt = 0; damageDefended = totalDamage; }
 			this.currentStats[9]--;
+		} else {
+			this.blockedLastAttack = false;	
 		}
 
+		attackerUnit.lastPhysicalAttack = attackerUnit.currentStats[2];
+		
 		this.currentStats[1] -= damageDealt;
 		
 		combatLog.push(this.baseStats[0] + " receives " + totalDamage.toString() + " damage from " + attackerUnit.baseStats[0] + ". " + damageDefended.toString() + " damage was defended and " + 
@@ -242,9 +253,13 @@
 		this.Delete(); //Removes unit selection/vision & splices from Teamlist arrays
 		}
 	  }
-	  
-	  
-	  
+	   
+	   Unit.prototype.heal = function(hp, source) { // source should be string
+		   
+		   this.currentStats[1] += hp;
+		   combatLog.push(this.baseStats[0] + " healed by " + source + " for " + hp + " hit points.")
+	   }
+	   	  
 	   Unit.prototype.Attack = function(NewGridSpot)
 	  {
 		if (this.currentStats[8] > 0)
@@ -252,21 +267,25 @@
 		this.Select("off");
 		var damage = this.currentStats[2];
 		
-		//send damage variable to "On Attack buffs" for this unit
+		if (this.unitStealth == true) { this.stealthedLastAttack = true; } else { this.stealthedLastAttack = false; }
 		
-		combatLog.push(this.baseStats[0] + " has attacked " + NewGridSpot.currentUnit.baseStats[0] + " with " + damage.toString() +" damage.");		
-
+		combatLog.push(this.baseStats[0] + " has attacked " + NewGridSpot.currentUnit.baseStats[0] + " with " + damage.toString() +" damage.");	
+		
+		// defend proc
+		for (var i = 0; i < NewGridSpot.currentUnit.buffList.length; i++) { NewGridSpot.currentUnit.buffList[i].eventProc("Defend", this);  }	
+		
+		// receive damage
 		NewGridSpot.currentUnit.receivePhysicalDamage(damage, this);
 		
+		// apply attack buffs
 		if (this.currentStats[10] != 0) {
 		var buffIt = new newBuff(this.currentStats[10], NewGridSpot.currentUnit, this); }
 		
+		// attack proc		
+		for (var i = 0; i < this.buffList.length; i++) { this.buffList[i].eventProc("Attack", damage);  }
+		
 		this.currentStats[4] -= this.attackMovementCost;
 		this.currentStats[8] -= this.attackCost;
-		
-		for (var i = 0; i < NewGridSpot.currentUnit.buffList.length; i++) { NewGridSpot.currentUnit.buffList[i].eventProc("Defend", this);  }
-		
-		for (var i = 0; i < this.buffList.length; i++) { this.buffList[i].eventProc("Attack", damage);  }
 	  }
 	 }
 	  

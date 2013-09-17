@@ -19,6 +19,14 @@ ability.prototype.abilityStats = function(abilityName)
 	var customValue = new Array(8);
 	switch(abilityName){	
 		
+		case "Ambush":
+		
+			stats = {
+				damageMultiplier: 1.5
+			}
+			
+			return stats;
+		
 		case "Bark Armor":
 		
 			stats = {
@@ -93,7 +101,17 @@ ability.prototype.abilityStats = function(abilityName)
 				damage: 3
 			}
 			
-			return stats; 
+			return stats;
+			
+		case "Heal":	
+					
+			stats = {
+				target: "ally",
+				hitpoints: 6,
+				range: 3
+			} 
+			
+			return stats;
 					
 		case "Haste":	
 					
@@ -145,7 +163,19 @@ ability.prototype.abilityStats = function(abilityName)
 					customValue[2] = false;		// stacks
 					customValue[3] = 3;			// attack increase
 					customValue[4] = 4;			// cast range
-					return customValue;
+					return customValue;	
+					
+		case "Rain Shield":	
+					
+			stats = {
+				target: "ally",
+				duration: 3,
+				range: 4,
+				defense: 2,
+				blocks: 3
+			}
+			
+			return stats; 
 					
 		case "Rapid Strikes": 
 					
@@ -207,7 +237,7 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				target: "tile",
-				range: 7
+				range: 6
 			}
 			
 			return stats;	
@@ -282,7 +312,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 	var finished = null;
 	if (listContains(this.noCastList, this.abilityName) == true) { return null; }
 
-	switch(this.abilityName){
+	switch (this.abilityName) {
 		
 		case "Bark Armor":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
@@ -309,7 +339,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 		case "Entanglement":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;						
-			break;	
+			break;		
 		
 		case "Exothermia":
 			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
@@ -327,6 +357,11 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;						
 			break;
+		
+		case "Heal":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;						
+			break;
 			
 		case "Polarity":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
@@ -336,6 +371,11 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 		case "Precision":
 			this.sourceUnit.abilityMarkers("on", customValue[4]);
 			finished = false;
+			break;
+		
+		case "Rain Shield":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;						
 			break;
 			
 		case "Second Wind":
@@ -535,9 +575,9 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 		
 	} else if (this.targetSpot.abilityMarker == true && this.targetUnit == null && customValue.target == "tile") {	// tile casting
 		
+		this.removeMarkers();
 		combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");		
 		new newBuff (this.abilityName, this.targetSpot, this.sourceUnit);
-		this.reemoveMarkers();
 		finished = true;
 		
 	} else {

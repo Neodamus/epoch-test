@@ -96,7 +96,7 @@ var Seer = new Array(
 var Assassin = new Array(
 "Assassin",       //name
 "11",      //hitpoints
-"7",      //damage
+"6",      //damage
 "3",      //defence
 "5",      //movement
 "3",      //sight
@@ -104,10 +104,10 @@ var Assassin = new Array(
 "0",      //reveal
 "1",      //#attack
 "1",      //#defend
-"0",      //onAttackAbility
+"Ambush",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
-"Stealth DD",   //ability
+"Stealth, Ambush",  //ability
 "Air"		//element
 );
  

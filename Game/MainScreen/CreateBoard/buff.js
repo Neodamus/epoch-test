@@ -37,7 +37,35 @@
 			
 		}
 			
-		switch(this.buffType) {
+		switch(this.buffType) {	
+		
+		case "Ambush":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+						
+						if (this.sourceUnit.stealthedLastAttack == true) {
+						
+							if (this.attachedUnit.blockedLastAttack == false) {
+								
+								damage = Math.floor(this.sourceUnit.lastPhysicalAttack * this.buffStats.damageMultiplier);
+								
+							} else {
+								
+								damage = Math.floor(this.sourceUnit.lastPhysicalAttack * this.buffStats.damageMultiplier
+										 - this.attachedUnit.lastPhysicalBlock - this.attachedUnit.lastDamageLoss);
+								
+							}
+								
+							this.attachedUnit.receivePureDamage(damage, "Ambush");
+						}
+						
+						break;
+						
+				}
+						
+			break;
 			
 			case "Bark Armor":
 			
@@ -302,6 +330,22 @@
 						break;
 				}   
 			break;
+			
+			case "Heal":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+					
+						if (this.attachedUnit.currentStats[1] + this.buffStats.hitpoints <= this.attachedUnit.baseStats[1]) {						
+							this.attachedUnit.heal(this.buffStats.hitpoints, this.sourceUnit.baseStats[0]);
+						} else {
+							this.attachedUnit.heal(this.attachedUnit.baseStats[1] - this.attachedUnit.currentStats[1],this.sourceUnit.baseStats[0]);
+						}
+						
+						break;	
+				}   
+			break;
 				
 			case "Panic Aura":
 				switch(Procedure){
@@ -398,6 +442,52 @@
 						this.attachedUnit.buffList.splice(removeArray, 1); 
 						
 						this.attachedUnit.buffStats[2] -=  this.customValue[3];		
+						
+						break;
+				}   
+			break;
+			
+			case "Rain Shield":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+						
+						this.attachedUnit.buffList.push(this);
+						
+						this.attachedUnit.buffStats[3] += this.buffStats.defense;
+						this.attachedUnit.currentStats[3] += this.buffStats.defense;
+						
+						break;
+				
+					case "Turn":
+						
+						this.buffStats.duration--;  
+						if (this.buffStats.duration == 0) { this.eventProc("Removal"); };
+						
+						break;
+						
+					case "Defend":
+					
+						var heal = this.attachedUnit.currentStats[3] - source.currentStats[2];
+						
+						if (heal + this.attachedUnit.currentStats[1] <= this.attachedUnit.baseStats[1]) {							
+							this.attachedUnit.heal(heal, this.sourceUnit.baseStats[0])
+						} else if (heal + this.attachedUnit.currentStats[1] > this.attachedUnit.baseStats[1]) {							
+							this.attachedUnit.heal(this.attachedUnit.baseStats[1] - this.attachedUnit.currentStats[1],this.sourceUnit.baseStats[0]);
+						}
+						
+						this.buffStats.blocks--;
+						if (this.buffStats.blocks == 0) { this.eventProc("Removal"); };
+					
+						break;
+					
+					case "Removal":
+					
+						removeArray = listReturnArray(this.attachedUnit.buffList, this.buffType);
+						this.attachedUnit.buffList.splice(removeArray, 1);
+						
+						this.attachedUnit.buffStats[3] -= this.buffStats.defense 	
 						
 						break;
 				}   
@@ -578,6 +668,28 @@
 						this.attachedUnit.buffStats[4] -= this.buffStats.speed; 	
 						
 						break;
+				}   
+			break;
+			
+			case "Teleport":	
+			
+				var targetGridSpot = this.attachedUnit;
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+						
+						var coords = { x: this.sourceUnit.x, y: this.sourceUnit.y };
+						
+						GridSpot[coords.x][coords.y].currentUnit.Remove();					
+						
+						targetGridSpot.currentUnit = this.sourceUnit;
+						targetGridSpot.currentUnit.x = targetGridSpot.x;
+						targetGridSpot.currentUnit.y = targetGridSpot.y;
+						targetGridSpot.currentUnit.sight("on");
+						targetGridSpot.currentUnit.Select();						
+						
+						break;	
 				}   
 			break;
 			
