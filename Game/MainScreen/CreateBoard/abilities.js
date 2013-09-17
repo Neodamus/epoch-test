@@ -366,6 +366,11 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			finished = true;
 			this.castMode = false;			
 			break;
+			
+		case "Teleport":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;						
+			break;
 		
 		case "Thunderclap":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
@@ -528,7 +533,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			
 		}
 		
-	} else if (this.targetSpot.abilityMarker == true && this.targetUnit == null && customValue.target == "tile") {
+	} else if (this.targetSpot.abilityMarker == true && this.targetUnit == null && customValue.target == "tile") {	// tile casting
 		
 		combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");		
 		new newBuff (this.abilityName, this.targetSpot, this.sourceUnit);
@@ -607,7 +612,7 @@ ability.prototype.castModeHighlight = function() {
 				
 					case "single":
 					
-						if (gridSpot == this.castHighlight) {
+						if (gridSpot == this.castHighlight && gridSpot != null) {
 							
 						} else {
 							
