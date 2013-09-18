@@ -8,6 +8,7 @@
 		this.customValue = new Array(8);
 		this.procList = new Array();
 		this.eventProc("Initialize");
+		this.removeReturn = false;
 	  }
 	  
 	  // Initialize, Turn, Removal                    Add: who is buff visible to is customValue[2];
@@ -414,10 +415,17 @@
 				switch(Procedure) {
 				
 						case "Initialize":
-						
+					//We use the sourceUnit for all the AURA/stats, that way any future buffs have to obey what the aura can currently do:
 					
-					//We use the sourceUnit for the AURA.stats, that way any future buffs have to obey what the aura can currently do:
-					if (this.sourceUnit.stats.unitAffectNumber > 0) { this.attachedUnit.currentStats[4] = 0; this.sourceUnit.stats.unitAffectNumber--; } //aura can only affect 1 unit per turn.
+					
+					for (var i = 0; i < this.attachedUnit.currentTileMods.length; i++) { //go through all panic auras to see if any can apply movementdecrease.
+					
+						if (this.attachedUnit.currentTileMods[i].stats.unitAffectNumber > 0) 
+					
+						{ this.attachedUnit.currentStats[4] = 0; this.attachedUnit.currentTileMods[i].stats.unitAffectNumber--; }
+					
+					}
+					//if (this.sourceUnit.stats.unitAffectNumber > 0) { this.attachedUnit.currentStats[4] = 0; this.sourceUnit.stats.unitAffectNumber--; } //aura can only affect 1 unit per turn.
 					this.attachedUnit.buffList.push(this);
 					
 					break;
@@ -819,7 +827,7 @@
 			break;				
 		}
 		
-		if (this.attachedUnit.currentStats != null) { this.attachedUnit.resetStats("BUFF"); }
+		if (this.attachedUnit.currentStats != null) { this.attachedUnit.resetStats("BUFF"); } return this.removeReturn;
 	}
 	
 newBuff.prototype.removeBuff = function() {
@@ -827,7 +835,7 @@ newBuff.prototype.removeBuff = function() {
 	removeArray = listReturnArray(this.attachedUnit.buffList, this);
 	
 	if (removeArray != -1) { console.warn(removeArray);
-		this.attachedUnit.buffList.splice(removeArray, 1);
+		this.attachedUnit.buffList.splice(removeArray, 1); this.removeReturn = true;
 	} else {
 		alert("Buff being removed outside of buff class");
 	}

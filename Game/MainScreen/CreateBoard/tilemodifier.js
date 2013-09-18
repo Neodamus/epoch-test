@@ -3,35 +3,30 @@
 
 function tileModifier(sourceUnit, name) 
 {  
- if (name != 'undefined' && name != null && name != "" && name != "0") {
-this.sourceUnit = sourceUnit;
-this.name = name; //used to get aura stats
-this.tileList = new Array();
-var values = ability.abilityStats(name);
+	if (name != 'undefined' && name != null && name != "" && name != "0") {
+		this.sourceUnit = sourceUnit;
+		this.name = name; //used to get aura stats
+		this.tileList = new Array();
+		var values = ability.abilityStats(name);
+		
+		this.stats = ability.abilityStats(name).clone()
+		//this.stats = values;
+		GameBoard.tileModifierList.push(this);
+	}
 
-this.stats = values;
- }
-//this.customValue = new Array();
-//for (var i = 0; i < values.length; i++) { this.customValue.push(values[i]); } }
 }
 
 
 tileModifier.prototype.turnRefresh = function(alliance)
 {
-	switch(alliance){
-		
-		case "ally" :
-		//if tilemod is ally do:
-		break;
-		
-		case "enemy" :
-		// if tilemod is enemy do:
-		break;
-		
-		case "both" :
-		// do:
-		break;
-	}
+	if (alliance == this.sourceUnit.alliance)
+		{
+			if (this.stats.lifetime != 'undefined' && this.stats.lifetime != null)
+				{
+					
+				}
+		}
+
 }
 
 tileModifier.prototype.eventProc = function(procedure, currentUnit) {
@@ -41,7 +36,7 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 		case "initialize": //when aura is first turned on..
 		 //if it is added....
 		if (listContains(currentUnit.currentTileMods, this) == false) {
-		currentUnit.currentTileMods.push(this); }
+		currentUnit.currentTileMods.push(this); console.warn("push");}
 		
 		var exists = false;
 		for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
@@ -150,6 +145,9 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 			this.tileList = null;
 			for (var i = 0; i < oldUnitList.length; i++) {  this.eventProc("remove", oldUnitList[i]); }//remove from units
 			
+			var rem = listReturnArray(GameBoard.tileModifierList, this); //removing this tilemodifier from the list of all tilemods on board.
+			if (rem != -1) { GameBoard.tileModifierList.splice(rem, 1); } else { alert("splicing modifier error, in OFF of tileModClass"); }
+		
 			break;
 
 	}

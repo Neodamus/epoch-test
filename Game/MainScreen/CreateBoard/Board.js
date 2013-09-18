@@ -26,6 +26,8 @@
 		this.AllyUnits = new Array();
 		this.EnemyUnits = new Array();
 		
+		this.tileModifierList = new Array();
+		
 		combatLog.push("Game Board was created.");
 		Screen = "GameBoard";
 		

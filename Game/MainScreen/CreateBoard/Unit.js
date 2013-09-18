@@ -166,7 +166,7 @@
 				
 				case "off":
 					this.unitStealth = false; //turns stealth off
-					for (var i = 0; i < this.buffList.length; i++) { this.buffList[i].eventProc("StealthRemoval");  } //removes stealth buffs
+					for (var i = 0; i < this.buffList.length; i++) { if (this.buffList[i].eventProc("StealthRemoval") == true) { i--; }  } //removes stealth buffs  
 					if (noStealthReason != 'undefined' && noStealthReason != null) { this.noStealthList.push(noStealthReason); } //tells unit why it cannot stealth
 				break;
 			}
@@ -278,7 +278,7 @@
 		combatLog.push(this.baseStats[0] + " has attacked " + NewGridSpot.currentUnit.baseStats[0] + " with " + damage.toString() +" damage.");	
 		
 		// defend proc
-		for (var i = 0; i < NewGridSpot.currentUnit.buffList.length; i++) { NewGridSpot.currentUnit.buffList[i].eventProc("Defend", this);  }	
+		for (var i = 0; i < NewGridSpot.currentUnit.buffList.length; i++) { if (NewGridSpot.currentUnit.buffList[i].eventProc("Defend") == true) { i--; }  }	 
 		
 		// receive damage
 		NewGridSpot.currentUnit.receivePhysicalDamage(damage, this);
@@ -288,7 +288,7 @@
 		var buffIt = new newBuff(this.currentStats[10], NewGridSpot.currentUnit, this); }
 		
 		// attack proc		
-		for (var i = 0; i < this.buffList.length; i++) { this.buffList[i].eventProc("Attack", damage);  }
+		for (var i = 0; i < this.buffList.length; i++) {  if (this.buffList[i].eventProc("Attack") == true) { i--; }  }
 		
 		this.currentStats[4] -= this.attackMovementCost;
 		this.currentStats[8] -= this.attackCost;
@@ -314,7 +314,7 @@
 		 this.x = NewGridSpot.x;
 		 this.y = NewGridSpot.y;
 		 
-		 for (var i = 0; i < this.buffList.length; i++) { this.buffList[i].eventProc("Move");  }
+		 for (var i = 0; i < this.buffList.length; i++) {  if (this.buffList[i].eventProc("Move") == true) { i--; }  }
 		 
 		 // make sure unit is alive before giving back vision
 			if (this.alliance == "ally" && this.currentStats[1] > 0){
@@ -323,7 +323,7 @@
 		 
 			for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("move", this.auras[i]); } //move all aura origins
 		 
-			for (var i = 0; i < this.currentTileMods.length; i++) {  this.currentTileMods[i].eventProc("remove", this); }
+			for (var i = 0; i < this.currentTileMods.length; i++) {  this.currentTileMods[i].eventProc("remove", this); } //this could have an indexing problem when a tilemod is removed and can't find the next one
 		 
 			NewGridSpot.tileModifiers("all", "move"); //get new tile modifiers
 			}
