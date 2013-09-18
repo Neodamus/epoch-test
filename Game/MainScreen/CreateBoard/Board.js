@@ -202,6 +202,7 @@
 			
 			case "end":
 			for (var i = 0; i < this.AllyUnits.length; i++) { this.AllyUnits[i].turnFunction(); } 
+			for (var i = 0; i < this.tileModifierList.length; i++) { this.tileModifierList[i].turnRefresh("ally"); } //this index might not be accurate when something is removed...
 			ClientsTurn = true; combatLog.push("Turn End.");
 			break;
 			

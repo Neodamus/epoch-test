@@ -134,6 +134,7 @@ ability.prototype.abilityStats = function(abilityName)
 				duration: 2,
 				range: 3,
 				damage: 2,
+				lifetime: 6,
 				stacks: true
 			}
 			

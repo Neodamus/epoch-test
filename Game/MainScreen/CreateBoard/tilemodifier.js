@@ -19,11 +19,14 @@ function tileModifier(sourceUnit, name)
 
 tileModifier.prototype.turnRefresh = function(alliance)
 {
-	if (alliance == this.sourceUnit.alliance)
+	//if (alliance == this.sourceUnit.alliance)
 		{
 			if (this.stats.lifetime != 'undefined' && this.stats.lifetime != null)
 				{
-					
+					this.stats.lifetime--; console.warn(this.stats.lifetime);
+					if (this.stats.lifetime <= 0) {
+					var Instructions = new Array(); Instructions.push("off");
+					this.affectedTiles(Instructions); }
 				}
 		}
 

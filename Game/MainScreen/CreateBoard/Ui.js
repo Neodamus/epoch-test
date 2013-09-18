@@ -129,6 +129,7 @@
 		 if (ClientsTurn == true && this.finishTurnBox.Contains(Mouse) == true && ClientsTurn == true) {
 			var endTurn = new Array();
 			endTurn.push("end");
+			for (var i = 0; i < GameBoard.tileModifierList.length; i++) { GameBoard.tileModifierList[i].turnRefresh("enemy"); } //this index might not be accurate when something is removed...
 			GameBoard.sendUnitInstruction(endTurn);
 			if (GameBoard.gameType == "normal") { 
 				ClientsTurn = false; 
