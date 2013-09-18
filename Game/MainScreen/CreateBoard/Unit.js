@@ -68,7 +68,7 @@
 	   Unit.prototype.turnFunction = function()
 	    {
 			if (this.alliance == "ally") { this.sight("off"); }
-			for (var i = 0; i < this.buffList.length; i++) { this.buffList[i].eventProc("Turn");  }
+			for (var i = 0; i < this.buffList.length; i++) { if (this.buffList[i].eventProc("Turn") == true) { i--; }  }
 			
 			//apply buff per turn effects
 			//reduce cooldowns

@@ -388,14 +388,12 @@
 					break;
 					
 					case "Turn":
-					
+						this.buffStats.duration--;
 						this.buffStats.damage--;
 						
-						if (this.buffStats.damage != 0) {
-							this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
-						} else {
-							this.eventProc("Removal");	
-						}
+						if (this.buffStats.duration != 0) { this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType); }
+						if (this.buffStats.duration == 0) { this.eventProc("Removal") }
+						
 						
 					
 					break;
@@ -825,10 +823,10 @@
 	}
 	
 newBuff.prototype.removeBuff = function() {
-					
+	
 	removeArray = listReturnArray(this.attachedUnit.buffList, this);
 	
-	if (removeArray != -1) {
+	if (removeArray != -1) { console.warn(removeArray);
 		this.attachedUnit.buffList.splice(removeArray, 1);
 	} else {
 		alert("Buff being removed outside of buff class");
