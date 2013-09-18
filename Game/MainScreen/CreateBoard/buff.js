@@ -296,6 +296,8 @@
 						   
 							this.attachedUnit.buffList.push(this);
 							this.attachedUnit.receivePureDamage(this.buffStats.damage - 2, this.buffType);
+							
+							this.buffStats.duration = this.sourceUnit.stats.lifetime;
 					
 							this.attachedUnit.stealth("off", this);				
 						
@@ -305,11 +307,13 @@
 						
 					case "Turn":
 					
-						this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
+						this.buffStats.duration--;
 						
-						// needs to be fixed to equal buff lifetime so it drops off when firewall goes away
-						this.attachedUnit.duration--;
-						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+						if (this.buffStats.duration <= 0) { 
+							this.eventProc("Removal"); 
+						} else { 					
+							this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
+						}
 						
 					break;
 					
