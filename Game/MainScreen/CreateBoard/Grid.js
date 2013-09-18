@@ -7,7 +7,7 @@
 		this.Positiony = Positiony; //pixel location Y
 		this.ThisRectangle = new Rectangle(Positionx, Positiony, Width, Height);
 		
-		// this.ThisRectangle.setText(this.x + "," + this.y, "White", this.ThisRectangle.x + 5, this.ThisRectangle.y + 15)
+		//this.ThisRectangle.setText(this.x + "," + this.y, "White", this.ThisRectangle.x + 5, this.ThisRectangle.y + 15) // used to show gridtext
 		
 		this.selected = false;
 		
@@ -137,7 +137,7 @@
 		context.fillText(this.currentUnit.currentStats[3], this.ThisRectangle.x + this.ThisRectangle.width - 15, this.ThisRectangle.y + 42);
 		
 		}
-		// this.ThisRectangle.draw();
+		// this.ThisRectangle.draw();   // used to see grid numbers with line 10
 		
 		context.restore();
 	  }

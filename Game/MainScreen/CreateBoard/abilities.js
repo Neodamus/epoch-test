@@ -770,6 +770,25 @@ ability.prototype.specialAreaSelect = function(gridCenter, numberOfTiles, option
 						}
 						
 					break;
+					
+					case 2:
+					
+						for (i = 1; i <= numberOfTiles / 2; i++) {
+							
+							if (y % 2 == 0) {
+							
+								if (GridSpot[x][y - i] != null) { gridList.push(GridSpot[x][y - i]); }
+								if (GridSpot[x - i][y + i] != null) { gridList.push(GridSpot[x - i][y + i]); } 
+								
+							} else {
+							
+								if (GridSpot[x + i][y - i] != null) { gridList.push(GridSpot[x + i][y - i]); }
+								if (GridSpot[x][y + i] != null) { gridList.push(GridSpot[x][y + i]); }
+							
+							}
+						}
+						
+					break;
 				
 				}
 
