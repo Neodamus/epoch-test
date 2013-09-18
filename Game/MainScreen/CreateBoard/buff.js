@@ -270,11 +270,44 @@
 				}   
 			break;
 			
-			case "Firewall":
+			case "Fire Wall":
 				
-				switch(Procedure) {
+				switch(Procedure) {					
 				
-				//buffstats... debuff stuff that is spawned from the tilemod
+					case "Initialize":
+					
+						// if placing trap	
+						if (this.attachedUnit.buffList == undefined) { 
+						
+							var fireWallTiles = this.attachedUnit;
+							
+							var Trap = new tileModifier(this.sourceUnit, this.buffType) 
+						
+							var Instructions = new Array();
+						
+							Instructions.push("on");
+							Instructions.push( fireWallTiles );
+							Trap.affectedTiles(Instructions);
+								
+						}					
+						
+						// if unit steps on trap
+						/* if (this.attachedUnit.buffList != undefined) {							
+							
+							var rem = listReturnArray(this.attachedUnit.currentTileMods, this.sourceUnit);
+							
+							var test = [ "off" ];							
+							if (rem != -1) { this.attachedUnit.currentTileMods[rem].affectedTiles(test); }
+						   
+							this.attachedUnit.buffList.push(this);
+							console.warn(this.attachedUnit.buffList);
+							this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
+					
+							this.attachedUnit.stealth("off", this);				
+						
+						} */
+						
+					break;
 				
 				}
 
@@ -363,15 +396,10 @@
 							Instructions.push("on");
 							Instructions.push( [targetGridSpot] );
 							Trap.affectedTiles(Instructions);
-						}
-						
-								
-						
+						}					
 						
 						// if unit steps on trap
-						if (this.attachedUnit.buffList != undefined) {
-							
-							
+						if (this.attachedUnit.buffList != undefined) {							
 							
 							var rem = listReturnArray(this.attachedUnit.currentTileMods, this.sourceUnit);
 							

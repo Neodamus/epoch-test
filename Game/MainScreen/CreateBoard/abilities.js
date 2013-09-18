@@ -92,6 +92,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Fire Wall":	
 					
 			stats = {
+				lifetime: 3,
+				duration: 3,
 				damage: 3,
 				range: 4
 			}
@@ -607,9 +609,14 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 		
 	} else if (this.targetSpot.abilityMarker == true && this.targetUnit == null && customValue.target == "tile") {	// tile casting
 		
+		if (this.castHighlightList.length == 0) {				
+			new newBuff (this.abilityName, this.castHighlight, this.sourceUnit);
+		} else {
+			new newBuff (this.abilityName, this.castHighlightList, this.sourceUnit);
+		}		
+		
 		this.removeMarkers();
-		combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");		
-		new newBuff (this.abilityName, this.targetSpot, this.sourceUnit);
+		combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");			
 		finished = true;
 		
 	} else {
