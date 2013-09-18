@@ -29,7 +29,7 @@ var Vangaurd = new Array(
 "5",       //movement4
 "3",       //sight5
 "1",       //range6
-"2",       //reveal7
+"1",       //reveal7
 "1",       //#attack8
 "2",       //#defend9
 "Engulf",  //onAttackAbility10

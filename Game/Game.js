@@ -135,6 +135,9 @@
 		  Mouse = getMousePos(canvas, evt);
 		  Click(Mouse, evt.button);
 		}, false);
+		
+		canvas.addEventListener('mousewheel', mouseWheelHandler, false);
+		canvas.addEventListener('DOMMouseScroll', mouseWheelHandler, false);
 	  
 		document.addEventListener('keydown', function(evt) {
 		  KeyPressed = evt.which;
@@ -176,15 +179,6 @@
 	}
 	
 	function mouseClickHandler(mouse) {
-	
-        var rect = _.canvas.getBoundingClientRect()
-		
-        Mouse = { 
-		
-			x: Math.floor(mouse.clientX - rect.left), 
-			y: Math.floor(mouse.clientY - rect.top)
-			
-        }
 		
 		switch(_.currentMode.id) {
 			
@@ -202,6 +196,31 @@
 				break
 		
 		}
+		
+	}
+	
+	function mouseWheelHandler(mouse) {
+		
+		var mouseWheelDirection;			
+		if (mouse.wheelDelta != undefined) {	
+			if (mouse.wheelDelta > 0) { mouseWheelDirection = "up"; } else { mouseWheelDirection = "down"; } // Non-FF browsers
+		} else {
+			if (mouse.detail < 0) { mouseWheelDirection = "up"; } else { mouseWheelDirection = "up"; }	// Firefox
+		}
+		
+		console.warn(mouseWheelDirection)
+		
+		switch(Screen) {
+		
+			case "GameBoard":
+			
+				ability.mouseWheelHandler(mouseWheelDirection);
+			
+			break;		
+		
+		}
+		
+		mouse.preventDefault();
 		
 	}
 	  

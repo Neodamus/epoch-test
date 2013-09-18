@@ -7,6 +7,8 @@
 		this.Positiony = Positiony; //pixel location Y
 		this.ThisRectangle = new Rectangle(Positionx, Positiony, Width, Height);
 		
+		// this.ThisRectangle.setText(this.x + "," + this.y, "White", this.ThisRectangle.x + 5, this.ThisRectangle.y + 15)
+		
 		this.selected = false;
 		
 		this.moveMarker = false;    //markers
@@ -135,6 +137,8 @@
 		context.fillText(this.currentUnit.currentStats[3], this.ThisRectangle.x + this.ThisRectangle.width - 15, this.ThisRectangle.y + 42);
 		
 		}
+		// this.ThisRectangle.draw();
+		
 		context.restore();
 	  }
 	  

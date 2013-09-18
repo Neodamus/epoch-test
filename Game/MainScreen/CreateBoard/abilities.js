@@ -11,6 +11,7 @@ function ability() {
 	this.castType = "single";		// type of casting area, ie: single, line, radius, chain
 	this.castHighlight = GridSpot[0][0];		// holds center highlighted gridspot
 	this.castHighlightList = []; // holds list of highlighted gridspots
+	this.castHighlightOption = 0;	// used for changing the area select, ie: turning line cast different ways
 
 }
 
@@ -664,97 +665,119 @@ ability.prototype.removeMarkers = function()
 		this.castType = "single";
 		this.targetList = [];
 		this.castHightlightList = [];
+		this.castHighlightOption = 0;
 	}
 }
 
-ability.prototype.castModeHighlight = function() {
+ability.prototype.castModeHighlight = function(option) {
 	
 	var mousePosition = { x: Mouse.x, y: Mouse.y };
 	
 	if (this.castMode)	{
 		
-		for (i = 0; i < gridSpotList.length; i++) {
+		if (this.castHighlight.ThisRectangle.Contains(mousePosition) == false || option == true) {
 			
-			gridSpot = gridSpotList[i];
+			// remove marker
+			this.castHighlight.moveMarker = false;
 			
-			if (gridSpot.ThisRectangle.Contains(mousePosition) == true) {
+			// if it's an area highlight, turn off the list and empty it
+			if (this.castHighlightList.length > 0) { 
+				for (i = 0; i < this.castHighlightList.length; i++) { this.castHighlightList[i].moveMarker = false; }
+			}
 			
+			// find a new highlight
+			var mouseOnBoard = false;
+			
+			for (i = 0; i < gridSpotList.length; i++) {
+				
+				gridSpot = gridSpotList[i];	
+				
+				if (gridSpot.ThisRectangle.Contains(mousePosition) == true) {
+					this.castHighlight = gridSpot;
+					mouseOnBoard = true;	
+				}
+				
+			}
+			
+			if (mouseOnBoard) {
+				
 				switch(this.castType) {
 				
 					case "single":
 					
-						if (gridSpot == this.castHighlight && gridSpot != null) {
-							
-						} else {
-							
-							this.castHighlight.moveMarker = false;
-							this.castHighlight = gridSpot;
-							this.castHighlight.moveMarker = true;
-							
-						}
+						this.castHighlight.moveMarker = true;
 						
-						break;
+					break;
 						
 					case "line":
 					
-						if (gridSpot == this.castHighlight) {
+						this.castHighlightList = this.specialAreaSelect(this.castHighlight, 2, this.castHighlightOption);
 							
-						} else {
-							
-							this.castHighlight.moveMarker = false;
-							this.castHighlight = gridSpot;
-							this.castHighlight.moveMarker = true;
-							
-							/* this.castHighlightList = this.specialAreaSelect(mousePosition, 2)
-							
-							for (i = 0; i < this.castHighlightList.length; i++) {
-								this.castHighlightList[i].moveMarker = true;	
-							} */
-							
-						}						
+						for (i = 0; i < this.castHighlightList.length; i++) {
+							this.castHighlightList[i].moveMarker = true;	
+						}					
 					
-						break;
+					break;
 						
-				}
-			  
+				}			
+				
 			}
-			
+		
 		}
 		
 	}
 	
 }
 
-	ability.prototype.specialAreaSelect = function(mousePosition, numberOfTiles) // (mousePos, "line", 2) selectionType and number of tiles might need to be set inside abilities rather than passed here.
-	{
-		for (var t = 0; t < gridSpotList.length; t++) {    //go through gridlist to find centreGrid
-	    if(gridSpotList[t].ThisRectangle.Contains(mousePosition) == true){
-		var gridList = [];       //if centregrid is found make a new gridList..
-		
-		gridList.push(gridSpotList[t]); break; } //push centre grid and break it from the loop.
-		
-		}
-		
-		
-		if (gridList != 'undefined' && gridList != null && gridList.length > 0)   //if centregrid is found we will add in the other firewall selected grids based on the centreGrid.
-		{
-		
-			switch (this.castType) {
-		
-				case "line": 
-					for (var i = 0; i < numberOfTiles / 2; i++) {
-					if (GridSpot[gridList[0].x - i][gridList[0].y] != null) {gridList.push(GridSpot[gridList[0].x - i][gridList[0].y]);}  //left of centre grid
-					if (GridSpot[gridList[0].x + i][gridList[0].y] != null) {gridList.push(GridSpot[gridList[0].x - i][gridList[0].y]);}  //right of centre grid
-					}
-
-				break;
-			}
+ability.prototype.specialAreaSelect = function(gridCenter, numberOfTiles, option) {
+	
+	gridList = [];
+	gridList.push(gridCenter);
+	
+	switch (this.castType) {
+	
+			case "line": 
+					
+					x = gridList[0].x;
+					y = gridList[0].y;
 			
-			//this.highLightTheseSpots = gridList; //might need to parse these to not be linked!     for now we can tell each highlightspots.movementMarker = true; and when removing old selections make it false.
-												//if a click goes through and this.highlighted is != null, then we will set tilemods for firewall on this list.
-			return gridList;
-		}
-	}
+				switch (option) {
+					
+					case 0:
+					
+						for (i = 1; i <= numberOfTiles / 2; i++) {
+							if (GridSpot[x - i][y] != null) { gridList.push(GridSpot[x - i][y]); }
+							if (GridSpot[x + i][y] != null) { gridList.push(GridSpot[x + i][y]); }
+						}
+						
+					break;
+					
+					case 1:
+					
+						for (i = 1; i <= numberOfTiles / 2; i++) {
+							
+							if (y % 2 == 0) {
+							
+								if (GridSpot[x - i][y - i] != null) { gridList.push(GridSpot[x - i][y - i]); }
+								if (GridSpot[x][y + i] != null) { gridList.push(GridSpot[x][y + i]); } 
+								
+							} else {
+							
+								if (GridSpot[x][y - i] != null) { gridList.push(GridSpot[x][y - i]); }
+								if (GridSpot[x + i][y + i] != null) { gridList.push(GridSpot[x + i][y + i]); }
+							
+							}
+						}
+						
+					break;
+				
+				}
+
+			break;
+	} 
+	
+	return gridList;
+}
 
 ability.prototype.AreaSelect = function(CentreGrid, Radius)
 	  {
@@ -945,5 +968,45 @@ ability.prototype.AreaSelect = function(CentreGrid, Radius)
 			return gridList;
 			
 	  }
+	  
+ability.prototype.mouseWheelHandler = function(mouseWheelDirection) {
 
-
+	switch (this.castType) {
+	
+		case "line":
+		
+			switch (mouseWheelDirection) {
+				
+				case "up":
+				
+					switch (this.castHighlightOption) {
+					
+						case 0: this.castHighlightOption = 1; break;
+						case 1: this.castHighlightOption = 2; break;
+						case 2: this.castHighlightOption = 0; break;
+						
+					}
+				
+				break;
+				
+				case "down":
+				
+					switch (this.castHighlightOption) {
+					
+						case 0: this.castHighlightOption = 2; break;
+						case 1: this.castHighlightOption = 0; break;
+						case 2: this.castHighlightOption = 1; break;
+						
+					}			
+				
+				break;	
+				
+			}
+			
+			this.castModeHighlight(true);
+		
+		break;
+		
+	}
+	
+}
