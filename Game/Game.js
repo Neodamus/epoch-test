@@ -205,7 +205,7 @@
 		if (mouse.wheelDelta != undefined) {	
 			if (mouse.wheelDelta > 0) { mouseWheelDirection = "up"; } else { mouseWheelDirection = "down"; } // Non-FF browsers
 		} else {
-			if (mouse.detail < 0) { mouseWheelDirection = "up"; } else { mouseWheelDirection = "up"; }	// Firefox
+			if (mouse.detail < 0) { mouseWheelDirection = "up"; } else { mouseWheelDirection = "down"; }	// Firefox
 		}
 		
 		console.warn(mouseWheelDirection)
