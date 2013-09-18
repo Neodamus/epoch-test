@@ -46,17 +46,18 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 		var exists = false;
 		for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
 		
-		if (exists == false) { var buffIt = new newBuff(this.name, currentUnit, this); } 
+		if (exists == false || this.stats.stacks != undefined && this.stats.stacks == true) { 
+		var buffIt = new newBuff(this.name, currentUnit, this); } 
 		break;
 		
 		case "move": //if a unit gains aura by moving into area..
-		if (listContains(currentUnit.currentTileMods, this) == false) { // <---------- THIS IS IF THE AURA DOES NOT STACK!
+		if (listContains(currentUnit.currentTileMods, this) == false) {
 		currentUnit.currentTileMods.push(this); }
 		
 		var exists = false;
 		for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
 		
-		if (exists == false) {
+		if (exists == false || this.stats.stacks != undefined && this.stats.stacks == true) {
 		var buffIt = new newBuff(this.name, currentUnit, this); }
 		
 		break;

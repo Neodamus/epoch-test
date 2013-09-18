@@ -353,7 +353,7 @@
 					case "Initialize":
 					
 						// if placing trap	
-						if (this.attachedUnit.name == null) {
+						if (this.attachedUnit.buffList == undefined) { 
 							
 							var Trap = new tileModifier(this.sourceUnit, this.buffType) 
 						
@@ -364,21 +364,26 @@
 							Trap.affectedTiles(Instructions);
 						}
 						
+								
+						
+						
 						// if unit steps on trap
-						if (this.attachedUnit != undefined && this.attachedUnit.buffList != undefined) {
+						if (this.attachedUnit.buffList != undefined) {
+							
+							
 							
 							var rem = listReturnArray(this.attachedUnit.currentTileMods, this.sourceUnit);
 							
 							var test = [ "off" ];							
 							if (rem != -1) { this.attachedUnit.currentTileMods[rem].affectedTiles(test); }
-							
-							this.attachedUnit.buffList.push(this);		
-							
+						   
+							this.attachedUnit.buffList.push(this);
+							console.warn(this.attachedUnit.buffList);
 							this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
 					
 							this.attachedUnit.stealth("off", this);				
 						
-						}   // Do not display buff??						
+						}  					
 						
 					break;
 					
