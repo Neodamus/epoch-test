@@ -92,6 +92,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Fire Wall":	
 					
 			stats = {
+				target: "tile",
 				lifetime: 3,
 				duration: 3,
 				damage: 3,
@@ -675,7 +676,12 @@ ability.prototype.removeMarkers = function()
 		this.castHighlight.moveMarker = false;
 		this.castType = "single";
 		this.targetList = [];
-		this.castHightlightList = [];
+		
+		if (this.castHighlightList.length > 0) {
+			for (i = 0; i < this.castHighlightList.length; i++) { this.castHighlightList[i].moveMarker = false; }		
+			this.castHightlightList = [];
+		}
+		
 		this.castHighlightOption = 0;
 	}
 }

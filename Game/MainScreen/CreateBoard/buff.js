@@ -292,20 +292,36 @@
 						}					
 						
 						// if unit steps on trap
-						/* if (this.attachedUnit.buffList != undefined) {							
-							
-							var rem = listReturnArray(this.attachedUnit.currentTileMods, this.sourceUnit);
-							
-							var test = [ "off" ];							
-							if (rem != -1) { this.attachedUnit.currentTileMods[rem].affectedTiles(test); }
+						if (this.attachedUnit.buffList != undefined) {
 						   
 							this.attachedUnit.buffList.push(this);
-							console.warn(this.attachedUnit.buffList);
-							this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
+							this.attachedUnit.receivePureDamage(this.buffStats.damage - 2, this.buffType);
 					
 							this.attachedUnit.stealth("off", this);				
 						
-						} */
+						}
+						
+					break;
+						
+					case "Turn":
+					
+						this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
+						
+						// needs to be fixed to equal buff lifetime so it drops off when firewall goes away
+						this.attachedUnit.duration--;
+						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+						
+					break;
+					
+					case "Move":					
+						
+						this.eventProc("Removal");
+						
+					break;
+					
+					case "Removal":
+					
+						this.removeBuff();		
 						
 					break;
 				
@@ -358,7 +374,7 @@
 						this.attachedUnit.buffStats[4] -= this.buffStats.speed
 						this.attachedUnit.currentStats[4] -= this.buffStats.speed		
 						
-						break;
+					break;
 				}   
 			break;
 			
