@@ -145,7 +145,8 @@ ability.prototype.abilityStats = function(abilityName)
 				duration: 3,
 				unitAffectNumber: 1,
 				auraRange: 2,
-				auraTarget: "enemy"
+				auraTarget: "enemy",
+				stacks: false
 			}
 			
 			return stats;
