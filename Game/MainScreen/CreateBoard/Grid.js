@@ -34,7 +34,7 @@
 		
 		if (this.currentUnit != null) { 
 			
-			if (modifier == "all") {console.warn(this.tileBuffList.length); for (var i = 0; i < this.tileBuffList.length; i++) {
+			if (modifier == "all") { for (var i = 0; i < this.tileBuffList.length; i++) {
 			var wasItRemoved = this.tileBuffList[i];
 			this.tileBuffList[i].eventProc(procedure, this.currentUnit); 
 			if (this.tileBuffList[i] != wasItRemoved) { i--; }
