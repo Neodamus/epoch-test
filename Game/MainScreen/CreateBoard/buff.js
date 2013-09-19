@@ -9,6 +9,7 @@
 		this.procList = new Array();
 		this.eventProc("Initialize");
 		this.removeReturn = false;
+		this.aura; 		// used if buff is an aura initialization
 	  }
 	  
 	  // Initialize, Turn, Removal                    Add: who is buff visible to is customValue[2];
@@ -835,58 +836,48 @@
 				
 					case "Initialize":
 					
-					// if crossbowman is casting
-					if (this.attachedUnit == this.sourceUnit && this.attachedUnit != this.sourceUnit.sourceUnit) {
+					if (this.attachedUnit == this.sourceUnit) {		// initial cast by crossbowman
+						
+						alert("initialize");
 						
 						this.attachedUnit.buffList.push(this);
 						
-						var aura = new tileModifier(this, this.buffType);
-						this.attachedUnit.auras.push(aura);
-						this.attachedUnit.auraTileModifier("on", aura);
+						this.aura = new tileModifier(this.attachedUnit, this.buffType);
+						this.attachedUnit.auras.push(this.aura);
+						this.attachedUnit.auraTileModifier("on", this.aura);
 						
-					} else if (this.attachedUnit == this.sourceUnit.sourceUnit) { 		
-					
-						// do nothing, don't cast on self
+					} else if (this.attachedUnit == this.sourceUnit.sourceUnit) { 	// prevents self targeting
 						
-					} else { 
+					} else { 	// shoot someone's face off
 					
-						var t = this.attachedUnit.baseStats[0];
+						var xbowman = this.sourceUnit.sourceUnit;
+					
+						this.attachedUnit.receivePureDamage(this.buffStats.damage, xbowman.baseStats[0]);
+						
+						var sentry = this.sourceUnit;
+						
+						sentry.stats.attacks--;
+						if (sentry.stats.attacks == 0) {
+						
+							// remove aura	
+							
+						}
 						
 					}
 					
-					//We use the sourceUnit for all the AURA/stats, that way any future buffs have to obey what the aura can currently do:
-					
-					/*var stacks = false;
-					for (var i = 0; i < this.attachedUnit.buffList.length; i++) { if (this.attachedUnit.buffList[i].buffType == this.buffType) { stacks = true; break;} }
-					
-					for (var i = 0; i < this.attachedUnit.currentTileMods.length; i++) { //go through all panic auras to see if any can apply movementdecrease.
-					
-						if (this.attachedUnit.currentTileMods[i].name == this.buffType && this.attachedUnit.currentTileMods[i].stats.unitAffectNumber > 0) 
-					
-						{ if (stacks == false) { this.attachedUnit.currentStats[4] = 0; } this.attachedUnit.currentTileMods[i].stats.unitAffectNumber--; }
-					
-					}
-					//if (this.sourceUnit.stats.unitAffectNumber > 0) { this.attachedUnit.currentStats[4] = 0; this.sourceUnit.stats.unitAffectNumber--; } //aura can only affect 1 unit per turn.
-					
-					
-					if (stacks == false) {this.attachedUnit.buffList.push(this); }
-					break;
+				break;
 				
-						case "Turn":
-					console.warn(this.buffStats.duration);
-					this.buffStats.duration--; 
-					this.sourceUnit.stats.unitAffectNumber = this.buffStats.unitAffectNumber; //we reset the aura's stats by using this.buffStats because we're not modifying the buffstats of that variable here.
-					if (listContains(this.attachedUnit.currentTileMods, this.sourceUnit) == true) { this.buffStats.duration++; }
-						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
-					break;
+				case "Move":
+				
 					
-					/*	case "Move":
-					break;
-						
-						case "Removal":
-					removeArray = listReturnArray(this.attachedUnit.buffList, this);
-					this.attachedUnit.buffList.splice(removeArray, 1); 
-					break; */
+				
+				break;
+				
+				case "Removal":
+				
+					this.attachedUnit.auraTileModifier("off", this.aura);
+				
+				break;
 				}
 			break;			
 			
