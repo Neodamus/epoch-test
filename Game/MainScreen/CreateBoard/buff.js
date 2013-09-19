@@ -195,6 +195,53 @@
 						
 						break;
 				}   
+			break;	
+			
+			case "Energy Field":
+				
+				switch(Procedure) {					
+				
+					case "Initialize":
+					
+						// if placing trap	
+						if (this.attachedUnit.buffList == undefined) { 
+						
+							var energyFieldTiles = this.attachedUnit;
+							
+							var Trap = new tileModifier(this.sourceUnit, this.buffType) 
+						
+							var Instructions = new Array();
+						
+							Instructions.push("on");
+							Instructions.push( energyFieldTiles );
+							Trap.affectedTiles(Instructions);
+								
+						}					
+						
+						// if unit steps on trap
+						if (this.attachedUnit.buffList != undefined) {
+						   
+							this.attachedUnit.buffList.push(this);
+							this.attachedUnit.currentStats[4]++;			
+						
+						}
+						
+					break;
+					
+					case "Move":					
+						
+						this.eventProc("Removal");
+						
+					break;
+					
+					case "Removal":
+					
+						this.removeBuff();		
+						
+					break;
+					
+				}
+				
 			break;
 		
 			case "Engulf":
@@ -456,7 +503,61 @@
 						
 					break;
 				}
-			break;
+			break;			
+			
+			case "Mist":
+				
+				switch(Procedure) {					
+				
+					case "Initialize":
+					
+						if (this.attachedUnit.buffList == undefined) { 
+						
+							var mistTiles = this.attachedUnit;
+							
+							var Trap = new tileModifier(this.sourceUnit, this.buffType) 
+						
+							var Instructions = new Array();
+						
+							Instructions.push("on");
+							Instructions.push( mistTiles );
+							Trap.affectedTiles(Instructions);
+								
+						}					
+						
+						if (this.attachedUnit.buffList != undefined) {
+							
+							var check = false;
+							
+							for (i = 0; i < this.attachedUnit.buffList.length; i++) {
+								
+								if (this.attachedUnit.buffList[i].buffType == this.buffType) { check = true; }
+								
+							}
+						   
+						   	if (check == false) {
+								this.attachedUnit.buffList.push(this);
+								this.attachedUnit.currentStats[9]++;			
+							}
+						
+						}
+						
+					break;
+					
+					case "Turn":					
+						
+						// this.sourceUnit.eventProc("initialize", this.attachedUnit)
+						this.eventProc("Removal");
+						
+					break;
+					
+					case "Removal":
+					
+						this.removeBuff();		
+						
+					break;
+					
+				}
 				
 			case "Panic Aura":
 

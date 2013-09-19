@@ -233,7 +233,7 @@ var Grovekeeper = new Array(
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
-"Arrow Smith, Rootfield",   //ability
+"Arrow Smith, Root Field",   //ability
 "Earth"		//element
 );
  
@@ -305,7 +305,7 @@ var Titan = new Array(
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
-"Polarity, Electric Field",   //ability
+"Polarity, Energy Field",   //ability
 "Lightning"	//element
 );
  

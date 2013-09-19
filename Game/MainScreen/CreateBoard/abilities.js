@@ -60,6 +60,18 @@ ability.prototype.abilityStats = function(abilityName)
 			}
 			
 			return stats; 
+			
+		case "Energy Field":
+		
+			stats = {
+				target: "any",
+				duration: 2,
+				lifetime: 2,
+				radius: 1,
+				range: 3
+			}
+			
+			return stats;				
 	  
 		case "Engulf": 
 		
@@ -142,6 +154,19 @@ ability.prototype.abilityStats = function(abilityName)
 			}
 			
 			return stats;
+			
+		case "Mist":
+		
+			stats = {
+				target: "any",
+				duration: 3,
+				lifetime: 3,
+				radius: 1,
+				range: 4,
+				blocks: 1
+			}
+			
+			return stats;	
 					
 		case "Panic Aura": 
 		
@@ -365,12 +390,6 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			finished = false;						
 			break;
 	
-		case "Rapid Strikes":
-			 var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
-			 finished = true;
-			 this.castMode = false;
-			break;
-	
 		case "Blind":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;
@@ -380,6 +399,13 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
 			finished = true;
 			this.castMode = false;
+			break;	
+			
+		case "Energy Field":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;
+			this.castType = "radius";
+			this.castHighlightOption = customValue.radius;									
 			break;
 		
 		case "Entanglement":
@@ -414,6 +440,13 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			finished = false;						
 			break;
 			
+		case "Mist":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;
+			this.castType = "radius";
+			this.castHighlightOption = customValue.radius;									
+			break;
+			
 		case "Polarity":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;						
@@ -427,6 +460,12 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 		case "Rain Shield":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;						
+			break;
+	
+		case "Rapid Strikes":
+			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			finished = true;
+			this.castMode = false;
 			break;
 			
 		case "Second Wind":
