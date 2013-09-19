@@ -31,10 +31,14 @@
 	  Grid.prototype.tileModifiers = function(modifier, procedure)
 	  {
 		
-	  
+		
 		if (this.currentUnit != null) { 
 			
-			if (modifier == "all") { for (var i = 0; i < this.tileBuffList.length; i++) { this.tileBuffList[i].eventProc(procedure, this.currentUnit); } }
+			if (modifier == "all") {console.warn(this.tileBuffList.length); for (var i = 0; i < this.tileBuffList.length; i++) {
+			var wasItRemoved = this.tileBuffList[i];
+			this.tileBuffList[i].eventProc(procedure, this.currentUnit); 
+			if (this.tileBuffList[i] != wasItRemoved) { i--; }
+			} }
 		
 			if (modifier != "all") {
 			var add = listReturnArray(this.tileBuffList, modifier);

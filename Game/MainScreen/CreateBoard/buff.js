@@ -852,7 +852,7 @@
 					} else if (this.attachedUnit == this.sourceUnit.sourceUnit) { 	// prevents self targeting
 						
 					} else { 	// shoot someone's face off
-					
+						console.warn("adding buff");
 						var xbowman = this.sourceUnit.sourceUnit;
 					
 						this.attachedUnit.receivePureDamage(this.buffStats.damage, xbowman.baseStats[0]);

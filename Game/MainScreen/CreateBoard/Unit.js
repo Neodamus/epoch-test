@@ -324,7 +324,6 @@
 			for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("move", this.auras[i]); } //move all aura origins
 		 
 			for (var i = 0; i < this.currentTileMods.length; i++) {  this.currentTileMods[i].eventProc("remove", this); } //this could have an indexing problem when a tilemod is removed and can't find the next one
-		 
 			NewGridSpot.tileModifiers("all", "move"); //get new tile modifiers
 			}
 		 }

@@ -44,10 +44,12 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 		for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
 		
 		//if (exists == false || this.stats.stacks != undefined && this.stats.stacks == true) { 
+					
 		var buffIt = new newBuff(this.name, currentUnit, this); //} 
 		break;
 		
 		case "move": //if a unit gains aura by moving into area..
+		//console.warn(procedure);
 		if (listContains(currentUnit.currentTileMods, this) == false) {
 		currentUnit.currentTileMods.push(this); }
 		
