@@ -765,12 +765,12 @@ ability.prototype.removeMarkers = function()
 		this.sourceUnit.abilityMarkers("off", this.abilityStats(this.abilityName).range);
 		Ui.abilityClickOff();
 		this.castMode = false;
-		this.castHighlight.moveMarker = false;
+		this.castHighlight.abilitySelectMarker = false;
 		this.castType = "single";
 		this.targetList = [];
 		
 		if (this.castHighlightList.length > 0) {
-			for (i = 0; i < this.castHighlightList.length; i++) { this.castHighlightList[i].moveMarker = false; }		
+			for (i = 0; i < this.castHighlightList.length; i++) { this.castHighlightList[i].abilitySelectMarker = false; }		
 			this.castHightlightList = [];
 		}
 		
@@ -789,11 +789,11 @@ ability.prototype.castModeHighlight = function(option) {
 		if (this.castHighlight.ThisRectangle.Contains(mousePosition) == false || option == true) {
 			
 			// remove marker
-			this.castHighlight.moveMarker = false;
+			this.castHighlight.abilitySelectMarker = false;
 			
 			// if it's an area highlight, turn off the list and empty it
 			if (this.castHighlightList.length > 0) { 
-				for (i = 0; i < this.castHighlightList.length; i++) { this.castHighlightList[i].moveMarker = false; }
+				for (i = 0; i < this.castHighlightList.length; i++) { this.castHighlightList[i].abilitySelectMarker = false; }
 			}
 			
 			// find a new highlight
@@ -816,7 +816,7 @@ ability.prototype.castModeHighlight = function(option) {
 				
 					case "single":
 					
-						this.castHighlight.moveMarker = true;
+						this.castHighlight.abilitySelectMarker = true;
 						
 					break;
 						
@@ -825,7 +825,7 @@ ability.prototype.castModeHighlight = function(option) {
 						this.castHighlightList = this.specialAreaSelect(this.castHighlight, 2, this.castHighlightOption);
 							
 						for (i = 0; i < this.castHighlightList.length; i++) {
-							this.castHighlightList[i].moveMarker = true;	
+							this.castHighlightList[i].abilitySelectMarker = true;	
 						}					
 					
 					break;
@@ -835,7 +835,7 @@ ability.prototype.castModeHighlight = function(option) {
 						this.castHighlightList = this.AreaSelect(this.castHighlight, this.castHighlightOption);
 							
 						for (i = 0; i < this.castHighlightList.length; i++) {
-							this.castHighlightList[i].moveMarker = true;	
+							this.castHighlightList[i].abilitySelectMarker = true;	
 						}					
 					
 					break;
