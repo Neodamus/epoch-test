@@ -6,6 +6,8 @@ function tileModifier(sourceUnit, name)
 		this.tileList = new Array();
 		var values = ability.abilityStats(name);
 		
+		this.attachedBuff;
+		
 		this.stats = ability.abilityStats(name).clone()
 		//this.stats = values;
 		GameBoard.tileModifierList.push(this);

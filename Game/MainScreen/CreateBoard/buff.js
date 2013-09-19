@@ -841,8 +841,11 @@
 						alert("initialize");
 						
 						this.attachedUnit.buffList.push(this);
-						
+
 						this.aura = new tileModifier(this.attachedUnit, this.buffType);
+						
+						this.aura.attachedBuff = this; //Used For Referencing the buff from the aura
+						
 						this.attachedUnit.auras.push(this.aura);
 						this.attachedUnit.auraTileModifier("on", this.aura);
 						
@@ -858,8 +861,11 @@
 						
 						sentry.stats.attacks--;
 						if (sentry.stats.attacks == 0) {
-						
-							this.attachedUnit.auraTileModifier("off", this.sourceUnit)
+							
+							this.sourceUnit.sourceUnit.auraTileModifier("off", this.sourceUnit)
+							var rem = listReturnArray(this.sourceUnit.sourceUnit.auras, this.sourceUnit.name);
+							if (rem != -1) { this.sourceUnit.sourceUnit.auras.splice(rem, 1); }
+							this.eventProc("Removal");
 	   
 							// remove aura	
 							}
@@ -874,8 +880,9 @@
 				break;
 				
 				case "Removal":
-				
-					this.attachedUnit.auraTileModifier("off", this.aura);
+					
+					this.sourceUnit.attachedBuff.removeBuff();	
+					//his.attachedUnit.auraTileModifier("off", this.aura);
 				
 				break;
 				}
@@ -1157,7 +1164,7 @@ newBuff.prototype.removeBuff = function() {
 	
 	removeArray = listReturnArray(this.attachedUnit.buffList, this);
 	
-	if (removeArray != -1) { console.warn(removeArray);
+	if (removeArray != -1) { 
 		this.attachedUnit.buffList.splice(removeArray, 1); this.removeReturn = true;
 	} else {
 		alert("Buff being removed outside of buff class");
