@@ -81,7 +81,7 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 					for (var i = 0; i < currentUnit.buffList.length; i++) {
 			
 						if (currentUnit.buffList[i].buffType == this.name && this.stats.duration == null){
-							currentUnit.buffList[i].eventProc("Removal"); } } } }
+							if (currentUnit.buffList[i].eventProc("Removal") == true) { i--; } } } } }
 				
 		break;
 		
