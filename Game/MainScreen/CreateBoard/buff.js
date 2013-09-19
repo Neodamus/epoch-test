@@ -219,12 +219,17 @@
 						
 						if (this.attachedUnit.buffList != undefined) {				
 							
-							var rem = listReturnArray(this.attachedUnit.currentTileMods, this.sourceUnit);							
-							if (rem != -1) { this.attachedUnit.currentTileMods[rem].affectedTiles(["off"]); }
-						   
+							var rem = listReturnArray(GridSpot[this.attachedUnit.x][this.attachedUnit.y].tileBuffList, this.sourceUnit); //Remove creeping vine tilemod from gridspot
+							if (rem != -1) { GridSpot[this.attachedUnit.x][this.attachedUnit.y].tileBuffList.splice(rem, 1);}
+							
+							
 							this.attachedUnit.buffList.push(this);
 							this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
-							this.attachedUnit.currentStats[4] = 0;			
+							this.attachedUnit.currentStats[4] = 0;	
+
+							var rem = listReturnArray(this.attachedUnit.currentTileMods, this.sourceUnit); //Remove creeping vine tilemod from unit
+							if (rem != -1) {
+							this.attachedUnit.currentTileMods.splice(rem, 1); }
 						
 						}
 						

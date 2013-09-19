@@ -139,18 +139,7 @@ function CreateMenus(Width, Height) {
 	  
 	  CreateMenus.prototype.Draw = function(context, canvas) {
 	  
-				//      <Laser-beam test>
-		this.test1 = {x: 298, y: 38};
-		this.test2 = Mouse;
-		var newray = new ray(this.test1, this.test2);
-		this.testrect = new Rectangle(300, 300, 60, 60); this.testrect.boxColor = 'white';
-		var text = "Miss! :("
-		if (newray.intersects(this.testrect) == true) //not sure how taxing this is... I think .intersects method should be able to take in a list of rectangles
-	    {																								// to cut down on the programs work
-		text = "Hit! :)";
 		
-		} this.testrect.setText(text, "white", 200, 70);
-		//      </Laser-beam test>
 	  
 		  
 		    context = document.getElementById('Mycanvas').getContext('2d')
@@ -167,6 +156,18 @@ function CreateMenus(Width, Height) {
 			this.WebsiteBox.draw();
 			this.logoutBox.draw();
 			this.testBorder.draw();
+				/*	//      <Laser-beam test>
+		this.test1 = {x: 298, y: 38};
+		this.test2 = Mouse;
+		var newray = new ray(this.test1, this.test2);
+		this.testrect = new Rectangle(300, 300, 60, 60); this.testrect.boxColor = 'white';
+		var text = "Miss! :("
+		if (newray.intersects(this.testrect) == true) //not sure how taxing this is... I think .intersects method should be able to take in a list of rectangles
+	    {																								// to cut down on the programs work
+		text = "Hit! :)";
+		
+		} this.testrect.setText(text, "white", 200, 70);
+		//      </Laser-beam test>
 			
 			this.testrect.draw();
 			context.fillStyle = "red";
@@ -176,5 +177,5 @@ function CreateMenus(Width, Height) {
 			context.moveTo(this.test1.x, this.test1.y);
 			context.lineTo(this.test2.x, this.test2.y);
 			context.stroke();
-			//context.drawLine(, );
+			*/
 			}
