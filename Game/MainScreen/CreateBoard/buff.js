@@ -859,10 +859,10 @@
 						sentry.stats.attacks--;
 						if (sentry.stats.attacks == 0) {
 						
+							this.attachedUnit.auraTileModifier("off", this.sourceUnit)
+	   
 							// remove aura	
-							
-						}
-						
+							}
 					}
 					
 				break;
