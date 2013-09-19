@@ -217,7 +217,10 @@
 								
 						}					
 						
-						if (this.attachedUnit.buffList != undefined) {
+						if (this.attachedUnit.buffList != undefined) {				
+							
+							var rem = listReturnArray(this.attachedUnit.currentTileMods, this.sourceUnit);							
+							if (rem != -1) { this.attachedUnit.currentTileMods[rem].affectedTiles(["off"]); }
 						   
 							this.attachedUnit.buffList.push(this);
 							this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
