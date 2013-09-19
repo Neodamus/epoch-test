@@ -2,6 +2,7 @@ function ability() {
 
 	//this.abilityBeingCasted = false; 
 	this.abilityName;
+	this.currentAbilityStats;
 	this.specialAbilityList(); 
 	this.sourceUnit;
 	this.targetSpot2 = null;
@@ -165,6 +166,17 @@ ability.prototype.abilityStats = function(abilityName)
 				damage: 2,
 				lifetime: 6,
 				stacks: true
+			}
+			
+			return stats;
+			
+		case "Mirror Image":
+		
+			stats = {
+				targetSelf: true,
+				target: "ally",
+				targets: 2,
+				range: 4
 			}
 			
 			return stats;
@@ -394,6 +406,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 	this.castMode = true;
 	
 	var customValue = this.abilityStats(this.abilityName);
+	this.currentAbilityStats = customValue;
 	
 	var finished = null;
 	if (listContains(this.noCastList, this.abilityName) == true) { return null; }
@@ -459,6 +472,13 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 		case "Magma Trap":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;						
+			break;
+			
+		case "Mirror Image":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;
+			alert(this.targetList.length);	
+			if (this.targetList.length == 1) { this.currentAbilityStats.target = "tile"; this.currentAbilityStats.targetSelf = false; }				
 			break;
 			
 		case "Mist":
@@ -578,23 +598,24 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	var finished = null; //if it only requires one target, finished = true;	
 	
 	if (customValue != null) {
-		var target = customValue.target;	// holds whether target needs to be ally, enemy, or both
+		var target = this.currentAbilityStats.target;	// holds whether target needs to be ally, enemy, or both
 	}
 	
 	// multi target casting -- ex. polarity
-	if (customValue.targets != null && this.targetSpot.abilityMarker == true && this.targetUnit != null) {	
+	if (this.currentAbilityStats.targets != null && this.targetSpot.abilityMarker == true && this.targetUnit != null) {	
 	
-		if ((this.targetUnit == this.sourceUnit == customValue.targetSelf) || this.targetUnit != this.sourceUnit) {	
+		if ((this.targetUnit == this.sourceUnit == this.currentAbilityStats.targetSelf) || this.targetUnit != this.sourceUnit) {	
 		
 			// -------------- ADD IN SAME TARGET PREVENTER HERE
 		
 			if (target == "ally") {
 				
-				if (this.targetUnit.alliance == this.sourceUnit.alliance) {				
+				if (this.targetUnit.alliance == this.sourceUnit.alliance) {			
 					
-					this.targetList.push(this.targetUnit)
+					this.targetList.push(this.targetUnit);
 					
 					if (this.targetList.length < customValue.targets) { 
+						this.cast(this.abilityName, this.sourceUnit);
 						return false; 				
 					} else {
 						combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
@@ -642,6 +663,11 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 					this.removeMarkers();
 				}			
 				
+			} else if (target == "tile") {
+							
+				alert("You cannot target a tile with a unit on it");
+				return false;		
+				
 			}
 			
 		} else {
@@ -650,6 +676,28 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			return false;
 			
 		}
+	} else if (this.currentAbilityStats.targets != null && this.targetSpot.abilityMarker == true && this.targetUnit == null) {
+		
+		if (this.currentAbilityStats.target == "tile") {
+			
+			this.targetList.push(this.gridSpot);		
+					
+			if (this.targetList.length < this.currentAbilityStats.targets) { 
+				this.cast(this.abilityName, this.sourceUnit);
+				return false; 				
+			} else {
+				combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
+				this.multiCast();
+				this.removeMarkers();
+			}	
+			
+		} else {
+			
+			alert ("You must target a unit");
+			return false;
+			
+		}
+					
 	}
 	
 	// single target casting
