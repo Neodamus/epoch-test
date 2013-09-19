@@ -92,7 +92,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Fire Wall":	
 					
 			stats = {
-				target: "tile",
+				target: "any",
 				lifetime: 3,
 				duration: 3,
 				damage: 3,
@@ -223,6 +223,18 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				speed: 3
+			}
+			
+			return stats;
+			
+		case "Smoke Screen":
+		
+			stats = {
+				target: "any",
+				lifetime: 3,
+				duration: 3,
+				range: 3,
+				radius: 1
 			}
 			
 			return stats;
@@ -421,6 +433,13 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
 			finished = true;
 			this.castMode = false;
+			break;		
+			
+		case "Smoke Screen":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;
+			this.castType = "radius";
+			this.castHighlightOption = customValue.radius;									
 			break;
 			
 		case "Soulfire":
@@ -563,7 +582,19 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	}
 	
 	// single target casting
-	if (this.targetSpot.abilityMarker == true && this.targetUnit != null) {		
+	if (this.targetSpot.abilityMarker == true && customValue.target == "any") {
+		
+		if (this.castHighlightList.length == 0) {				
+			new newBuff (this.abilityName, this.castHighlight, this.sourceUnit);
+		} else {
+			new newBuff (this.abilityName, this.castHighlightList, this.sourceUnit);
+		}		
+		
+		this.removeMarkers();
+		combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");			
+		finished = true;
+		
+	} else if (this.targetSpot.abilityMarker == true && this.targetUnit != null) {		
 		
 		if (target == "ally") {
 		
@@ -619,15 +650,15 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 		this.removeMarkers();
 		combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");			
 		finished = true;
-		
+	
 	} else {
-		
-		this.removeMarkers();
-		Ui.abilityClickOff();
 		
 		if (customValue.targets == null) {
 			this.castMode = false;
 		}
+		
+		this.removeMarkers();
+		Ui.abilityClickOff();
 		
 	}
 	
@@ -729,6 +760,16 @@ ability.prototype.castModeHighlight = function(option) {
 					case "line":
 					
 						this.castHighlightList = this.specialAreaSelect(this.castHighlight, 2, this.castHighlightOption);
+							
+						for (i = 0; i < this.castHighlightList.length; i++) {
+							this.castHighlightList[i].moveMarker = true;	
+						}					
+					
+					break;
+						
+					case "radius":
+					
+						this.castHighlightList = this.AreaSelect(this.castHighlight, this.castHighlightOption);
 							
 						for (i = 0; i < this.castHighlightList.length; i++) {
 							this.castHighlightList[i].moveMarker = true;	

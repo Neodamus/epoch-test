@@ -657,6 +657,56 @@
 						
 						break;
 				}   
+			break;			
+			
+			case "Smoke Screen":
+				
+				switch(Procedure) {					
+				
+					case "Initialize":
+					
+						// if placing trap	
+						if (this.attachedUnit.buffList == undefined) { 
+						
+							var smokeScreenTiles = this.attachedUnit;
+							
+							var Trap = new tileModifier(this.sourceUnit, this.buffType) 
+						
+							var Instructions = new Array();
+						
+							Instructions.push("on");
+							Instructions.push( smokeScreenTiles );
+							Trap.affectedTiles(Instructions);
+								
+						}					
+						
+						// if unit steps on trap
+						if (this.attachedUnit.buffList != undefined) {
+						   
+							this.attachedUnit.buffList.push(this);
+					
+							this.attachedUnit.stealth("on", this);	
+							this.attachedUnit.noStealthList = [];			
+						
+						}
+						
+					break;
+					
+					case "Move":					
+						
+						this.eventProc("Removal");
+						
+					break;
+					
+					case "Removal":
+					
+						this.removeBuff();	
+						this.attachedUnit.stealth("off");		
+						
+					break;
+					
+				}
+					
 			break;
 			
 			case "Soulfire":

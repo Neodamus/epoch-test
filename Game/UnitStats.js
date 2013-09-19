@@ -161,7 +161,7 @@ var Illusionist = new Array(
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
-"Mirror Image, Smokescreen",   //ability
+"Mirror Image, Smoke Screen",   //ability
 "Air"		//element
 );
  
