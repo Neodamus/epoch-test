@@ -477,7 +477,6 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 		case "Mirror Image":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;
-			alert(this.targetList.length);	
 			if (this.targetList.length == 1) { this.currentAbilityStats.target = "tile"; this.currentAbilityStats.targetSelf = false; }				
 			break;
 			
@@ -680,14 +679,14 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 		
 		if (this.currentAbilityStats.target == "tile") {
 			
-			this.targetList.push(this.gridSpot);		
+			this.targetList.push(this.targetSpot);		
 					
 			if (this.targetList.length < this.currentAbilityStats.targets) { 
 				this.cast(this.abilityName, this.sourceUnit);
 				return false; 				
 			} else {
 				combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
-				this.multiCast();
+				new newBuff(this.abilityName, this.targetList, this.sourceUnit);
 				this.removeMarkers();
 			}	
 			

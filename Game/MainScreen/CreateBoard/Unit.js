@@ -39,7 +39,9 @@
 		this.lastDamageHit;			// last damage amount this unit inflicted	
 		this.lastDamageLoss;	 	// last damage amout this unit suffered
 		
+		// other properties
 		this.unitStealth = false;
+		this.summoned = false;
 		
 		this.name = Name;                //not necessary(may need to remove any uses before removing this)
 		this.element = Element; 	     //not necessary(may need to remove any uses before removing this)
@@ -268,7 +270,7 @@
 	   	  
 	   Unit.prototype.Attack = function(NewGridSpot)
 	  {
-		if (this.currentStats[8] > 0)
+		if (this.currentStats[8] > 0 && this.currentStats[4] > 0)
 		{
 		this.Select("off");
 		var damage = this.currentStats[2];

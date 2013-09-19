@@ -5,11 +5,11 @@ function UnitStats()
 {
 //Initializing Global variables cannot include other variables in their definition-- so I define them here.
 AllUnits = new Array(
-Vangaurd, Nightmare, Firebringer, Seer,     		 //fire units
-Assassin, Infiltrator, Sensei, Illusionist,   		 //air units
-Crossbowman, Sharpshooter, Ranger, Grovekeeper, 	 //earth units
-Charger, Ironfist, Inductor, Titan,                  //lightning units
-IceSpirit, Theurgist, Healer, Rainmaker);			 //water units
+Vangaurd, Nightmare, Firebringer, Seer,     		 			//fire units
+Assassin, Infiltrator, Sensei, Illusionist, /*MirrorImage,*/	//air units
+Crossbowman, Sharpshooter, Ranger, Grovekeeper, 	 			//earth units
+Charger, Ironfist, Inductor, Titan,                  			//lightning units
+IceSpirit, Theurgist, Healer, Rainmaker);			 			//water units
 }
 
 function returnUnitStats(name)
@@ -162,6 +162,24 @@ var Illusionist = new Array(
 "0",      //onDefendAbility
 "0, 0",   //auras
 "Mirror Image, Smoke Screen",   //ability
+"Air"		//element
+);
+
+var MirrorImage = new Array(
+"Mirror Image",       //name
+"1",      //hitpoints
+"0",      //damage
+"0",      //defence
+"4",      //movement
+"2",      //sight
+"1",      //range
+"0",      //reveal
+"1",      //#attack
+"0",      //#defend
+"0",      //onAttackAbility
+"0",      //onDefendAbility
+"0, 0",   //auras
+"None",   //ability
 "Air"		//element
 );
  

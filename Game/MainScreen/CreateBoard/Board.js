@@ -220,6 +220,8 @@
 		//if (Alliance == "enemy") { this.EnemyUnits.push(new Unit(Alliance, Name, x, y, value1, value2));}
 		
 		var CreateUnitArray = new Array(Alliance, Name, x, y, value1, value2);
+		
+		return this.AllyUnits[this.AllyUnits.length - 1];
 	  }
 	  
 	  
