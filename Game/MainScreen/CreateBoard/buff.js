@@ -862,11 +862,7 @@
 						sentry.stats.attacks--;
 						if (sentry.stats.attacks == 0) {
 							
-							this.sourceUnit.sourceUnit.auraTileModifier("off", this.sourceUnit)
-							var rem = listReturnArray(this.sourceUnit.sourceUnit.auras, this.sourceUnit.name);
-							if (rem != -1) { this.sourceUnit.sourceUnit.auras.splice(rem, 1); }
 							this.eventProc("Removal");
-	   
 							// remove aura	
 							}
 					}
@@ -875,14 +871,19 @@
 				
 				case "Move":
 				
-					
+					//if crossbowman moves it should probably do removal right?
 				
 				break;
 				
 				case "Removal":
 					
-					this.sourceUnit.attachedBuff.removeBuff();	
-					//his.attachedUnit.auraTileModifier("off", this.aura);
+					this.sourceUnit.sourceUnit.auraTileModifier("off", this.sourceUnit) //TURN AURA OFF from the xbowman
+					var rem = listReturnArray(this.sourceUnit.sourceUnit.auras, this.sourceUnit.name); //find aura on xbowman auralist
+					if (rem != -1) { this.sourceUnit.sourceUnit.auras.splice(rem, 1); }	//remove aura from xbowman auralist
+					this.sourceUnit.attachedBuff.removeBuff();	//remove the buff that is attached to xbowman(we set .attachedBuff inside "Initialize"
+					
+					
+					//this.attachedUnit.auraTileModifier("off", this.aura);    not needed.
 				
 				break;
 				}
