@@ -15,6 +15,8 @@ function ability() {
 
 }
 
+
+
 ability.prototype.abilityStats = function(abilityName)
 {
 	var customValue = new Array(8);
@@ -344,7 +346,8 @@ ability.prototype.abilityStats = function(abilityName)
 			return stats;				
 
   return null; } }
-//cast time??,
+  
+  
 
 ability.prototype.specialAbilityList = function() { 
 this.noCastList = new Array();  //List of abilities that cannot be casted.
@@ -534,7 +537,6 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 }
 
 
-
 ability.prototype.targetCast = function(targetSpot) //if finished returns true, send it off to server, if not... wait for another click?
 {	
     var customValue = this.abilityStats(this.abilityName);
@@ -705,6 +707,8 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	return finished; //require another click
 }
 
+
+
 ability.prototype.multiCast = function() {
 	
 	switch (this.abilityName) {
@@ -755,6 +759,8 @@ ability.prototype.removeMarkers = function()
 		this.castHighlightOption = 0;
 	}
 }
+
+
 
 ability.prototype.castModeHighlight = function(option) {
 	
@@ -826,6 +832,8 @@ ability.prototype.castModeHighlight = function(option) {
 	
 }
 
+
+
 ability.prototype.specialAreaSelect = function(gridCenter, numberOfTiles, option) {
 	
 	gridList = [];
@@ -894,6 +902,8 @@ ability.prototype.specialAreaSelect = function(gridCenter, numberOfTiles, option
 	
 	return gridList;
 }
+
+
 
 ability.prototype.AreaSelect = function(CentreGrid, Radius)
 	  {
@@ -1084,6 +1094,8 @@ ability.prototype.AreaSelect = function(CentreGrid, Radius)
 			return gridList;
 			
 	  }
+
+
 	  
 ability.prototype.mouseWheelHandler = function(mouseWheelDirection) {
 

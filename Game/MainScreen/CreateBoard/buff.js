@@ -537,23 +537,30 @@
 						   
 						   	if (check == false) {
 								this.attachedUnit.buffList.push(this);
-								this.attachedUnit.currentStats[9]++;			
+								this.attachedUnit.buffStats[9] += this.buffStats.blocks;
+								this.attachedUnit.currentStats[9] += this.buffStats.blocks;			
 							}
 						
 						}
 						
 					break;
 					
-					case "Turn":					
+					case "Turn":
+					
+						var mistCheck = false;
 						
-						// this.sourceUnit.eventProc("initialize", this.attachedUnit)
-						this.eventProc("Removal");
+						for (i = 0; i < this.attachedUnit.currentTileMods.length; i++) {							
+							if (this.attachedUnit.currentTileMods[i].name == this.buffType) { mistCheck = true; }
+						}
+						
+						if (mistCheck == false) { this.eventProc("Removal"); }
 						
 					break;
 					
 					case "Removal":
 					
-						this.removeBuff();		
+						this.removeBuff();
+						this.attachedUnit.buffStats[9] -= this.buffStats.blocks		
 						
 					break;
 					

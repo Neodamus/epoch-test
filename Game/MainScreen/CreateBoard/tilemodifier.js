@@ -1,6 +1,3 @@
-
-
-
 function tileModifier(sourceUnit, name) 
 {  
 	if (name != 'undefined' && name != null && name != "" && name != "0") {
