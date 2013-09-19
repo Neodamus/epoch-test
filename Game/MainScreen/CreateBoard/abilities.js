@@ -193,18 +193,6 @@ ability.prototype.abilityStats = function(abilityName)
 			}
 			
 			return stats;
-			
-			
-			/*
-					customValue[0] = 3; 		//MaxTime (buff)
-					customValue[1] = 3; 		//CurrentTime (buff)
-					customValue[2] = "both";    //buff visibility (buff)
-					customValue[3] = false;      //Does it stack? (buff)
-					customValue[4] = 1; 	    //total-How many units can it affect per turn (aura)
-					customValue[5] = 2;         //range of aura (aura)
-					customValue[6] = 1;         //current-How many units can it affect per turn (aura)
-					customValue[7] = "enemy"    //alliance that aura gets applied to, compared to sourceUnit (aura)
-					return customValue; */
 					
 		case "Polarity":
 		
@@ -262,6 +250,18 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				speed: 3
+			}
+			
+			return stats;
+					
+		case "Sentry": 
+		
+			stats = {
+				auraTarget: "ally",
+				auraRange: 3,
+				duration: 2,
+				attacks: 3,
+				damage: 4
 			}
 			
 			return stats;
@@ -490,6 +490,18 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 			
 		case "Second Wind":
+			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			finished = true;
+			this.castMode = false;
+			break;
+	
+		case "Rapid Strikes":
+			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			finished = true;
+			this.castMode = false;
+			break;
+	
+		case "Sentry":
 			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
 			finished = true;
 			this.castMode = false;
