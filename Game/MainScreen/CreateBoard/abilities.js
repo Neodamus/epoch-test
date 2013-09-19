@@ -62,6 +62,18 @@ ability.prototype.abilityStats = function(abilityName)
 			}
 			
 			return stats; 
+					
+		case "Creeping Vines":	
+					
+			stats = {
+				target: "any",
+				lifetime: 3,
+				duration: 1,
+				damage: 2,
+				range: 5
+			}
+			
+			return stats; 
 			
 		case "Energy Field":
 		
@@ -402,6 +414,12 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
 			finished = true;
 			this.castMode = false;
+			break;
+			
+		case "Creeping Vines":
+			this.sourceUnit.abilityMarkers("on", customValue.range);
+			finished = false;
+			this.castType = "line";									
 			break;	
 			
 		case "Energy Field":

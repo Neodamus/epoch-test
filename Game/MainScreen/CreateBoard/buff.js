@@ -195,7 +195,59 @@
 						
 						break;
 				}   
-			break;	
+			break;
+			
+			case "Creeping Vines":
+				
+				switch(Procedure) {					
+				
+					case "Initialize":
+					
+						if (this.attachedUnit.buffList == undefined) { 
+						
+							var vineTiles = this.attachedUnit;
+							
+							var Trap = new tileModifier(this.sourceUnit, this.buffType) 
+						
+							var Instructions = new Array();
+						
+							Instructions.push("on");
+							Instructions.push( vineTiles );
+							Trap.affectedTiles(Instructions);
+								
+						}					
+						
+						if (this.attachedUnit.buffList != undefined) {
+						   
+							this.attachedUnit.buffList.push(this);
+							this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
+							this.attachedUnit.currentStats[4] = 0;			
+						
+						}
+						
+					break;
+						
+					case "Turn":
+					
+						this.eventProc("Removal");						
+						
+					break;
+					
+					case "Move":					
+						
+						this.eventProc("Removal");
+						
+					break;
+					
+					case "Removal":
+					
+						this.removeBuff();		
+						
+					break;
+				
+				}
+
+				break;	
 			
 			case "Energy Field":
 				
@@ -565,6 +617,8 @@
 					break;
 					
 				}
+				
+			break;
 				
 			case "Panic Aura":
 
