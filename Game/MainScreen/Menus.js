@@ -13,7 +13,20 @@ function CreateMenus(Width, Height) {
 	  var MenuYSpace = Canvas.height * 0.093; //menuboxes /end
 	  
 	  //Create rectangles
+	  
+		
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	  this.StartOptionBox = new Rectangle(Canvas.width * 0.5 - newwidth * 0.5, newyh, newwidth, newheight);
+
 	  this.CreateBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 1 - MenuY - 23, this.StartOptionBox.width, MenuHeight + 20); 
 	  
 	  this.testBorder =  new Rectangle(this.StartOptionBox.x - 135, this.StartOptionBox.y + MenuYSpace * 1 - MenuY - 45, this.StartOptionBox.width + 268, MenuHeight + 60); 
@@ -22,7 +35,7 @@ function CreateMenus(Width, Height) {
 	  this.quickGameBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 3 - MenuY, this.StartOptionBox.width, MenuHeight);
 	  this.WebsiteBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 4 - MenuY, this.StartOptionBox.width, MenuHeight);
 	  this.logoutBox = new Rectangle(Canvas.width * 0.9, 1, Canvas.width * 0.1, Canvas.height * 0.05)
-
+		
 	  //Set text to be displayed inside the rectangle(position is set BASED on canvas, not rectangle!)                  centreTextY(numberOfLines, y, height, fontSize)
 	  var text = "Log Out";
 	  this.logoutBox.setText(text, "Black", centreTextX(text, this.logoutBox.x, this.logoutBox.width, this.fontSize), centreTextY(1, this.logoutBox.y, this.logoutBox.height, this.fontSize));
@@ -125,6 +138,20 @@ function CreateMenus(Width, Height) {
 	  }
 	  
 	  CreateMenus.prototype.Draw = function(context, canvas) {
+	  
+				//      <Laser-beam test>
+		this.test1 = {x: 298, y: 38};
+		this.test2 = Mouse;
+		var newray = new ray(this.test1, this.test2);
+		this.testrect = new Rectangle(300, 300, 60, 60); this.testrect.boxColor = 'white';
+		var text = "Miss! :("
+		if (newray.intersects(this.testrect) == true) //not sure how taxing this is... I think .intersects method should be able to take in a list of rectangles
+	    {																								// to cut down on the programs work
+		text = "Hit! :)";
+		
+		} this.testrect.setText(text, "white", 200, 70);
+		//      </Laser-beam test>
+	  
 		  
 		    context = document.getElementById('Mycanvas').getContext('2d')
 			
@@ -139,5 +166,15 @@ function CreateMenus(Width, Height) {
 			this.quickGameBox.draw();
 			this.WebsiteBox.draw();
 			this.logoutBox.draw();
-			  this.testBorder.draw();
+			this.testBorder.draw();
+			
+			this.testrect.draw();
+			context.fillStyle = "red";
+			
+			context.strokeStyle = "red";
+			context.beginPath();
+			context.moveTo(this.test1.x, this.test1.y);
+			context.lineTo(this.test2.x, this.test2.y);
+			context.stroke();
+			//context.drawLine(, );
 			}
