@@ -79,7 +79,6 @@ function messageHandler(message) {
 		
 		case "ability":
 		
-			alert("received");
 			ability.receiveAbility(data);
 		
 		break;

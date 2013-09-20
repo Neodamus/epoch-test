@@ -757,7 +757,7 @@ ability.prototype.finishCast = function() {
 	}
 	
 	this.removeMarkers();
-	this.sendAbility();
+	if (ClientsTurn) { this.sendAbility(); }
 	combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");	
 }
 
@@ -1162,6 +1162,7 @@ ability.prototype.mouseWheelHandler = function(mouseWheelDirection) {
 
 ability.prototype.sendAbility = function() {
 	
+	var ability = this.abilityName;
 	var target = [];	// always send targets as array	
 	var source = { x: this.sourceUnit.x, y: this.sourceUnit.y };
 	
@@ -1176,7 +1177,7 @@ ability.prototype.sendAbility = function() {
 		}
 	}
 	
-	packet = [target, source];
+	packet = [ability, target, source];
 	
 	sendPacket("ability", packet);
 	
@@ -1186,14 +1187,16 @@ ability.prototype.sendAbility = function() {
 
 ability.prototype.receiveAbility = function(packet) {
 	
-	var target = packet[0];
-	var source = packet[1];
+	var ability = packet[0];
+	var target = packet[1];
+	var source = packet[2];
 	
+	this.abilityName = ability;
 	this.sourceUnit = GridSpot[source.x][source.y].currentUnit;
 	
 	if (target.length == 1) {
 		
-		this.castTarget = GridSpot[target.x][target.y];
+		this.castTarget = GridSpot[target[0].x][target[0].y];
 			
 	} else {
 		
@@ -1202,5 +1205,11 @@ ability.prototype.receiveAbility = function(packet) {
 		}
 		
 	}
+	
+	alert(this.abilityName);
+	
+	this.finishCast();
+	
+	alert("test2");
 	
 }
