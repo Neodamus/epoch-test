@@ -54,16 +54,16 @@
 		this.attackCost = 1;
 		this.movementRange = 1;
 		
+		this.revealersOnGridList = new Array();
+		
+		
 		GridSpot[this.x][this.y].currentUnit = this;
 		this.currentTileMods = new Array();
 		GridSpot[this.x][this.y].tileModifiers("all", "move");
 		
 		if (this.alliance == "ally"){ this.sight("on"); }
 		this.reveal("on");
-		//this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5], "on", "") }
-		
-		
-		
+
 		for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("on", this.auras[i]); }
 	  }
 	  
@@ -87,18 +87,22 @@
 			this.sight("off"); //maybe we should make sure the unit is alive before messing with this stuff
 			this.currentStats[5] = this.baseStats[5] + this.buffStats[5]; // sight
 			this.sight("on");
-			this.reveal("off");
-			this.currentStats[7] = this.baseStats[7] + this.buffStats[7]; // reveal
-			this.reveal("on");
-			this.currentStats[6] = this.baseStats[6] + this.buffStats[6]; // range
-					
+			
 			this.currentStats[4] = this.baseStats[4] + this.buffStats[4]; //movement
 			if (this.currentStats[4] < 0) { this.currentStats[4] = 0 };
+			
+			this.currentStats[6] = this.baseStats[6] + this.buffStats[6]; // range
+			
+			this.reveal("off");
+			this.currentStats[7] = this.baseStats[7] + this.buffStats[7]; // reveal
+			this.reveal("on");	
 			
 			this.currentStats[8] = this.baseStats[8] + this.buffStats[8];	//#attacks
 			
 			this.currentStats[9] = this.baseStats[9] + this.buffStats[9]; //#defends 
 			}
+			
+			
 			
 			this.currentStats[3] = this.baseStats[3] + this.buffStats[3]; // defense
 			
@@ -128,8 +132,8 @@
 			break;
 			
 			case "reveal":
-			if (Toggle == "on" ) { if (listContains(GridSpot[x][y].revealList, this) == false) { GridSpot[x][y].revealList.push(this); } }
-			if (Toggle == "off") { var removal = listReturnArray(GridSpot[x][y].revealList, this); if (removal != -1) { GridSpot[x][y].revealList.splice(removal, 1); } }
+			if (Toggle == "on" ) { GridSpot[x][y].reveal("on", this); }
+			if (Toggle == "off") { GridSpot[x][y].reveal("off", this); }
 			break;
 			
 			case "ability":
@@ -201,8 +205,9 @@
 	   {
 		  
 		  GridSpot[this.x][this.y].Select("off");
-		  this.sight("off");
 		  this.reveal("off");
+		  this.sight("off");
+		  
 		  GridSpot[this.x][this.y].currentUnit = null;
 	   }
 	   
@@ -342,13 +347,47 @@
 		 
 			for (var i = 0; i < this.currentTileMods.length; i++) {  this.currentTileMods[i].eventProc("remove", this); } //this could have an indexing problem when a tilemod is removed and can't find the next one
 			NewGridSpot.tileModifiers("all", "move"); //get new tile modifiers
+			
+			for (var i = 0 ; i < this.revealersOnGridList.length; i++) { if (listContains(NewGridSpot.revealList, this.revealersOnGridList[i]) == false) { 
+			var rem = listReturnArray(this.noStealthList, this.revealersOnGridList[i]);
+			if (rem != -1) { this.noStealthList.splice(rem, 1); }
+			this.revealersOnGridList.splice(i, 1); i--; } }
+			
+			for (var i = 0; i < NewGridSpot.revealList.length; i++) { 
+			if (//NewGridSpot.revealList[i].alliance == "enemy" && 
+			listContains(this.revealersOnGridList, NewGridSpot.revealList[i]) == false) {
+			this.revealersOnGridList.push(NewGridSpot.revealList[i]);
+			this.stealth("off", NewGridSpot.revealList[i]);
+			} }
+	   
 			}
 		 }
 	  }
 	  
 	  
 	  
-	  
+	   Unit.prototype.gridRevealer = function(Toggle, unit)
+	  {
+			switch(Toggle) {
+				case "on": 
+					if (listContains(this.revealersOnGridList, unit) == false) {//NewGridSpot.revealList[i].alliance == "enemy" && 
+						
+						this.revealersOnGridList.push(unit);
+						this.stealth("off", unit);
+						}
+				
+				break;
+				
+				case "off":
+					var rem = listReturnArray(this.noStealthList, unit);
+						if (rem != -1) { this.noStealthList.splice(rem, 1); }
+					var rem = listReturnArray(this.revealersOnGridList, unit);
+						if (rem != -1) {this.revealersOnGridList.splice(rem, 1); }
+				break;
+			
+			
+			}
+	  }
 	  
 	  
 	  
@@ -375,7 +414,7 @@
 	  
 	  Unit.prototype.AreaSelect = function(Action, CentreGrid, Radius, Toggle, requirement)
 	  {
-		if (Radius < 0) { if(Action != "reveal") { alert("negative AreaSelect for " + Action); } return; }
+		if (Radius < 0 || Radius == 0 && Action == "reveal") { if(Action != "reveal") { alert("negative AreaSelect for " + Action); } return; }
 			var x = 0; 
 			var y = 0;
             var row = 1;

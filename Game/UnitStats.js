@@ -29,7 +29,7 @@ var Vangaurd = new Array(
 "5",       //movement4
 "3",       //sight5
 "1",       //range6
-"1",       //reveal7
+"1",       //reveal 7
 "1",       //#attack8
 "2",       //#defend9
 "Engulf",  //onAttackAbility10
@@ -47,7 +47,7 @@ var Nightmare = new Array(
 "5",      //movement
 "4",      //sight
 "3",      //range
-"-1",      //reveal
+"0",      //reveal
 "1",      //#attack
 "2",      //#defend
 "0",      //onAttackAbility

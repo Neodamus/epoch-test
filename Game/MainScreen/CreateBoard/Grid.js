@@ -28,6 +28,24 @@
 		this.currentUnit;				// current unit on tile
 	  }
 	  
+	  Grid.prototype.reveal = function(Toggle, Unit)
+	  {
+		switch(Toggle) {
+			case "on":
+				if (listContains(this.revealList, Unit) == false) { this.revealList.push(Unit);}
+				if (this.currentUnit != null) { this.currentUnit.gridRevealer("on", Unit); }
+				break;
+			case "off":
+				var rem = listReturnArray(this.revealList, Unit);
+				if (rem != -1) { this.revealList.splice(rem, 1); }
+				if (this.currentUnit != null) { this.currentUnit.gridRevealer("off", Unit); }
+				break;
+	  
+		}
+	  }
+	  
+	  
+	  
 	  //tilemod
 	  Grid.prototype.tileModifiers = function(modifier, procedure)
 	  {
@@ -117,9 +135,9 @@
 		var drawReveal = false;
 		for (var i = 0; i < this.revealList.length; i ++){
 		if (this.revealList[i].alliance == "ally") { drawReveal = true; } }
-		if (drawReveal == true) {  context.globalAlpha = 0.5;
+		if (drawReveal == true) {  context.globalAlpha = 0.7;
 		context.drawImage( Images[11],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
-		context.restore();}
+		context.globalAlpha = 1;}
 		
 		context.save();
 		context.font = '10px outline';

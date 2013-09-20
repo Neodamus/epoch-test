@@ -1169,9 +1169,11 @@
 					case "Initialize":
 						
 						this.attachedUnit.buffList.push(this);
-						
-						this.attachedUnit.currentStats[7] += this.buffStats.reveal 
-						this.attachedUnit.buffStats[7] += this.buffStats.reveal
+						this.attachedUnit.reveal("off");
+						this.attachedUnit.currentStats[7] += this.buffStats.reveal;
+						this.attachedUnit.reveal("on");
+						this.attachedUnit.buffStats[7] += this.buffStats.reveal;
+						//this.attachedUnit.resetStats("BUFF");
 						
 						break;
 				
@@ -1186,7 +1188,7 @@
 					
 						this.removeBuff();	
 						
-						this.attachedUnit.buffStats[2] -= this.buffStats.reveal;						
+						this.attachedUnit.buffStats[7] -= this.buffStats.reveal;						
 						
 						break;
 				}   
