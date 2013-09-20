@@ -41,7 +41,7 @@
 		
 		// other properties
 		this.unitStealth = false;
-		this.summoned = false;
+		this.summon = false;
 		
 		this.name = Name;                //not necessary(may need to remove any uses before removing this)
 		this.element = Element; 	     //not necessary(may need to remove any uses before removing this)

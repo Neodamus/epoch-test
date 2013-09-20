@@ -568,28 +568,36 @@
 			
 			case "Mirror Image":
 			
-				var targetSpot = this.attachedUnit[1];
-			
-				var image = GameBoard.CreateUnit(this.attachedUnit[0].alliance, this.attachedUnit[0].baseStats[0], targetSpot.x, targetSpot.y);
-				image.baseStats = returnUnitStats(MirrorImage);
-				
-				image.currentStats = new Array(this.baseStats.length);
-				for (var i = 0; i < image.baseStats.length; i++)
-				{
-					image.currentStats[i] = image.baseStats[i];
-					if (i > 0 && i < 10) {
-					image.baseStats[i] = parseInt(image.baseStats[i], 10); 
-					image.currentStats[i] = parseInt(image.baseStats[i], 10);
-					}
-					image.buffStats[i] = 0;
-				}
-			
 				switch (Procedure) {
 				
 					case "Initialize":
 					
+						var targetSpot = this.attachedUnit[1];
+						var copiedUnit = this.attachedUnit[0];
+						
+						var image = GameBoard.CreateUnit(copiedUnit.alliance, copiedUnit.baseStats[0], targetSpot.x, targetSpot.y);
+						
+						image.sight("off");
+						
+						image.baseStats = MirrorImage;
+						
+						image.currentStats = new Array(image.baseStats.length);
+						for (var i = 0; i < image.baseStats.length; i++)
+						{
+							image.currentStats[i] = image.baseStats[i];
+							if (i > 0 && i < 10) {
+							image.baseStats[i] = parseInt(image.baseStats[i], 10); 
+							image.currentStats[i] = parseInt(image.baseStats[i], 10);
+							}
+							image.buffStats[i] = 0;
+						}
+						
+						image.summon = true;
+						
+						image.sight("on");
+					
 						targetSpot.currentUnit = image;
-						GameBoard.AllyUnits.push(image);
+						if (copiedUnit.alliance == "ally") { GameBoard.AllyUnits.push(image); } else { GameBoard.EnemyUnits.push(image); }
 					
 					break;	
 					
