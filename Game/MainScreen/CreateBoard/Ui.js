@@ -59,8 +59,8 @@
 			case "game":
 				var castedAbility = ability.targetCast(CurrentSelectedGrid);
 				if (castedAbility == true) {
-				var sendData = new Array("ability", ability.sourceSpot.x, ability.sourceSpot.y, ability.targetSpot.x, ability.targetSpot.y, ability.abilityName /*, ability.targetSpot2.x, ability.targetSpot2.y*/);
-				GameBoard.sendUnitInstruction(sendData);		
+				//var sendData = new Array("ability", ability.sourceSpot.x, ability.sourceSpot.y, ability.targetSpot.x, ability.targetSpot.y, ability.abilityName /*, ability.targetSpot2.x, ability.targetSpot2.y*/);
+				//GameBoard.sendUnitInstruction(sendData);		
 				} 
 				if (ability.castMode == false) { this.abilityClickOff(); }
 				if (castedAbility == false) { }//needs more click
@@ -80,8 +80,8 @@
 			    if (castAbility == null) { this.abilityCastNeedsClick = false; this.abilityClickOff(); ability.removeMarkers();} //cancel cast
 			   
 			    if (castAbility == true) { //if ability finished casting:  SEND INFORMATION OFF TO SERVER...
-			    var sendData = new Array("ability", ability.sourceSpot.x, ability.sourceSpot.y, null, null, ability.abilityName, null, null);
-			    GameBoard.sendUnitInstruction(sendData);
+			    //var sendData = new Array("ability", ability.sourceSpot.x, ability.sourceSpot.y, null, null, ability.abilityName, null, null);
+			    //GameBoard.sendUnitInstruction(sendData);
 			    this.abilityClickOff();
 				}
 			   

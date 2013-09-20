@@ -77,13 +77,20 @@ function messageHandler(message) {
 	
 	switch(id) {
 		
+		case "ability":
+		
+			alert("received");
+			ability.receiveAbility(data);
+		
+		break;
+		
 		case "loginSuccess":
 		
 			_.userName = data
 			document.title = _.userName + " - Epoch of Elements"
 			_.connectionStatus = 2
 			
-			break
+			break;
 		
 		case "createRoom":
 			UnitSelection = new SelectionScreen()
@@ -221,8 +228,8 @@ function sendUnitRemove(unitNumber) {
 	socket.send(JSON.stringify(p))		
 }
 
-function sendPacket(id) {	
-	var p = new game_packet(id)
+function sendPacket(id, data) {	
+	var p = new game_packet(id, data)
 	socket.send(JSON.stringify(p))
 }
 

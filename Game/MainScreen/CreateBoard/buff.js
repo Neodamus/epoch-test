@@ -1,10 +1,13 @@
 
- function newBuff(buff, targetUnit, source)
+ function newBuff(buff, targetSpot, sourceUnit)
 	  {
 		this.buffType = buff;
-		this.buffStats			// holds buffstats object
-		this.attachedUnit = targetUnit;
-		this.sourceUnit = source;
+		this.buffStats;		// holds buffstats object
+		this.targetSpot = targetSpot;	// should be instanceof Grid or instanceof Array with Grids in it for aoe/multi targets
+		
+		if (this.targetSpot instanceof Grid) { this.attachedUnit = this.targetSpot.currentUnit; }
+		
+		this.sourceUnit = sourceUnit;
 		this.customValue = new Array(8);
 		this.procList = new Array();
 		this.eventProc("Initialize");
@@ -204,9 +207,9 @@
 				
 					case "Initialize":
 					
-						if (this.attachedUnit.buffList == undefined) { 
+						if (this.sourceUnit instanceof Unit) { 
 						
-							var vineTiles = this.attachedUnit;
+							var vineTiles = this.targetSpot;
 							
 							var Trap = new tileModifier(this.sourceUnit, this.buffType) 
 						
@@ -218,7 +221,7 @@
 								
 						}					
 						
-						if (this.attachedUnit.buffList != undefined) {				
+						if (this.sourceUnit instanceof tileModifier) {				
 							
 							var rem = listReturnArray(GridSpot[this.attachedUnit.x][this.attachedUnit.y].tileBuffList, this.sourceUnit); //Remove creeping vine tilemod from gridspot
 							if (rem != -1) { GridSpot[this.attachedUnit.x][this.attachedUnit.y].tileBuffList.splice(rem, 1);}
@@ -265,9 +268,9 @@
 					case "Initialize":
 					
 						// if placing trap	
-						if (this.attachedUnit.buffList == undefined) { 
+						if (this.sourceUnit instanceof Unit) { 
 						
-							var energyFieldTiles = this.attachedUnit;
+							var energyFieldTiles = this.targetSpot;
 							
 							var Trap = new tileModifier(this.sourceUnit, this.buffType) 
 						
@@ -280,7 +283,7 @@
 						}					
 						
 						// if unit steps on trap
-						if (this.attachedUnit.buffList != undefined) {
+						if (this.sourceUnit instanceof tileModifier) {
 						   
 							this.attachedUnit.buffList.push(this);
 							this.attachedUnit.currentStats[4]++;			
@@ -385,9 +388,9 @@
 					case "Initialize":
 					
 						// if placing trap	
-						if (this.attachedUnit.buffList == undefined) { 
+						if (this.sourceUnit instanceof Unit) { 
 						
-							var fireWallTiles = this.attachedUnit;
+							var fireWallTiles = this.targetSpot;
 							
 							var Trap = new tileModifier(this.sourceUnit, this.buffType) 
 						
@@ -400,7 +403,7 @@
 						}					
 						
 						// if unit steps on trap
-						if (this.attachedUnit.buffList != undefined) {
+						if (this.sourceUnit instanceof tileModifier) {
 						   
 							this.attachedUnit.buffList.push(this);
 							this.attachedUnit.receivePureDamage(this.buffStats.damage - 2, this.buffType);
@@ -508,26 +511,24 @@
 			
 			case "Magma Trap":
 			
-				var targetGridSpot = this.attachedUnit;
-			
 				switch(Procedure) {
 				
 					case "Initialize":
 					
 						// if placing trap	
-						if (this.attachedUnit.buffList == undefined) { 
+						if (this.sourceUnit instanceof Unit) { 
 							
 							var Trap = new tileModifier(this.sourceUnit, this.buffType) 
 						
 							var Instructions = new Array();
 						
 							Instructions.push("on");
-							Instructions.push( [targetGridSpot] );
+							Instructions.push( [this.targetSpot] );
 							Trap.affectedTiles(Instructions);
-						}					
+							
+						} 
 						
-						// if unit steps on trap
-						if (this.attachedUnit.buffList != undefined) {							
+						if (this.sourceUnit instanceof tileModifier) {	// unit steps on trap	
 							
 							var rem = listReturnArray(this.attachedUnit.currentTileMods, this.sourceUnit);
 							
@@ -535,23 +536,21 @@
 							if (rem != -1) { this.attachedUnit.currentTileMods[rem].affectedTiles(test); }
 						   
 							this.attachedUnit.buffList.push(this);
-							console.warn(this.attachedUnit.buffList);
 							this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
 					
-							this.attachedUnit.stealth("off", this);				
+							this.attachedUnit.stealth("off", this);		
 						
-						}  					
+						}
 						
 					break;
 					
 					case "Turn":
+					
 						this.buffStats.duration--;
 						this.buffStats.damage--;
 						
 						if (this.buffStats.duration != 0) { this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType); }
-						if (this.buffStats.duration == 0) { this.eventProc("Removal") }
-						
-						
+						if (this.buffStats.duration == 0) { this.eventProc("Removal") }						
 					
 					break;
 					
@@ -611,9 +610,9 @@
 				
 					case "Initialize":
 					
-						if (this.attachedUnit.buffList == undefined) { 
+						if (this.sourceUnit instanceof Unit) { 
 						
-							var mistTiles = this.attachedUnit;
+							var mistTiles = this.targetSpot;
 							
 							var Trap = new tileModifier(this.sourceUnit, this.buffType) 
 						
@@ -625,7 +624,7 @@
 								
 						}					
 						
-						if (this.attachedUnit.buffList != undefined) {
+						if (this.sourceUnit instanceof tileModifier) {
 							
 							var check = false;
 							
@@ -734,6 +733,36 @@
 						
 						break;
 				}   
+			break;
+			
+			case "Polarity": 
+			
+				switch (Procedure) {
+					
+					case "Initialize":
+		
+						this.sourceUnit.abilityMarkers("off", this.buffStats.range);
+					
+						var coords = { x: this.targetSpot[0].x, y: this.targetSpot[0].y }
+						
+						var target1 = this.targetSpot[0];
+						var target2 = this.targetSpot[1];
+						
+						target1.x = target2.x;
+						target1.y = target2.y;
+						
+						target2.x = coords.x
+						target2.y = coords.y;
+						
+						GridSpot[target2.x][target2.y].currentUnit = target2;
+						GridSpot[target1.x][target1.y].currentUnit = target1;	
+						
+						combatLog.push(target1.baseStats[0] + " swapped places with " + target2.baseStats[0]);
+						
+					break;
+					
+				}
+			
 			break;	
 				
 			case "Precision": 
@@ -877,8 +906,6 @@
 					
 					if (this.attachedUnit == this.sourceUnit) {		// initial cast by crossbowman
 						
-						alert("initialize");
-						
 						this.attachedUnit.buffList.push(this);
 
 						this.aura = new tileModifier(this.attachedUnit, this.buffType);
@@ -902,7 +929,7 @@
 							
 							this.eventProc("Removal");
 							// remove aura	
-							}
+						}
 					}
 					
 				break;
@@ -933,10 +960,9 @@
 				
 					case "Initialize":
 					
-						// if placing trap	
-						if (this.attachedUnit.buffList == undefined) { 
+						if (this.sourceUnit instanceof Unit) { 
 						
-							var smokeScreenTiles = this.attachedUnit;
+							var smokeScreenTiles = this.targetSpot;
 							
 							var Trap = new tileModifier(this.sourceUnit, this.buffType) 
 						
@@ -948,8 +974,7 @@
 								
 						}					
 						
-						// if unit steps on trap
-						if (this.attachedUnit.buffList != undefined) {
+						if (this.sourceUnit instanceof tileModifier) {
 						   
 							this.attachedUnit.buffList.push(this);
 					
@@ -983,7 +1008,8 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list		
+						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list	
+						alert (this.attachedUnit.name);	
 						
 						break;
 				
@@ -992,7 +1018,7 @@
 						this.buffStats.duration--; //reduce buff time;  
 						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
 						
-						this.attachedUnit.currentStats[4] += this.buffStats.hitpoints;	
+						this.attachedUnit.heal(this.buffStats.hitpoints, this.buffType);
 						
 						break;
 					
@@ -1172,7 +1198,7 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list	
+						this.attachedUnit.buffList.push(this);	
 						
 						this.attachedUnit.buffStats[4] += this.buffStats.speed				
 						
@@ -1180,7 +1206,7 @@
 				
 					case "Turn":
 					
-						this.buffStats.duration--; //reduce buff time;  
+						this.buffStats.duration--;  
 						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
 						
 						break;
@@ -1196,7 +1222,7 @@
 			break;				
 		}
 		
-		if (this.attachedUnit.currentStats != null) { this.attachedUnit.resetStats("BUFF"); } return this.removeReturn;
+		if (this.attachedUnit != null) { this.attachedUnit.resetStats("BUFF"); } return this.removeReturn;
 	}
 	
 newBuff.prototype.removeBuff = function() {

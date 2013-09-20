@@ -8,8 +8,8 @@ function ability() {
 	
 	this.castMode = false;	// true if in castmode, false if not
 	this.castType = "single";		// type of casting area, ie: single, line, radius, chain
-	this.castTarget = GridSpot[0][0];		// holds center highlighted gridspot
-	this.castTargetList = []; // holds list of highlighted gridspots
+	this.castTarget = GridSpot[0][0];		// holds current targeted gridspot, also the center of a highlight area
+	this.castTargetList = []; // holds list of targeted gridspots
 	this.castTargeOption = 0;	// used for changing the area select, ie: turning line cast different ways
 
 }
@@ -384,6 +384,7 @@ this.twoTargetList.push("Polarity", "test1");
 ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-> Ability setup or cast.
 {	
 	this.abilityName = abilityName;
+	this.currentAbilityStats = this.abilityStats(this.abilityName);
 	
 	// maintains the casting source in case of multiple targets
 	if (this.castMode == false) {
@@ -393,11 +394,12 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 	
 	this.castMode = true;
 	
-	var customValue = this.abilityStats(this.abilityName);
-	this.currentAbilityStats = customValue;
+	var customValue = this.currentAbilityStats;
 	
 	var finished = null;
 	if (listContains(this.noCastList, this.abilityName) == true) { return null; }
+	
+	var selfBuffTarget = GridSpot[this.sourceUnit.x][this.sourceUnit.y];
 
 	switch (this.abilityName) {
 		
@@ -412,7 +414,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 		
 		case "Condense":
-			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
 			finished = true;
 			this.castMode = false;
 			break;
@@ -436,7 +438,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;		
 		
 		case "Exothermia":
-			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
 			finished = true;
 			this.castMode = false;
 			break;
@@ -491,25 +493,25 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 	
 		case "Rapid Strikes":
-			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
 			finished = true;
 			this.castMode = false;
 			break;
 			
 		case "Second Wind":
-			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
 			finished = true;
 			this.castMode = false;
 			break;
 	
 		case "Rapid Strikes":
-			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
 			finished = true;
 			this.castMode = false;
 			break;
 	
 		case "Sentry":
-			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
 			finished = true;
 			this.castMode = false;
 			break;		
@@ -532,7 +534,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 		
 		case "Stealth":
-			var addBuff = new newBuff(this.abilityName, this.sourceUnit, this.sourceUnit)
+			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
 			finished = true;
 			this.castMode = false;
 			break;
@@ -599,15 +601,13 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				
 				if (this.targetUnit.alliance == this.sourceUnit.alliance) {			
 					
-					this.castTargetList.push(this.targetUnit);
+					this.castTargetList.push(this.targetSpot);
 					
 					if (this.castTargetList.length < customValue.targets) { 
 						this.cast(this.abilityName, this.sourceUnit);
 						return false; 				
 					} else {
-						combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
-						this.multiCast();
-						this.removeMarkers();
+						this.finishCast();
 					}	
 					
 				} else {
@@ -621,14 +621,12 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				
 				if (this.targetUnit.alliance != this.sourceUnit.alliance) {				
 					
-					this.castTargetList.push(this.targetUnit)
+					this.castTargetList.push(this.targetSpot)
 					
 					if (this.castTargetList.length < customValue.targets) { 
 						return false; 				
 					} else {
-						combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
-						this.multiCast();
-						this.removeMarkers();
+						this.finishCast();
 					}					
 					
 				} else {
@@ -640,14 +638,12 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				
 			} else if (target == "both") {
 				
-				this.castTargetList.push(this.targetUnit)
+				this.castTargetList.push(this.targetSpot)
 				
 				if (this.castTargetList.length < customValue.targets) { 
 					return false; 				
 				} else {
-					combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
-					this.multiCast();
-					this.removeMarkers();
+					this.finishCast();
 				}			
 				
 			} else if (target == "tile") {
@@ -673,9 +669,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				this.cast(this.abilityName, this.sourceUnit);
 				return false; 				
 			} else {
-				combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
-				new newBuff(this.abilityName, this.castTargetList, this.sourceUnit);
-				this.removeMarkers();
+				this.finishCast();
 			}	
 			
 		} else {
@@ -690,14 +684,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	// single target casting
 	if (this.targetSpot.abilityMarker == true && customValue.target == "any") {
 		
-		if (this.castTargetList.length == 0) {				
-			new newBuff (this.abilityName, this.castTarget, this.sourceUnit);
-		} else {
-			new newBuff (this.abilityName, this.castTargetList, this.sourceUnit);
-		}		
-		
-		this.removeMarkers();
-		combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");			
+		this.finishCast();			
 		finished = true;
 		
 	} else if (this.targetSpot.abilityMarker == true && this.targetUnit != null) {		
@@ -706,9 +693,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 		
 			if (this.targetUnit.alliance == this.sourceUnit.alliance) {
 				
-			    combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
-				new newBuff(this.abilityName, this.targetUnit, this.sourceUnit);
-				this.removeMarkers();
+			    this.finishCast();
 				finished = true;
 				
 			} else { // target is an enemy with an ally buff
@@ -723,9 +708,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			
 			if (this.targetUnit.alliance != this.sourceUnit.alliance) {
 				
-			    combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
-				new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-				this.removeMarkers();
+			    this.finishCast();
 				finished = true;
 				
 			} else { // target is an ally with an enemy buff
@@ -738,23 +721,14 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			
 		} else { // target = both
 			
-			combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
-			new newBuff(this.abilityName, this.targetUnit, this.sourceUnit)
-			this.removeMarkers();
+			this.finishCast();
 			finished = true;			
 			
 		}
 		
 	} else if (this.targetSpot.abilityMarker == true && this.targetUnit == null && customValue.target == "tile") {	// tile casting
 		
-		if (this.castTargetList.length == 0) {				
-			new newBuff (this.abilityName, this.castTarget, this.sourceUnit);
-		} else {
-			new newBuff (this.abilityName, this.castTargetList, this.sourceUnit);
-		}		
-		
-		this.removeMarkers();
-		combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");			
+		this.finishCast();	
 		finished = true;
 	
 	} else {
@@ -774,42 +748,23 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 
 
 
-ability.prototype.multiCast = function() {
-	
-	switch (this.abilityName) {
+ability.prototype.finishCast = function() {
 		
-		case "Polarity": // 2 targets
-		
-			this.sourceUnit.abilityMarkers("off", this.abilityStats(this.abilityName).range);
-		
-			var coords = { x: this.castTargetList[0].x, y: this.castTargetList[0].y }
-			
-			var target1 = this.castTargetList[0]
-			var target2 = this.castTargetList[1]
-			
-			target1.x = target2.x;
-			target1.y = target2.y;
-			
-			target2.x = coords.x
-			target2.y = coords.y;
-			
-			GridSpot[target2.x][target2.y].currentUnit = target2;
-			GridSpot[target1.x][target1.y].currentUnit = target1;	
-			
-			combatLog.push(target1.baseStats[0] + " swapped places with " + target2.baseStats[0])		
-			
-			break;
-		
+	if (this.castTargetList.length == 0) {				
+		new newBuff (this.abilityName, this.castTarget, this.sourceUnit);
+	} else {
+		new newBuff (this.abilityName, this.castTargetList, this.sourceUnit);
 	}
 	
+	this.removeMarkers();
+	this.sendAbility();
+	combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");	
 }
-
-
 
 ability.prototype.removeMarkers = function()
 {
 	if (this.castMode == true) {
-		this.sourceUnit.abilityMarkers("off", this.abilityStats(this.abilityName).range);
+		this.sourceUnit.abilityMarkers("off", this.currentAbilityStats.range);
 		Ui.abilityClickOff();
 		this.castMode = false;
 		this.castTarget.abilitySelectMarker = false;
@@ -1207,18 +1162,45 @@ ability.prototype.mouseWheelHandler = function(mouseWheelDirection) {
 
 ability.prototype.sendAbility = function() {
 	
-	if (this.castTargetList.length) {
+	var target = [];	// always send targets as array	
+	var source = { x: this.sourceUnit.x, y: this.sourceUnit.y };
+	
+	if (this.castTargetList.length == 0) {
 		
+		target.push({ x: this.castTarget.x, y: this.castTarget.y });
+		
+	} else {
+		
+		for (i = 0; i < this.castTargetList.length; i++) {
+			target.push( { x: this.castTargetList[i].x, y: this.castTargetList[i].y } );
+		}
 	}
+	
+	packet = [target, source];
+	
+	sendPacket("ability", packet);
 	
 }
 
-ability.prototype.receiveAbility = function(info)
-{
-	var cast = this.cast(info[5], GridSpot[info[1]][info[2]]);
-	if (cast == false)
-	{ 
-	var target = this.targetCast(GridSpot[info[3]][info[4]]);
-	if (target == false) { } //do second target ability!
+
+
+ability.prototype.receiveAbility = function(packet) {
+	
+	var target = packet[0];
+	var source = packet[1];
+	
+	this.sourceUnit = GridSpot[source.x][source.y].currentUnit;
+	
+	if (target.length == 1) {
+		
+		this.castTarget = GridSpot[target.x][target.y];
+			
+	} else {
+		
+		for (i = 0; i < target.length; i++) {
+			this.castTargetList[i] = GridSpot[target[i].x][target[i].y];	
+		}
+		
 	}
+	
 }

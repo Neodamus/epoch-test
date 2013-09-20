@@ -287,7 +287,7 @@
 		
 		// apply attack buffs
 		if (this.currentStats[10] != 0) {
-		var buffIt = new newBuff(this.currentStats[10], NewGridSpot.currentUnit, this); }
+		var buffIt = new newBuff(this.currentStats[10], NewGridSpot, this); }
 		
 		// attack proc		
 		for (var i = 0; i < this.buffList.length; i++) {  if (this.buffList[i].eventProc("Attack") == true) { i--; }  }
