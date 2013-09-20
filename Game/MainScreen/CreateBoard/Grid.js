@@ -18,6 +18,7 @@
 		
 		this.spawnMarker = false;
 		
+		this.revealList = new Array();
 		this.tileBuffList = new Array(); //Contains tile modifiers (auras included)
 		
 		this.visible = false;
@@ -111,6 +112,13 @@
 		if (this.tileBuffList.length > 0) { 
 		context.save(); context.globalAlpha = 0.2;
 		context.drawImage( Images[10],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
+		context.restore();}
+		
+		var drawReveal = false;
+		for (var i = 0; i < this.revealList.length; i ++){
+		if (this.revealList[i].alliance == "ally") { drawReveal = true; } }
+		if (drawReveal == true) {  context.globalAlpha = 0.5;
+		context.drawImage( Images[11],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		context.restore();}
 		
 		context.save();

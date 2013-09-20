@@ -47,7 +47,7 @@ var Nightmare = new Array(
 "5",      //movement
 "4",      //sight
 "3",      //range
-"0",      //reveal
+"-1",      //reveal
 "1",      //#attack
 "2",      //#defend
 "0",      //onAttackAbility
@@ -382,21 +382,21 @@ var Healer = new Array(
 );
  
 var Rainmaker = new Array(
-"Rainmaker",       //name
-"9",      //hitpoints
-"4",      //damage
-"3",      //defence
-"6",      //movement
-"2",      //sight
-"2",      //range
-"0",      //reveal
-"1",      //#attack
-"1",      //#defend
-"0",      //onAttackAbility
-"0",      //onDefendAbility
-"0, 0",   //auras
-"Mist, Rain Shield",   //ability
-"Water"	//element
+"Rainmaker",       //name 0
+"9",      //hitpoints 1 
+"4",      //damage2 
+"3",      //defence3
+"6",      //movement4
+"2",      //sight5
+"2",      //range 6
+"0",      //reveal 7
+"1",      //#attack8
+"1",      //#defend9
+"0",      //onAttackAbility10
+"0",      //onDefendAbility11
+"0, 0",   //auras12
+"Mist, Rain Shield",   //ability13
+"Water"	//element14
 );
 
  

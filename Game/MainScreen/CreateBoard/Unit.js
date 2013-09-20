@@ -58,8 +58,9 @@
 		this.currentTileMods = new Array();
 		GridSpot[this.x][this.y].tileModifiers("all", "move");
 		
-		if (this.alliance == "ally"){
-		this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5], "on", "") }
+		if (this.alliance == "ally"){ this.sight("on"); }
+		this.reveal("on");
+		//this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5], "on", "") }
 		
 		
 		
@@ -69,13 +70,13 @@
 	  
 	   Unit.prototype.turnFunction = function()
 	    {
-			if (this.alliance == "ally") { this.sight("off"); }
+			if (this.alliance == "ally") { this.sight("off"); } //not sure if this is needed....
 			for (var i = 0; i < this.buffList.length; i++) { if (this.buffList[i].eventProc("Turn") == true) { i--; }  }
 			
 			//apply buff per turn effects
 			//reduce cooldowns
 			this.resetStats();
-			if (this.alliance == "ally" && this.currentStats[1] > 0) { this.sight("on"); } //sight on if health > 0
+			if (this.alliance == "ally" && this.currentStats[1] > 0) { this.sight("on"); } //sight on if health > 0-- not sure if this is needed
 	    }
 	  
 	  
@@ -83,10 +84,12 @@
 		 { 		 
 			if (resetFrom == null) 
 			{						
-			this.sight("off");
+			this.sight("off"); //maybe we should make sure the unit is alive before messing with this stuff
 			this.currentStats[5] = this.baseStats[5] + this.buffStats[5]; // sight
 			this.sight("on");
-			
+			this.reveal("off");
+			this.currentStats[7] = this.baseStats[7] + this.buffStats[7]; // reveal
+			this.reveal("on");
 			this.currentStats[6] = this.baseStats[6] + this.buffStats[6]; // range
 					
 			this.currentStats[4] = this.baseStats[4] + this.buffStats[4]; //movement
@@ -122,6 +125,11 @@
 			case "vision":
 			if (Toggle == "on" ) { if (listContains(GridSpot[x][y].allyVision, this) == false) { GridSpot[x][y].allyVision.push(this); this.visibleGridSpots.push(GridSpot[x][y]); } }
 			if (Toggle == "off") { var removal = listReturnArray(GridSpot[x][y].allyVision, this); if (removal != -1) { GridSpot[x][y].allyVision.splice(removal, 1); } }
+			break;
+			
+			case "reveal":
+			if (Toggle == "on" ) { if (listContains(GridSpot[x][y].revealList, this) == false) { GridSpot[x][y].revealList.push(this); } }
+			if (Toggle == "off") { var removal = listReturnArray(GridSpot[x][y].revealList, this); if (removal != -1) { GridSpot[x][y].revealList.splice(removal, 1); } }
 			break;
 			
 			case "ability":
@@ -174,6 +182,11 @@
 			}
 	   }
 	   
+	   Unit.prototype.reveal = function(Toggle)
+	   {
+			this.AreaSelect("reveal", GridSpot[this.x][this.y], this.currentStats[7], Toggle, "");
+	   }
+	   
 	   Unit.prototype.movementMarkers = function(Toggle)
 	   {
 			this.AreaSelect("move", GridSpot[this.x][this.y], this.movementRange, Toggle, "");
@@ -186,8 +199,10 @@
 	   
 	   Unit.prototype.Remove = function() //this does not delete the unit, only removes it from the board!
 	   {
+		  
 		  GridSpot[this.x][this.y].Select("off");
-		  this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5], "off", "")
+		  this.sight("off");
+		  this.reveal("off");
 		  GridSpot[this.x][this.y].currentUnit = null;
 	   }
 	   
@@ -322,7 +337,7 @@
 			if (this.alliance == "ally" && this.currentStats[1] > 0){
 		 
 			this.sight("on");
-		 
+			this.reveal("on");
 			for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("move", this.auras[i]); } //move all aura origins
 		 
 			for (var i = 0; i < this.currentTileMods.length; i++) {  this.currentTileMods[i].eventProc("remove", this); } //this could have an indexing problem when a tilemod is removed and can't find the next one
@@ -360,6 +375,7 @@
 	  
 	  Unit.prototype.AreaSelect = function(Action, CentreGrid, Radius, Toggle, requirement)
 	  {
+		if (Radius < 0) { if(Action != "reveal") { alert("negative AreaSelect for " + Action); } return; }
 			var x = 0; 
 			var y = 0;
             var row = 1;

@@ -19,7 +19,7 @@ function advancedString(string, rectangleToFitIn, colorList) {
 	
 	for (var i = 0; i < string.length; i++) { 
 	
-		//Add string piece to currentword
+		//Add string letter to currentword
 		if (string[i] != " " && string[i] != "`" && string[i] != "&") { currentWord += string[i];}
 		
 		//found Color indicator
