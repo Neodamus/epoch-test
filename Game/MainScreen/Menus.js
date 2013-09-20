@@ -12,7 +12,7 @@ function CreateMenus(Width, Height) {
 	  var MenuHeight = Canvas.height * 0.069;
 	  var MenuYSpace = Canvas.height * 0.093; //menuboxes /end
 	  
-	  this.stringT = new advancedString("RedNoToolTip`red` Orange/ToolTip/ToopTipBoxColoredBlue`orange`&This tooltip is for the blue word&");
+	  this.stringT = new advancedString("RedNoToolTip`red` Orange/ToolTip/ToopTipBoxColoredBlue`orange`&This tooltip is for the blue word& Pink`pink` Purple`Purple` gray`gray` white`white` green`green` yellow`yellow`");
 	  
 	  
 	 
