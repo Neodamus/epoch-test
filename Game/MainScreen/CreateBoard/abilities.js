@@ -19,7 +19,18 @@ function ability() {
 ability.prototype.abilityStats = function(abilityName)
 {
 	var customValue = new Array(8);
-	switch(abilityName){	
+	switch(abilityName){
+		
+		case "Arrowsmith":
+		
+			stats = {
+				auraTarget: "ally",
+				auraRange: 1,
+				duration: 1,
+				attacks: 1			
+			}
+			
+			return stats;
 		
 		case "Ambush":
 		
@@ -402,6 +413,12 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 	var selfBuffTarget = GridSpot[this.sourceUnit.x][this.sourceUnit.y];
 
 	switch (this.abilityName) {
+	
+		case "Arrowsmith":
+			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
+			finished = true;
+			this.castMode = false;
+			break;	
 		
 		case "Bark Armor":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
@@ -756,8 +773,8 @@ ability.prototype.finishCast = function() {
 		new newBuff (this.abilityName, this.castTargetList, this.sourceUnit);
 	}
 	
+	if (ClientsTurn) { this.sendAbility(); }	// must be before removeMarkers	
 	this.removeMarkers();
-	if (ClientsTurn) { this.sendAbility(); }
 	combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");	
 }
 
@@ -1201,15 +1218,11 @@ ability.prototype.receiveAbility = function(packet) {
 	} else {
 		
 		for (i = 0; i < target.length; i++) {
-			this.castTargetList[i] = GridSpot[target[i].x][target[i].y];	
+			this.castTargetList.push(GridSpot[target[i].x][target[i].y]);
 		}
 		
 	}
 	
-	alert(this.abilityName);
-	
 	this.finishCast();
-	
-	alert("test2");
 	
 }

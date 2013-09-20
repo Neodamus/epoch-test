@@ -251,7 +251,7 @@ var Grovekeeper = new Array(
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
-"Arrow Smith, Creeping Vines",   //ability
+"Arrowsmith, Creeping Vines",   //ability
 "Earth"		//element
 );
  

@@ -43,6 +43,65 @@
 		}
 			
 		switch(this.buffType) {	
+				
+			case "Arrowsmith":
+
+				switch(Procedure) {
+				
+					case "Initialize":
+					
+					if (this.attachedUnit == this.sourceUnit) {		// initial cast by crossbowman
+						
+						this.attachedUnit.buffList.push(this);
+
+						this.aura = new tileModifier(this.attachedUnit, this.buffType);
+						
+						this.aura.attachedBuff = this; //Used For Referencing the buff from the aura
+						
+						this.attachedUnit.auras.push(this.aura);
+						this.attachedUnit.auraTileModifier("on", this.aura);
+						
+					} else if (this.attachedUnit == this.sourceUnit.sourceUnit) { 	// prevents self targeting
+						
+					} else { 	// give extra attack
+						var grovekeeper = this.sourceUnit.sourceUnit;
+						
+						if (this.attachedUnit.baseStats[6] > 1) {
+							this.attachedUnit.buffList.push(this);
+							this.attachedUnit.buffStats[8] += this.buffStats.attacks;
+						}
+					}
+					
+				break;
+				
+				case "Turn":
+				
+					this.attachedUnit.currentStats[8]++;
+				
+					this.buffStats.duration--;
+					if (this.buffStats.duration <= 0) {	this.eventProc("Removal"); }
+				
+				case "Move":
+				
+					this.eventProc("Removal");
+				
+				break;
+				
+				case "Removal":
+				
+					if (this.sourceUnit instanceof tileModifier) {
+						this.removeBuff();	
+						this.attachedUnit.buffStats[8] -= this.buffStats.attacks;
+					} else {				
+						this.sourceUnit.auraTileModifier("off", this.aura);
+						var rem = listReturnArray(this.sourceUnit.auras, this.aura); 
+						if (rem != -1) { this.sourceUnit.auras.splice(rem, 1); }
+						this.removeBuff();		
+					}
+				
+				break;
+				}
+			break;
 		
 			case "Ambush":
 			
