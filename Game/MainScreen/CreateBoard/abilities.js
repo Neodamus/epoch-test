@@ -1,18 +1,16 @@
 function ability() { 
-
-	//this.abilityBeingCasted = false; 
+ 
 	this.abilityName;
-	this.currentAbilityStats;
+	this.currentAbilityStats;	// holds the current ability's stats (changeable)
 	this.specialAbilityList(); 
 	this.sourceUnit;
-	this.targetSpot2 = null;
-	this.targetList = [];
+	// this.targetSpot2 = null;
 	
 	this.castMode = false;	// true if in castmode, false if not
 	this.castType = "single";		// type of casting area, ie: single, line, radius, chain
-	this.castHighlight = GridSpot[0][0];		// holds center highlighted gridspot
-	this.castHighlightList = []; // holds list of highlighted gridspots
-	this.castHighlightOption = 0;	// used for changing the area select, ie: turning line cast different ways
+	this.castTarget = GridSpot[0][0];		// holds center highlighted gridspot
+	this.castTargetList = []; // holds list of highlighted gridspots
+	this.castTargeOption = 0;	// used for changing the area select, ie: turning line cast different ways
 
 }
 
@@ -381,16 +379,6 @@ this.twoTargetList = new Array(); //List of abilities that require two clicks.
 this.twoTargetList.push("Polarity", "test1");
 }
 
-ability.prototype.receiveAbility = function(info)
-{
-	var cast = this.cast(info[5], GridSpot[info[1]][info[2]]);
-	if (cast == false)
-	{ 
-	var target = this.targetCast(GridSpot[info[3]][info[4]]);
-	if (target == false) { } //do second target ability!
-	}
-}
-
 
 
 ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-> Ability setup or cast.
@@ -439,7 +427,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;
 			this.castType = "radius";
-			this.castHighlightOption = customValue.radius;									
+			this.castTargeOption = customValue.radius;									
 			break;
 		
 		case "Entanglement":
@@ -477,14 +465,14 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 		case "Mirror Image":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;
-			if (this.targetList.length == 1) { this.currentAbilityStats.target = "tile"; this.currentAbilityStats.targetSelf = false; }				
+			if (this.castTargetList.length == 1) { this.currentAbilityStats.target = "tile"; this.currentAbilityStats.targetSelf = false; }				
 			break;
 			
 		case "Mist":
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;
 			this.castType = "radius";
-			this.castHighlightOption = customValue.radius;									
+			this.castTargeOption = customValue.radius;									
 			break;
 			
 		case "Polarity":
@@ -530,7 +518,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			this.sourceUnit.abilityMarkers("on", customValue.range);
 			finished = false;
 			this.castType = "radius";
-			this.castHighlightOption = customValue.radius;									
+			this.castTargeOption = customValue.radius;									
 			break;
 			
 		case "Soulfire":
@@ -611,9 +599,9 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				
 				if (this.targetUnit.alliance == this.sourceUnit.alliance) {			
 					
-					this.targetList.push(this.targetUnit);
+					this.castTargetList.push(this.targetUnit);
 					
-					if (this.targetList.length < customValue.targets) { 
+					if (this.castTargetList.length < customValue.targets) { 
 						this.cast(this.abilityName, this.sourceUnit);
 						return false; 				
 					} else {
@@ -633,9 +621,9 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				
 				if (this.targetUnit.alliance != this.sourceUnit.alliance) {				
 					
-					this.targetList.push(this.targetUnit)
+					this.castTargetList.push(this.targetUnit)
 					
-					if (this.targetList.length < customValue.targets) { 
+					if (this.castTargetList.length < customValue.targets) { 
 						return false; 				
 					} else {
 						combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
@@ -652,9 +640,9 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				
 			} else if (target == "both") {
 				
-				this.targetList.push(this.targetUnit)
+				this.castTargetList.push(this.targetUnit)
 				
-				if (this.targetList.length < customValue.targets) { 
+				if (this.castTargetList.length < customValue.targets) { 
 					return false; 				
 				} else {
 					combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
@@ -679,14 +667,14 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 		
 		if (this.currentAbilityStats.target == "tile") {
 			
-			this.targetList.push(this.targetSpot);		
+			this.castTargetList.push(this.targetSpot);		
 					
-			if (this.targetList.length < this.currentAbilityStats.targets) { 
+			if (this.castTargetList.length < this.currentAbilityStats.targets) { 
 				this.cast(this.abilityName, this.sourceUnit);
 				return false; 				
 			} else {
 				combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");
-				new newBuff(this.abilityName, this.targetList, this.sourceUnit);
+				new newBuff(this.abilityName, this.castTargetList, this.sourceUnit);
 				this.removeMarkers();
 			}	
 			
@@ -702,10 +690,10 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	// single target casting
 	if (this.targetSpot.abilityMarker == true && customValue.target == "any") {
 		
-		if (this.castHighlightList.length == 0) {				
-			new newBuff (this.abilityName, this.castHighlight, this.sourceUnit);
+		if (this.castTargetList.length == 0) {				
+			new newBuff (this.abilityName, this.castTarget, this.sourceUnit);
 		} else {
-			new newBuff (this.abilityName, this.castHighlightList, this.sourceUnit);
+			new newBuff (this.abilityName, this.castTargetList, this.sourceUnit);
 		}		
 		
 		this.removeMarkers();
@@ -759,10 +747,10 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 		
 	} else if (this.targetSpot.abilityMarker == true && this.targetUnit == null && customValue.target == "tile") {	// tile casting
 		
-		if (this.castHighlightList.length == 0) {				
-			new newBuff (this.abilityName, this.castHighlight, this.sourceUnit);
+		if (this.castTargetList.length == 0) {				
+			new newBuff (this.abilityName, this.castTarget, this.sourceUnit);
 		} else {
-			new newBuff (this.abilityName, this.castHighlightList, this.sourceUnit);
+			new newBuff (this.abilityName, this.castTargetList, this.sourceUnit);
 		}		
 		
 		this.removeMarkers();
@@ -794,10 +782,10 @@ ability.prototype.multiCast = function() {
 		
 			this.sourceUnit.abilityMarkers("off", this.abilityStats(this.abilityName).range);
 		
-			var coords = { x: this.targetList[0].x, y: this.targetList[0].y }
+			var coords = { x: this.castTargetList[0].x, y: this.castTargetList[0].y }
 			
-			var target1 = this.targetList[0]
-			var target2 = this.targetList[1]
+			var target1 = this.castTargetList[0]
+			var target2 = this.castTargetList[1]
 			
 			target1.x = target2.x;
 			target1.y = target2.y;
@@ -824,16 +812,15 @@ ability.prototype.removeMarkers = function()
 		this.sourceUnit.abilityMarkers("off", this.abilityStats(this.abilityName).range);
 		Ui.abilityClickOff();
 		this.castMode = false;
-		this.castHighlight.abilitySelectMarker = false;
+		this.castTarget.abilitySelectMarker = false;
 		this.castType = "single";
-		this.targetList = [];
 		
-		if (this.castHighlightList.length > 0) {
-			for (i = 0; i < this.castHighlightList.length; i++) { this.castHighlightList[i].abilitySelectMarker = false; }		
-			this.castHightlightList = [];
+		if (this.castTargetList.length > 0) {
+			for (i = 0; i < this.castTargetList.length; i++) { this.castTargetList[i].abilitySelectMarker = false; }		
+			this.castTargetList = [];
 		}
 		
-		this.castHighlightOption = 0;
+		this.castTargeOption = 0;
 	}
 }
 
@@ -845,14 +832,14 @@ ability.prototype.castModeHighlight = function(option) {
 	
 	if (this.castMode)	{
 		
-		if (this.castHighlight.ThisRectangle.Contains(mousePosition) == false || option == true) {
+		if (this.castTarget.ThisRectangle.Contains(mousePosition) == false || option == true) {
 			
 			// remove marker
-			this.castHighlight.abilitySelectMarker = false;
+			this.castTarget.abilitySelectMarker = false;
 			
 			// if it's an area highlight, turn off the list and empty it
-			if (this.castHighlightList.length > 0) { 
-				for (i = 0; i < this.castHighlightList.length; i++) { this.castHighlightList[i].abilitySelectMarker = false; }
+			if (this.castTargetList.length > 0) { 
+				for (i = 0; i < this.castTargetList.length; i++) { this.castTargetList[i].abilitySelectMarker = false; }
 			}
 			
 			// find a new highlight
@@ -863,7 +850,7 @@ ability.prototype.castModeHighlight = function(option) {
 				gridSpot = gridSpotList[i];	
 				
 				if (gridSpot.ThisRectangle.Contains(mousePosition) == true) {
-					this.castHighlight = gridSpot;
+					this.castTarget = gridSpot;
 					mouseOnBoard = true;	
 				}
 				
@@ -875,26 +862,26 @@ ability.prototype.castModeHighlight = function(option) {
 				
 					case "single":
 					
-						this.castHighlight.abilitySelectMarker = true;
+						this.castTarget.abilitySelectMarker = true;
 						
 					break;
 						
 					case "line":
 					
-						this.castHighlightList = this.specialAreaSelect(this.castHighlight, 2, this.castHighlightOption);
+						this.castTargetList = this.specialAreaSelect(this.castTarget, 2, this.castTargeOption);
 							
-						for (i = 0; i < this.castHighlightList.length; i++) {
-							this.castHighlightList[i].abilitySelectMarker = true;	
+						for (i = 0; i < this.castTargetList.length; i++) {
+							this.castTargetList[i].abilitySelectMarker = true;	
 						}					
 					
 					break;
 						
 					case "radius":
 					
-						this.castHighlightList = this.AreaSelect(this.castHighlight, this.castHighlightOption);
+						this.castTargetList = this.AreaSelect(this.castTarget, this.castTargeOption);
 							
-						for (i = 0; i < this.castHighlightList.length; i++) {
-							this.castHighlightList[i].abilitySelectMarker = true;	
+						for (i = 0; i < this.castTargetList.length; i++) {
+							this.castTargetList[i].abilitySelectMarker = true;	
 						}					
 					
 					break;
@@ -928,8 +915,8 @@ ability.prototype.specialAreaSelect = function(gridCenter, numberOfTiles, option
 					case 0:
 					
 						for (i = 1; i <= numberOfTiles / 2; i++) {
-							if (GridSpot[x - i][y] != null) { gridList.push(GridSpot[x - i][y]); }
-							if (GridSpot[x + i][y] != null) { gridList.push(GridSpot[x + i][y]); }
+							if (x > 0) { gridList.push(GridSpot[x - i][y]); }
+							if (x < 14) { gridList.push(GridSpot[x + i][y]); }
 						}
 						
 					break;
@@ -940,13 +927,13 @@ ability.prototype.specialAreaSelect = function(gridCenter, numberOfTiles, option
 							
 							if (y % 2 == 0) {
 							
-								if (GridSpot[x - i][y - i] != null) { gridList.push(GridSpot[x - i][y - i]); }
-								if (GridSpot[x][y + i] != null) { gridList.push(GridSpot[x][y + i]); } 
+								if (x > 0 && y > 0) { gridList.push(GridSpot[x - i][y - i]); }
+								if (y < 14) { gridList.push(GridSpot[x][y + i]); } 
 								
 							} else {
 							
-								if (GridSpot[x][y - i] != null) { gridList.push(GridSpot[x][y - i]); }
-								if (GridSpot[x + i][y + i] != null) { gridList.push(GridSpot[x + i][y + i]); }
+								if (y > 0) { gridList.push(GridSpot[x][y - i]); }
+								if (x < 14 && y < 14) { gridList.push(GridSpot[x + i][y + i]); }
 							
 							}
 						}
@@ -959,13 +946,13 @@ ability.prototype.specialAreaSelect = function(gridCenter, numberOfTiles, option
 							
 							if (y % 2 == 0) {
 							
-								if (GridSpot[x][y - i] != null) { gridList.push(GridSpot[x][y - i]); }
-								if (GridSpot[x - i][y + i] != null) { gridList.push(GridSpot[x - i][y + i]); } 
+								if (y > 0) { gridList.push(GridSpot[x][y - i]); }
+								if (x > 0 && y < 14) { gridList.push(GridSpot[x - i][y + i]); } 
 								
 							} else {
 							
-								if (GridSpot[x + i][y - i] != null) { gridList.push(GridSpot[x + i][y - i]); }
-								if (GridSpot[x][y + i] != null) { gridList.push(GridSpot[x][y + i]); }
+								if (x < 14 && y > 0) { gridList.push(GridSpot[x + i][y - i]); }
+								if (y < 14) { gridList.push(GridSpot[x][y + i]); }
 							
 							}
 						}
@@ -1184,11 +1171,11 @@ ability.prototype.mouseWheelHandler = function(mouseWheelDirection) {
 				
 				case "up":
 				
-					switch (this.castHighlightOption) {
+					switch (this.castTargeOption) {
 					
-						case 0: this.castHighlightOption = 1; break;
-						case 1: this.castHighlightOption = 2; break;
-						case 2: this.castHighlightOption = 0; break;
+						case 0: this.castTargeOption = 1; break;
+						case 1: this.castTargeOption = 2; break;
+						case 2: this.castTargeOption = 0; break;
 						
 					}
 				
@@ -1196,11 +1183,11 @@ ability.prototype.mouseWheelHandler = function(mouseWheelDirection) {
 				
 				case "down":
 				
-					switch (this.castHighlightOption) {
+					switch (this.castTargeOption) {
 					
-						case 0: this.castHighlightOption = 2; break;
-						case 1: this.castHighlightOption = 0; break;
-						case 2: this.castHighlightOption = 1; break;
+						case 0: this.castTargeOption = 2; break;
+						case 1: this.castTargeOption = 0; break;
+						case 2: this.castTargeOption = 1; break;
 						
 					}			
 				
@@ -1214,4 +1201,24 @@ ability.prototype.mouseWheelHandler = function(mouseWheelDirection) {
 		
 	}
 	
+}
+
+
+
+ability.prototype.sendAbility = function() {
+	
+	if (this.castTargetList.length) {
+		
+	}
+	
+}
+
+ability.prototype.receiveAbility = function(info)
+{
+	var cast = this.cast(info[5], GridSpot[info[1]][info[2]]);
+	if (cast == false)
+	{ 
+	var target = this.targetCast(GridSpot[info[3]][info[4]]);
+	if (target == false) { } //do second target ability!
+	}
 }

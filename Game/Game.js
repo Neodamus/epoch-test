@@ -209,8 +209,6 @@
 			if (mouse.detail < 0) { mouseWheelDirection = "up"; } else { mouseWheelDirection = "down"; }	// Firefox
 		}
 		
-		console.warn(mouseWheelDirection)
-		
 		switch(Screen) {
 		
 			case "GameBoard":
