@@ -12,19 +12,12 @@ function CreateMenus(Width, Height) {
 	  var MenuHeight = Canvas.height * 0.069;
 	  var MenuYSpace = Canvas.height * 0.093; //menuboxes /end
 	  
-	  //Create rectangles
+	  this.stringT = new advancedString("RedNoToolTip`red` Orange/ToolTip/ToopTipBoxColoredBlue`orange`&This tooltip is for the blue word&");
 	  
-		
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	  
+	 
+	  
+	  //Create rectangles
 	  this.StartOptionBox = new Rectangle(Canvas.width * 0.5 - newwidth * 0.5, newyh, newwidth, newheight);
 
 	  this.CreateBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 1 - MenuY - 23, this.StartOptionBox.width, MenuHeight + 20); 
@@ -145,6 +138,8 @@ function CreateMenus(Width, Height) {
 		    context = document.getElementById('Mycanvas').getContext('2d')
 			
 			context.drawImage(Images[0],0 ,0 ,Canvas.width, Canvas.height);
+			 
+			this.stringT.draw();
 			context.font = this.fontSize;
 			
 			context.fillStyle = "rgba(20, 20, 20, 0.5)";
@@ -178,4 +173,5 @@ function CreateMenus(Width, Height) {
 			context.lineTo(this.test2.x, this.test2.y);
 			context.stroke();
 			*/
+			
 			}
