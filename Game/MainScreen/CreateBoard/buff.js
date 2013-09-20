@@ -1283,7 +1283,6 @@
 			break;				
 		}
 		
-		if (this.attachedUnit != null) { this.attachedUnit.resetStats("BUFF"); } return this.removeReturn;
 	}
 	
 newBuff.prototype.removeBuff = function() {
