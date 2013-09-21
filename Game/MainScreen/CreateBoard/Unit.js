@@ -71,7 +71,10 @@
 	   Unit.prototype.turnFunction = function()
 	    {
 			if (this.alliance == "ally") { this.sight("off"); } //not sure if this is needed....
-			for (var i = 0; i < this.buffList.length; i++) { if (this.buffList[i].eventProc("Turn") == true) { i--; }  }
+			for (var i = 0; i < this.buffList.length; i++) { 
+			
+			if (this.buffList[i].eventProc("Turn") == true) { i--; } 
+			  }
 			
 			//apply buff per turn effects
 			//reduce cooldowns
@@ -81,7 +84,8 @@
 	  
 	  
 		 Unit.prototype.resetStats = function(resetFrom)
-		 { 		 
+		 {
+			if (this.currentStats[1] > 0) { //this condition is needed for an example: firebringer with torch dies to firewall.
 			if (resetFrom == null) 
 			{						
 			this.sight("off"); //maybe we should make sure the unit is alive before messing with this stuff
@@ -108,6 +112,7 @@
 			
 			this.currentStats[2] = this.baseStats[2] + this.buffStats[2]; // damage
 		 }
+		 }
 		 
 		 
 	    Unit.prototype.markers = function(x, y, Toggle, Action, requirement) 
@@ -132,7 +137,7 @@
 			break;
 			
 			case "reveal":
-			if (Toggle == "on" ) { GridSpot[x][y].reveal("on", this); }
+			if (Toggle == "on" ) { if (this.x != x || this.y != y) {GridSpot[x][y].reveal("on", this); } }
 			if (Toggle == "off") { GridSpot[x][y].reveal("off", this); }
 			break;
 			
@@ -201,7 +206,7 @@
 			this.AreaSelect("attack", GridSpot[this.x][this.y], this.currentStats[6], Toggle, "");
 	   }
 	   
-	   Unit.prototype.Remove = function() //this does not delete the unit, only removes it from the board!
+	   Unit.prototype.Remove = function() //removes unit from the board for movement purposes-- auras have their own movement
 	   {
 		  
 		  GridSpot[this.x][this.y].Select("off");
@@ -213,6 +218,7 @@
 	   
 	   Unit.prototype.Delete = function() //deletes unit
 	   {
+		  this.reveal("off");
 		  GridSpot[this.x][this.y].Select("off");
 		  var instruct = new Array(); instruct.push("off");
 		  for (var i = 0; i < this.auras.length; i++) { this.auras[i].affectedTiles(instruct); }

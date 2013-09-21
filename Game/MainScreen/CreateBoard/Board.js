@@ -202,7 +202,8 @@
 			
 			case "end":
 			for (var i = 0; i < this.AllyUnits.length; i++) { this.AllyUnits[i].turnFunction(); } 
-			for (var i = 0; i < this.tileModifierList.length; i++) { this.tileModifierList[i].turnRefresh("ally"); } //this index might not be accurate when something is removed...
+			for (var i = 0; i < this.tileModifierList.length; i++) { var theSame = this.tileModifierList[i]; this.tileModifierList[i].turnRefresh("ally"); 
+			if (theSame != this.tileModifierList[i]) { i--; } } //fixing index error
 			ClientsTurn = true; combatLog.push("Turn End.");
 			break;
 			

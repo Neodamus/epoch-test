@@ -114,7 +114,7 @@
 			context.drawImage(Images[7],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		}
 		
-		context.globalAlpha = 0.35;
+		context.globalAlpha = 0.7;
 		if (this.spawnMarker == true) { context.drawImage( Images[5],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		
 		if (this.abilityMarker == true) { context.drawImage( Images[9],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
@@ -135,7 +135,7 @@
 		var drawReveal = false;
 		for (var i = 0; i < this.revealList.length; i ++){
 		if (this.revealList[i].alliance == "ally") { drawReveal = true; } }
-		if (drawReveal == true) {  context.globalAlpha = 0.7;
+		if (drawReveal == true) {  context.globalAlpha = 0.4;
 		context.drawImage( Images[11],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		context.globalAlpha = 1;}
 		

@@ -129,13 +129,16 @@
 		 if (ClientsTurn == true && this.finishTurnBox.Contains(Mouse) == true && ClientsTurn == true) {
 			var endTurn = new Array();
 			endTurn.push("end");
-			for (var i = 0; i < GameBoard.tileModifierList.length; i++) { GameBoard.tileModifierList[i].turnRefresh("enemy"); } //this index might not be accurate when something is removed...
+			for (var i = 0; i < GameBoard.tileModifierList.length; i++) { var theSame = GameBoard.tileModifierList[i]; GameBoard.tileModifierList[i].turnRefresh("enemy");
+			if (theSame != GameBoard.tileModifierList[i]) { i--; } } //fixing index error
 			GameBoard.sendUnitInstruction(endTurn);
 			if (GameBoard.gameType == "normal") { 
 				ClientsTurn = false; 
-				for (var i = 0; i < GameBoard.EnemyUnits.length; i++) { GameBoard.EnemyUnits[i].turnFunction(); }
+				for (var i = 0; i < GameBoard.EnemyUnits.length; i++) {  var theSame = GameBoard.EnemyUnits[i]; GameBoard.EnemyUnits[i].turnFunction(); 
+				if (theSame != GameBoard.EnemyUnits[i]) { i--; } } //fixing index error}
 			} else if (GameBoard.gameType == "sandbox") {
-				for (var i = 0; i < GameBoard.AllyUnits.length; i++) { GameBoard.AllyUnits[i].turnFunction(); }
+				for (var i = 0; i < GameBoard.AllyUnits.length; i++) { var theSame = GameBoard.AllyUnits[i]; GameBoard.AllyUnits[i].turnFunction();
+					if (theSame != GameBoard.AllyUnits[i]) { i--; } } //fixing index error}				}
 			}
 			combatLog.push("Turn End.");
 			return; }
