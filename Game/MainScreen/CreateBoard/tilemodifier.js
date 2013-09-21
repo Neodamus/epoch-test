@@ -142,13 +142,13 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 					
 					if (this.tileList[i].currentUnit != null) { oldUnitList.push(this.tileList[i].currentUnit);  }
 
-					this.tileList.splice(i, 1); i--;  //i-- because the tileList is changing within, if you wanted to be safe, change: i = 0;
+					this.tileList.splice(i, 1); i--;  //i-- because the tileList is changing within,
 				}
 			}
 			for (var i = 0; i < oldUnitList.length; i++) {  this.eventProc("remove", oldUnitList[i]); } //remove from units
 			break;
 		
-			//uncompleted- passover
+			
 		case "off":
 			//remove from all tiles...
 			var oldUnitList = new Array();

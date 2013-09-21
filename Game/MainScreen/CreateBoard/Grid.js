@@ -12,8 +12,8 @@
 		
 		this.visionBlock = new Array();
 		
-		this.visionBlockRectangleY = new Rectangle(Positionx + (Width / 2) - 3, Positiony - 3, 1 + 6, Height + 6); this.visionBlockRectangleY.boxColor = "red";
-		this.visionBlockRectangleX = new Rectangle(Positionx - 3, Positiony + (Height * 0.22) - 3, Width + 6, Height * 0.54 + 6); this.visionBlockRectangleX.boxColor = "purple";
+		this.visionBlockRectangleY = new Rectangle(Positionx + (Width / 2) - 2, Positiony - 2, 1 + 4, Height + 4); this.visionBlockRectangleY.boxColor = "red";
+		this.visionBlockRectangleX = new Rectangle(Positionx - 2, Positiony + (Height * 0.22) - 2, Width + 4, Height * 0.54 + 4); this.visionBlockRectangleX.boxColor = "purple";
 		//this.ThisRectangle.setText(this.x + "," + this.y, "White", this.ThisRectangle.x + 5, this.ThisRectangle.y + 15) // used to show gridtext
 		
 		this.selected = false;
