@@ -282,7 +282,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Sentry": 
 		
 			stats = {
-				auraTarget: "ally",
+				tileTarget: "enemy",
 				auraRange: 3,
 				duration: 2,
 				attacks: 3,

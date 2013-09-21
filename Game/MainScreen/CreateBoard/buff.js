@@ -1042,7 +1042,9 @@
 							Trap.affectedTiles(Instructions);
 							
 							for (i = 0; i < smokeScreenTiles.length; i++) {
-								GridSpot[smokeScreenTiles[i].x][smokeScreenTiles[i].y].visionBlock.push(this)
+								console.warn("adding smoke screen tiles in")
+								GridSpot[smokeScreenTiles[i].x][smokeScreenTiles[i].y].visionBlock.push(this);
+								console.warn("tiles added successfully");
 							}
 								
 						}					
