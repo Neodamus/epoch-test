@@ -495,7 +495,8 @@
 					
 					case "Removal":
 					
-						this.removeBuff();		
+						this.removeBuff();	
+						this.removeTileModifier();	
 						
 					break;
 				
@@ -1304,5 +1305,17 @@ newBuff.prototype.removeBuff = function() {
 	} else {
 		alert("Buff being removed outside of buff class");
 	}
+	
+}
+
+newBuff.prototype.removeTileModifier = function() {
+	
+	removeArray = listReturnArray(this.attachedUnit.currentTileMods, this.sourceUnit);
+	
+	if (removeArray != -1) { 
+		this.attachedUnit.currentTileMods.splice(removeArray, 1); this.removeReturn = true;
+	} else {
+		alert("Tile modifier being removed outside of buff class");
+	}	
 	
 }

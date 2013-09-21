@@ -24,6 +24,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Arrowsmith":
 		
 			stats = {
+				tileTarget: "ally",
 				auraTarget: "ally",
 				lifetime: 1,
 				auraRange: 1,
@@ -787,15 +788,16 @@ ability.prototype.removeMarkers = function()
 		Ui.abilityClickOff();
 		this.castMode = false;
 		this.castTarget.abilitySelectMarker = false;
-		this.castType = "single";
-		
-		if (this.castTargetList.length > 0) {
-			for (i = 0; i < this.castTargetList.length; i++) { this.castTargetList[i].abilitySelectMarker = false; }		
-			this.castTargetList = [];
-		}
-		
-		this.castTargeOption = 0;
 	}
+	
+	this.castType = "single";
+	
+	if (this.castTargetList.length > 0) {
+		for (i = 0; i < this.castTargetList.length; i++) { this.castTargetList[i].abilitySelectMarker = false; }		
+		this.castTargetList = [];
+	}
+	
+	this.castTargeOption = 0;
 }
 
 

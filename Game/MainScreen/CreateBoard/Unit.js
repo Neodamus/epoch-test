@@ -351,10 +351,12 @@
 		 for (var i = 0; i < this.buffList.length; i++) {  if (this.buffList[i].eventProc("Move") == true) { i--; }  }
 		 
 		 // make sure unit is alive before giving back vision
-			if (/*this.alliance == "ally" &&*/ this.currentStats[1] > 0){
+			if (this.alliance == "ally" && this.currentStats[1] > 0){
 		 
 			this.sight("on");
 			this.reveal("on");
+			}
+			
 			for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("move", this.auras[i]); } //move all aura origins
 		 
 			for (var i = 0; i < this.currentTileMods.length; i++) {  this.currentTileMods[i].eventProc("remove", this); } //this could have an indexing problem when a tilemod is removed and can't find the next one
@@ -370,7 +372,7 @@
 			listContains(this.revealersOnGridList, NewGridSpot.revealList[i]) == false) {
 			this.revealersOnGridList.push(NewGridSpot.revealList[i]);
 			this.stealth("off", NewGridSpot.revealList[i]);
-			} }
+			}
 	   
 			}
 		 }
