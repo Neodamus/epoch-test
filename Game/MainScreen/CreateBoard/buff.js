@@ -631,12 +631,12 @@
 				
 					case "Initialize":
 					
-						var targetSpot = this.attachedUnit[1];
-						var copiedUnit = this.attachedUnit[0];
+						var targetSpot = this.targetSpot[1];
+						var copiedUnit = this.targetSpot[0].currentUnit;
 						
 						var image = GameBoard.CreateUnit(copiedUnit.alliance, copiedUnit.baseStats[0], targetSpot.x, targetSpot.y);
 						
-						image.sight("off");
+						image.Remove();
 						
 						image.baseStats = MirrorImage;
 						
@@ -656,7 +656,6 @@
 						image.sight("on");
 					
 						targetSpot.currentUnit = image;
-						if (copiedUnit.alliance == "ally") { GameBoard.AllyUnits.push(image); } else { GameBoard.EnemyUnits.push(image); }
 					
 					break;	
 					

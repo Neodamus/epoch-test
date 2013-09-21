@@ -294,6 +294,7 @@ ability.prototype.abilityStats = function(abilityName)
 		
 			stats = {
 				target: "any",
+				tileTarget: "both",
 				lifetime: 3,
 				duration: 3,
 				range: 3,
@@ -418,9 +419,9 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 	switch (this.abilityName) {
 	
 		case "Arrowsmith":
-			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
+			this.castTarget = selfBuffTarget;
+			this.finishCast();
 			finished = true;
-			this.castMode = false;
 			break;	
 		
 		case "Bark Armor":
@@ -434,9 +435,9 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 		
 		case "Condense":
-			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
+			this.castTarget = selfBuffTarget;
+			this.finishCast();
 			finished = true;
-			this.castMode = false;
 			break;
 			
 		case "Creeping Vines":
@@ -458,9 +459,9 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;		
 		
 		case "Exothermia":
-			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
+			this.castTarget = selfBuffTarget;
+			this.finishCast();
 			finished = true;
-			this.castMode = false;
 			break;
 			
 		case "Fire Wall":
@@ -513,27 +514,21 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 	
 		case "Rapid Strikes":
-			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
+			this.castTarget = selfBuffTarget;
+			this.finishCast();
 			finished = true;
-			this.castMode = false;
 			break;
 			
 		case "Second Wind":
-			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
+			this.castTarget = selfBuffTarget;
+			this.finishCast();
 			finished = true;
-			this.castMode = false;
-			break;
-	
-		case "Rapid Strikes":
-			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
-			finished = true;
-			this.castMode = false;
 			break;
 	
 		case "Sentry":
-			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
+			this.castTarget = selfBuffTarget;
+			this.finishCast();
 			finished = true;
-			this.castMode = false;
 			break;		
 			
 		case "Smoke Screen":
@@ -554,9 +549,9 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 		
 		case "Stealth":
-			var addBuff = new newBuff(this.abilityName, selfBuffTarget, this.sourceUnit)
+			this.castTarget = selfBuffTarget;
+			this.finishCast();
 			finished = true;
-			this.castMode = false;
 			break;
 		
 		case "Stomp":

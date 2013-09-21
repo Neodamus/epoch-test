@@ -217,12 +217,16 @@
 	  //CreateUnit
 	  Board.prototype.CreateUnit = function(Alliance, Name, x, y, value1, value2)
 	  {
-		if (Alliance == "ally") { this.AllyUnits.push(new Unit(Alliance, Name, x, y, value1, value2)); }
-		//if (Alliance == "enemy") { this.EnemyUnits.push(new Unit(Alliance, Name, x, y, value1, value2));}
+		if (Alliance == "ally") { 
+			this.AllyUnits.push(new Unit(Alliance, Name, x, y, value1, value2)); 
+			return this.AllyUnits[this.AllyUnits.length - 1];
+		} else {
+			this.EnemyUnits.push(new Unit(Alliance, Name, x, y, value1, value2));
+			return this.EnemyUnits[this.EnemyUnits.length - 1];
+		}
 		
-		var CreateUnitArray = new Array(Alliance, Name, x, y, value1, value2);
+		var CreateUnitArray = new Array(Alliance, Name, x, y, value1, value2);		
 		
-		return this.AllyUnits[this.AllyUnits.length - 1];
 	  }
 	  
 	  
