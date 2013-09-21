@@ -290,8 +290,14 @@
 	   
 	   Unit.prototype.heal = function(hp, source) { // source should be string
 		   
-		   this.currentStats[1] += hp;
-		   combatLog.push(this.baseStats[0] + " healed by " + source + " for " + hp + " hit points.")
+			lifeLost = this.baseStats[1] + this.buffStats[1] - this.currentStats[1];
+		   
+			if (hp <= lifeLost) { // do nothing
+			} else if (hp > lifeLost && this.currentStats[1] + hp > this.baseStats[1] + this.buffStats[1]) { hp = lifeLost; 
+			} else { hp = 0 }		   
+			
+			this.currentStats[1] += hp;
+			combatLog.push(this.baseStats[0] + " healed by " + source + " for " + hp + " hit points.")
 	   }
 	   	  
 	   Unit.prototype.Attack = function(NewGridSpot)
@@ -345,7 +351,7 @@
 		 for (var i = 0; i < this.buffList.length; i++) {  if (this.buffList[i].eventProc("Move") == true) { i--; }  }
 		 
 		 // make sure unit is alive before giving back vision
-			if (this.alliance == "ally" && this.currentStats[1] > 0){
+			if (/*this.alliance == "ally" &&*/ this.currentStats[1] > 0){
 		 
 			this.sight("on");
 			this.reveal("on");

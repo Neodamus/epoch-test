@@ -730,42 +730,52 @@
 
 				switch(Procedure) {
 				
-						case "Initialize":
-					//We use the sourceUnit for all the AURA/stats, that way any future buffs have to obey what the aura can currently do:
+					case "Initialize":
 					
-					var stacks = false;
-					for (var i = 0; i < this.attachedUnit.buffList.length; i++) { if (this.attachedUnit.buffList[i].buffType == this.buffType) { stacks = true; break;} }
+						var isSelf = this.sourceUnit.sourceUnit == this.attachedUnit;	// determines if proc is self
 					
-					for (var i = 0; i < this.attachedUnit.currentTileMods.length; i++) { //go through all panic auras to see if any can apply movementdecrease.
+						var stacks = false;
+						for (var i = 0; i < this.attachedUnit.buffList.length; i++) { 
+							if (this.attachedUnit.buffList[i].buffType == this.buffType) { 
+								stacks = true; break;
+							} 
+						}
+						
+						for (var i = 0; i < this.attachedUnit.currentTileMods.length; i++) { 
+											
+							if (this.attachedUnit.currentTileMods[i].name == this.buffType && 
+								this.attachedUnit.currentTileMods[i].stats.unitAffectNumber > 0 && isSelf == false) { 
+								
+									if (stacks == false) { this.attachedUnit.currentStats[4] = 0; } 
+									
+								this.attachedUnit.currentTileMods[i].stats.unitAffectNumber--; 
+							}
+						
+						}					
+						
+						if (stacks == false) { this.attachedUnit.buffList.push(this); }
 					
-						if (this.attachedUnit.currentTileMods[i].name == this.buffType && this.attachedUnit.currentTileMods[i].stats.unitAffectNumber > 0) 
-					
-						{ if (stacks == false) { this.attachedUnit.currentStats[4] = 0; } this.attachedUnit.currentTileMods[i].stats.unitAffectNumber--; }
-					
-					}
-					//if (this.sourceUnit.stats.unitAffectNumber > 0) { this.attachedUnit.currentStats[4] = 0; this.sourceUnit.stats.unitAffectNumber--; } //aura can only affect 1 unit per turn.
-					
-					
-					if (stacks == false) {this.attachedUnit.buffList.push(this); }
 					break;
 				
-						case "Turn":
-					console.warn(this.buffStats.duration);
-					this.buffStats.duration--; 
-					this.sourceUnit.stats.unitAffectNumber = this.buffStats.unitAffectNumber; //we reset the aura's stats by using this.buffStats because we're not modifying the buffstats of that variable here.
-					if (listContains(this.attachedUnit.currentTileMods, this.sourceUnit) == true) { this.buffStats.duration++; }
-						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
-					break;
+					case "Turn":
 					
-					/*	case "Move":
-					break;*/
+						this.buffStats.duration--; 
+						this.sourceUnit.stats.unitAffectNumber = this.buffStats.unitAffectNumber;
 						
-						case "Removal":
-					removeArray = listReturnArray(this.attachedUnit.buffList, this);
-					this.attachedUnit.buffList.splice(removeArray, 1); 
+						if (listContains(this.attachedUnit.currentTileMods, this.sourceUnit) == true) { this.buffStats.duration++; }
+						
+						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+						
+					break;
+						
+					case "Removal":
+					
+						removeArray = listReturnArray(this.attachedUnit.buffList, this);
+						this.attachedUnit.buffList.splice(removeArray, 1); 
+						
 					break;
 				}
-				break;
+			break;
 				
 			case "Poison Tips":
 			
@@ -790,7 +800,7 @@
 					
 						this.removeBuff(); 	
 						
-						break;
+					break;
 				}   
 			break;
 			
@@ -1067,14 +1077,13 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list	
-						alert (this.attachedUnit.name);	
+						this.attachedUnit.buffList.push(this);
 						
 						break;
 				
 					case "Turn":
 						
-						this.buffStats.duration--; //reduce buff time;  
+						this.buffStats.duration--; 
 						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
 						
 						this.attachedUnit.heal(this.buffStats.hitpoints, this.buffType);

@@ -130,6 +130,7 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				target: "any",
+				tileTarget: "both",
 				lifetime: 3,
 				duration: 3,
 				damage: 3,
@@ -207,10 +208,10 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Panic Aura": 
 		
 			stats = {
+				tileTarget: "enemy",
 				duration: 3,
 				unitAffectNumber: 1,
 				auraRange: 2,
-				auraTarget: "enemy",
 				stacks: false
 			}
 			

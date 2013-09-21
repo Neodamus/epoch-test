@@ -35,29 +35,43 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 
 	switch(procedure) {
 	
-		case "initialize": //when aura is first turned on..
-		 //if it is added....
+		case "initialize": 
+		
 		if (listContains(currentUnit.currentTileMods, this) == false) {
-		currentUnit.currentTileMods.push(this);}
-		
-		var exists = false;
-		for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
-		
-		//if (exists == false || this.stats.stacks != undefined && this.stats.stacks == true) { 
-					
-		var buffIt = new newBuff(this.name, GridSpot[currentUnit.x][currentUnit.y], this); //} 
+			
+			// checks aura targets to verify it should be initialized
+			if ((currentUnit.alliance == this.sourceUnit.alliance && this.stats.tileTarget == "ally") || 
+					(currentUnit.alliance != this.sourceUnit.alliance && this.stats.tileTarget == "enemy") || this.stats.tileTarget == "both") {
+						
+				currentUnit.currentTileMods.push(this);
+				
+				var exists = false;
+				for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
+				
+				//if (exists == false || this.stats.stacks != undefined && this.stats.stacks == true) { 
+							
+				var buffIt = new newBuff(this.name, GridSpot[currentUnit.x][currentUnit.y], this); //}
+			}
+		}
 		break;
 		
 		case "move": //if a unit gains aura by moving into area..
 		//console.warn(procedure);
 		if (listContains(currentUnit.currentTileMods, this) == false) {
-		currentUnit.currentTileMods.push(this); }
-		
-		var exists = false;
-		for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
-		
-		//if (exists == false || this.stats.stacks != undefined && this.stats.stacks == true) {
-		var buffIt = new newBuff(this.name, GridSpot[currentUnit.x][currentUnit.y], this); //}
+			
+			// checks tileTarget to verify it should be initialized
+			if ((currentUnit.alliance == this.sourceUnit.alliance && this.stats.tileTarget == "ally") || 
+					(currentUnit.alliance != this.sourceUnit.alliance && this.stats.tileTarget == "enemy") || this.stats.tileTarget == "both") {
+						
+				currentUnit.currentTileMods.push(this); 
+				
+				var exists = false;
+				for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
+				
+				//if (exists == false || this.stats.stacks != undefined && this.stats.stacks == true) {
+				var buffIt = new newBuff(this.name, GridSpot[currentUnit.x][currentUnit.y], this); //}
+			}
+		}
 		
 		break;
 		
