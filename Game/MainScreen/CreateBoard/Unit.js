@@ -132,8 +132,8 @@
 			break;
 			
 			case "vision":
-			if (Toggle == "on" ) { 
-			if (listContains(GridSpot[x][y].allyVision, this) == false) { this.visibleGridSpots.push(GridSpot[x][y]); }
+			if (Toggle == "on" ) {
+			if (listContains(GridSpot[x][y].allyVision, this) == false) { this.visibleGridSpots.push(GridSpot[x][y]); }  } //GridSpot[x][y].allyVision.push(this);
 			
 			if (Toggle == "off") { var removal = listReturnArray(GridSpot[x][y].allyVision, this); if (removal != -1) { GridSpot[x][y].allyVision.splice(removal, 1); } }
 			break;
@@ -180,19 +180,21 @@
 			if (Toggle == "on") {
 			//edit the vision list on unit  this.visibleGridSpots
 			for (var i = 0; i < this.visibleGridSpots.length; i++) {
-				//var theSame = this.visibleGridSpots[i];
+				
 				
 				var start = {x: GridSpot[this.x][this.y].centrePixelX, y: GridSpot[this.x][this.y].centrePixelY};
-				var end = {x: GridSpot[this.visibleGridSpots[i].x][this.visibleGridSpots[i].y].centrePixelX, y: GridSpot[this.visibleGridSpots[i].x][this.visibleGridSpots[i].y].centrePixelY};
-			
-				var visionRay = new ray(start, end);
-					for (var t = 0; t < this.visibleGridSpots.length; t++) {
-						if (visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleY) == false && visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleX) == false 
-						|| this.visibleGridSpots[t].visionBlock.length == 0)
-							{ GridSpot[x][y].allyVision.push(this); } }
+				var end = {x: this.visibleGridSpots[i].centrePixelX, y: this.visibleGridSpots[i].centrePixelY};
+			this.visibleGridSpots[i].allyVision.push(this); 
+				//var visionRay = new ray(start, end);
+				// console.warn(this.visibleGridSpots[i].visionBlock.length);
+				 } }
+				 
+				 
+					/*for (var t = 0; t < this.visibleGridSpots.length; t++) {
+						if (//visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleY) == false && visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleX) == false || 
+						this.visibleGridSpots[t].visionBlock.length == 0) { this.visibleGridSpots[i].allyVision.push(this); } }*/
 				
-			//if (theSame != this.visibleGridSpots[i]) { i--; } //fixing index error	
-			} }
+			
 	   }
 	   
 	    Unit.prototype.stealth = function(Toggle, noStealthReason)
