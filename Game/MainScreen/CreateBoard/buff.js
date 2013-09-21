@@ -74,12 +74,12 @@
 					
 				break;
 				
-				case "Turn":
+				case "Turn":					
 				
-					this.attachedUnit.currentStats[8]++;
-				
-					this.buffStats.duration--;
 					if (this.buffStats.duration <= 0) {	this.eventProc("Removal"); }
+					this.buffStats.duration--;				
+					
+				break;
 				
 				case "Move":
 				
@@ -93,9 +93,9 @@
 						this.removeBuff();	
 						this.attachedUnit.buffStats[8] -= this.buffStats.attacks;
 					} else {				
-						this.sourceUnit.auraTileModifier("off", this.aura);
+						/*this.sourceUnit.auraTileModifier("off", this.aura);
 						var rem = listReturnArray(this.sourceUnit.auras, this.aura); 
-						if (rem != -1) { this.sourceUnit.auras.splice(rem, 1); }
+						if (rem != -1) { this.sourceUnit.auras.splice(rem, 1); } */
 						this.removeBuff();		
 					}
 				

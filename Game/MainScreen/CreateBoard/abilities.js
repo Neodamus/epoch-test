@@ -18,13 +18,14 @@ function ability() {
 
 ability.prototype.abilityStats = function(abilityName)
 {
-	var customValue = new Array(8);
+	// var customValue = new Array(8);
 	switch(abilityName){
 		
 		case "Arrowsmith":
 		
 			stats = {
 				auraTarget: "ally",
+				lifetime: 1,
 				auraRange: 1,
 				duration: 1,
 				attacks: 1			
