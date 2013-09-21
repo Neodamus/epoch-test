@@ -984,8 +984,6 @@
 						this.attachedUnit.auras.push(this.aura);
 						this.attachedUnit.auraTileModifier("on", this.aura);
 						
-					} else if (this.attachedUnit == this.sourceUnit.sourceUnit) { 	// prevents self targeting
-						
 					} else { 	// shoot someone's face off
 						var xbowman = this.sourceUnit.sourceUnit;
 					
