@@ -1005,7 +1005,7 @@
 				
 				case "Move":
 				
-					//if crossbowman moves it should probably do removal right?
+					this.eventProc("Removal");
 				
 				break;
 				

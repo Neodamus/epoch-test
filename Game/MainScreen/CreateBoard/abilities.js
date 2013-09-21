@@ -79,6 +79,7 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				target: "any",
+				tileTarget: "enemy",
 				lifetime: 3,
 				duration: 1,
 				damage: 2,
