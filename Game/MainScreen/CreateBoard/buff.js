@@ -1040,6 +1040,10 @@
 							Instructions.push("on");
 							Instructions.push( smokeScreenTiles );
 							Trap.affectedTiles(Instructions);
+							
+							for (i = 0; i < smokeScreenTiles.length; i++) {
+								GridSpot[smokeScreenTiles[i].x][smokeScreenTiles[i].y].visionBlock.push(this)
+							}
 								
 						}					
 						
