@@ -3,6 +3,7 @@
 	  {
 		this.centrePixelX = Positionx + Width / 2;
 		this.centrePixelY = Positiony + Height / 2;
+		this.centreRect = new Rectangle(this.centrePixelX, this.centrePixelY, 2, 2); this.centreRect.boxColor = "red";
 		this.x = x; //Gridpos[X]
 		this.y = y; //Gridpos[Y]
 		this.Positionx = Positionx; //pixel location X
@@ -11,8 +12,8 @@
 		
 		this.visionBlock = new Array();
 		
-		this.visionBlockRectangleY = new Rectangle(Positionx + (Width / 2) + 1, Positiony, 1, Height); this.visionBlockRectangleY.boxColor = "red";
-		this.visionBlockRectangleX = new Rectangle(Positionx, Positiony + (Height * 0.22)+ 1, Width, Height * 0.54); this.visionBlockRectangleX.boxColor = "purple";
+		this.visionBlockRectangleY = new Rectangle(Positionx + (Width / 2) - 3, Positiony - 3, 1 + 6, Height + 6); this.visionBlockRectangleY.boxColor = "red";
+		this.visionBlockRectangleX = new Rectangle(Positionx - 3, Positiony + (Height * 0.22) - 3, Width + 6, Height * 0.54 + 6); this.visionBlockRectangleX.boxColor = "purple";
 		//this.ThisRectangle.setText(this.x + "," + this.y, "White", this.ThisRectangle.x + 5, this.ThisRectangle.y + 15) // used to show gridtext
 		
 		this.selected = false;
@@ -179,5 +180,7 @@
 		// this.ThisRectangle.draw();   // used to see grid numbers with line 10
 		
 		context.restore();
+		this.centreRect.draw();
+		if (this.visionBlock.length > 0) { context.globalAlpha = 0.2; this.visionBlockRectangleX.draw(); this.visionBlockRectangleY.draw(); context.globalAlpha = 1;}
 	  }
 	  

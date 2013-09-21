@@ -180,25 +180,24 @@
 			if (Toggle == "on") {
 			//edit the vision list on unit  this.visibleGridSpots
 			for (var i = 0; i < this.visibleGridSpots.length; i++) {
-				
-				
+
 				var start = {x: Math.floor(GridSpot[this.x][this.y].centrePixelX), y: Math.floor(GridSpot[this.x][this.y].centrePixelY)};
 				var end = {x: Math.floor(this.visibleGridSpots[i].centrePixelX), y: Math.floor(this.visibleGridSpots[i].centrePixelY)};
-				//this.visibleGridSpots[i].allyVision.push(this); 
-				console.warn(start);
-				console.warn(end);
-				//var start = {x: 3, y: 3};
-				//var end = {x: 6, y: 6};
 				var visionRay = new ray(start, end);
-				// console.warn(this.visibleGridSpots[i].visionBlock.length);
-				// } }
-				 
-				 
+				
+				var giveSight = true;
+				
 					for (var t = 0; t < this.visibleGridSpots.length; t++) {
-						if (//visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleY) == false && visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleX) == false || 
-						this.visibleGridSpots[t].visionBlock.length == 0) { this.visibleGridSpots[i].allyVision.push(this); } }
 						
-						} }
+						if (this.visibleGridSpots[t].visionBlock.length > 0 &&
+						visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleX) == true || this.visibleGridSpots[t].visionBlock.length > 0 &&
+						visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleY) == true) { giveSight = false; } 
+					
+					
+					}
+				if (giveSight == true) { this.visibleGridSpots[i].allyVision.push(this); }
+				
+				} }
 				
 			
 	   }
