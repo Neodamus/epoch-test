@@ -307,6 +307,10 @@
 			context.font = '7px Arial';
 		context.fillStyle = "White";
 			context.fillText(this.currentUnit.buffList[i].buffType, this.currentBuffs[i].x, this.currentBuffs[i].y + 8 + ((i % 4) * 5));
+			context.font = '13px Arial';
+			context.fillStyle = "Yellow";
+			if (this.currentUnit.buffList[i].buffStats.duration != undefined) {
+			context.fillText(this.currentUnit.buffList[i].buffStats.duration, this.currentBuffs[i].x + 14, this.currentBuffs[i].y + 22); }
 		}
 		} }
 		

@@ -105,7 +105,7 @@
 		
 		context.drawImage(Images[1],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		
-		if (this.currentUnit != null && this.visible == true){  // UNIT DRAWING
+		if (this.currentUnit != null && this.visible == true && this.currentUnit.unitStealth == false || this.currentUnit != null && this.visible == true && this.currentUnit.unitStealth == true && this.currentUnit.alliance == "ally"){  // UNIT DRAWING
 		if (this.currentUnit.unitStealth == true) { context.globalAlpha = 0.3; }
 		context.drawImage(Images[ReturnUnitImage(this.currentUnit.name)], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width,
 		this.ThisRectangle.height); 
