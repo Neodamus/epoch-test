@@ -1,12 +1,18 @@
 
 	  function Grid(x, y, Positionx, Positiony, Width, Height)
 	  {
+		this.centrePixelX = Positionx + Width / 2;
+		this.centrePixelY = Positiony + Height / 2;
 		this.x = x; //Gridpos[X]
 		this.y = y; //Gridpos[Y]
 		this.Positionx = Positionx; //pixel location X
 		this.Positiony = Positiony; //pixel location Y
 		this.ThisRectangle = new Rectangle(Positionx, Positiony, Width, Height);
 		
+		this.visionBlock = new Array();
+		
+		this.visionBlockRectangleY = new Rectangle(Positionx + (Width / 2) + 1, Positiony, 1, Height); this.visionBlockRectangleY.boxColor = "red";
+		this.visionBlockRectangleX = new Rectangle(Positionx, Positiony + (Height * 0.22)+ 1, Width, Height * 0.54); this.visionBlockRectangleX.boxColor = "purple";
 		//this.ThisRectangle.setText(this.x + "," + this.y, "White", this.ThisRectangle.x + 5, this.ThisRectangle.y + 15) // used to show gridtext
 		
 		this.selected = false;

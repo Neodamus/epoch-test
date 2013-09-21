@@ -19,7 +19,7 @@
 		this.auras = new Array();
 		for (var i = 0; i < this.auraNames.length; i++) {
 		if (this.auraNames[i] != "" && this.auraNames[i] != "0" && this.auraNames[i] != 0)
-		{ var newMod = new tileModifier(this, this.auraNames[i]); this.auras.push(newMod);} } //making auras.
+		{ var newMod = new tileModifier(this, this.auraNames[i]); this.auras.push(newMod);} } //making auras.A
 		
 		this.genericGridList = new Array();//used for stuff like auras and abilities...
 		
@@ -132,7 +132,9 @@
 			break;
 			
 			case "vision":
-			if (Toggle == "on" ) { if (listContains(GridSpot[x][y].allyVision, this) == false) { GridSpot[x][y].allyVision.push(this); this.visibleGridSpots.push(GridSpot[x][y]); } }
+			if (Toggle == "on" ) { 
+			if (listContains(GridSpot[x][y].allyVision, this) == false) { this.visibleGridSpots.push(GridSpot[x][y]); }
+			
 			if (Toggle == "off") { var removal = listReturnArray(GridSpot[x][y].allyVision, this); if (removal != -1) { GridSpot[x][y].allyVision.splice(removal, 1); } }
 			break;
 			
@@ -173,7 +175,24 @@
 	  
 	    Unit.prototype.sight = function(Toggle)
 	   {
+			this.visibleGridSpots = new Array();
 			this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5], Toggle, "");
+			if (Toggle == "on") {
+			//edit the vision list on unit  this.visibleGridSpots
+			for (var i = 0; i < this.visibleGridSpots.length; i++) {
+				//var theSame = this.visibleGridSpots[i];
+				
+				var start = {x: GridSpot[this.x][this.y].centrePixelX, y: GridSpot[this.x][this.y].centrePixelY};
+				var end = {x: GridSpot[this.visibleGridSpots[i].x][this.visibleGridSpots[i].y].centrePixelX, y: GridSpot[this.visibleGridSpots[i].x][this.visibleGridSpots[i].y].centrePixelY};
+			
+				var visionRay = new ray(start, end);
+					for (var t = 0; t < this.visibleGridSpots.length; t++) {
+						if (visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleY) == false && visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleX) == false 
+						|| this.visibleGridSpots[t].visionBlock.length == 0)
+							{ GridSpot[x][y].allyVision.push(this); } }
+				
+			//if (theSame != this.visibleGridSpots[i]) { i--; } //fixing index error	
+			} }
 	   }
 	   
 	    Unit.prototype.stealth = function(Toggle, noStealthReason)
