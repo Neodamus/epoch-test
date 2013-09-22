@@ -1,16 +1,16 @@
 function ability() { 
  
 	this.abilityName;
-	this.currentAbilityStats;	// holds the current ability's stats (changeable)
+	this.currentAbility;					// { name, cooldown }
+	this.currentAbilityStats;				// holds the current ability's stats (changeable)
 	this.specialAbilityList(); 
 	this.sourceUnit;
-	// this.targetSpot2 = null;
 	
-	this.castMode = false;	// true if in castmode, false if not
-	this.castType = "single";		// type of casting area, ie: single, line, radius, chain
+	this.castMode = false;					// true if in castmode, false if not
+	this.castType = "single";				// type of casting area, ie: single, line, radius, chain
 	this.castTarget = GridSpot[0][0];		// holds current targeted gridspot, also the center of a highlight area
-	this.castTargetList = []; // holds list of targeted gridspots
-	this.castTargeOption = 0;	// used for changing the area select, ie: turning line cast different ways
+	this.castTargetList = []; 				// holds list of targeted gridspots
+	this.castTargeOption = 0;				// used for changing the area select, ie: turning line cast different ways, determining radius
 
 }
 
@@ -18,7 +18,7 @@ function ability() {
 
 ability.prototype.abilityStats = function(abilityName)
 {
-	// var customValue = new Array(8);
+	
 	switch(abilityName){
 		
 		case "Arrowsmith":
@@ -134,11 +134,11 @@ ability.prototype.abilityStats = function(abilityName)
 			stats = {
 				target: "any",
 				tileTarget: "both",
+				cooldown: 3,
 				lifetime: 3,
 				duration: 3,
 				damage: 3,
-				range: 4,
-				cooldown: 3
+				range: 4
 			}
 			
 			return stats; 
@@ -146,7 +146,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Frostbite":	
 					
 			stats = {
-				damage: 3
+				damage: 4
 			}
 			
 			return stats;
@@ -401,7 +401,7 @@ this.twoTargetList.push("Polarity", "test1");
 
 ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ability setup or cast.
 {	
-	this.testCurrentAbility = ability; // Rename this to whatever you want, ability = { name: blah, cooldown: blah } <--this is what ability was changed to
+	this.currentAbility = ability;
 	this.abilityName = ability.name;
 	this.currentAbilityStats = this.abilityStats(this.abilityName);
 	
@@ -411,14 +411,14 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 		if (this.sourceSpot != null) { this.sourceUnit = this.sourceSpot.currentUnit;}
 	}
 	
-	this.castMode = true;
+	if (this.canCast) { this.castMode = true; } else { return null; }
 	
 	var customValue = this.currentAbilityStats;
 	
 	var finished = null;
 	if (listContains(this.noCastList, this.abilityName) == true) { return null; }
 	
-	var selfTarget = GridSpot[this.sourceUnit.x][this.sourceUnit.y];
+	var selfTarget = GridSpot[this.sourceUnit.x][this.sourceUnit.y];		// used for when the caster grid is needed
 
 	switch (this.abilityName) {
 	
@@ -757,8 +757,6 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 		
 	}
 	
-	
-	if (finished == true) { this.abilityCosts(); }
 	if (finished == null) { this.removeMarkers(); }
 	return finished; //require another click
 }
@@ -872,15 +870,27 @@ ability.prototype.castModeHighlight = function(option) {
 	
 }
 
-ability.prototype.abilityCosts = function() {
+
+
+ability.prototype.canCast = function() {
 	
-	this.testCurrentAbility.cooldown = this.currentAbilityStats.cooldown;
-	//castingUnit.currentStats[1] -= abilityStats.healthCost; ??
-	//castingUnit.currentStats[4] -= abilityStats.movementCost;
-	//castingUnit.currentStats[8] -= abilityStats.attackCost;
-	//ect ect...
+	var canCast = true;
+	
+	if (this.currentAbility.cooldown != 0) { canCast = false; }
+	
+	if (this.currentAbilityStats.lifeCost != undefined) { 	
+		if (this.sourceUnit.currentStats[1] - this.currentAbilityStats.lifeCost <= 0) { canCast = false; }
+	} else if (this.currentAbilityStats.movementCost != undefined) {
+		if (this.sourceUnit.currentStats[4] - this.currentAbilityStats.movementCost < 0) { canCast = false; }
+	} else if (this.currentAbilityStats.attackCost != undefined) {
+		if (this.sourceUnit.currentStats[8] - this.currentAbilityStats.attackCost < 0) { canCast = false; }
+	}
+	
+	return canCast;
 
 }
+
+
 
 ability.prototype.specialAreaSelect = function(gridCenter, numberOfTiles, option) {
 	
