@@ -973,18 +973,18 @@
 				
 					case "Initialize":
 					
-					if (this.attachedUnit == this.sourceUnit) {		// initial cast by crossbowman
+					if (this.sourceUnit instanceof Unit) {		// initial cast by crossbowman
 						
 						this.attachedUnit.buffList.push(this);
 
 						this.aura = new tileModifier(this.attachedUnit, this.buffType);
-						
-						this.aura.attachedBuff = this; //Used For Referencing the buff from the aura
+						this.aura.attachedBuff = this;
 						
 						this.attachedUnit.auras.push(this.aura);
 						this.attachedUnit.auraTileModifier("on", this.aura);
 						
-					} else { 	// shoot someone's face off
+					} else if (this.sourceUnit instanceof tileModifier) { 	// shoot someone's face off
+					
 						var xbowman = this.sourceUnit.sourceUnit;
 					
 						this.attachedUnit.receivePureDamage(this.buffStats.damage, xbowman.baseStats[0]);
@@ -994,9 +994,10 @@
 						sentry.stats.attacks--;
 						if (sentry.stats.attacks == 0) {
 							
-							this.eventProc("Removal");
-							// remove aura	
+							sentry.attachedBuff.eventProc("Removal");
+							
 						}
+						this.removeTileModifier();	
 					}
 					
 				break;
@@ -1009,13 +1010,10 @@
 				
 				case "Removal":
 					
-					this.sourceUnit.sourceUnit.auraTileModifier("off", this.sourceUnit) //TURN AURA OFF from the xbowman
-					var rem = listReturnArray(this.sourceUnit.sourceUnit.auras, this.sourceUnit.name); //find aura on xbowman auralist
-					if (rem != -1) { this.sourceUnit.sourceUnit.auras.splice(rem, 1); }	//remove aura from xbowman auralist
-					this.sourceUnit.attachedBuff.removeBuff();	//remove the buff that is attached to xbowman(we set .attachedBuff inside "Initialize"
-					
-					
-					//this.attachedUnit.auraTileModifier("off", this.aura);    not needed.
+					this.sourceUnit.auraTileModifier("off", this.aura);
+					var rem = listReturnArray(this.sourceUnit.auras, this.sourceUnit.name);
+					if (rem != -1) { this.sourceUnit.auras.splice(rem, 1); }
+					this.removeBuff();
 				
 				break;
 				}
@@ -1317,8 +1315,6 @@ newBuff.prototype.removeTileModifier = function() {
 	
 	if (removeArray != -1) { 
 		this.attachedUnit.currentTileMods.splice(removeArray, 1); this.removeReturn = true;
-	} else {
-		alert("Tile modifier being removed outside of buff class");
-	}	
+	}
 	
 }
