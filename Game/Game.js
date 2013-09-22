@@ -65,7 +65,14 @@
 		Images[10].src = "Game/Images/auratest.png";	 
 		Images[11].src = "Game/Images/reveal.png";	 
 		Images[12].src = "Game/Images/Menus/testborder1.png";	 
-		Images[13].src = "Game/Images/abilitySelect.png";	 
+		Images[13].src = "Game/Images/abilitySelect.png";	
+
+		//tilemods
+		Images[15].src = "Game/Images/abilities/fire.png"
+		Images[16].src = "Game/Images/abilities/energyfield.png"
+		Images[17].src = "Game/Images/abilities/root.png"
+		Images[18].src = "Game/Images/abilities/smokescreen.png"
+		Images[19].src = "Game/Images/abilities/mine.png"
 	  
 		//20 = first unit image (loaded in same order as "AllUnits Variable")
 	  Images[20].src = "Game/Images/Units/vangaurd.png";
@@ -98,9 +105,16 @@
 	
 	function returnTileImage(name)
 	{
+		/*Images[15].src = "Game/Images/abilities/fire.png"
+		Images[16].src = "Game/Images/abilities/energyfield.png"
+		Images[17].src = "Game/Images/abilities/root.png"
+		Images[18].src = "Game/Images/abilities/smokescreen.png"*/
 		switch(name){
-			case "Fire Wall": return Images[20]; 
-			case "Creeping vines": return Images[21];
+			case "Fire Wall": return Images[15]; 
+			case "Creeping Vines": return Images[17];
+			case "Energy Field": return Images[16];
+			case "Smoke Screen": return Images[18];
+			case "Magma Trap": return Images[19]
 		
 		}
 	}
