@@ -96,6 +96,16 @@
 	  
 	}
 	
+	function returnTileImage(name)
+	{
+		switch(name){
+			case "Fire Wall": return Images[20]; 
+			case "Creeping vines": return Images[21];
+		
+		}
+	}
+	
+	
 	//Assigns a number to string names for Images
 	function ReturnUnitImage(name)
 	{

@@ -86,6 +86,9 @@
 			//apply buff per turn effects
 			//reduce cooldowns
 			this.resetStats();
+			for (var i = 0; i < this.ability.length; i++) {
+				if (this.ability[i].cooldown > 0) { this.ability[i].cooldown--; }
+			}
 			if (this.alliance == "ally" && this.currentStats[1] > 0) { this.sight("on"); } //sight on if health > 0-- not sure if this is needed
 	    }
 	  

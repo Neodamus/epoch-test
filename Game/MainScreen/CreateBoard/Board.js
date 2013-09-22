@@ -300,6 +300,8 @@
 			{ y++; x = 0; } 
 		}
 		
+		for (var i = 0; i < this.tileModifierList.length; i++) {
+		this.tileModifierList[i].draw(context, canvas); }
 		
 		context.font = globalFont;
 			Ui.Draw(context, canvas); 

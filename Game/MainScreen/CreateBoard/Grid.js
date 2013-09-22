@@ -135,10 +135,10 @@
 		context.globalAlpha = 1;
 		if (this.abilitySelectMarker == true) { context.drawImage( Images[13],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		
-		if (this.tileBuffList.length > 0) { 
-		context.save(); context.globalAlpha = 0.2;
-		context.drawImage( Images[10],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
-		context.restore();}
+		//if (this.tileBuffList.length > 0) { 
+		//context.save(); context.globalAlpha = 0.2;
+		//context.drawImage( Images[10],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
+		//context.restore();}
 		
 		var drawReveal = false;
 		for (var i = 0; i < this.revealList.length; i ++){
