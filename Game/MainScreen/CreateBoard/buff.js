@@ -985,11 +985,10 @@
 						
 					} else if (this.sourceUnit instanceof tileModifier) { 	// shoot someone's face off
 					
-						var xbowman = this.sourceUnit.sourceUnit;
-					
-						this.attachedUnit.receivePureDamage(this.buffStats.damage, xbowman.baseStats[0]);
-						
+						var xbowman = this.sourceUnit.sourceUnit;						
 						var sentry = this.sourceUnit;
+						
+						this.attachedUnit.receivePureDamage(this.buffStats.damage, xbowman.baseStats[0]);
 						
 						sentry.stats.attacks--;
 						if (sentry.stats.attacks == 0) {
@@ -1017,10 +1016,10 @@
 				
 				case "Removal":
 					
+					this.removeBuff();
 					this.sourceUnit.auraTileModifier("off", this.aura);
 					var rem = listReturnArray(this.sourceUnit.auras, this.sourceUnit.name);
 					if (rem != -1) { this.sourceUnit.auras.splice(rem, 1); }
-					this.removeBuff();
 				
 				break;
 				}
