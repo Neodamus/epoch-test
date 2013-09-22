@@ -239,7 +239,9 @@
 		  this.reveal("off");
 		  this.sight("off");
 		  
-		  GridSpot[this.x][this.y].currentUnit = null;
+		  if (GridSpot[this.x][this.y].currentUnit == this) { GridSpot[this.x][this.y].currentUnit = null; } // if statement needed for unit swaps
+		  
+		  return this;	// return the unit so it can be used if necessary
 	   }
 	   
 	   Unit.prototype.Delete = function() //deletes unit

@@ -325,8 +325,7 @@
 				switch(Procedure) {					
 				
 					case "Initialize":
-					
-						// if placing trap	
+						
 						if (this.sourceUnit instanceof Unit) { 
 						
 							var energyFieldTiles = this.targetSpot;
@@ -341,11 +340,10 @@
 								
 						}					
 						
-						// if unit steps on trap
 						if (this.sourceUnit instanceof tileModifier) {
 						   
 							this.attachedUnit.buffList.push(this);
-							this.attachedUnit.currentStats[4]++;			
+							this.attachedUnit.currentStats[4]++;				
 						
 						}
 						
@@ -359,7 +357,8 @@
 					
 					case "Removal":
 					
-						this.removeBuff();		
+						this.removeBuff();
+						this.removeTileModifier();	
 						
 					break;
 					
@@ -811,22 +810,17 @@
 					case "Initialize":
 		
 						this.sourceUnit.abilityMarkers("off", this.buffStats.range);
-					
-						var coords = { x: this.targetSpot[0].x, y: this.targetSpot[0].y }
 						
-						var target1 = this.targetSpot[0];
-						var target2 = this.targetSpot[1];
+						var grid1 = this.targetSpot[0];
+						var grid2 = this.targetSpot[1];
 						
-						target1.x = target2.x;
-						target1.y = target2.y;
+						var unit1 = grid1.currentUnit.Remove();
+						var unit2 = grid2.currentUnit.Remove();
+												
+						unit1.Move(grid2);
+						unit2.Move(grid1);	
 						
-						target2.x = coords.x
-						target2.y = coords.y;
-						
-						GridSpot[target2.x][target2.y].currentUnit = target2;
-						GridSpot[target1.x][target1.y].currentUnit = target1;	
-						
-						combatLog.push(target1.baseStats[0] + " swapped places with " + target2.baseStats[0]);
+						combatLog.push(unit1.baseStats[0] + " swapped places with " + unit2.baseStats[0]);
 						
 					break;
 					
@@ -1177,21 +1171,29 @@
 				switch(Procedure) {
 				
 					case "Initialize":
+					
+						var stompList = this.targetSpot;
 						
-						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list
+						for (i = 0; i < stompList.length; i++) {
+							var target = stompList[i].currentUnit;
+							
+							if (target != null && target.alliance != this.sourceUnit.alliance) {
+								target.buffList.push(this);
+							
+								target.buffStats[4] += this.buffStats.speed;
+								target.currentStats[4] += this.buffStats.speed;
+								if (target.currentStats[4] < 0) { target.currentStats[4] = 0; }
+							}
+						}
 						
-						this.attachedUnit.buffStats[4] += this.buffStats.speed;
-						this.attachedUnit.currentStats[4] += this.buffStats.speed;
-						if (this.attachedUnit.currentStats[4] < 0) { this.attachedUnit.currentStats[4] = 0; }				
-						
-						break;
+					break;
 				
 					case "Turn":
 						
 						this.buffStats.duration--; //reduce buff time;  
 						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
 						
-						break;
+					break;
 					
 					case "Removal":
 					
@@ -1199,7 +1201,7 @@
 						
 						this.attachedUnit.buffStats[4] -= this.buffStats.speed; 	
 						
-						break;
+					break;
 				}   
 			break;
 			
@@ -1232,7 +1234,7 @@
 					case "Initialize":
 						
 						var damage = Math.ceil(this.attachedUnit.currentStats[1] / 2)
-						this.attachedUnit.receivePureDamage(damage, this.sourceUnit)
+						this.attachedUnit.receivePureDamage(damage, this.sourceUnit.name)
 						
 						break;
 				}   

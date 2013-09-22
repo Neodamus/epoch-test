@@ -92,6 +92,7 @@ ability.prototype.abilityStats = function(abilityName)
 		
 			stats = {
 				target: "any",
+				tileTarget: "both",
 				duration: 2,
 				lifetime: 2,
 				radius: 1,
@@ -223,7 +224,7 @@ ability.prototype.abilityStats = function(abilityName)
 		
 			stats = {
 				targetSelf: true,
-				target: "both",
+				target: "ally",
 				targets: 2,
 				range: 5
 			}
@@ -286,7 +287,7 @@ ability.prototype.abilityStats = function(abilityName)
 				auraRange: 3,
 				duration: 2,
 				attacks: 3,
-				damage: 4
+				damage: 3
 			}
 			
 			return stats;
@@ -356,7 +357,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Thunderclap":	
 					
 			stats = {
-				target: "enemy",
+				target: "both",
 				range: 1
 			}
 			
@@ -415,12 +416,12 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 	var finished = null;
 	if (listContains(this.noCastList, this.abilityName) == true) { return null; }
 	
-	var selfBuffTarget = GridSpot[this.sourceUnit.x][this.sourceUnit.y];
+	var selfTarget = GridSpot[this.sourceUnit.x][this.sourceUnit.y];
 
 	switch (this.abilityName) {
 	
 		case "Arrowsmith":
-			this.castTarget = selfBuffTarget;
+			this.castTarget = selfTarget;
 			this.finishCast();
 			finished = true;
 			break;	
@@ -436,7 +437,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 		
 		case "Condense":
-			this.castTarget = selfBuffTarget;
+			this.castTarget = selfTarget;
 			this.finishCast();
 			finished = true;
 			break;
@@ -460,7 +461,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;		
 		
 		case "Exothermia":
-			this.castTarget = selfBuffTarget;
+			this.castTarget = selfTarget;
 			this.finishCast();
 			finished = true;
 			break;
@@ -515,19 +516,19 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 	
 		case "Rapid Strikes":
-			this.castTarget = selfBuffTarget;
+			this.castTarget = selfTarget;
 			this.finishCast();
 			finished = true;
 			break;
 			
 		case "Second Wind":
-			this.castTarget = selfBuffTarget;
+			this.castTarget = selfTarget;
 			this.finishCast();
 			finished = true;
 			break;
 	
 		case "Sentry":
-			this.castTarget = selfBuffTarget;
+			this.castTarget = selfTarget;
 			this.finishCast();
 			finished = true;
 			break;		
@@ -550,21 +551,15 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 		
 		case "Stealth":
-			this.castTarget = selfBuffTarget;
+			this.castTarget = selfTarget;
 			this.finishCast();
 			finished = true;
 			break;
 		
 		case "Stomp":
-			var gridCenter = GridSpot[this.sourceUnit.x][this.sourceUnit.y];
-			var gridList = this.AreaSelect(gridCenter, customValue.radius)
-			for (i = 0; i < gridList.length; i++) {
-				if (gridList[i].currentUnit != null && gridList[i].currentUnit != this.sourceUnit) {
-					new newBuff(this.abilityName, gridList[i].currentUnit, this.sourceUnit)
-				}
-			}
-			finished = true;
-			this.castMode = false;			
+			this.castTargetList = this.AreaSelect(selfTarget, this.currentAbilityStats.radius);
+			this.finishCast();
+			finished = true;			
 			break;
 			
 		case "Teleport":
@@ -617,9 +612,9 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				
 				if (this.targetUnit.alliance == this.sourceUnit.alliance) {			
 					
-					this.castTargetList.push(this.targetSpot);
+					this.castTargetList.push(this.castTarget);
 					
-					if (this.castTargetList.length < customValue.targets) { 
+					if (this.castTargetList.length < this.currentAbilityStats.targets) { 
 						this.cast(this.abilityName, this.sourceUnit);
 						return false; 				
 					} else {
@@ -637,9 +632,9 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				
 				if (this.targetUnit.alliance != this.sourceUnit.alliance) {				
 					
-					this.castTargetList.push(this.targetSpot)
+					this.castTargetList.push(this.castTarget)
 					
-					if (this.castTargetList.length < customValue.targets) { 
+					if (this.castTargetList.length < this.currentAbilityStats.targets) { 
 						return false; 				
 					} else {
 						this.finishCast();
@@ -654,9 +649,9 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				
 			} else if (target == "both") {
 				
-				this.castTargetList.push(this.targetSpot)
+				this.castTargetList.push(this.castTarget)
 				
-				if (this.castTargetList.length < customValue.targets) { 
+				if (this.castTargetList.length < this.currentAbilityStats.targets) { 
 					return false; 				
 				} else {
 					this.finishCast();
@@ -742,16 +737,17 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			
 		}
 		
-	} else if (this.targetSpot.abilityMarker == true && this.targetUnit == null && customValue.target == "tile") {	// tile casting
+	} else if (this.targetSpot.abilityMarker == true && this.targetUnit == null) {	// tile casting
 		
-		this.finishCast();	
-		finished = true;
+		if (this.currentAbilityStats.target == "tile") {		
+			this.finishCast();	
+			finished = true;
+		} else { 
+			alert("You must target an " + this.currentAbilityStats.target);
+			return false;
+		}
 	
 	} else {
-		
-		if (customValue.targets == null) {
-			this.castMode = false;
-		}
 		
 		this.removeMarkers();
 		Ui.abilityClickOff();
@@ -765,6 +761,8 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 
 
 ability.prototype.finishCast = function() {
+	
+	combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");	
 		
 	if (this.castTargetList.length == 0) {				
 		new newBuff (this.abilityName, this.castTarget, this.sourceUnit);
@@ -774,8 +772,9 @@ ability.prototype.finishCast = function() {
 	
 	if (ClientsTurn) { this.sendAbility(); }	// must be before removeMarkers	
 	this.removeMarkers();
-	combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");	
 }
+
+
 
 ability.prototype.removeMarkers = function()
 {
