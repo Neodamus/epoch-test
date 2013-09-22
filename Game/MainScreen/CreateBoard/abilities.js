@@ -132,9 +132,10 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Fire Wall":	
 					
 			stats = {
+				cooldown: 3,
+				movementCost: 3,
 				target: "any",
 				tileTarget: "both",
-				cooldown: 3,
 				lifetime: 3,
 				duration: 3,
 				damage: 3,
@@ -164,6 +165,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Haste":	
 					
 			stats = {
+				cooldown: 3,
 				target: "ally",
 				duration: 3,
 				speed: 3,
@@ -175,6 +177,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Magma Trap":
 		
 			stats = {
+				cooldown: 2,
 				target: "tile",
 				duration: 2,
 				range: 3,
@@ -411,7 +414,7 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 		if (this.sourceSpot != null) { this.sourceUnit = this.sourceSpot.currentUnit;}
 	}
 	
-	if (this.canCast) { this.castMode = true; } else { return null; }
+	if (this.canCast()) { this.castMode = true; } else { return null; }
 	
 	var customValue = this.currentAbilityStats;
 	
@@ -773,6 +776,12 @@ ability.prototype.finishCast = function() {
 		new newBuff (this.abilityName, this.castTargetList, this.sourceUnit);
 	}
 	
+	// decrease ability costs
+	this.currentAbility.cooldown = this.currentAbilityStats.cooldown;	
+	if (this.currentAbilityStats.lifeCost != undefined) { this.sourceUnit.currentStats[1] -= this.currentAbilityStats.lifeCost; }
+	if (this.currentAbilityStats.movementCost != undefined) { this.sourceUnit.currentStats[4] -= this.currentAbilityStats.movementCost; }
+	if (this.currentAbilityStats.attackCost != undefined) { this.sourceUnit.currentStats[8] -= this.currentAbilityStats.attackCost; }
+	
 	if (ClientsTurn) { this.sendAbility(); }	// must be before removeMarkers	
 	this.removeMarkers();
 }
@@ -889,7 +898,6 @@ ability.prototype.canCast = function() {
 	return canCast;
 
 }
-
 
 
 ability.prototype.specialAreaSelect = function(gridCenter, numberOfTiles, option) {
