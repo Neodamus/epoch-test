@@ -283,6 +283,7 @@ ability.prototype.abilityStats = function(abilityName)
 		
 			stats = {
 				tileTarget: "enemy",
+				lifetime: 2,
 				auraRange: 3,
 				duration: 2,
 				attacks: 3,

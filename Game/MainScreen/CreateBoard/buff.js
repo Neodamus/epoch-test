@@ -1008,6 +1008,13 @@
 				
 				break;
 				
+				case "Turn":
+				
+					this.buffStats.duration--;
+					if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+				
+				break;
+				
 				case "Removal":
 					
 					this.sourceUnit.auraTileModifier("off", this.aura);
