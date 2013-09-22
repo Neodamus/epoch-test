@@ -296,7 +296,15 @@
 		for (var i = 0; i < this.currentUnit.ability.length; i++) { //may need reworking
 			context.fillStyle = this.currentAbilities[i].customValue[0]; this.currentAbilities[i].draw(); //draws as many boxes as there are abilities
 			context.fillStyle = "White";
-			context.fillText(this.currentUnit.ability[i], this.currentAbilities[i].x + 1, this.currentAbilities[i].y + 13); //draws text on the abilities-^
+			context.fillText(this.currentUnit.ability[i].name, this.currentAbilities[i].x + 1, this.currentAbilities[i].y + 13); //draws text on the abilities-^
+			
+			if (this.currentUnit.ability[i].cooldown > 0) {
+			context.globalAlpha = 0.3;
+			context.fillStyle = "Gray";
+			context.fillRect(this.currentAbilities[i].x, this.currentAbilities[i].y, this.currentAbilities[i].width, this.currentAbilities[i].height);
+			context.fillStyle = "White";
+			context.globalAlpha = 1;
+			context.fillText(this.currentUnit.ability[i].cooldown, this.currentAbilities[i].x + this.currentAbilities[i].width - 20, this.currentAbilities[i].y + 13); }
 		} 
 		
 		context.restore();

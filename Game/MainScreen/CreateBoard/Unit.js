@@ -22,8 +22,15 @@
 		{ var newMod = new tileModifier(this, this.auraNames[i]); this.auras.push(newMod);} } //making auras.A
 		
 		this.genericGridList = new Array();//used for stuff like auras and abilities...
+		var abilityName = stringParseForList(this.currentStats[13]);
 		
-		this.ability = stringParseForList(this.currentStats[13]); //if (this.ability[0] == "") { this.ability = null; }//Gets the abilities of the unit and puts them in a list.
+		this.ability = new Array();
+		for (var i = 0; i < abilityName.length; i++) {
+			var newAbility = { name: abilityName[i], cooldown: 0 };
+			this.ability.push(newAbility);
+			
+		}
+		//this.ability = stringParseForList(this.currentStats[13]); //if (this.ability[0] == "") { this.ability = null; }//Gets the abilities of the unit and puts them in a list.
 		
 	 	this.buffList = new Array();
 		this.noStealthList = new Array(); //reasons unit can not stealth or go invis.

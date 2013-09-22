@@ -137,7 +137,8 @@ ability.prototype.abilityStats = function(abilityName)
 				lifetime: 3,
 				duration: 3,
 				damage: 3,
-				range: 4
+				range: 4,
+				cooldown: 3
 			}
 			
 			return stats; 
@@ -398,9 +399,10 @@ this.twoTargetList.push("Polarity", "test1");
 
 
 
-ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-> Ability setup or cast.
+ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ability setup or cast.
 {	
-	this.abilityName = abilityName;
+	this.testCurrentAbility = ability; // Rename this to whatever you want, ability = { name: blah, cooldown: blah } <--this is what ability was changed to
+	this.abilityName = ability.name;
 	this.currentAbilityStats = this.abilityStats(this.abilityName);
 	
 	// maintains the casting source in case of multiple targets
@@ -583,6 +585,7 @@ ability.prototype.cast = function(abilityName, sourceSpot) //Ability is clicked-
 			break;
 	}
 	
+	if (finished == true) { this.abilityCosts(); }
 	return finished; //require another click
 }
 
@@ -754,6 +757,8 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 		
 	}
 	
+	
+	if (finished == true) { this.abilityCosts(); }
 	if (finished == null) { this.removeMarkers(); }
 	return finished; //require another click
 }
@@ -867,7 +872,15 @@ ability.prototype.castModeHighlight = function(option) {
 	
 }
 
+ability.prototype.abilityCosts = function() {
+	
+	this.testCurrentAbility.cooldown = this.currentAbilityStats.cooldown;
+	//castingUnit.currentStats[1] -= abilityStats.healthCost; ??
+	//castingUnit.currentStats[4] -= abilityStats.movementCost;
+	//castingUnit.currentStats[8] -= abilityStats.attackCost;
+	//ect ect...
 
+}
 
 ability.prototype.specialAreaSelect = function(gridCenter, numberOfTiles, option) {
 	

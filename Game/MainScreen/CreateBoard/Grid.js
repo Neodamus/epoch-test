@@ -180,7 +180,7 @@
 		// this.ThisRectangle.draw();   // used to see grid numbers with line 10
 		
 		context.restore();
-		this.centreRect.draw();
-		if (this.visionBlock.length > 0) { context.globalAlpha = 0.2; this.visionBlockRectangleX.draw(); this.visionBlockRectangleY.draw(); context.globalAlpha = 1;}
+		//this.centreRect.draw();
+		//if (this.visionBlock.length > 0) { context.globalAlpha = 0.2; this.visionBlockRectangleX.draw(); this.visionBlockRectangleY.draw(); context.globalAlpha = 1;}
 	  }
 	  
