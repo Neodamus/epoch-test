@@ -24,8 +24,15 @@ tileModifier.prototype.turnRefresh = function(alliance)
 				{
 					this.stats.lifetime--; console.warn(this.stats.lifetime);
 					if (this.stats.lifetime <= 0) {
+					
+					
+					
 					var Instructions = new Array(); Instructions.push("off");
-					this.affectedTiles(Instructions); }
+					this.affectedTiles(Instructions); 
+					
+					
+					
+					}
 				}
 		}
 
