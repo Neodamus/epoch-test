@@ -465,6 +465,8 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 	
 	if (this.canCast()) { this.castMode = true; } else { return null; }
 	
+	this.sourceUnit.Select("off");
+	
 	var finished = null;
 	if (listContains(this.noCastList, this.abilityName) == true) { return null; }
 	
@@ -696,7 +698,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				} else {
 					
 					alert("You can't use " + this.abilityName + " on an ally")	
-					return false			
+					return false;			
 					
 				}				
 				
@@ -763,9 +765,8 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				
 			} else { // target is an enemy with an ally buff
 			
-				this.removeMarkers();
 				alert("You can't use " + this.abilityName + " on an enemy")
-				finished = true;
+				finished = false;
 			
 			}
 			
@@ -777,10 +778,9 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				finished = true;
 				
 			} else { // target is an ally with an enemy buff
-
-				this.removeMarkers();			
+					
 				alert("You can't use " + this.abilityName + "on an ally");
-				finished = true;
+				finished = false;
 			
 			}			
 			
@@ -818,6 +818,10 @@ ability.prototype.canCast = function() {
 	
 	var canCast = true;
 	
+	if (listContains(GameBoard.unitsMovedThisTurn, this.sourceUnit) == false && GameBoard.unitsMovedThisTurn.length >= GameBoard.unitMoves) {
+		 canCast = false;
+	}
+	
 	if (this.currentAbility.cooldown != 0) { canCast = false; }
 	
 	if (this.currentAbilityStats.lifeCost != undefined) { 	
@@ -851,6 +855,10 @@ ability.prototype.finishCast = function() {
 	if (this.currentAbilityStats.movementCost != undefined) { this.sourceUnit.currentStats[4] -= this.currentAbilityStats.movementCost; }
 	if (this.currentAbilityStats.attackCost != undefined) { this.sourceUnit.currentStats[8] -= this.currentAbilityStats.attackCost; }
 	this.removeMarkers();
+	
+	this.sourceUnit.Select("on");
+	
+	if (listContains(GameBoard.unitsMovedThisTurn, this.sourceUnit) == false) { GameBoard.unitsMovedThisTurn.push(this.sourceUnit); }
 }
 
 
