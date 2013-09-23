@@ -387,7 +387,7 @@
 		if (this.currentStats[4] > 0)
 		{
 		if (this.alliance == "ally" && GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves && listContains(GameBoard.unitsMovedThisTurn, this) == false) { GameBoard.unitsMovedThisTurn.push(this); }
-			if (listContains(GameBoard.unitsMovedThisTurn, this) == true) {
+			if (listContains(GameBoard.unitsMovedThisTurn, this) == true || this.alliance == "enemy") {
 		
 		
 		 //Checks for on move event in buffs

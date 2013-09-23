@@ -995,7 +995,7 @@
 					
 					this.removeBuff();
 					this.sourceUnit.auraTileModifier("off", this.aura);
-					var rem = listReturnArray(this.sourceUnit.auras, this.sourceUnit.name);
+					var rem = listReturnArray(this.sourceUnit.auras, this.aura);
 					if (rem != -1) { this.sourceUnit.auras.splice(rem, 1); }
 				
 				break;

@@ -146,10 +146,11 @@
 			return; }
 			
 		// End placement box
-		if (this.unitUiBox != 'undefined' && this.unitUiBox != null && this.finishPlacementBox.Contains(Mouse) == true) {
+		if (this.unitUiBox != 'undefined' && this.unitUiBox != null && this.finishPlacementBox.Contains(Mouse) == true && PlacementStage == true) {
 			PlacementStage = false; this.unitUiBox.x = -500; //temporary moving of sidebar
+			GameBoard.spawnZones("off");
 			ClientsTurn = false;
-			sendPacket2("endPhase", "placement");			
+			sendPacket2("endPhase", "placement");		
 		}
 		 
 		 //If click is on Ui, Don't proceed to board-clicks

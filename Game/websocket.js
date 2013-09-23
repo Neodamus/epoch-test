@@ -77,37 +77,35 @@ function messageHandler(message) {
 	
 	switch(id) {
 		
-		case "ability":
-		
-			ability.receiveAbility(data);
-		
+		case "ability":		
+			ability.receiveAbility(data);		
 		break;
 		
-		case "loginSuccess":
-		
+		case "loginSuccess":		
 			_.userName = data
 			document.title = _.userName + " - Epoch of Elements"
-			_.connectionStatus = 2
-			
-			break;
+			_.connectionStatus = 2			
+		break;
 		
 		case "createRoom":
 			UnitSelection = new SelectionScreen()
 			_.currentMode = UnitSelection
 			_.currentMode.waiting = true
-			break
+			_.host = true;
+		break
 			
 		case "playerJoin":
 			_.currentMode.waiting = false
 			ClientsTurn = true;
 			sendPacket("joinSuccess");
-			break;
+		break;
 			
 		case "joinSuccess":
 			UnitSelection = new SelectionScreen();
 			UnitSelection.pickIndex = 1;
 			UnitSelection.pickCount = UnitSelection.pickOrder[UnitSelection.pickIndex];
 			_.currentMode = UnitSelection;
+			_.host = false;
 			break;
 					
 		case "getUsers":
@@ -141,9 +139,8 @@ function messageHandler(message) {
 				_.currentMode.gamesList.inputObject(data)		
 				setTimeout(gamesListRequest, 1000)
 			  
-			}
-			  
-			break
+			}			  
+		break;
 			
 		case "getUsersList":		
 		
@@ -183,10 +180,10 @@ function messageHandler(message) {
 			ClientsTurn = true;
 			break;
 			
-		case "startTurn":
-		
+		case "startTurn":		
 			ClientsTurn = true;
-			break
+			if (GameBoard.waiting == true) { GameBoard.waiting = false; }
+		break;
 			
 	}
 	

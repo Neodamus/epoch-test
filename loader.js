@@ -46,21 +46,22 @@ function loadjs(fileSrc) {
 
 function globals() {
 	
-	this.connectionStatus = 0  								// 0 = connecting, 1 = logging in, 2 = logged in
+	this.connectionStatus = 0; 								// 0 = connecting, 1 = logging in, 2 = logged in
 	
-	this.canvas = document.getElementById('Mycanvas')
-    this.context = document.getElementById('Mycanvas').getContext('2d')	
+	this.canvas = document.getElementById('Mycanvas');
+    this.context = document.getElementById('Mycanvas').getContext('2d');
 	
-	this.mouse  											// holds mouse position
+	this.mouse;  											// holds mouse position
 	
-	this.font = "FLORI"
-	this.fontSize = Math.floor(this.canvas.height * 0.015)
+	this.font = "FLORI";
+	this.fontSize = Math.floor(this.canvas.height * 0.015);
 	 
-	this.shiftKey = false 									// returns true if shift is down, false if it's up
+	this.shiftKey = false; 									// returns true if shift is down, false if it's up
 	 
-	this.currentMode =  { id: "blank" }					// holds the currentMode object (ie: lobby, board) , identified by property -> id	 
+	this.currentMode =  { id: "blank" };					// holds the currentMode object (ie: lobby, board) , identified by property -> id	 
 	
-	this.userName
+	this.userName;
+	this.host;
 	
 }
 

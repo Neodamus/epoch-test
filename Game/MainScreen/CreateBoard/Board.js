@@ -1,96 +1,102 @@
+var CurrentSelectedGrid; //make this private?
+var CurrentTarget;
+var Ui;
+var PlacementStage = true;
+var combatLog = new Array();
+var ability
+var gridSpotList;
 
-	  
-	  var CurrentSelectedGrid; //make this private?
-	  var CurrentTarget;
-	  var Ui;
-	  var PlacementStage = true;
-	  var combatLog = new Array();
-	  var ability
-	  var gridSpotList;
-	  //initialize board requirements
-	  function Board(userPicks)
-	  {
-		this.id = "game";
-		
-		this.unitMoves = 3;
-		this.unitsMovedThisTurn = new Array();
-		
-		var cg;
-		this.BoardX = 0;
-		this.BoardY = 0;
-		cg = CreateGrid();
-		this.gameType = "normal";
-		if (userPicks == "sandbox") { this.gameType = "sandbox"; }
-		
-		Ui = new Ui(userPicks);
+//initialize board requirements
+function Board(userPicks)
+{
+	this.id = "game";
+	
+	this.unitMoves = 3;
+	this.unitsMovedThisTurn = new Array();
+	
+	var cg;
+	this.BoardX = 0;
+	this.BoardY = 0;
+	cg = CreateGrid();
+	this.gameType = "normal";
+	if (userPicks == "sandbox") { this.gameType = "sandbox"; }
+	
+	Ui = new Ui(userPicks);
+  
+	ability = new ability(); //initialize abilities
+	
+	this.AllyUnits = new Array();
+	this.EnemyUnits = new Array();
+	
+	this.tileModifierList = new Array();
+	
+	combatLog.push("Game Board was created.");
+	Screen = "GameBoard";
+	
+	if (this.gameType == "normal") { this.waiting = true; } else { this.waiting = false; }	// used when waiting for other player
+	 
+	this.spawnZones("on");
 
-		ability = new ability(); //initialize abilities
-		
-		this.AllyUnits = new Array();
-		this.EnemyUnits = new Array();
-		
-		this.tileModifierList = new Array();
-		
-		combatLog.push("Game Board was created.");
-		Screen = "GameBoard";
-		
-		//spawnzone ------------------------------
-		if (this.gameType == "normal") {
-		var x = 0; var y = 0; for (var i = 0; i < GridSpot[0].length * GridSpot.length; i++) {
-		//if host do this
-		if (y == 0 || y == 1) { GridSpot[x][y].spawnMarker = true; }
-		
-		//if joiner do
-		if (y == GridSpot[0].length - 1 || y == GridSpot[0].length - 2) {  GridSpot[x][y].spawnMarker = true; }
-		
-		x++; if (x == GridSpot.length) { x = 0; y++;} } }
-		//spawnzone ------------------------------
-	  }
+}
 	  
+Board.prototype.spawnZones = function(toggle) {
+	
+	if (this.gameType == "normal") {
+	var x = 0; var y = 0; for (var i = 0; i < GridSpot[0].length * GridSpot.length; i++) {
+	
+	if (_.host && (y == 0 || y == 1)) { 
+		if (toggle == "on") { GridSpot[x][y].spawnMarker = true; } else if (toggle == "off") { GridSpot[x][y].spawnMarker = false; }
+	} else if (!_.host && (y == GridSpot[0].length - 1 || y == GridSpot[0].length - 2)) {  
+		if (toggle == "on") { GridSpot[x][y].spawnMarker = true; } else if (toggle == "off") { GridSpot[x][y].spawnMarker = false; }
+	}
+	
+	x++; if (x == GridSpot.length) { x = 0; y++;} } }			  
+
+}
 	  
-	  //Handle Clicks
-	  Board.prototype.ClickGrid = function(Mouse, WhichClick)
-	  {
-	    if (WhichClick == "2") { ability.removeMarkers(); Ui.abilityClickOff(); } //Ability stuff
-		//Turn off Selection
-		if (WhichClick == "0" && CurrentSelectedGrid != null) { CurrentSelectedGrid.Select("off"); Ui.currentStats = null; } // unless casting ability
-		CurrentTarget = null;
+//Handle Clicks
+Board.prototype.ClickGrid = function(Mouse, WhichClick)
+{
+	if (WhichClick == "2") { ability.removeMarkers(); Ui.abilityClickOff(); } //Ability stuff
+	//Turn off Selection
+	if (WhichClick == "0" && CurrentSelectedGrid != null) { CurrentSelectedGrid.Select("off"); Ui.currentStats = null; } // unless casting ability
+	CurrentTarget = null;
+	
+	//Unit Placement
+	if (PlacementStage == true) {this.UnitPlacement(Mouse, WhichClick); }
+	
+	//Turn On Selection
+	if (WhichClick == "0" && this.WhichGrid(Mouse, WhichClick) == true && ability.castMode == false)
+	{ 
+	CurrentSelectedGrid.Select("on"); 
+	if (CurrentSelectedGrid.currentUnit != null && CurrentSelectedGrid.allyVision.length > 0) { 
+	Ui.currentStats = CurrentSelectedGrid.currentUnit.baseStats;
+	Ui.currentUnit = CurrentSelectedGrid.currentUnit;
+	}
+	}
+	
+	if (ClientsTurn == true && ability.castMode == false) {
+	//Unit Actions
+	if (PlacementStage == false) { this.WhichGrid(Mouse, WhichClick); this.UnitActions(Mouse, WhichClick); } 
+	}
+	
+	// Unit abilities
+	if (ClientsTurn == true && ability.castMode == true) {
 		
-		//Unit Placement
-		if (PlacementStage == true) {this.UnitPlacement(Mouse, WhichClick); }
-		
-		//Turn On Selection
-		if (WhichClick == "0" && this.WhichGrid(Mouse, WhichClick) == true && ability.castMode == false)
-		{ 
-		CurrentSelectedGrid.Select("on"); 
-		if (CurrentSelectedGrid.currentUnit != null) { 
-		Ui.currentStats = CurrentSelectedGrid.currentUnit.baseStats;
-		Ui.currentUnit = CurrentSelectedGrid.currentUnit;
-		}
-		}
-		
-		if (ClientsTurn == true && ability.castMode == false) {
-		//Unit Actions
-		if (PlacementStage == false) { this.WhichGrid(Mouse, WhichClick); this.UnitActions(Mouse, WhichClick); } 
-		}
-		
-		// Unit abilities
-		if (ClientsTurn == true && ability.castMode == true) {
-			
-			if (PlacementStage == false) { 
-				this.WhichGrid(Mouse, WhichClick); 
-				Ui.useAbility("game", CurrentSelectedGrid);			// take out of UI's hands if possible, move to ability??
-			}
-			
-			CurrentSelectedGrid = GridSpot[ability.sourceUnit.x][ability.sourceUnit.y]
-			CurrentSelectedGrid.Select("on")
-			Ui.currentStats = ability.sourceUnit.baseStats;
-			Ui.currentUnit = ability.sourceUnit;
+		if (PlacementStage == false) { 
+			this.WhichGrid(Mouse, WhichClick); 
+			Ui.useAbility("game", CurrentSelectedGrid);			// take out of UI's hands if possible, move to ability??
 		}
 		
-		if (CurrentSelectedGrid != null && CurrentSelectedGrid.selected == false) { ability.removeMarkers(); Ui.abilityClickOff(); } //Ability stuff  
-	  }
-	  
+		CurrentSelectedGrid = GridSpot[ability.sourceUnit.x][ability.sourceUnit.y]
+		CurrentSelectedGrid.Select("on")
+		Ui.currentStats = ability.sourceUnit.baseStats;
+		Ui.currentUnit = ability.sourceUnit;
+	}
+	
+	if (CurrentSelectedGrid != null && CurrentSelectedGrid.selected == false) { ability.removeMarkers(); Ui.abilityClickOff(); } //Ability stuff  
+}
+
 	  	  //Used by ClickGridfunction to determine which grid is clicked
 	Board.prototype.WhichGrid = function(Mouse, WhichClick)
 	{
@@ -310,6 +316,16 @@
 			Ui.Draw(context, canvas); 
 		
 		context.font = globalFont;
+		
+		// Draw waiting box		
+		if (this.waiting) {
+				
+				var waitingRect = new Rectangle(0, 0, canvas.width, canvas.height)
+				waitingRect.boxColor = "#333"
+				waitingRect.setText("Waiting for another player to finish picks", "White", canvas.width * 0.3, canvas.height * 0.55)
+				waitingRect.draw()
+				
+		}
 		
 		
 	  }

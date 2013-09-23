@@ -856,7 +856,7 @@ ability.prototype.finishCast = function() {
 	if (this.currentAbilityStats.attackCost != undefined) { this.sourceUnit.currentStats[8] -= this.currentAbilityStats.attackCost; }
 	this.removeMarkers();
 	
-	this.sourceUnit.Select("on");
+	if (this.sourceUnit.alliance == "ally") { this.sourceUnit.Select("on"); }
 	
 	if (listContains(GameBoard.unitsMovedThisTurn, this.sourceUnit) == false) { GameBoard.unitsMovedThisTurn.push(this.sourceUnit); }
 }

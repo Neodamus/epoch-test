@@ -11,7 +11,7 @@
 		this.currentPick = 0;
 		this.enemyPick = 0;
 		
-		this.numPicks = 9;	// replaces numberOfUnits
+		this.numPicks = 1;	// replaces numberOfUnits
 		this.pickOrder = [9, 9]; //[1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1]; 	// holds the pick order array
 		this.pickIndex = 0; // determines where in the pick order
 		this.pickCount = this.pickOrder[this.pickIndex]; // determines how many units have been picked for current turn
@@ -256,8 +256,7 @@
 			context.fillText("Enemy Picks", this.PickLine.x + this.PickLine.width * 0.91 / 2, this.PickLine.y + this.PickLine.height * 3 * 3.2);
 			context.font = globalFont;
 			
-		// Draw waiting box
-		
+		// Draw waiting box		
 		if (this.waiting) {
 				
 				var waitingRect = new Rectangle(canvas.width * 0.025, canvas.height * 0.025, canvas.width * 0.95, canvas.height * 0.95)
