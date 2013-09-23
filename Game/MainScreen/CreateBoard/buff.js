@@ -272,6 +272,8 @@
 							var rem = listReturnArray(GridSpot[this.attachedUnit.x][this.attachedUnit.y].tileBuffList, this.sourceUnit); //Remove creeping vine tilemod from gridspot
 							if (rem != -1) { GridSpot[this.attachedUnit.x][this.attachedUnit.y].tileBuffList.splice(rem, 1);}
 							
+							var rem = listReturnArray(this.sourceUnit.tileList, GridSpot[this.attachedUnit.x][this.attachedUnit.y]); //Remove creeping vine tilemod from tilemodifier class' tile list.
+							if (rem != -1) { this.sourceUnit.tileList.splice(rem, 1);}
 							
 							this.attachedUnit.buffList.push(this);
 							this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);

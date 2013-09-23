@@ -134,9 +134,11 @@
 			GameBoard.sendUnitInstruction(endTurn);
 			if (GameBoard.gameType == "normal") { 
 				ClientsTurn = false; 
+				GameBoard.unitsMovedThisTurn = new Array();
 				for (var i = 0; i < GameBoard.EnemyUnits.length; i++) {  var theSame = GameBoard.EnemyUnits[i]; GameBoard.EnemyUnits[i].turnFunction(); 
 				if (theSame != GameBoard.EnemyUnits[i]) { i--; } } //fixing index error}
 			} else if (GameBoard.gameType == "sandbox") {
+				GameBoard.unitsMovedThisTurn = new Array();
 				for (var i = 0; i < GameBoard.AllyUnits.length; i++) { var theSame = GameBoard.AllyUnits[i]; GameBoard.AllyUnits[i].turnFunction();
 					if (theSame != GameBoard.AllyUnits[i]) { i--; } } //fixing index error}				}
 			}
@@ -345,5 +347,11 @@
 				this.finishTurnBox.draw();
 			}
 		}
+		
+		
+		//Number of units you can move this turn
+		context.font = '18px Arial';
+		context.fillStyle = "White";
+		context.fillText(GameBoard.unitMoves - GameBoard.unitsMovedThisTurn.length, canvas.width - 20, 20);
 	  }
 			

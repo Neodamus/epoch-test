@@ -11,7 +11,10 @@
 	  function Board(userPicks)
 	  {
 		this.id = "game";
-		  
+		
+		this.unitMoves = 3;
+		this.unitsMovedThisTurn = new Array();
+		
 		var cg;
 		this.BoardX = 0;
 		this.BoardY = 0;

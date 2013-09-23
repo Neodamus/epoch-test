@@ -66,6 +66,7 @@
 		Images[11].src = "Game/Images/reveal.png";	 
 		Images[12].src = "Game/Images/Menus/testborder1.png";	 
 		Images[13].src = "Game/Images/abilitySelect.png";	
+		Images[14].src = "Game/Images/spawnMarker.png";	
 
 		//tilemods
 		Images[15].src = "Game/Images/abilities/fire.png"

@@ -142,8 +142,8 @@
 			break;
 			
 			case "vision":
-			if (Toggle == "on" ) {
-			if (listContains(GridSpot[x][y].allyVision, this) == false) { this.visibleGridSpots.push(GridSpot[x][y]); }  } //GridSpot[x][y].allyVision.push(this);
+			if (Toggle == "on") { // == "ally condition exists here and in lineofsight code
+			if (listContains(GridSpot[x][y].allyVision, this) == false && this.alliance == "ally") { this.visibleGridSpots.push(GridSpot[x][y]); }  } //GridSpot[x][y].allyVision.push(this);
 			
 			if (Toggle == "off") { var removal = listReturnArray(GridSpot[x][y].allyVision, this); if (removal != -1) { GridSpot[x][y].allyVision.splice(removal, 1); } }
 			break;
@@ -185,6 +185,7 @@
 	  
 	    Unit.prototype.sight = function(Toggle)
 	   {
+			if (this.alliance == "ally") { // == "ally condition exists here and in .markers code for sight
 			this.visibleGridSpots = new Array();
 			this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5], Toggle, "");
 			if (Toggle == "on") {
@@ -216,7 +217,7 @@
 				
 				} }
 				
-			
+			}
 	   }
 	   
 	    Unit.prototype.stealth = function(Toggle, noStealthReason)
@@ -351,8 +352,10 @@
 	  {
 		if (this.currentStats[8] > 0 && this.currentStats[4] > 0)
 		{
-		this.Select("off");
-		var damage = this.currentStats[2];
+		if (this.alliance == "ally" && GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves && listContains(GameBoard.unitsMovedThisTurn, this) == false) { GameBoard.unitsMovedThisTurn.push(this); }
+			if (listContains(GameBoard.unitsMovedThisTurn, this) == true) {
+				this.Select("off");
+				var damage = this.currentStats[2];
 		
 		if (this.unitStealth == true) { this.stealthedLastAttack = true; } else { this.stealthedLastAttack = false; }	
 		
@@ -366,13 +369,14 @@
 		
 		// apply attack buffs
 		if (this.currentStats[10] != 0) {
-		var buffIt = new newBuff(this.currentStats[10], NewGridSpot, this); }
+			var buffIt = new newBuff(this.currentStats[10], NewGridSpot, this); }
 		
 		// attack proc		
 		for (var i = 0; i < this.buffList.length; i++) {  if (this.buffList[i].eventProc("Attack") == true) { i--; }  }
 		
-		this.currentStats[4] -= this.attackMovementCost;
-		this.currentStats[8] -= this.attackCost;
+			this.currentStats[4] -= this.attackMovementCost;
+			this.currentStats[8] -= this.attackCost;
+		}
 	  }
 	 }
 	  
@@ -382,8 +386,11 @@
 	  {
 		if (this.currentStats[4] > 0)
 		{
+		if (this.alliance == "ally" && GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves && listContains(GameBoard.unitsMovedThisTurn, this) == false) { GameBoard.unitsMovedThisTurn.push(this); }
+			if (listContains(GameBoard.unitsMovedThisTurn, this) == true) {
+		
+		
 		 //Checks for on move event in buffs
-		 
 		 this.currentStats[4] -= 1;    //minus movement cost for this unit.
 		 
 		// this.sight("off");
@@ -400,27 +407,28 @@
 		 // make sure unit is alive before giving back vision
 			if (this.alliance == "ally" && this.currentStats[1] > 0){
 		 
-			this.sight("on");
-			this.reveal("on");
+				this.sight("on");
+				this.reveal("on");
 			}
 			
 			for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("move", this.auras[i]); } //move all aura origins
 		 
 			for (var i = 0; i < this.currentTileMods.length; i++) {  this.currentTileMods[i].eventProc("remove", this); } //this could have an indexing problem when a tilemod is removed and can't find the next one
-			NewGridSpot.tileModifiers("all", "move"); //get new tile modifiers
+				NewGridSpot.tileModifiers("all", "move"); //get new tile modifiers
 			
 			for (var i = 0 ; i < this.revealersOnGridList.length; i++) { if (listContains(NewGridSpot.revealList, this.revealersOnGridList[i]) == false) { 
-			var rem = listReturnArray(this.noStealthList, this.revealersOnGridList[i]);
-			if (rem != -1) { this.noStealthList.splice(rem, 1); }
-			this.revealersOnGridList.splice(i, 1); i--; } }
+				var rem = listReturnArray(this.noStealthList, this.revealersOnGridList[i]);
+					if (rem != -1) { this.noStealthList.splice(rem, 1); }
+						this.revealersOnGridList.splice(i, 1); i--; } }
 			
 			for (var i = 0; i < NewGridSpot.revealList.length; i++) { 
-			if (//NewGridSpot.revealList[i].alliance == "enemy" && 
-			listContains(this.revealersOnGridList, NewGridSpot.revealList[i]) == false) {
-			this.revealersOnGridList.push(NewGridSpot.revealList[i]);
-			this.stealth("off", NewGridSpot.revealList[i]);
-			}
+				if (//NewGridSpot.revealList[i].alliance == "enemy" && 
+					listContains(this.revealersOnGridList, NewGridSpot.revealList[i]) == false) {
+					this.revealersOnGridList.push(NewGridSpot.revealList[i]);
+					this.stealth("off", NewGridSpot.revealList[i]);
+				}
 	   
+				}
 			}
 		 }
 	  }

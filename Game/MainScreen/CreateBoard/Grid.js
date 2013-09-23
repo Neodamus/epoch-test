@@ -122,43 +122,35 @@
 			context.drawImage(Images[7],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		}
 		
+		
+		//SelectionMarkers
 		context.globalAlpha = 0.7;
-		if (this.spawnMarker == true) { context.drawImage( Images[5],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
+		if (this.spawnMarker == true) { context.drawImage( Images[14],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		
 		if (this.abilityMarker == true) { context.drawImage( Images[9],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		
 		if (this.selected == true) { context.drawImage( Images[3],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		context.globalAlpha = 0.25;
 		if (this.moveMarker == true) { context.drawImage( Images[5],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
-		if (this.attackMarker == true) { context.drawImage( Images[6],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		
+		if (this.attackMarker == true) { context.drawImage( Images[6],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		context.globalAlpha = 1;
 		if (this.abilitySelectMarker == true) { context.drawImage( Images[13],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		
-		//if (this.tileBuffList.length > 0) { 
-		//context.save(); context.globalAlpha = 0.2;
-		//context.drawImage( Images[10],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
-		//context.restore();}
-		
+
+		//revealed by unit spots
 		var drawReveal = false;
 		for (var i = 0; i < this.revealList.length; i ++){
-		if (this.revealList[i].alliance == "ally") { drawReveal = true; } }
+		if (this.revealList[i].alliance == "ally") { drawReveal = true; break;} }
 		if (drawReveal == true) {  context.globalAlpha = 0.4;
 		context.drawImage( Images[11],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		context.globalAlpha = 1;}
 		
+		//Unit Stats
 		context.save();
 		context.font = '10px outline';
-		
-		/*context.shadowBlur=0;
-		
-		context.shadowColor="White";
-		context.shadowOffsetX=-1;
-		context.shadowOffsetY=-1;
-		
-		context.strokeStyle= "Black";*/
-		//context.strokeStyle = 'black';
-		if (this.currentUnit != null && this.visible == true){ // UNIT DRAWING
+		if (this.currentUnit != null && this.currentUnit.alliance == "ally" && this.visible == true ||
+		this.currentUnit != null && this.currentUnit.unitStealth == false && this.visible == true) { 
 		
 		context.lineWidth=4.2;
 		context.strokeText(this.currentUnit.currentStats[4], this.ThisRectangle.x + 7, this.ThisRectangle.y + 23);

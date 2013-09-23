@@ -181,15 +181,20 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 tileModifier.prototype.draw = function(context, canvas) {
 	
 	for (var i = 0; i < this.tileList.length; i++) {
+			if (this.tileList[i].visible == true) {
 		context.globalAlpha = 0.6;
 		if (this.stats.hidden != undefined && this.stats.hidden == true) { var revealed = false; 
 			for (var t = 0; t < this.tileList[i].revealList.length; t++) { if (this.tileList[i].revealList[t].alliance == "ally") { revealed = true; break; } } }
 			
 		if (this.stats.hidden == undefined || this.stats.hidden != undefined && revealed == true || this.sourceUnit.alliance == "ally") {
-		if (returnTileImage(this.name) != null) {
-		context.drawImage(returnTileImage(this.name), this.tileList[i].ThisRectangle.x, this.tileList[i].ThisRectangle.y, this.tileList[i].ThisRectangle.width, this.tileList[i].ThisRectangle.height); } }
+		var drawmg = true;
+		if (returnTileImage(this.name) == Images[10] && this.sourceUnit.alliance != "ally") { drawmg = false; }
+		
+		if (drawmg == true) {
+		context.drawImage(returnTileImage(this.name), this.tileList[i].ThisRectangle.x, this.tileList[i].ThisRectangle.y, this.tileList[i].ThisRectangle.width, this.tileList[i].ThisRectangle.height);  } }
 		
 		context.globalAlpha = 1; 
+			}
 		}
 
 }
