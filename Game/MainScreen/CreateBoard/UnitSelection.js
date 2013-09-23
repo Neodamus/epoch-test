@@ -11,11 +11,11 @@
 		this.currentPick = 0;
 		this.enemyPick = 0;
 		
-		this.numPicks = 1;	// replaces numberOfUnits
-		this.pickOrder = [9, 9]; //[1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1]; 	// holds the pick order array
+		this.numPicks = 9;	// replaces numberOfUnits
+		this.pickOrder = [1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1]; 	// holds the pick order array
 		this.pickIndex = 0; // determines where in the pick order
 		this.pickCount = this.pickOrder[this.pickIndex]; // determines how many units have been picked for current turn
-		this.pickHidden = [0, 1]; // determines which unit picks are hidden from other player, uses pickIndex
+		this.pickHidden = [0, 8, 9, 17]; // determines which unit picks are hidden from other player, uses pickIndex
 		
 		Screen = "UnitSelection";
 	  }
@@ -246,7 +246,12 @@
 				if (this.pickRectangles[i].customValue[0] == null){
 				context.fillRect(this.pickRectangles[i].x, this.pickRectangles[i].y, this.pickRectangles[i].width, this.pickRectangles[i].height);}
 				if (this.pickRectangles[i].customValue[0] != null){
+					if (this.pickHidden.indexOf(i) == -1) {
 				context.drawImage(Images[ReturnUnitImage(this.pickRectangles[i].customValue[0][this.pickRectangles[i].customValue[1]][0])], this.pickRectangles[i].x, this.pickRectangles[i].y, this.pickRectangles[i].width, this.pickRectangles[i].height);
+					} else {
+					context.drawImage(Images[104], this.pickRectangles[i].x, this.pickRectangles[i].y, this.pickRectangles[i].width, 
+						this.pickRectangles[i].height);	
+					}
 				}
 				if (this.pickRectangles[i].clicked == true) {context.drawImage(Images[3], this.ClickedObject.x, this.ClickedObject.y, this.ClickedObject.width, this.ClickedObject.height); }
 			}
@@ -259,9 +264,9 @@
 		// Draw waiting box		
 		if (this.waiting) {
 				
-				var waitingRect = new Rectangle(canvas.width * 0.025, canvas.height * 0.025, canvas.width * 0.95, canvas.height * 0.95)
+				var waitingRect = new Rectangle(0, 0, canvas.width, canvas.height)
 				waitingRect.boxColor = "#333"
-				waitingRect.setText("Waiting for another player to join", "White", canvas.width * 0.3, canvas.height * 0.55)
+				waitingRect.setText("Waiting for another player to join", "White", canvas.width * 0.35, canvas.height * 0.52)
 				waitingRect.draw()
 				
 		}
