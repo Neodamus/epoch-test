@@ -859,7 +859,7 @@ ability.prototype.finishCast = function() {
 	if (this.sourceUnit.alliance == "ally") { this.sourceUnit.Select("on"); }
 	
 	if ((listContains(GameBoard.unitsMovedThisTurn, this.sourceUnit) == true && this.sourceUnit.alliance == "ally") ||
- 		(GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves && this.soutceUnit.alliance == "ally")) { 
+ 		(GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves && this.sourceUnit.alliance == "ally")) { 
 		
 		GameBoard.unitsMovedThisTurn.push(this.sourceUnit); 
 	}
