@@ -209,6 +209,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Mirror Image":
 		
 			stats = {
+				cooldown: 3,
+				movementCost: 2,
 				targetSelf: true,
 				target: "ally",
 				targets: 2,
@@ -248,6 +250,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Polarity":
 		
 			stats = {
+				cooldown: 2,
+				movementCost: 4,
 				targetSelf: true,
 				target: "ally",
 				targets: 2,
@@ -270,6 +274,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Precision":
 		
 			stats = {
+				cooldown: 2,
+				movementCost: 4,
 				duration: 3,
 				damage: 4,
 				range: 2
@@ -294,6 +300,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Rapid Strikes": 
 					
 			stats = {
+				cooldown: 2,
 				attacks: 2
 			}
 			
@@ -302,6 +309,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Second Wind":
 					
 			stats = {
+				cooldown: 3,
 				speed: 3
 			}
 			
@@ -310,6 +318,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Sentry": 
 		
 			stats = {
+				cooldown: 3,
+				movementCost: 1,
 				tileTarget: "enemy",
 				auraRange: 3,
 				duration: 2,
@@ -322,6 +332,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Smoke Screen":
 		
 			stats = {
+				cooldown: 3,
+				movementCost: 3,
 				target: "any",
 				tileTarget: "both",
 				lifetime: 3,
@@ -335,6 +347,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Soulfire": 
 					
 			stats = {
+				cooldown: 3,
+				movementCost: 2,
 				target: "ally",
 				duration: 3,
 				hitpoints: 2,
@@ -346,6 +360,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Static":	
 					
 			stats = {
+				cooldown: 2,
+				movementCost: 3,
 				target: "ally",
 				duration: 2,
 				damage: 2,
@@ -357,7 +373,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Stealth":	
 					
 			stats = {
-				empty: 0
+				cooldown: 3,
 			}
 			
 			return stats;	
@@ -365,6 +381,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Stomp":	
 					
 			stats = {
+				cooldown: 3,
+				movementCost: 2,
 				duration: 2,
 				speed: -2,
 				radius: 1
@@ -385,6 +403,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Thunderclap":	
 					
 			stats = {
+				cooldown: 3,
+				movementCost: 3,
 				target: "both",
 				range: 1
 			}
@@ -394,6 +414,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Torch": 
 		
 			stats = {
+				cooldown: 3,
+				movementCost: 3,
 				target: "ally",
 				duration: 3,
 				reveal: 2,
@@ -405,6 +427,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Wound":
 		
 			stats = {
+				cooldown: 2,
+				movementCost: 1,
 				duration: 3,
 				speed: -2,
 				range: 4
@@ -642,7 +666,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 					this.castTargetList.push(this.castTarget);
 					
 					if (this.castTargetList.length < this.currentAbilityStats.targets) { 
-						this.cast(this.abilityName, this.sourceUnit);
+						this.cast(this.currentAbility, this.sourceUnit);
 						return false; 				
 					} else {
 						this.finishCast();
@@ -661,7 +685,8 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 					
 					this.castTargetList.push(this.castTarget)
 					
-					if (this.castTargetList.length < this.currentAbilityStats.targets) { 
+					if (this.castTargetList.length < this.currentAbilityStats.targets) {
+						this.cast(this.currentAbility, this.sourceUnit); 
 						return false; 				
 					} else {
 						this.finishCast();
@@ -679,6 +704,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				this.castTargetList.push(this.castTarget)
 				
 				if (this.castTargetList.length < this.currentAbilityStats.targets) { 
+					this.cast(this.currentAbility, this.sourceUnit);
 					return false; 				
 				} else {
 					this.finishCast();
@@ -704,7 +730,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			this.castTargetList.push(this.targetSpot);		
 					
 			if (this.castTargetList.length < this.currentAbilityStats.targets) { 
-				this.cast(this.abilityName, this.sourceUnit);
+				this.cast(this.currentAbility, this.sourceUnit);
 				return false; 				
 			} else {
 				this.finishCast();
