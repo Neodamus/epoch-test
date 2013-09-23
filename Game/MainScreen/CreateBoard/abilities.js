@@ -24,6 +24,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Arrowsmith":
 		
 			stats = {
+				cooldown: 3,
+				movementCost: 1,
 				tileTarget: "ally",
 				auraTarget: "ally",
 				lifetime: 1,
@@ -45,6 +47,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Bark Armor":
 		
 			stats = {
+				cooldown: 3,
+				movementCost: 1,
 				target: "ally",
 				duration: 3,
 				visibility: "both",
@@ -58,6 +62,8 @@ ability.prototype.abilityStats = function(abilityName)
 	  	case "Blind":
 		
 			stats = {
+				cooldown: 3,
+				movementCost: 2,
 				target: "enemy",
 				duration: 2,
 				range: 3,
@@ -80,8 +86,11 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Creeping Vines":	
 					
 			stats = {
+				cooldown: 3,
+				movementCost: 3,
 				target: "any",
 				tileTarget: "enemy",
+				hidden: true,
 				lifetime: 3,
 				duration: 1,
 				damage: 2,
@@ -93,6 +102,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Energy Field":
 		
 			stats = {
+				cooldown: 4,
+				movementCost: 3,
 				target: "any",
 				tileTarget: "both",
 				duration: 2,
@@ -116,8 +127,8 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				cooldown: 2,
-				target: "enemy",
 				lifeCost: 3,
+				target: "enemy",
 				damage: 5,
 				range: 4
 			}
@@ -171,6 +182,7 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				cooldown: 3,
+				movementCost: 2,
 				target: "ally",
 				duration: 3,
 				speed: 3,
@@ -183,6 +195,7 @@ ability.prototype.abilityStats = function(abilityName)
 		
 			stats = {
 				cooldown: 2,
+				movementCost: 2,
 				target: "tile",
 				duration: 2,
 				range: 3,
