@@ -106,8 +106,8 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 3,
 				target: "any",
 				tileTarget: "both",
-				duration: 2,
-				lifetime: 2,
+				duration: 1,
+				lifetime: 3,
 				radius: 1,
 				range: 3
 			}
@@ -858,7 +858,11 @@ ability.prototype.finishCast = function() {
 	
 	if (this.sourceUnit.alliance == "ally") { this.sourceUnit.Select("on"); }
 	
-	if (listContains(GameBoard.unitsMovedThisTurn, this.sourceUnit) == false) { GameBoard.unitsMovedThisTurn.push(this.sourceUnit); }
+	if ((listContains(GameBoard.unitsMovedThisTurn, this.sourceUnit) == true && this.sourceUnit.alliance == "ally") ||
+ 		(GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves && this.soutceUnit.alliance == "ally")) { 
+		
+		GameBoard.unitsMovedThisTurn.push(this.sourceUnit); 
+	}
 }
 
 
