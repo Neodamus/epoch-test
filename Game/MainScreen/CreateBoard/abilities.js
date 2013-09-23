@@ -374,6 +374,7 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				cooldown: 3,
+				movementCost: 1
 			}
 			
 			return stats;	
@@ -1285,7 +1286,12 @@ ability.prototype.receiveAbility = function(packet) {
 	var source = packet[2];
 	
 	this.abilityName = ability;
+	this.currentAbilityStats = this.abilityStats(this.abilityName);
 	this.sourceUnit = GridSpot[source.x][source.y].currentUnit;
+	
+	for (i = 0; i < this.sourceUnit.ability.length; i++) {
+		if (this.sourceUnit.ability[i].name == this.abilityName) { this.currentAbility = this.sourceUnit.ability[i]; }
+	}
 	
 	if (target.length == 1) {
 		

@@ -339,7 +339,7 @@
 		   
 			lifeLost = this.baseStats[1] + this.buffStats[1] - this.currentStats[1];
 		   
-			if (hp <= lifeLost) { // do nothing
+			if (hp <= lifeLost && hp > 0) { // do nothing
 			} else if (hp > lifeLost && this.currentStats[1] + hp > this.baseStats[1] + this.buffStats[1]) { hp = lifeLost; 
 			} else { hp = 0 }		   
 			

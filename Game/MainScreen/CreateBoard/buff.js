@@ -860,14 +860,14 @@
 						this.attachedUnit.buffStats[3] += this.buffStats.defense;
 						this.attachedUnit.currentStats[3] += this.buffStats.defense;
 						
-						break;
+					break;
 				
 					case "Turn":
 						
 						this.buffStats.duration--;  
 						if (this.buffStats.duration == 0) { this.eventProc("Removal"); };
 						
-						break;
+					break;
 						
 					case "Defend":
 					
@@ -878,15 +878,15 @@
 						this.buffStats.blocks--;
 						if (this.buffStats.blocks == 0) { this.eventProc("Removal"); };
 					
-						break;
+					break;
 					
 					case "Removal":
 					
 						this.removeBuff();
 						
-						this.attachedUnit.buffStats[3] -= this.buffStats.defense 	
+						this.attachedUnit.buffStats[3] -= this.buffStats.defense;	
 						
-						break;
+					break;
 				}   
 			break;
 			
@@ -1018,11 +1018,9 @@
 							Instructions.push( smokeScreenTiles );
 							Trap.affectedTiles(Instructions);
 							
-							for (i = 0; i < smokeScreenTiles.length; i++) {
-								console.warn("adding smoke screen tiles in")
+							/* for (i = 0; i < smokeScreenTiles.length; i++) {
 								GridSpot[smokeScreenTiles[i].x][smokeScreenTiles[i].y].visionBlock.push(this);
-								console.warn("tiles added successfully");
-							}
+							} */
 								
 						}					
 						
