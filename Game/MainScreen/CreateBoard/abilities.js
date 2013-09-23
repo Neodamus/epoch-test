@@ -153,7 +153,7 @@ ability.prototype.abilityStats = function(abilityName)
 				lifetime: 3,
 				duration: 3,
 				damage: 3,
-				range: 4
+				range: 3
 			}
 			
 			return stats; 
@@ -201,7 +201,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 3,
 				damage: 2,
 				lifetime: 6,
-				stacks: true
+				hidden: true
 			}
 			
 			return stats;
@@ -251,7 +251,7 @@ ability.prototype.abilityStats = function(abilityName)
 		
 			stats = {
 				cooldown: 2,
-				movementCost: 4,
+				movementCost: 3,
 				targetSelf: true,
 				target: "ally",
 				targets: 2,

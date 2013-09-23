@@ -1279,7 +1279,11 @@
 	
 newBuff.prototype.removeBuff = function() {
 	
-	removeArray = listReturnArray(this.attachedUnit.buffList, this);
+	if (this.attachedUnit != undefined) { 
+		removeArray = listReturnArray(this.attachedUnit.buffList, this); 
+	} else {
+		alert(this.buffType + " is trying to remove a buff when it shouldn't")	
+	}
 	
 	if (removeArray != -1) { 
 		this.attachedUnit.buffList.splice(removeArray, 1); this.removeReturn = true;
