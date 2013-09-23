@@ -353,7 +353,7 @@
 		if (this.currentStats[8] > 0 && this.currentStats[4] > 0)
 		{
 		if (this.alliance == "ally" && GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves && listContains(GameBoard.unitsMovedThisTurn, this) == false) { GameBoard.unitsMovedThisTurn.push(this); }
-			if (listContains(GameBoard.unitsMovedThisTurn, this) == true) {
+			if (listContains(GameBoard.unitsMovedThisTurn, this) == true || this.alliance == "enemy") {
 				this.Select("off");
 				var damage = this.currentStats[2];
 		
