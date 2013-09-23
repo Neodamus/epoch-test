@@ -69,8 +69,10 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Condense":	
 					
 			stats = {
+				cooldown: 4,
+				movementCost: 2,
 				duration: 3,
-				hitpoints: 2
+				life: 2
 			}
 			
 			return stats; 
@@ -113,8 +115,9 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Entanglement":	
 					
 			stats = {
+				cooldown: 2,
 				target: "enemy",
-				hitpoints: -2,
+				lifeCost: 3,
 				damage: 5,
 				range: 4
 			}
@@ -147,7 +150,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Frostbite":	
 					
 			stats = {
-				damage: 4
+				damage: 3
 			}
 			
 			return stats;
@@ -155,6 +158,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Heal":	
 					
 			stats = {
+				cooldown: 2,
+				movementCost: 3,
 				target: "ally",
 				hitpoints: 6,
 				range: 3
@@ -202,7 +207,10 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Mist":
 		
 			stats = {
+				cooldown: 4,
+				movementCost: 4,
 				target: "any",
+				tileTarget: "ally",
 				duration: 3,
 				lifetime: 3,
 				radius: 1,
@@ -259,6 +267,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Rain Shield":	
 					
 			stats = {
+				cooldown: 3,
+				movementCost: 2,
 				target: "ally",
 				duration: 3,
 				range: 4,
@@ -352,6 +362,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Teleport":	
 					
 			stats = {
+				cooldown: 6,
 				target: "tile",
 				range: 6
 			}
@@ -416,12 +427,10 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 	
 	if (this.canCast()) { this.castMode = true; } else { return null; }
 	
-	var customValue = this.currentAbilityStats;
-	
 	var finished = null;
 	if (listContains(this.noCastList, this.abilityName) == true) { return null; }
 	
-	var selfTarget = GridSpot[this.sourceUnit.x][this.sourceUnit.y];		// used for when the caster grid is needed
+	var selfTarget = sourceSpot;		// used for when the caster grid is needed
 
 	switch (this.abilityName) {
 	
@@ -432,12 +441,12 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 			break;	
 		
 		case "Bark Armor":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;						
 			break;
 	
 		case "Blind":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;
 			break;
 		
@@ -448,20 +457,20 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 			break;
 			
 		case "Creeping Vines":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;
 			this.castType = "line";									
 			break;	
 			
 		case "Energy Field":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;
 			this.castType = "radius";
-			this.castTargeOption = customValue.radius;									
+			this.castTargeOption = this.currentAbilityStats.radius;									
 			break;
 		
 		case "Entanglement":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;						
 			break;		
 		
@@ -472,51 +481,51 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 			break;
 			
 		case "Fire Wall":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;
 			this.castType = "line";									
 			break;
 			
 		case "Haste":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;						
 			break;
 		
 		case "Heal":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;						
 			break;
 			
 		case "Magma Trap":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;						
 			break;
 			
 		case "Mirror Image":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;
 			if (this.castTargetList.length == 1) { this.currentAbilityStats.target = "tile"; this.currentAbilityStats.targetSelf = false; }				
 			break;
 			
 		case "Mist":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;
 			this.castType = "radius";
-			this.castTargeOption = customValue.radius;									
+			this.castTargeOption = this.currentAbilityStats.radius;									
 			break;
 			
 		case "Polarity":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;						
 			break;
 			
 		case "Precision":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;
 			break;
 		
 		case "Rain Shield":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;						
 			break;
 	
@@ -539,19 +548,19 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 			break;		
 			
 		case "Smoke Screen":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;
 			this.castType = "radius";
-			this.castTargeOption = customValue.radius;									
+			this.castTargeOption = this.currentAbilityStats.radius;									
 			break;
 			
 		case "Soulfire":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;
 			break;
 			
 		case "Static":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;						
 			break;
 		
@@ -568,27 +577,26 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 			break;
 			
 		case "Teleport":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;						
 			break;
 		
 		case "Thunderclap":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;						
 			break;
 		
 		case "Torch":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;
 			break;	
 		
 		case "Wound":
-			this.sourceUnit.abilityMarkers("on", customValue.range);
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;
 			break;
 	}
 	
-	if (finished == true) { this.abilityCosts(); }
 	return finished; //require another click
 }
 
@@ -765,6 +773,25 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 }
 
 
+// determines if an ability can be cast
+ability.prototype.canCast = function() {
+	
+	var canCast = true;
+	
+	if (this.currentAbility.cooldown != 0) { canCast = false; }
+	
+	if (this.currentAbilityStats.lifeCost != undefined) { 	
+		if (this.sourceUnit.currentStats[1] - this.currentAbilityStats.lifeCost <= 0) { canCast = false; }
+	} else if (this.currentAbilityStats.movementCost != undefined) {
+		if (this.sourceUnit.currentStats[4] - this.currentAbilityStats.movementCost < 0) { canCast = false; }
+	} else if (this.currentAbilityStats.attackCost != undefined) {
+		if (this.sourceUnit.currentStats[8] - this.currentAbilityStats.attackCost < 0) { canCast = false; }
+	}
+	
+	return canCast;
+
+}
+
 
 ability.prototype.finishCast = function() {
 	
@@ -877,26 +904,6 @@ ability.prototype.castModeHighlight = function(option) {
 		
 	}
 	
-}
-
-
-
-ability.prototype.canCast = function() {
-	
-	var canCast = true;
-	
-	if (this.currentAbility.cooldown != 0) { canCast = false; }
-	
-	if (this.currentAbilityStats.lifeCost != undefined) { 	
-		if (this.sourceUnit.currentStats[1] - this.currentAbilityStats.lifeCost <= 0) { canCast = false; }
-	} else if (this.currentAbilityStats.movementCost != undefined) {
-		if (this.sourceUnit.currentStats[4] - this.currentAbilityStats.movementCost < 0) { canCast = false; }
-	} else if (this.currentAbilityStats.attackCost != undefined) {
-		if (this.sourceUnit.currentStats[8] - this.currentAbilityStats.attackCost < 0) { canCast = false; }
-	}
-	
-	return canCast;
-
 }
 
 

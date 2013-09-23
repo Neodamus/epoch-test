@@ -251,6 +251,8 @@
 		  
 		  if (GridSpot[this.x][this.y].currentUnit == this) { GridSpot[this.x][this.y].currentUnit = null; } // if statement needed for unit swaps
 		  
+		  if (ability.castMode == true) { ability.removeMarkers(); }
+		  
 		  return this;	// return the unit so it can be used if necessary
 	   }
 	   
@@ -313,8 +315,8 @@
 		
 		this.currentStats[1] -= damageDealt;
 		
-		combatLog.push(this.baseStats[0] + " receives " + totalDamage.toString() + " damage from " + attackerUnit.baseStats[0] + ". " + damageDefended.toString() + " damage was defended and " + 
-		damageDealt.toString() + " was dealt.");
+		combatLog.push(attackerUnit.baseStats[0] + " (" + totalDamage + " damage) attacks " + this.baseStats[0] + " (" + damageDefended + 
+			" defense), " + damageDealt.toString() + " damage was dealt.");
 		 
 		this.lastDamageLoss = damageDealt;
 		attackerUnit.lastDamageHit = damageDealt;
@@ -345,12 +347,12 @@
 		this.Select("off");
 		var damage = this.currentStats[2];
 		
-		if (this.unitStealth == true) { this.stealthedLastAttack = true; } else { this.stealthedLastAttack = false; }
-		
-		combatLog.push(this.baseStats[0] + " has attacked " + NewGridSpot.currentUnit.baseStats[0] + " with " + damage.toString() +" damage.");	
+		if (this.unitStealth == true) { this.stealthedLastAttack = true; } else { this.stealthedLastAttack = false; }	
 		
 		// defend proc
-		for (var i = 0; i < NewGridSpot.currentUnit.buffList.length; i++) { if (NewGridSpot.currentUnit.buffList[i].eventProc("Defend") == true) { i--; }  }	 
+		for (var i = 0; i < NewGridSpot.currentUnit.buffList.length; i++) { 
+			if (NewGridSpot.currentUnit.buffList[i].eventProc("Defend", this) == true) { i--; }  
+		}	 
 		
 		// receive damage
 		NewGridSpot.currentUnit.receivePhysicalDamage(damage, this);

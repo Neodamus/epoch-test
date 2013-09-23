@@ -222,41 +222,28 @@
 				
 					case "Turn":
 						
-						if (this.attachedUnit.currentStats[1] + this.buffStats.hitpoints < this.attachedUnit.baseStats[1]) {
-							this.attachedUnit.currentStats[1] += this.buffStats.hitpoints;
-						} else {
-							this.attachedUnit.currentStats[1] = this.attachedUnit.baseStats[1];
-							this.eventProc("Removal");
-						}
+						this.attachedUnit.heal(this.buffStats.life, this.buffType);
 						
 						this.buffStats.duration--;  
 						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
 						
-						break;
+					break;
 						
-					case "Move":
-					
+					case "Move":					
 						this.eventProc("Removal");
+					break;
 						
-						break;
+					case "Attack":					
+						this.eventProc("Removal");						
+					break;
 						
-					case "Attack":
+					case "Defend":					
+						this.eventProc("Removal");						
+					break;
 					
-						this.eventProc("Removal");
-						
-						break;
-						
-					case "Defend":
-					
-						this.eventProc("Removal");
-						
-						break;
-					
-					case "Removal":
-					
-						this.removeBuff();	
-						
-						break;
+					case "Removal":					
+						this.removeBuff();							
+					break;
 				}   
 			break;
 			
@@ -404,8 +391,6 @@
 				switch(Procedure) {
 				
 					case "Initialize":
-						
-						this.sourceUnit.receivePureDamage(-(this.buffStats.hitpoints), this.buffType);
 					
 						this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
 						
@@ -886,13 +871,9 @@
 						
 					case "Defend":
 					
-						var heal = this.attachedUnit.currentStats[3] - source.currentStats[2];
+						var healAmount = this.attachedUnit.currentStats[3] - source.currentStats[2];
 						
-						if (heal + this.attachedUnit.currentStats[1] <= this.attachedUnit.baseStats[1]) {							
-							this.attachedUnit.heal(heal, this.sourceUnit.baseStats[0])
-						} else if (heal + this.attachedUnit.currentStats[1] > this.attachedUnit.baseStats[1]) {							
-							this.attachedUnit.heal(this.attachedUnit.baseStats[1] - this.attachedUnit.currentStats[1],this.sourceUnit.baseStats[0]);
-						}
+						this.attachedUnit.heal(healAmount, this.buffType);
 						
 						this.buffStats.blocks--;
 						if (this.buffStats.blocks == 0) { this.eventProc("Removal"); };
@@ -1207,21 +1188,12 @@
 			
 			case "Teleport":	
 			
-				var targetGridSpot = this.attachedUnit;
-			
 				switch(Procedure) {
 				
 					case "Initialize":
 						
-						var coords = { x: this.sourceUnit.x, y: this.sourceUnit.y };
-						
-						GridSpot[coords.x][coords.y].currentUnit.Remove();					
-						
-						targetGridSpot.currentUnit = this.sourceUnit;
-						targetGridSpot.currentUnit.x = targetGridSpot.x;
-						targetGridSpot.currentUnit.y = targetGridSpot.y;
-						targetGridSpot.currentUnit.sight("on");
-						targetGridSpot.currentUnit.Select();						
+						this.sourceUnit.Remove();
+						this.sourceUnit.Move(this.targetSpot);					
 						
 						break;	
 				}   
