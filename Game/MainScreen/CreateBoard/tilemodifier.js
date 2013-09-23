@@ -178,8 +178,9 @@ tileModifier.prototype.draw = function(context, canvas) {
 		if (this.stats.hidden != undefined && this.stats.hidden == true) { var revealed = false; 
 			for (var t = 0; t < this.tileList[i].revealList.length; t++) { if (this.tileList[i].revealList[t].alliance == "ally") { revealed = true; break; } } }
 			
-		if (this.stats.hidden == undefined || this.stats.hidden != undefined && this.stats.hidden == true && revealed == true || this.sourceUnit == "ally") {
-		context.drawImage(returnTileImage(this.name), this.tileList[i].ThisRectangle.x, this.tileList[i].ThisRectangle.y, this.tileList[i].ThisRectangle.width, this.tileList[i].ThisRectangle.height); }
+		if (this.stats.hidden == undefined || this.stats.hidden != undefined && revealed == true || this.sourceUnit.alliance == "ally") {
+		if (returnTileImage(this.name) != null) {
+		context.drawImage(returnTileImage(this.name), this.tileList[i].ThisRectangle.x, this.tileList[i].ThisRectangle.y, this.tileList[i].ThisRectangle.width, this.tileList[i].ThisRectangle.height); } }
 		
 		context.globalAlpha = 1; 
 		}

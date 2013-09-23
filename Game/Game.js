@@ -115,8 +115,8 @@
 			case "Energy Field": return Images[16];
 			case "Smoke Screen": return Images[18];
 			case "Magma Trap": return Images[19]
-		
 		}
+		return Images[10];
 	}
 	
 	
