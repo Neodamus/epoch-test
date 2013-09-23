@@ -199,9 +199,16 @@
 				
 					for (var t = 0; t < this.visibleGridSpots.length; t++) {
 						
-						if (this.visibleGridSpots[t].visionBlock.length > 0 &&
-						visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleX) == true || this.visibleGridSpots[t].visionBlock.length > 0 &&
-						visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleY) == true) { giveSight = false; } 
+						if (this.visibleGridSpots[t].visionBlock.length > 0 && visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleX) == true ||
+						this.visibleGridSpots[t].visionBlock.length > 0 && visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleY) == true) { 
+						
+						if (this.visibleGridSpots[t] != this.visibleGridSpots[i]) {
+						giveSight = false; }
+						
+						
+						} 
+						
+						
 					
 					
 					}

@@ -25,7 +25,7 @@
 		
 		this.spawnMarker = false;
 		
-		this.revealList = new Array();
+		this.revealList = new Array(); //objected pushed to this must have a .alliance variable. (ie: unit class)
 		this.tileBuffList = new Array(); //Contains tile modifiers (auras included)
 		
 		this.visible = false;
