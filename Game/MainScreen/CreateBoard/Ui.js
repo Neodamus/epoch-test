@@ -253,6 +253,7 @@
 	  Ui.prototype.Draw = function(context, canvas) {
 	  
 		//CombatLog
+		if (GameBoard.gameType == "sandbox") {
 		this.combatLogRectangle.draw();
 		context.save(); context.fillStyle = "White"; context.font = "bold 16px Arial";
 		var alphaVar = 0.2;
@@ -260,7 +261,7 @@
 		t++; if (i == combatLog.length - 1) {alphaVar = 1; } context.globalAlpha = alphaVar;
 		alphaVar += 0.1;
 		context.fillText(combatLog[i], this.combatLogRectangle.width * 0.02, this.combatLogRectangle.y + (t * 13) + 12); } }
-		context.restore();
+		context.restore(); }
 		
 		//SandBoxUI
 		if (this.unitPicks == null) { if (PlacementStage == true){ this.sandboxUiBox.draw();
