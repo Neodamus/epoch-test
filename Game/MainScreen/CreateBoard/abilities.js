@@ -835,6 +835,8 @@ ability.prototype.canCast = function() {
 
 ability.prototype.finishCast = function() {
 	
+	if (ClientsTurn) { this.sendAbility(); }	// must be before removeMarkers	
+	
 	combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");	
 		
 	if (this.castTargetList.length == 0) {				
@@ -848,8 +850,6 @@ ability.prototype.finishCast = function() {
 	if (this.currentAbilityStats.lifeCost != undefined) { this.sourceUnit.currentStats[1] -= this.currentAbilityStats.lifeCost; }
 	if (this.currentAbilityStats.movementCost != undefined) { this.sourceUnit.currentStats[4] -= this.currentAbilityStats.movementCost; }
 	if (this.currentAbilityStats.attackCost != undefined) { this.sourceUnit.currentStats[8] -= this.currentAbilityStats.attackCost; }
-	
-	if (ClientsTurn) { this.sendAbility(); }	// must be before removeMarkers	
 	this.removeMarkers();
 }
 
