@@ -2,7 +2,7 @@ function CreateMenus(Width, Height) {
 	  this.id = "menus"		
 	  
 	  var textYPosition = Canvas.height * 0.0369; //text adjustment for y
-	  this.fontSize = _.fontSize; //font size
+	 // this.fontSize = _.fontSize; //font size
 	  
 	  //Rectangle dynamic adjustments
 	  var newwidth = Canvas.width * 0.243;
@@ -37,7 +37,7 @@ function CreateMenus(Width, Height) {
 	  var text = "Browse Game List";
 	  this.FindBox.setText(text, "Black", centreTextX(text, this.FindBox.x, this.FindBox.width, this.fontSize), centreTextY(1, this.FindBox.y, this.FindBox.height, this.fontSize));
 	  var text = "Quick Game Search";
-	  this.quickGameBox.setText(text, "Black", centreTextX(text, this.quickGameBox.x, this.quickGameBox.width, this.fontSize), centreTextY(1, this.quickGameBox.y, this.quickGameBox.height, this.fontSize));
+	  this.quickGameBox.setText(text, "Black", 0, 0);
 	  var text = "Visit the Website";
 	  this.WebsiteBox.setText(text, "Black", centreTextX(text, this.WebsiteBox.x, this.WebsiteBox.width, this.fontSize), centreTextY(1, this.WebsiteBox.y, this.WebsiteBox.height, this.fontSize));
 	  
@@ -50,9 +50,9 @@ function CreateMenus(Width, Height) {
 	  this.quickGameBox.setButton("quick", this.buttonList);
 	  this.WebsiteBox.setButton("web", this.buttonList);
 	   
-	  this.colorBool = false; //used to change colors of buttons normal
-	  this.fontSize = this.fontSize.toString(); 
-	  this.fontSize += 'px FLORI'; //finalize fontSize
+	 // this.colorBool = false; //used to change colors of buttons normal
+	 // this.fontSize = this.fontSize.toString(); 
+	 // this.fontSize += 'px FLORI'; //finalize fontSize
 }
 	  
 		
@@ -139,8 +139,8 @@ function CreateMenus(Width, Height) {
 			
 			context.drawImage(Images[0],0 ,0 ,Canvas.width, Canvas.height);
 			 
-			this.stringT.draw();
-			context.font = this.fontSize;
+		//	this.stringT.draw();
+			//context.font = this.fontSize;
 			
 			context.fillStyle = "rgba(20, 20, 20, 0.5)";
 			this.StartOptionBox.draw();
@@ -151,27 +151,5 @@ function CreateMenus(Width, Height) {
 			this.WebsiteBox.draw();
 			this.logoutBox.draw();
 			this.testBorder.draw();
-				/*	//      <Laser-beam test>
-		this.test1 = {x: 298, y: 38};
-		this.test2 = Mouse;
-		var newray = new ray(this.test1, this.test2);
-		this.testrect = new Rectangle(300, 300, 60, 60); this.testrect.boxColor = 'white';
-		var text = "Miss! :("
-		if (newray.intersects(this.testrect) == true) //not sure how taxing this is... I think .intersects method should be able to take in a list of rectangles
-	    {																								// to cut down on the programs work
-		text = "Hit! :)";
-		
-		} this.testrect.setText(text, "white", 200, 70);
-		//      </Laser-beam test>
-			
-			this.testrect.draw();
-			context.fillStyle = "red";
-			
-			context.strokeStyle = "red";
-			context.beginPath();
-			context.moveTo(this.test1.x, this.test1.y);
-			context.lineTo(this.test2.x, this.test2.y);
-			context.stroke();
-			*/
 			
 			}
