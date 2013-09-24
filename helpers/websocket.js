@@ -107,13 +107,6 @@ function messageHandler(message) {
 			_.currentMode = UnitSelection;
 			_.host = false;
 			break;
-					
-		case "getUsers":
-			if (_.currentMode.id == "lobby") {
-				_.currentMode.numUsers = data
-				_.currentMode.connectedUsers.text[0] = "Users Online: " + _.currentMode.numUsers;
-			}
-			break
 			
 		case "selectUnit":
 			UnitSelection.ReceivePick(data, data2)
@@ -149,10 +142,11 @@ function messageHandler(message) {
 		
 			if (_.currentMode.id == "lobby") {			
 				
-				_.currentMode.numUsers = data.length
+				_.currentMode.numUsers = data.length;
+				_.currentMode.connectedUsers.setText("Users Online: " + _.currentMode.numUsers, "White");
 				
-				_.currentMode.connectedUsersList.inputObject(data)		
-				setTimeout(sendPacket("getUsersList"), 1000)
+				_.currentMode.connectedUsersList.inputObject(data);		
+				setTimeout(sendPacket("getUsersList"), 1000);
 			  
 			}
 		
