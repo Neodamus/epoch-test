@@ -22,7 +22,7 @@ tileModifier.prototype.turnRefresh = function(alliance)
 		{
 			if (this.stats.lifetime != 'undefined' && this.stats.lifetime != null)
 				{
-					this.stats.lifetime--; console.warn(this.stats.lifetime);
+					this.stats.lifetime--;
 					if (this.stats.lifetime <= 0) {
 					
 					

@@ -12,7 +12,6 @@
 		this.Spacing = -3;
 		this.GridSizeX = Canvas.width * 0.048;
 		this.GridSizeY = Canvas.height * 0.07;
-		console.warn(Canvas.width); console.warn(Canvas.height);
 		StartX = Canvas.width * 0.046;//Canvas.width * 0.135;
 		StartY = Canvas.height * 0.006;//Canvas.height * 0.1;
 		EndX = (this.Columns + 1) * (this.GridSizeX);
