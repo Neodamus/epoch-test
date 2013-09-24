@@ -49,6 +49,10 @@ p.outline {
   font-family: "outline";
 }
 
+textarea {
+	resize: none;	
+}
+
 #main-wrapper {
 	height: 100%;
 	width: 100%;

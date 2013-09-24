@@ -628,6 +628,7 @@
 						
 						image.displayStats = true;
 						image.fakeStats = image.currentStats.clone();
+						image.abilities = [];
 						
 						image.baseStats = MirrorImage;
 						

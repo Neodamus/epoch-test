@@ -77,7 +77,7 @@
 
 <div class="left" style="width: 15%; line-height: 20px; margin-bottom: 20px; vertical-align: middle; text-align: center;">Email:</div> <div class="right" style="width: 80%; margin-bottom: 20px;"><input type="text" style="width: 80%;" name="email"></div>
 
-<div class="left" style="width: 15%; line-height: 200px; vertical-align: middle; text-align: center;">Message:</div> <div class="right" style="width: 80%;"><textarea style="width: 80%;" rows="10" name="message"></textarea></div>
+<div class="left" style="width: 15%; line-height: 200px; vertical-align: middle; text-align: center;">Message:</div> <div class="right" style="width: 80%;"><textarea style="width: 80%;" rows="12" cols="40" name="message"></textarea></div>
 
 <input style="margin-left: 40%; margin-right: auto; margin-top: 30px; margin-bottom: 40px;" type="submit" value="Send Message">
 
