@@ -33,7 +33,7 @@ function CreateMenus(Width, Height) {
 	  this.CreateBox.setText(text, "Black", centreTextX(text, this.CreateBox.x, this.CreateBox.width, this.fontSize), centreTextY(1, this.CreateBox.y, this.CreateBox.height, this.fontSize));
 	  var text = "Game Lobby";
 	  this.FindBox.setText(text, "Black", centreTextX(text, this.FindBox.x, this.FindBox.width, this.fontSize), centreTextY(1, this.FindBox.y, this.FindBox.height, this.fontSize));
-	  var text = " Quick Game Search";
+	  var text = "Quick Game Search";
 	  this.quickGameBox.setText(text, "Black", 0, 0);
 	  var text = "Visit the Website";
 	  this.WebsiteBox.setText(text, "Black", centreTextX(text, this.WebsiteBox.x, this.WebsiteBox.width, this.fontSize), centreTextY(1, this.WebsiteBox.y, this.WebsiteBox.height, this.fontSize));

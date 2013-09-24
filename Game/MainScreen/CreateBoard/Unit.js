@@ -44,12 +44,15 @@
 		this.lastPhysicalAttack;	// keeps track of a unit's attack stat during its last attack
 		this.lastPhysicalBlock;		// keeps track of a unit's block stat during its last block
 		this.lastDamageHit;			// last damage amount this unit inflicted	
-		this.lastDamageLoss;	 	// last damage amout this unit suffered
+		this.lastDamageLoss;	 	// last damage amount this unit suffered
 		
 		// other properties
 		this.unitStealth = false;
 		this.summon = false;
 		this.turnCost = true;
+		//mirror image fake stats
+		this.displayStats = false;
+		this.fakeStats = new Array();
 		
 		this.name = Name;                //not necessary(may need to remove any uses before removing this)
 		this.element = Element; 	     //not necessary(may need to remove any uses before removing this)

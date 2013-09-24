@@ -281,8 +281,12 @@
 		context.font = '15px Arial';
 
 		//Display unitStats
+		var stats;
+		if (this.currentUnit.displayStats == true && this.currentUnit.alliance == "enemy") { stats = this.currentUnit.fakeStats; } else { stats = this.currentUnit.currentStats; }
+		
+		
 		if (this.currentStats != null && this.currentUnit != null) {
-		context.fillStyle = "White"; for (var i = 0; i < this.currentUnit.currentStats.length; i++) { if (i < 10) {
+		context.fillStyle = "White"; for (var i = 0; i < stats.length; i++) { if (i < 10) {
 		var extra = " ";
 		if (i == 0) { extra = ""; } //Name: 
 		if (i == 1) { extra = "Hitpoints: "; }
@@ -294,7 +298,7 @@
 		if (i == 7) { extra = "Reveal: "; }
 		if (i == 8) { extra = "Attacks: "; }
 		if (i == 9) { extra = "Defends: "; }
-		context.fillText(extra + this.currentUnit.currentStats[i], this.standardUiBox.x + 1, this.standardUiBox.y + (i * 23) + 60); } }
+		context.fillText(extra + stats[i], this.standardUiBox.x + 1, this.standardUiBox.y + (i * 23) + 60); } }
 		
 		//Display Unit Abilities
 		for (var i = 0; i < this.currentUnit.ability.length; i++) { //may need reworking
