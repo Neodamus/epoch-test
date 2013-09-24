@@ -52,20 +52,13 @@ lobby.prototype.draw = function() {
 	this.context.fillStyle = "Black"
 	this.context.font = "bold 16px serif"
 	
-	// buttons
 	this.createGame.draw();	
-	this.joinGame.draw();
-	
-	this.gamesList.draw()
-	
+	this.joinGame.draw();	
+	this.gamesList.draw();	
 	this.connectedUsers.draw();	
 	this.connectedUsersList.draw();
-		
-
-	this.chatRoom.draw()
-	this.chatBar.draw()	
-	
-	
+	this.chatRoom.draw();
+	this.chatBar.draw();	
 }
 
 function lobbyKeyDown(key) {

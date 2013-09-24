@@ -57,7 +57,7 @@
 		Images[1].src = "Game/Images/newgrass.png";
 		Images[2].src = "Game/Images/gamemat.png";
 		Images[3].src = "Game/Images/border.png";
-		Images[4].src = "Game/Images/lobby.png";
+		Images[4].src = "Game/Images/lobby.jpg";
 		Images[5].src = "Game/Images/borderyellow.png";
 		Images[6].src = "Game/Images/borderattack.png";
 		Images[7].src = "Game/Images/fog.png";
