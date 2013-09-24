@@ -48,12 +48,12 @@ function globals() {
 	this.connectionStatus = 0; 								// 0 = connecting, 1 = logging in, 2 = logged in
 	
 	this.canvas = document.getElementById('Mycanvas');
-    this.context = document.getElementById('Mycanvas').getContext('2d');
+    if (this.canvas != null) { this.context = this.canvas.getContext('2d'); }
 	
 	this.mouse;  											// holds mouse position
 	
 	this.fontFamily = "FLORI";
-	this.fontSize = Math.floor(this.canvas.height * 0.025);
+	if (this.canvas != null) { this.fontSize = Math.floor(this.canvas.height * 0.025); }
 	this.font = this.fontSize + "px " + this.fontFamily;
 	 
 	this.shiftKey = false; 									// returns true if shift is down, false if it's up
