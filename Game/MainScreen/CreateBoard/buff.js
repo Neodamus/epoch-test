@@ -627,7 +627,7 @@
 						image.currentStats = copiedUnit.currentStats.clone();
 						
 						image.displayStats = true;
-						image.displayStats = image.currentStats.clone();
+						image.fakeStats = image.currentStats.clone();
 						
 						image.baseStats = MirrorImage;
 						
