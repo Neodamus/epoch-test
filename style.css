@@ -37,6 +37,14 @@ p.newfont {
   src: url(outline.ttf) format("truetype");
 }
 
+.left {
+	float: left;	
+}
+
+.right {
+	float: right;	
+}
+
 p.outline { 
   font-family: "outline";
 }
@@ -143,4 +151,12 @@ p.outline {
 	font-family: Georgia, "Times New Roman", Times, serif;
 	color: #ccc;
 	background-color: rgb(30, 30, 30);
+}
+
+.page-container {
+	overflow: auto;
+	width: 70%;
+	margin-top: 40px;
+	margin-left: auto;
+	margin-right: auto;	
 }
