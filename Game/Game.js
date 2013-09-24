@@ -416,26 +416,26 @@
 						
 		}
 		
-		context.fillStyle = "White"
-		context.font = '15px Arial';
+		context.fillStyle = "#BBB"
+		context.font = (_.fontSize * 0.9) + "px " + _.fontFamily;;
 		
 		switch (_.connectionStatus) {
 			
 			case 0:
 			
-				context.fillText("Connecting...", 5, 15)	
+				context.fillText("Connecting...", 5, _.fontSize)	
 				
 				break
 			
 			case 1:
 			
-				context.fillText("Logging in...", 5, 15)	
+				context.fillText("Logging in...", 5, _.fontSize)	
 				
 				break
 				
 			case 2:
 
-				context.fillText("Logged in as " + _.userName, 5, 15)
+				context.fillText("Logged in as " + _.userName, 5, _.fontSize)
 				
 				break
 			

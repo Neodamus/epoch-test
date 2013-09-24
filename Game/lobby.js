@@ -11,13 +11,16 @@ function lobby() {
 	// buttons
 	this.joinGame = new Rectangle(this.lobbyWidth * 0.1, this.lobbyHeight * 0.43, this.lobbyWidth * 0.2, this.lobbyHeight * 0.04);
 	this.joinGame.setText("Join", "#fff", this.joinGame.width * 0.35, this.joinGame.height * 0.7);	
+	this.joinGame.setFontSize(_.fontSize * 0.8);
 	
 	this.createGame = new Rectangle(this.lobbyWidth * 0.5, this.lobbyHeight * 0.43, this.lobbyWidth * 0.2, this.lobbyHeight * 0.04);
 	this.createGame.setText("Create", "#fff", this.createGame.width * 0.35, this.createGame.height * 0.7);
+	this.createGame.setFontSize(_.fontSize * 0.8);
 	this.createGame.clickfxn = function() { UnitSelection = new SelectionScreen(); _.currentMode = UnitSelection; sendPacket("createRoom"); }
 	
 	// games list
 	this.gamesList = new textBox(this.lobbyWidth * 0.05, this.lobbyHeight * 0.1, this.lobbyWidth * 0.7, this.lobbyHeight * 0.3)
+	this.gamesList.setFontSize(_.fontSize * 0.8);
 	this.gamesList.setColumns( [0, 0.35, 0.7] )
 	gamesListRequest()
 	
@@ -39,7 +42,8 @@ function lobby() {
 	this.chatBar.setFontSize(Math.floor(this.chatBar.height * 0.5))
 	
 	this.chatRoom = new textBox(this.lobbyWidth * 0.05, this.lobbyHeight * 0.5, this.lobbyWidth * 0.7, this.lobbyHeight * 0.30)
-	this.chatRoom.setColumns( [0, 0.1, 0.25] )
+	this.chatRoom.setFontSize(_.fontSize * 0.8);
+	this.chatRoom.setColumns( [0, 0.125, 0.3] )
 	this.chatRoom.textReverse = true
 	sendPacket("getChat")
 	

@@ -6,11 +6,12 @@ function textBox(x, y, width, height) {
 	this.height = Math.floor(height)
 	
 	this.context = document.getElementById('Mycanvas').getContext('2d')
-	this.textBoxColor = "#777777"
+	this.textBoxColor = "#333"
 	
-	this.font =  14 + "px " + _.font;
-	this.fontFamily = _.font;
-	this.fontColor = "Black";
+	this.fontSize = _.fontSize;
+	this.fontFamily = _.fontFamily;
+	this.fontColor = "#BBB";
+	this.font = _.font;
 	
 	this.columns = 1
 	this.columnArray = [ 0 ]
@@ -63,7 +64,7 @@ textBox.prototype.draw = function() {
 	this.context.fillRect(this.x, this.y, this.width, this.height)
 	
 	if (this.selectedRow != 0) {
-		this.context.fillStyle = "#d6fcb4"
+		this.context.fillStyle = "#929005"
 		
 		selectionX = this.x + this.leftPadding
 		selectionY = this.y + this.topPadding + (this.rowHeight + this.rowBuffer) * (this.selectedRow - 1)
