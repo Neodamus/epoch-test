@@ -51,7 +51,17 @@
 		}
 	  }
 	  
-	  
+	  Grid.prototype.refreshUnitSight = function()
+	  {
+		var unit = new Array();
+		for (var i = 0; i < this.allyVision.length; i++) {
+			unit.push(this.allyVision[i]);
+		}
+		for (var i = 0; i < unit.length; i++) {
+			unit[i].sight("off");
+			unit[i].sight("on");
+		}
+	  }
 	  
 	  //tilemod
 	  Grid.prototype.tileModifiers = function(modifier, procedure)
@@ -112,11 +122,21 @@
 		
 		context.drawImage(Images[1],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		
-		if (this.currentUnit != null && this.visible == true && this.currentUnit.unitStealth == false || this.currentUnit != null && this.visible == true && this.currentUnit.unitStealth == true && this.currentUnit.alliance == "ally"){  // UNIT DRAWING
-		if (this.currentUnit.unitStealth == true) { context.globalAlpha = 0.3; }
-		context.drawImage(Images[ReturnUnitImage(this.currentUnit.name)], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width,
-		this.ThisRectangle.height); 
-		if (this.currentUnit.unitStealth == true) {context.globalAlpha = 1; } }
+		//Drawing unit
+		if (this.currentUnit != null && this.visible == true && this.currentUnit.unitStealth == false ||
+		this.currentUnit != null && this.visible == true && this.currentUnit.unitStealth == true && this.currentUnit.alliance == "ally"){
+			// UNIT DRAWING
+			if (this.currentUnit.unitStealth == true) { context.globalAlpha = 0.3; }
+				context.drawImage(Images[ReturnUnitImage(this.currentUnit.name)], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width,
+				this.ThisRectangle.height); 
+				if (this.currentUnit.unitStealth == true) {context.globalAlpha = 1; } 
+				
+				if (this.currentUnit.summon == true) {
+				context.globalAlpha = 0.5;
+				context.drawImage(Images[112], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width,
+				this.ThisRectangle.height); context.globalAlpha = 1;}
+				}
+				
 		if (this.visible == false)		//Fog of war
 		{
 			context.drawImage(Images[7],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);

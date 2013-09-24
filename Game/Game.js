@@ -1,7 +1,7 @@
 	 var numberOfUnits = 9;
 	 var Canvas; //mine is 968 by 775
 	 var Context;
-	 var Images = new Array(110); //Images
+	 var Images = new Array(200); //Images
 	 var Mouse; //Mouse position (tied to 'click' event)
 	 var KeyPressed; //KeyChar pressed
 	 var FrameRate = 1000 / (30); //Edit brackets for frames per second
@@ -102,6 +102,8 @@
 	  Images[102].src = "Game/Images/scrollup.png" 
 	  Images[103].src = "Game/Images/scrolldown.png"
 	  Images[104].src = "Game/Images/stealthpick.png"
+	  
+	  Images[112].src = "Game/Images/abilities/summon.png";
 	  
 	}
 	

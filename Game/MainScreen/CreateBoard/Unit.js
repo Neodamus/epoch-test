@@ -49,6 +49,7 @@
 		// other properties
 		this.unitStealth = false;
 		this.summon = false;
+		this.turnCost = true;
 		
 		this.name = Name;                //not necessary(may need to remove any uses before removing this)
 		this.element = Element; 	     //not necessary(may need to remove any uses before removing this)
@@ -77,19 +78,17 @@
 	  
 	   Unit.prototype.turnFunction = function()
 	    {
-			if (this.alliance == "ally") { this.sight("off"); } //not sure if this is needed....
+			
 			for (var i = 0; i < this.buffList.length; i++) { 
 			
 			if (this.buffList[i].eventProc("Turn") == true) { i--; } 
 			  }
 			
-			//apply buff per turn effects
-			//reduce cooldowns
 			this.resetStats();
 			for (var i = 0; i < this.ability.length; i++) {
 				if (this.ability[i].cooldown > 0) { this.ability[i].cooldown--; }
 			}
-			if (this.alliance == "ally" && this.currentStats[1] > 0) { this.sight("on"); } //sight on if health > 0-- not sure if this is needed
+		
 	    }
 	  
 	  
@@ -189,16 +188,33 @@
 			this.visibleGridSpots = new Array();
 			this.AreaSelect("vision", GridSpot[this.x][this.y], this.currentStats[5], Toggle, "");
 			if (Toggle == "on") {
-			//edit the vision list on unit  this.visibleGridSpots
-			for (var i = 0; i < this.visibleGridSpots.length; i++) {
+				//find the blockers
+				var blockers = new Array();
+				for (var i = 0; i < this.visibleGridSpots.length; i++) {
+					if (this.visibleGridSpots[i].visionBlock.length > 0) { blockers.push(this.visibleGridSpots[i]); }
+				}
+				
+				
+				for (var i = 0; i < this.visibleGridSpots.length; i++) {
 
 				var start = {x: Math.floor(GridSpot[this.x][this.y].centrePixelX), y: Math.floor(GridSpot[this.x][this.y].centrePixelY)};
 				var end = {x: Math.floor(this.visibleGridSpots[i].centrePixelX), y: Math.floor(this.visibleGridSpots[i].centrePixelY)};
 				var visionRay = new ray(start, end);
 				
 				var giveSight = true;
+					
+					for (var t = 0; t < blockers.length; t++) {
+						
+							if (blockers[t] != this.visibleGridSpots[i] && visionRay.intersects(blockers[t].visionBlockRectangleX) == true ||
+								blockers[t] != this.visibleGridSpots[i] && visionRay.intersects(blockers[t].visionBlockRectangleY) == true) { 
+								giveSight = false;
+								}
+							
+							
+					}
+				//if (this.visibleGridSpots[i] != blockers[t]) { }
 				
-					for (var t = 0; t < this.visibleGridSpots.length; t++) {
+					/*for (var t = 0; t < this.visibleGridSpots.length; t++) {
 						
 						if (this.visibleGridSpots[t].visionBlock.length > 0 && visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleX) == true ||
 						this.visibleGridSpots[t].visionBlock.length > 0 && visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleY) == true) { 
@@ -208,11 +224,7 @@
 						
 						
 						} 
-						
-						
-					
-					
-					}
+					}*/
 				if (giveSight == true) { this.visibleGridSpots[i].allyVision.push(this); }
 				
 				} }
@@ -352,8 +364,8 @@
 	  {
 		if (this.currentStats[8] > 0 && this.currentStats[4] > 0)
 		{
-		if (this.alliance == "ally" && GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves && listContains(GameBoard.unitsMovedThisTurn, this) == false) { GameBoard.unitsMovedThisTurn.push(this); }
-			if (listContains(GameBoard.unitsMovedThisTurn, this) == true || this.alliance == "enemy") {
+		if (this.turnCost = true && this.alliance == "ally" && GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves && listContains(GameBoard.unitsMovedThisTurn, this) == false) { GameBoard.unitsMovedThisTurn.push(this); }
+			if (listContains(GameBoard.unitsMovedThisTurn, this) == true || this.alliance == "enemy" || this.turnCost = false) {
 				this.Select("off");
 				var damage = this.currentStats[2];
 		
@@ -386,8 +398,8 @@
 	  {
 		if (this.currentStats[4] > 0)
 		{
-		if (this.alliance == "ally" && GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves && listContains(GameBoard.unitsMovedThisTurn, this) == false) { GameBoard.unitsMovedThisTurn.push(this); }
-			if (listContains(GameBoard.unitsMovedThisTurn, this) == true || this.alliance == "enemy") {
+		if (this.turnCost = true && this.alliance == "ally" && GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves && listContains(GameBoard.unitsMovedThisTurn, this) == false) { GameBoard.unitsMovedThisTurn.push(this); }
+			if (listContains(GameBoard.unitsMovedThisTurn, this) == true || this.alliance == "enemy" || this.turnCost = false) {
 		
 		
 		 //Checks for on move event in buffs
