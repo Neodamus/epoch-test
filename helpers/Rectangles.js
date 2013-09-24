@@ -101,7 +101,7 @@ Rectangle.prototype.draw = function() {
 		this.context.fillStyle = this.fontColor; 
 		//_.context.font = this.font;
 		//HELPER//////////////////////////////////////////////////////////////////////
-		this.context.lineWidth = 2;
+		this.context.lineWidth = 0.5;
 		
 		this.context.beginPath();
 		this.context.moveTo(this.x + this.width / 2, this.y);
