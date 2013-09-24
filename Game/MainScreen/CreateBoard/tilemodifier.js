@@ -118,11 +118,17 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 		case "on":
 			
 			if (this.tileList instanceof Array) {for (var i = 0; i < Instructions[1].length; i++) { this.tileList.push(Instructions[1][i]); } } // needs to push all tiles affected...
-			else { this.tileList.push(Instructions[1]);  } //if tile list is just one tile .. push
-		   // console.warn(this.tileList);
+			else { this.tileList.push(Instructions[1]);  } //if tile list is just one tile .. push (this 'else' isn't working i think)
+
 			for (var i = 0; i < this.tileList.length; i++) { 
 			
-			this.tileList[i].tileBuffList.push(this); } //adding tile effects to grid
+			//This is visionBlocking variable of tilemods*
+			if (this.stats.visionBlock != undefined && this.stats.visionBlock == true) { this.tileList[i].visionBlock.push(this); this.tileList[i].refreshUnitSight();}
+			
+			//Add tilemod to the gridspot's tilemod lost
+			this.tileList[i].tileBuffList.push(this); } 
+			
+			//Runs initialize of all of the tile list
 			for (var i = 0; i < this.tileList.length; i++) { this.tileList[i].tileModifiers(this, "initialize"); }
 			
 			break;
@@ -133,25 +139,44 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 				
 				if (listContains(this.tileList, Instructions[1][i]) == false) { 
 					
+					//This is visionBlocking variable of tilemods*
+					if (this.stats.visionBlock != undefined && this.stats.visionBlock == true) { Instructions[1][i].visionBlock.push(this); Instructions[1][i].refreshUnitSight();}
+					
+					//Add tilemod to the gridspot's tilemod lost
 					Instructions[1][i].tileBuffList.push(this);
+					
+					//Runs move for all the newly added tiles
 					Instructions[1][i].tileModifiers(this, "move"); 
+					
+					//Add gridspot to the tile list.
 					this.tileList.push(Instructions[1][i]);}
-			 } 
+			 }
 			
-			var oldUnitList = new Array();
+			var oldUnitList = new Array(); //List of units on the gridspots of all of the removed tiles
 			
 			for (var i = 0; i < this.tileList.length; i++) {
 				if (listContains(Instructions[1], this.tileList[i]) == false) { 
 				
-					var remTile = listReturnArray(this.tileList[i].tileBuffList, this);
+					//Removing visionBlocking variable of tilemods
+					if (this.stats.visionBlock != undefined && this.stats.visionBlock == true) {
+						var rem = listReturnArray(this.tileList[i].visionBlock, this);
+							if (rem != -1) { this.tileList[i].visionBlock.splice(rem, 1); } 
+							this.tileList[i].refreshUnitSight();
+							} 
 					
+					//Removing this tilemod from each of the gridspots
+					var remTile = listReturnArray(this.tileList[i].tileBuffList, this);
 					if (remTile != -1) { this.tileList[i].tileBuffList.splice(remTile, 1); }
 					
+					//Forming the list of units that were previously affected by this tilemod
 					if (this.tileList[i].currentUnit != null) { oldUnitList.push(this.tileList[i].currentUnit);  }
 
-					this.tileList.splice(i, 1); i--;  //i-- because the tileList is changing within,
+					//Removing this gridspot from the tile list; changing i due to the splicing.
+					this.tileList.splice(i, 1); i--;  
 				}
 			}
+			
+			//Runs remove for all the units that lost the tilemod
 			for (var i = 0; i < oldUnitList.length; i++) {  this.eventProc("remove", oldUnitList[i]); } //remove from units
 			break;
 		
@@ -160,6 +185,13 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 			//remove from all tiles...
 			var oldUnitList = new Array();
 			for (var i = 0; i < this.tileList.length; i++) { 
+				
+				if (this.stats.visionBlock != undefined && this.stats.visionBlock == true) {
+						var rem = listReturnArray(this.tileList[i].visionBlock, this);
+							if (rem != -1) { this.tileList[i].visionBlock.splice(rem, 1); }
+							this.tileList[i].refreshUnitSight();
+							}
+				
 			
 				this.tileList[i].tileModifiers(this, "remove");
 				if (this.tileList[i].currentUnit != null) { oldUnitList.push(this.tileList[i].currentUnit); }
