@@ -12,7 +12,7 @@ function Rectangle(x, y, width, height) {
 	
 	this.fontSize = _.fontSize;
 	this.fontFamily = _.fontFamily;
-	this.fontColor = "#000";
+	this.fontColor = "#FFF";
 	this.font = this.fontSize + "px " + this.fontFamily;
 	
 	this.boxColor = "#000";
@@ -60,10 +60,9 @@ Rectangle.prototype.setText = function(text, color, posX, posY) {
 
 	this.text = text;
 	this.fontColor = color;
+	_.context.font = this.font;
 	this.textX = this.x + (this.width - _.context.measureText(text).width) / 2;
-	console.warn(this.textX);
-	this.textY = Math.floor(this.y + (this.height + this.fontSize) / 2);
-	console.warn(this.textY);
+	this.textY = Math.floor(this.y + (this.height + this.fontSize / 2) / 2);
 	
 }
 
@@ -94,7 +93,8 @@ Rectangle.prototype.draw = function() {
 	if (this.text != null) {
 	
 		this.context.save();
-		this.context.fillStyle = this.fontColor; this.context.font = this.font
+		this.context.fillStyle = this.fontColor; 
+		this.context.font = this.font;
 		this.context.fillText(this.text, this.textX, this.textY);
 		this.context.restore();
 	
