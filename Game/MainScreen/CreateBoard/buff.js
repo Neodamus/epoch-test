@@ -624,6 +624,11 @@
 						
 						image.Remove();
 						
+						image.currentStats = copiedUnit.currentStats.clone();
+						
+						image.displayStats = true;
+						image.displayStats = image.currentStats.clone();
+						
 						image.baseStats = MirrorImage;
 						
 						image.currentStats = new Array(image.baseStats.length);
@@ -636,7 +641,7 @@
 							}
 							image.buffStats[i] = 0;
 						}
-						
+												
 						image.summon = true;
 						
 						image.sight("on");
