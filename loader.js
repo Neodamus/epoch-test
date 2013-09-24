@@ -67,7 +67,7 @@ function globals() {
 
 globals.prototype.fontResize = function() {
 
-	this.fontSize = Math.floor(this.canvas.height * 0.032);
+	this.fontSize = Math.floor(this.canvas.height * 0.031);
 	this.font = this.fontSize + "px " + this.fontFamily;
 }
 

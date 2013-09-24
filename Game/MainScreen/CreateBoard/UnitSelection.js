@@ -206,17 +206,9 @@
 		
 		
 		//Buttons start
-		context.fillStyle = "rgba(10, 10, 10, 1)";
-		context.fillRect(this.SelectUnitBox.x, this.SelectUnitBox.y, this.SelectUnitBox.width, this.SelectUnitBox.height);
-		context.fillRect(this.NextStageBox.x, this.NextStageBox.y, this.NextStageBox.width, this.NextStageBox.height);
-		context.fillRect(this.RemoveSelectedBox.x, this.RemoveSelectedBox.y, this.RemoveSelectedBox.width, this.RemoveSelectedBox.height);
-		context.fillStyle = "rgba(100, 255, 100, 1)";;
-		context.fillText("Use selected unit", this.SelectUnitBox.x + this.SelectUnitBox.width * 0.05, this.SelectUnitBox.y + this.SelectUnitBox.height / 2 + this.SelectUnitBox.height * 0.1);
-		context.fillStyle = "rgba(255, 100, 100, 1)";;
-		context.fillText("Proceed", this.NextStageBox.x + this.NextStageBox.width * 0.272, this.NextStageBox.y + this.NextStageBox.height / 2 + this.NextStageBox.height * 0.1);
-		context.fillStyle = "rgba(255, 100, 100, 1)";
-		context.fillText("Remove unit", this.RemoveSelectedBox.x + this.RemoveSelectedBox.width * 0.19, this.RemoveSelectedBox.y + this.RemoveSelectedBox.height / 2 + this.RemoveSelectedBox.height * 0.1);
-		//Buttons 
+		this.SelectUnitBox.draw();
+		this.RemoveSelectedBox.draw();
+		this.NextStageBox.draw();
 
 		
 		//Draw Units
@@ -269,6 +261,16 @@
 				waitingRect.setText("Waiting for another player to join", "White", canvas.width * 0.35, canvas.height * 0.52)
 				waitingRect.draw()
 				
+		} else {
+					
+			// temporary turn fix
+			_.context.fillStyle = "#FFF";
+			_.context.font = _.font
+			if (ClientsTurn) { 
+				_.context.fillText("Your turn to pick - " + this.pickCount, this.StatsInfoBox.width * 0.2, this.StatsInfoBox.y * 1.07);
+			} else {
+				_.context.fillText("Enemy picking", this.StatsInfoBox.width * 0.2, this.StatsInfoBox.y * 1.07);
+			}
 		}
 	  }
 	  
@@ -299,16 +301,17 @@
 		this.StatsInfoBox = new Rectangle(spacer, Canvas.height / 2, Canvas.width - spacer * 2, (Canvas.height + spacer / 2 - (Canvas.height * 0.8 - spacer) ));
 		this.StatsInfoBox.boxColor =  "rgba(40, 40, 40, 1)";
 
-		this.SelectUnitBox = new Rectangle(this.StatsInfoBox.x + this.StatsInfoBox.width / 2 - (this.StatsInfoBox.width * 0.15 / 2), this.StatsInfoBox.y + this.StatsInfoBox.height * 0.04, this.StatsInfoBox.width * 0.15, this.StatsInfoBox.y * 0.08)
-		this.SelectUnitBox.boxColor =  "rgba(40, 200, 40, 1)";
-		//add text box to selectunitbox
+		this.SelectUnitBox = new Rectangle(this.StatsInfoBox.x + this.StatsInfoBox.width * 0.425, this.StatsInfoBox.y 
+		+ this.StatsInfoBox.height * 0.04, this.StatsInfoBox.width * 0.15, this.StatsInfoBox.y * 0.08);
+		this.SelectUnitBox.setText("Select Unit", "#DDD");
 		
+		this.NextStageBox = new Rectangle(this.StatsInfoBox.x + this.StatsInfoBox.width * 0.825, this.StatsInfoBox.y 
+		+ this.StatsInfoBox.height * 0.04, this.StatsInfoBox.width * 0.15, this.StatsInfoBox.y * 0.08);
+		this.NextStageBox.setText("End Turn", "#DDD");
 		
-		this.NextStageBox = new Rectangle(this.StatsInfoBox.x + this.StatsInfoBox.width - (this.StatsInfoBox.width * 0.15 * 1.05), this.StatsInfoBox.y 
-		+ this.StatsInfoBox.height * 0.04, this.StatsInfoBox.width * 0.15, this.StatsInfoBox.y * 0.08)
-		
-		this.RemoveSelectedBox = new Rectangle(this.StatsInfoBox.x + this.StatsInfoBox.width - (this.StatsInfoBox.width * 0.30 * 1.05), this.StatsInfoBox.y 
-		+ this.StatsInfoBox.height * 0.04, this.StatsInfoBox.width * 0.15, this.StatsInfoBox.y * 0.08)
+		this.RemoveSelectedBox = new Rectangle(this.StatsInfoBox.x + this.StatsInfoBox.width * 0.65, this.StatsInfoBox.y 
+		+ this.StatsInfoBox.height * 0.04, this.StatsInfoBox.width * 0.15, this.StatsInfoBox.y * 0.08);		
+		this.RemoveSelectedBox.setText("Remove Unit", "#DDD");
 		
 		this.PickLine = new Rectangle(0, Canvas.height * 0.905, Canvas.width, Canvas.height * 0.007);
 		this.PickLine.boxColor = "rgba(100, 100, 100, 1)";
