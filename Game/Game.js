@@ -40,8 +40,9 @@
 	  UnitStats = UnitStats(); //initialize unitstats
 	  
 	  //Start Draw updates
-	  globalFont = (Canvas.height * 0.021).toString() + 'px FLORI';
-	  globalFontSize = Canvas.height * 0.021;
+	  globalFont = (Canvas.height * 0.031).toString() + 'px FLORI';
+	  globalFontSize = Canvas.height * 0.031;
+	  
 	  var frame = setInterval(function(){Draw(context, canvas)},FrameRate);
 	  
 	}

@@ -27,6 +27,7 @@ function Rectangle(x, y, width, height) {
 	this.text;
 	this.textX;
 	this.textY;
+	
 }
 	   
 //Contains method checks for Points or Rectangles
@@ -57,12 +58,16 @@ Rectangle.prototype.setButton = function(id, buttonList) {
 }
   
 Rectangle.prototype.setText = function(text, color, posX, posY) {    
-
+	this.context.font = globalFont;
 	this.text = text;
 	this.fontColor = color;
-	_.context.font = this.font;
-	this.textX = this.x + (this.width - _.context.measureText(text).width) / 2;
-	this.textY = Math.floor(this.y + (this.height + this.fontSize / 2) / 2);
+	
+	this.textSize = this.context.measureText(text).width;
+	this.textSizeY = Math.floor(this.y + globalFontSize *0.88 + (this.height - globalFontSize) / 2)
+	
+	this.textX = this.x + (this.width - this.textSize) / 2;//(this.width - this.context.measureText(text).width);
+	this.textY = Math.floor(this.y + globalFontSize *0.88 + (this.height - globalFontSize) / 2); // globalFontSize *0.88 has to do with where font is positioned based on 0, 0
+	//Math.floor(this.y + (this.height + this.fontSize / 2) / 2);
 	
 }
 
@@ -80,22 +85,52 @@ Rectangle.prototype.draw = function() {
 	
 	if (this.hasImage) {
 		
-		this.context.drawImage(this.image, this.x, this.y, this.width, this.height);	  
+		_.context.drawImage(this.image, this.x, this.y, this.width, this.height);	  
 		
 	} else {
 	
-		if (this.boxColor != null) { this.context.fillStyle = this.boxColor; }
+		if (this.boxColor != null) { _.context.fillStyle = this.boxColor; }
 		
-		this.context.fillRect(this.x, this.y, this.width, this.height);		
+		_.context.fillRect(this.x, this.y, this.width, this.height);		
 		
 	}
 	
 	if (this.text != null) {
-	
+		this.context.font = globalFont;
 		this.context.save();
 		this.context.fillStyle = this.fontColor; 
-		this.context.font = this.font;
+		//_.context.font = this.font;
+		//HELPER//////////////////////////////////////////////////////////////////////
+		this.context.lineWidth = 2;
+		
+		this.context.beginPath();
+		this.context.moveTo(this.x + this.width / 2, this.y);
+		this.context.lineTo(this.x + this.width / 2, this.y + this.height);
+		this.context.strokeStyle = "blue";
+		this.context.stroke();
+		
+		
+		this.context.beginPath();
+		this.context.moveTo(this.x, this.y + this.height / 2);
+		this.context.lineTo(this.x + this.width, this.y + this.height / 2);
+		this.context.strokeStyle = "blue";
+		this.context.stroke();
+		
+		this.context.beginPath();
+		this.context.moveTo(this.textX, this.y + this.height / 2);
+		this.context.lineTo(this.textSize + this.textX, this.y + this.height / 2);
+		this.context.strokeStyle = "white";
+		this.context.stroke();
+		
+		this.context.beginPath();
+		this.context.moveTo(this.x + this.width / 2,  this.textY - globalFontSize * 0.88);
+		this.context.lineTo(this.x + this.width / 2, this.textY + globalFontSize * 0.12);
+		this.context.strokeStyle = "white";
+		this.context.stroke();
+		//////////////////////////////////////////////////////////////////////////
+		//DrawText
 		this.context.fillText(this.text, this.textX, this.textY);
+
 		this.context.restore();
 	
 	}

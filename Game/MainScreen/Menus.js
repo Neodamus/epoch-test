@@ -18,25 +18,22 @@ function CreateMenus(Width, Height) {
 	 
 	  
 	  //Create rectangles
-	  this.StartOptionBox = new Rectangle(Canvas.width * 0.5 - newwidth * 0.5, newyh, newwidth, newheight);
+	  this.StartOptionBox = new Rectangle(Canvas.width * 0.5 - newwidth * 0.5, newyh, newwidth, newheight); this.StartOptionBox.boxColor = "rgba(10, 10, 10, 0.4)"
 
-	  this.CreateBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 1 - MenuY - 23, this.StartOptionBox.width, MenuHeight + 20); 
-	  
-	  this.testBorder =  new Rectangle(this.StartOptionBox.x - 135, this.StartOptionBox.y + MenuYSpace * 1 - MenuY - 45, this.StartOptionBox.width + 268, MenuHeight + 60); 
-	  this.testBorder.setImage(Images[12]);
-	  this.FindBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 2 - MenuY, this.StartOptionBox.width, MenuHeight);
-	  this.quickGameBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 3 - MenuY, this.StartOptionBox.width, MenuHeight);
-	  this.WebsiteBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 4 - MenuY, this.StartOptionBox.width, MenuHeight);
-	  this.logoutBox = new Rectangle(Canvas.width * 0.9, 1, Canvas.width * 0.1, Canvas.height * 0.05)
+	  this.CreateBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 1 - MenuY, this.StartOptionBox.width, MenuHeight); this.CreateBox.boxColor = "rgba(100, 20, 20, 0.9)";
+	  this.FindBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 2 - MenuY, this.StartOptionBox.width, MenuHeight);  this.FindBox.boxColor = "rgba(100, 20, 20, 0.9)";
+	  this.quickGameBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 3 - MenuY, this.StartOptionBox.width, MenuHeight);  this.quickGameBox.boxColor = "rgba(100, 20, 20, 0.9)";
+	  this.WebsiteBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 4 - MenuY, this.StartOptionBox.width, MenuHeight);  this.WebsiteBox.boxColor = "rgba(100, 20, 20, 0.9)";
+	  this.logoutBox = new Rectangle(Canvas.width * 0.9, 1, Canvas.width * 0.1, Canvas.height * 0.05);  this.logoutBox.boxColor = "rgba(100, 20, 20, 0.9)";
 		
 	  //Set text to be displayed inside the rectangle(position is set BASED on canvas, not rectangle!)                  centreTextY(numberOfLines, y, height, fontSize)
 	  var text = "Log Out";
 	  this.logoutBox.setText(text, "Black", centreTextX(text, this.logoutBox.x, this.logoutBox.width, this.fontSize), centreTextY(1, this.logoutBox.y, this.logoutBox.height, this.fontSize));
 	  var text = "Sandbox";
 	  this.CreateBox.setText(text, "Black", centreTextX(text, this.CreateBox.x, this.CreateBox.width, this.fontSize), centreTextY(1, this.CreateBox.y, this.CreateBox.height, this.fontSize));
-	  var text = "Browse Game List";
+	  var text = "Browse";
 	  this.FindBox.setText(text, "Black", centreTextX(text, this.FindBox.x, this.FindBox.width, this.fontSize), centreTextY(1, this.FindBox.y, this.FindBox.height, this.fontSize));
-	  var text = "Quick Game Search";
+	  var text = " Quick Game Search";
 	  this.quickGameBox.setText(text, "Black", 0, 0);
 	  var text = "Visit the Website";
 	  this.WebsiteBox.setText(text, "Black", centreTextX(text, this.WebsiteBox.x, this.WebsiteBox.width, this.fontSize), centreTextY(1, this.WebsiteBox.y, this.WebsiteBox.height, this.fontSize));
@@ -139,7 +136,7 @@ function CreateMenus(Width, Height) {
 			
 			context.drawImage(Images[0],0 ,0 ,Canvas.width, Canvas.height);
 			 
-		//	this.stringT.draw();
+			this.stringT.draw();
 			//context.font = this.fontSize;
 			
 			context.fillStyle = "rgba(20, 20, 20, 0.5)";
@@ -150,6 +147,5 @@ function CreateMenus(Width, Height) {
 			this.quickGameBox.draw();
 			this.WebsiteBox.draw();
 			this.logoutBox.draw();
-			this.testBorder.draw();
 			
 			}
