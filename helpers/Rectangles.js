@@ -1,7 +1,4 @@
 function Rectangle(x, y, width, height) {
-	
-	this.canvas = document.getElementById('Mycanvas')
-    this.context = this.canvas.getContext('2d')
 	  		  
 	this.x = x;
 	this.y = y;
@@ -13,7 +10,7 @@ function Rectangle(x, y, width, height) {
 	this.fontSize = _.fontSize;
 	this.fontFamily = _.fontFamily;
 	this.fontColor = "#FFF";
-	this.font = this.fontSize + "px " + this.fontFamily;
+	this.font = _.font;
 	
 	this.boxColor = "#000";
 	
@@ -58,16 +55,13 @@ Rectangle.prototype.setButton = function(id, buttonList) {
 }
   
 Rectangle.prototype.setText = function(text, color, posX, posY) {    
-	this.context.font = globalFont;
+	
+	_.context.font = this.font;		// needed to measureText correctly
+	
 	this.text = text;
 	this.fontColor = color;
-	
-	this.textSize = this.context.measureText(text).width;
-	this.textSizeY = Math.floor(this.y + globalFontSize *0.88 + (this.height - globalFontSize) / 2)
-	
-	this.textX = this.x + (this.width - this.textSize) / 2;//(this.width - this.context.measureText(text).width);
-	this.textY = Math.floor(this.y + globalFontSize *0.88 + (this.height - globalFontSize) / 2); // globalFontSize *0.88 has to do with where font is positioned based on 0, 0
-	//Math.floor(this.y + (this.height + this.fontSize / 2) / 2);
+	this.textX = this.x + (this.width - _.context.measureText(text).width) * 0.5;
+	this.textY = Math.floor(this.y + (this.height + this.fontSize * 0.5) * 0.5);
 	
 }
 
@@ -96,12 +90,13 @@ Rectangle.prototype.draw = function() {
 	}
 	
 	if (this.text != null) {
-		this.context.font = globalFont;
-		this.context.save();
-		this.context.fillStyle = this.fontColor; 
-		//_.context.font = this.font;
+		_.context.font = this.font;		
+		_.context.fillStyle = this.fontColor;
+		_.context.fillText(this.text, this.textX, this.textY);
+	}
+		
 		//HELPER//////////////////////////////////////////////////////////////////////
-		this.context.lineWidth = 0.5;
+		/* this.context.lineWidth = 0.5;
 		
 		this.context.beginPath();
 		this.context.moveTo(this.x + this.width / 2, this.y);
@@ -128,11 +123,6 @@ Rectangle.prototype.draw = function() {
 		this.context.strokeStyle = "white";
 		this.context.stroke();
 		//////////////////////////////////////////////////////////////////////////
-		//DrawText
-		this.context.fillText(this.text, this.textX, this.textY);
-
-		this.context.restore();
-	
-	}
+		//DrawText */
 		  
 }

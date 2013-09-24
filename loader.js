@@ -1,10 +1,9 @@
-var _	// globals
+var _ = new globals();	// globals
 //var game = loadGame()
 
 window.onload = function() { 
 
-	sizeCanvas();
-	_ = new globals();	
+	sizeCanvas();	
 	StartGame();
 	
 }
@@ -54,7 +53,8 @@ function globals() {
 	this.mouse;  											// holds mouse position
 	
 	this.fontFamily = "FLORI";
-	this.fontSize = Math.floor(this.canvas.height * 0.02);
+	this.fontSize = Math.floor(this.canvas.height * 0.025);
+	this.font = this.fontSize + "px " + this.fontFamily;
 	 
 	this.shiftKey = false; 									// returns true if shift is down, false if it's up
 	 
@@ -63,6 +63,12 @@ function globals() {
 	this.userName;
 	this.host;
 	
+}
+
+globals.prototype.fontResize = function() {
+
+	this.fontSize = Math.floor(this.canvas.height * 0.032);
+	this.font = this.fontSize + "px " + this.fontFamily;
 }
 
 window.onresize = function() { sizeCanvas() }
@@ -136,6 +142,8 @@ function sizeCanvas() {
 		document.getElementById('content').style.marginLeft = Math.floor(M.width * 0.05 - 20) + "px"
 	
 	}
+	
+	_.fontResize();
 }
 
 // creates a clone of any object
