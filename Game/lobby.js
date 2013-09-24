@@ -9,10 +9,11 @@ function lobby() {
 	this.lobbyHeight = Math.floor(this.canvas.height)
 	
 	// buttons
-	this.joinGame = new textBox(this.lobbyWidth * 0.1, this.lobbyHeight * 0.43, this.lobbyWidth * 0.2, this.lobbyHeight * 0.04)
+	this.joinGame = new Rectangle(this.lobbyWidth * 0.1, this.lobbyHeight * 0.43, this.lobbyWidth * 0.2, this.lobbyHeight * 0.04);
+	this.joinGame.setText("Join", "#fff", this.joinGame.width * 0.35, this.joinGame.height * 0.7);	
 	
 	this.createGame = new Rectangle(this.lobbyWidth * 0.5, this.lobbyHeight * 0.43, this.lobbyWidth * 0.2, this.lobbyHeight * 0.04);
-	this.createGame.setText("Create", "#fff", this.createGame.x + this.createGame.width * 0.35, this.createGame.y + this.createGame.height * 0.7);
+	this.createGame.setText("Create", "#fff", this.createGame.width * 0.35, this.createGame.height * 0.7);
 	this.createGame.clickfxn = function() { UnitSelection = new SelectionScreen(); _.currentMode = UnitSelection; sendPacket("createRoom"); }
 	
 	// games list
@@ -21,9 +22,12 @@ function lobby() {
 	gamesListRequest()
 	
 	// users list init
-	this.connectedUsers = new Rectangle(this.lobbyWidth * 0.8, this.lobbyHeight * 0.1, this.lobbyWidth * 0.15, this.lobbyHeight * 0.05)
-	this.connectedUsersList = new textBox(this.lobbyWidth * 0.8, this.lobbyHeight * 0.2, this.lobbyWidth * 0.15, this.lobbyHeight * 0.7)
-	this.connectedUsersList.setFontSize(Math.floor(this.lobbyHeight * 0.025))
+	this.connectedUsers = new Rectangle(this.lobbyWidth * 0.8, this.lobbyHeight * 0.1, this.lobbyWidth * 0.15, this.lobbyHeight * 0.05);
+	this.connectedUsers.setText("Users Online: " + this.numUsers, "White", this.connectedUsers.width * 0.1, this.connectedUsers.height * 0.7);
+	this.connectedUsers.setFontSize(_.fontSize * 0.75);
+	
+	this.connectedUsersList = new textBox(this.lobbyWidth * 0.8, this.lobbyHeight * 0.2, this.lobbyWidth * 0.15, this.lobbyHeight * 0.7);
+	this.connectedUsersList.setFontSize(Math.floor(this.lobbyHeight * 0.025));
 	
 	this.numUsers = 0
 	sendPacket("getUsersList")
@@ -50,25 +54,12 @@ lobby.prototype.draw = function() {
 	
 	// buttons
 	this.createGame.draw();	
+	this.joinGame.draw();
 	
 	this.gamesList.draw()
 	
-	this.context.fillStyle = "Black"
-	this.context.fillRect(this.joinGame.x, this.joinGame.y, this.joinGame.width, this.joinGame.height)
-	this.context.fillStyle = "White"	
-	this.context.fillText("Join game", this.joinGame.x + this.joinGame.width * 0.35, this.joinGame.y + this.joinGame.height * 0.6)
-	
-	this.context.fillStyle = "Black"
-	this.context.fillRect(this.connectedUsers.x, this.connectedUsers.y, this.connectedUsers.width, this.connectedUsers.height)
-	this.context.fillStyle = "White"
-	
-	this.context.fillText("Users online: " + this.numUsers, this.connectedUsers.x + this.connectedUsers.width * 0.1, this.connectedUsers.y 
-		+ this.connectedUsers.height * 0.6)
-	this.context.fillStyle = "Black"
-	
-
-	
-	this.connectedUsersList.draw()
+	this.connectedUsers.draw();	
+	this.connectedUsersList.draw();
 		
 
 	this.chatRoom.draw()

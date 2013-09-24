@@ -2,7 +2,7 @@ function CreateMenus(Width, Height) {
 	  this.id = "menus"		
 	  
 	  var textYPosition = Canvas.height * 0.0369; //text adjustment for y
-	  this.fontSize = Canvas.height * 0.021; //font size
+	  this.fontSize = _.fontSize; //font size
 	  
 	  //Rectangle dynamic adjustments
 	  var newwidth = Canvas.width * 0.243;

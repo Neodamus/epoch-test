@@ -37,10 +37,8 @@ inputBox.prototype.setPadding = function(top, right, bottom, left) {
 	
 }
 
-inputBox.prototype.setFontSize = function(fontSize) {
-	
-	this.font = fontSize + "px " + this.fontFamily	
-	
+inputBox.prototype.setFontSize = function(fontSize) {	
+	this.font = fontSize + "px " + this.fontFamily		
 }
 
 inputBox.prototype.draw = function() {

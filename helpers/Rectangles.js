@@ -10,7 +10,12 @@ function Rectangle(x, y, width, height) {
 	this.clicked = false;
 	this.customValue = new Array();
 	
-	this.boxColor;
+	this.fontSize = _.fontSize;
+	this.fontFamily = _.fontFamily;
+	this.fontColor = "#000";
+	this.font = this.fontSize + "px " + this.fontFamily;
+	
+	this.boxColor = "#000";
 	
 	this.hasImage = false
 	this.image
@@ -20,6 +25,8 @@ function Rectangle(x, y, width, height) {
 	this.clickfxn;
 	
 	this.text;
+	this.textX;
+	this.textY;
 }
 	   
 //Contains method checks for Points or Rectangles
@@ -51,7 +58,17 @@ Rectangle.prototype.setButton = function(id, buttonList) {
   
 Rectangle.prototype.setText = function(text, color, posX, posY) {    
 
-	this.text = new Array(text, color, posX, posY);
+	this.text = text;
+	this.fontColor = color;
+	this.textX = this.x + (this.width - _.context.measureText(text).width) / 2;
+	console.warn(this.textX);
+	this.textY = Math.floor(this.y + (this.height + this.fontSize) / 2);
+	console.warn(this.textY);
+	
+}
+
+Rectangle.prototype.setFontSize = function(fontSize) {	
+	this.font = fontSize + "px " + this.fontFamily		
 }
   
 Rectangle.prototype.setImage = function(image) {
@@ -70,15 +87,15 @@ Rectangle.prototype.draw = function() {
 	
 		if (this.boxColor != null) { this.context.fillStyle = this.boxColor; }
 		
-		this.context.fillRect(this.x, this.y, this.width, this.height)	;		
+		this.context.fillRect(this.x, this.y, this.width, this.height);		
 		
 	}
 	
 	if (this.text != null) {
 	
 		this.context.save();
-		this.context.fillStyle = this.text[1]; this.context.font = globalFont;
-		this.context.fillText(this.text[0], this.text[2], this.text[3]);
+		this.context.fillStyle = this.fontColor; this.context.font = this.font
+		this.context.fillText(this.text, this.textX, this.textY);
 		this.context.restore();
 	
 	}

@@ -53,8 +53,8 @@ function globals() {
 	
 	this.mouse;  											// holds mouse position
 	
-	this.font = "FLORI";
-	this.fontSize = Math.floor(this.canvas.height * 0.015);
+	this.fontFamily = "FLORI";
+	this.fontSize = Math.floor(this.canvas.height * 0.02);
 	 
 	this.shiftKey = false; 									// returns true if shift is down, false if it's up
 	 

@@ -109,7 +109,10 @@ function messageHandler(message) {
 			break;
 					
 		case "getUsers":
-			_.currentMode.numUsers = data
+			if (_.currentMode.id == "lobby") {
+				_.currentMode.numUsers = data
+				_.currentMode.connectedUsers.text[0] = "Users Online: " + _.currentMode.numUsers;
+			}
 			break
 			
 		case "selectUnit":
