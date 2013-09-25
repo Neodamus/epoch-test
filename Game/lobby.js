@@ -21,7 +21,8 @@ function lobby() {
 	// games list
 	this.gamesList = new textBox(this.lobbyWidth * 0.05, this.lobbyHeight * 0.1, this.lobbyWidth * 0.7, this.lobbyHeight * 0.3)
 	this.gamesList.setFontSize(_.fontSize * 0.8);
-	this.gamesList.setColumns( [0, 0.35, 0.7] )
+	this.gamesList.setColumns( [0, 0.35, 0.7] );
+	this.gamesList.textBoxColor =  "rgba(40, 40, 40, 0.88)"; //
 	gamesListRequest()
 	
 	// users list init
@@ -31,6 +32,7 @@ function lobby() {
 	
 	this.connectedUsersList = new textBox(this.lobbyWidth * 0.8, this.lobbyHeight * 0.2, this.lobbyWidth * 0.15, this.lobbyHeight * 0.7);
 	this.connectedUsersList.setFontSize(Math.floor(this.lobbyHeight * 0.025));
+	this.connectedUsersList.textBoxColor =  "rgba(40, 40, 40, 0.88)"; //
 	
 	this.numUsers = 0
 	sendPacket("getUsersList")
@@ -40,11 +42,13 @@ function lobby() {
 	this.chatBar.setPadding(Math.floor(this.chatBar.height * 0.1), Math.floor(this.chatBar.width * 0.015), Math.floor(this.chatBar.height * 0.3),
 		Math.floor(this.chatBar.width * 0.015))
 	this.chatBar.setFontSize(Math.floor(this.chatBar.height * 0.5))
+	this.chatBar.inputBoxColor = "rgba(150, 150, 150, 0.7)" //
 	
 	this.chatRoom = new textBox(this.lobbyWidth * 0.05, this.lobbyHeight * 0.5, this.lobbyWidth * 0.7, this.lobbyHeight * 0.30)
 	this.chatRoom.setFontSize(_.fontSize * 0.8);
 	this.chatRoom.setColumns( [0, 0.125, 0.3] )
 	this.chatRoom.textReverse = true
+	this.chatRoom.textBoxColor = "rgba(40, 40, 40, 0.88)"; //
 	sendPacket("getChat")
 	
 }

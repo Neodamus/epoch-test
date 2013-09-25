@@ -48,6 +48,14 @@ Rectangle.prototype.Contains = function(Object) {
 		return false;
   }
   
+ Rectangle.prototype.setToolTip = function(text, advanced) {
+ //if advanced do advanced string
+	//if regular text do regular string
+	
+ 
+ }
+
+  
 Rectangle.prototype.setButton = function(id, buttonList) {  
 
 	buttonList.push(this);
