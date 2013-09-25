@@ -61,7 +61,7 @@ Rectangle.prototype.setText = function(text, color, posX, posY) {
 	this.text = text;
 	this.fontColor = color;
 	this.textX = this.x + (this.width - _.context.measureText(text).width) * 0.5;
-	this.textY = Math.floor(this.y + (this.height + this.fontSize * 0.5) * 0.5);
+	this.textY = Math.floor(this.y + (this.height + this.fontSize * 0.6) * 0.5);
 	
 }
 
@@ -96,32 +96,32 @@ Rectangle.prototype.draw = function() {
 	}
 		
 		//HELPER//////////////////////////////////////////////////////////////////////
-		/* this.context.lineWidth = 0.5;
+		/* _.context.lineWidth = 0.5;
 		
-		this.context.beginPath();
-		this.context.moveTo(this.x + this.width / 2, this.y);
-		this.context.lineTo(this.x + this.width / 2, this.y + this.height);
-		this.context.strokeStyle = "blue";
-		this.context.stroke();
+		_.context.beginPath();
+		_.context.moveTo(this.x + this.width / 2, this.y);
+		_.context.lineTo(this.x + this.width / 2, this.y + this.height);
+		_.context.strokeStyle = "blue";
+		_.context.stroke();
 		
 		
-		this.context.beginPath();
-		this.context.moveTo(this.x, this.y + this.height / 2);
-		this.context.lineTo(this.x + this.width, this.y + this.height / 2);
-		this.context.strokeStyle = "blue";
-		this.context.stroke();
+		_.context.beginPath();
+		_.context.moveTo(this.x, this.y + this.height / 2);
+		_.context.lineTo(this.x + this.width, this.y + this.height / 2);
+		_.context.strokeStyle = "blue";
+		_.context.stroke();
 		
-		this.context.beginPath();
-		this.context.moveTo(this.textX, this.y + this.height / 2);
-		this.context.lineTo(this.textSize + this.textX, this.y + this.height / 2);
-		this.context.strokeStyle = "white";
-		this.context.stroke();
+		_.context.beginPath();
+		_.context.moveTo(this.textX, this.y + this.height / 2);
+		_.context.lineTo(this.textSize + this.textX, this.y + this.height / 2);
+		_.context.strokeStyle = "white";
+		_.context.stroke();
 		
-		this.context.beginPath();
-		this.context.moveTo(this.x + this.width / 2,  this.textY - globalFontSize * 0.88);
-		this.context.lineTo(this.x + this.width / 2, this.textY + globalFontSize * 0.12);
-		this.context.strokeStyle = "white";
-		this.context.stroke();
+		_.context.beginPath();
+		_.context.moveTo(this.x + this.width / 2,  this.textY - globalFontSize * 0.88);
+		_.context.lineTo(this.x + this.width / 2, this.textY + globalFontSize * 0.12);
+		_.context.strokeStyle = "white";
+		_.context.stroke();
 		//////////////////////////////////////////////////////////////////////////
 		//DrawText */
 		  

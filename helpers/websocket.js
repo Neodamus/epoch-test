@@ -143,7 +143,12 @@ function messageHandler(message) {
 			if (_.currentMode.id == "lobby") {			
 				
 				_.currentMode.numUsers = data.length;
-				_.currentMode.connectedUsers.setText("Users Online: " + _.currentMode.numUsers, "White");
+				
+				if (data.length == undefined) {
+					_.currentMode.connectedUsers.setText("Users Online: " + _.currentMode.numUsers, "White");
+				} else {
+					_.currentMode.connectedUsers.setText("Users Online: " + _.currentMode.numUsers, "White");
+				}
 				
 				_.currentMode.connectedUsersList.inputObject(data);		
 				setTimeout(sendPacket("getUsersList"), 1000);
