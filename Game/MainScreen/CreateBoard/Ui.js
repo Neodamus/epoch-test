@@ -171,7 +171,7 @@
 	  //Create&Adjust Placement Ui
 	   Ui.prototype.createPlacementUi = function() {
 	   
-		this.unitUiBox = new Rectangle(Canvas.width - Canvas.width * 0.17 - Canvas.width * 0.08, 0, Canvas.width * 0.08, Canvas.height);
+		this.unitUiBox = new Rectangle(Canvas.width * 0.2, Canvas.height * 0.48, Canvas.width * 0.80, Canvas.height * 0.2);
 		this.unitUiBox.boxColor = "rgba(5, 10, 5, 1)";
 		
 		var x = 0; var y = 0; var sizeX = this.unitPicks[0].width;
