@@ -175,9 +175,9 @@
 		this.unitUiBox.boxColor = "rgba(5, 10, 5, 1)";
 		
 		var x = 0; var y = 0; var sizeX = this.unitPicks[0].width;
-		var sizeY = this.unitPicks[0].height; var unitsPerRow = 1;
-		var PositionX = this.unitUiBox.x + 5;
-		var PositionY = this.unitUiBox.y + 5;
+		var sizeY = this.unitPicks[0].height; var unitsPerRow = 13;
+		var PositionX = Context.width * 0.05;
+		var PositionY = Context.width * 0.5;
 		var PositionSpacer = 10;
 		
 		for (var i = 0; i < numberOfUnits; i++) {
