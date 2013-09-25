@@ -50,6 +50,16 @@
                 <div id="main">
                 	<div id="content">
                     
+<?php
+	if (isset($_POST['name'])) {
+		echo ("<h3 style=\"text-align: center; margin-bottom: 40px;\">Thank you for sending us your awesome message! We will get back to you ASAP if necessary.</h3>");
+		$name = $_POST['name'] ;
+		$email = $_POST['email'] ;
+		$message = $_POST['message'] ;
+		mail("social@epochofelements.com", "Epoch Contact Form - " . $name, $message, "From:" . $email);
+	}
+?>
+                    
                     <h1 style="margin-top: 10px; text-align: center;">Contact the Epoch of Elements Team</h1>
                     <p style="text-align: center;"><i>Here are some good reasons to contact us:</i></p>
                     
@@ -71,7 +81,7 @@
 
 <div class="page-container">
 
-<form method="post" action="contact.php">
+<form method="post" action="">
 
 <div class="left" style="width: 15%; line-height: 20px; margin-bottom: 20px; vertical-align: middle; text-align: center;">Name:</div> <div class="right" style="width: 80%; margin-bottom: 20px;"><input type="text" style="width: 80%;" name="name"></div>
 
@@ -83,13 +93,6 @@
 
 </form>
 </div>
-
-<?php
-  $name = $_REQUEST['name'] ;
-  $email = $_REQUEST['email'] ;
-  $message = $_REQUEST['message'] ;
-  mail("social@epochofelements.com", "Epoch Contact Form - " . $name, $message, "From:" . $email);
-?>
                     
                     </div>
                 </div>             
