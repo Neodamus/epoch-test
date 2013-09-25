@@ -10,7 +10,7 @@
         //Set Rectangles
 		
 		//finishedPlacementBox
-		this.finishPlacementBox = new Rectangle(Canvas.width * 0.5 - Canvas.width * 0.21, Canvas.height * 0.5 - Canvas.height * 0.04, Canvas.width * 0.21, Canvas.height * 0.04);
+		this.finishPlacementBox = new Rectangle(Canvas.width * 0.52 - Canvas.width * 0.21, Canvas.height * 0.5 - Canvas.height * 0.04, Canvas.width * 0.21, Canvas.height * 0.04);
 		this.finishPlacementBox.boxColor = "Green";
 		var text = "Finish Placement";
 		this.finishPlacementBox.setText(text, "Black", centreTextX(text, this.finishPlacementBox.x, this.finishPlacementBox.width, 
@@ -39,6 +39,7 @@
 		//Other arrays and Bools
 		this.currentUnit;
 		this.currentStats = new Array();
+		
 	  }
 	  
 	  //Remove unitstats, selection, and ability
@@ -147,10 +148,17 @@
 			
 		// End placement box
 		if (this.unitUiBox != 'undefined' && this.unitUiBox != null && this.finishPlacementBox.Contains(Mouse) == true && PlacementStage == true) {
+				var allUnitsPlacedBool = true;
+				for (var i = 0; i < this.unitPicks.length / 2; i++) {
+					
+					if (this.unitPicks[i].customValue[0] != null) { allUnitsPlacedBool = false; }
+				}
+			if (allUnitsPlacedBool == true) {
 			PlacementStage = false; this.unitUiBox.x = -500; //temporary moving of sidebar
 			GameBoard.spawnZones("off");
 			ClientsTurn = false;
-			sendPacket2("endPhase", "placement");		
+			sendPacket2("endPhase", "placement");	
+			}
 		}
 		 
 		 //If click is on Ui, Don't proceed to board-clicks
@@ -171,13 +179,13 @@
 	  //Create&Adjust Placement Ui
 	   Ui.prototype.createPlacementUi = function() {
 	   
-		this.unitUiBox = new Rectangle(Canvas.width * 0.2, Canvas.height * 0.48, Canvas.width * 0.80, Canvas.height * 0.2);
+		this.unitUiBox = new Rectangle(Canvas.width * 0.1, Canvas.height * 0.3, Canvas.width * 0.62, Canvas.height * 0.2);
 		this.unitUiBox.boxColor = "rgba(5, 10, 5, 1)";
 		
 		var x = 0; var y = 0; var sizeX = this.unitPicks[0].width;
-		var sizeY = this.unitPicks[0].height; var unitsPerRow = 13;
-		var PositionX = Context.width * 0.05;
-		var PositionY = Context.width * 0.5;
+		var sizeY = this.unitPicks[0].height; var unitsPerRow = 9;
+		var PositionX = Canvas.width * 0.17;
+		var PositionY = Canvas.height * 0.3;
 		var PositionSpacer = 10;
 		
 		for (var i = 0; i < numberOfUnits; i++) {
@@ -344,8 +352,14 @@
 		
 		//End Turn & Finished Placement Boxes
 		if (PlacementStage == true && GameBoard.gameType == "normal") { 
-			context.save(); context.font = globalFont;
+			var allUnitsPlacedBool = true; //make sure all units are placed before drawing
+			for (var i = 0; i < this.unitPicks.length / 2; i++) {
+			if (this.unitPicks[i].customValue[0] != null) {allUnitsPlacedBool = false; } } //make sure all units are placed before drawing
+				context.save();
+				if (allUnitsPlacedBool == true) {
+			 context.font = globalFont;
 			this.finishPlacementBox.draw();
+				}
 			context.restore();
 		} else {
 			if (ClientsTurn == true) {
@@ -357,6 +371,8 @@
 		//Number of units you can move this turn
 		context.font = '18px Arial';
 		context.fillStyle = "White";
-		context.fillText(GameBoard.unitMoves - GameBoard.unitsMovedThisTurn.length, canvas.width - 20, 20);
+		
+		if (PlacementStage == false && GameBoard.gameType == "normal" || GameBoard.gameType == "sandbox") { 
+		context.fillText(GameBoard.unitMoves - GameBoard.unitsMovedThisTurn.length, canvas.width - 20, 20); }
 	  }
 			

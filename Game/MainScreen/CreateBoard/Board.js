@@ -36,6 +36,16 @@ function Board(userPicks)
 	if (this.gameType == "normal") { this.waiting = true; } else { this.waiting = false; }	// used when waiting for other player
 	 
 	this.spawnZones("on");
+	//Select first unit
+	if (this.gameType == "normal") {
+			
+		for (var i = 0; i < Ui.unitPicks.length / 2; i++) {
+			var nextUnit;
+			if (Ui.unitPicks[i].customValue[0] != null) { nextUnit = Ui.unitPicks[i]; break; } 
+		}
+			
+		if (nextUnit != null) { Ui.SelectedUnit = nextUnit; Ui.SelectedUnit.clicked = true; }
+	}
 
 }
 	  
@@ -371,6 +381,15 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 
 					CurrentTarget.currentUnit.Delete();
 					if (this.gameType == "normal") { CurrentTarget.spawnMarker = true; }
+					
+					//reselect a unit on ui
+					for (var i = 0; i < Ui.unitPicks.length / 2; i++) {
+							var nextUnit;
+							if (Ui.unitPicks[i].customValue[0] != null) { nextUnit = Ui.unitPicks[i]; break; } 
+						}
+					
+					if (nextUnit != null) { Ui.SelectedUnit = nextUnit; Ui.SelectedUnit.clicked = true; }
+					
 					return;
 				  } } } }
 			if (this.gameType == "sandbox" && CurrentTarget.currentUnit != null) { CurrentTarget.currentUnit.Delete(); return; } //Sandbox
@@ -395,8 +414,15 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 				this.CreateUnit("ally", name, CurrentTarget.x, CurrentTarget.y, Ui.SelectedUnit.customValue[0], Ui.SelectedUnit.customValue[1]);
 				
 				if (Ui.unitPicks != null) { //game mode
-				Ui.SelectedUnit.customValue[0] = null; 
-				Ui.SelectedUnit.clicked = false; Ui.SelectedUnit = null; }
+					Ui.SelectedUnit.customValue[0] = null; 
+					Ui.SelectedUnit.clicked = false; Ui.SelectedUnit = null; 
+						for (var i = 0; i < Ui.unitPicks.length / 2; i++) {
+							var nextUnit;
+							if (Ui.unitPicks[i].customValue[0] != null) { nextUnit = Ui.unitPicks[i]; break; } 
+						}
+					
+					if (nextUnit != null) { Ui.SelectedUnit = nextUnit; Ui.SelectedUnit.clicked = true; }
+				}
 				
 				if (this.gameType == "normal") { CurrentTarget.spawnMarker = false; }
 				
