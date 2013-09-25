@@ -214,7 +214,7 @@ tileModifier.prototype.draw = function(context, canvas) {
 	
 	for (var i = 0; i < this.tileList.length; i++) {
 			if (this.tileList[i].visible == true) {
-		context.globalAlpha = 0.6;
+		context.globalAlpha = 0.5;
 		if (this.stats.hidden != undefined && this.stats.hidden == true) { var revealed = false; 
 			for (var t = 0; t < this.tileList[i].revealList.length; t++) { if (this.tileList[i].revealList[t].alliance == "ally") { revealed = true; break; } } }
 			

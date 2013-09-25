@@ -131,7 +131,7 @@
 				this.ThisRectangle.height); 
 				if (this.currentUnit.unitStealth == true) {context.globalAlpha = 1; } 
 				
-				if (this.currentUnit.summon == true) {
+				if (this.currentUnit.summon == true && this.currentUnit.alliance == "ally") {
 				context.globalAlpha = 0.5;
 				context.drawImage(Images[112], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width,
 				this.ThisRectangle.height); context.globalAlpha = 1;}
@@ -170,7 +170,7 @@
 		context.save();
 		context.font = '10px outline';
 		if (this.currentUnit != null && this.currentUnit.alliance == "ally" && this.visible == true ||
-		this.currentUnit != null && this.currentUnit.unitStealth == false && this.visible == true) { 
+		this.currentUnit != null && this.currentUnit.unitStealth == false && this.visible == true) {
 		
 		context.lineWidth=4.2;
 		context.strokeText(this.currentUnit.currentStats[4], this.ThisRectangle.x + 7, this.ThisRectangle.y + 23);

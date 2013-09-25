@@ -281,11 +281,10 @@
 		context.font = '15px Arial';
 
 		//Display unitStats
+		if (this.currentStats != null && this.currentUnit != null) {
 		var stats;
 		if (this.currentUnit.displayStats == true && this.currentUnit.alliance == "enemy") { stats = this.currentUnit.fakeStats; } else { stats = this.currentUnit.currentStats; }
 		
-		
-		if (this.currentStats != null && this.currentUnit != null) {
 		context.fillStyle = "White"; for (var i = 0; i < stats.length; i++) { if (i < 10) {
 		var extra = " ";
 		if (i == 0) { extra = ""; } //Name: 
