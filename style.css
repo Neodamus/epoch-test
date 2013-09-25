@@ -23,6 +23,10 @@ p {
 	margin-bottom: 10px;	
 }
 
+li {
+	line-height: 24px;	
+}
+
 @font-face {
 	font-family: "FLORI";
 	src: url(newfont.ttf) format("truetype");
