@@ -94,7 +94,7 @@ ability.prototype.abilityStats = function(abilityName)
 				lifetime: 3,
 				duration: 1,
 				damage: 2,
-				range: 5
+				range: 4
 			}
 			
 			return stats; 
@@ -138,6 +138,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Exothermia":
 					
 			stats = {
+				movementCost: 1,
 				blocks: 2
 			}
 			
