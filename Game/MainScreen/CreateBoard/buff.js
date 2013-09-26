@@ -181,7 +181,16 @@
 						this.attachedUnit.currentStats[5] += this.buffStats.sightDebuff;						
 					
 						this.attachedUnit.sight("on");
+					
+						this.attachedUnit.reveal("off");
 						
+						this.buffStats.revealDebuff = this.buffStats.reveal - this.attachedUnit.currentStats[7];					
+						this.attachedUnit.buffStats[7] += this.buffStats.revealDebuff;			
+						this.attachedUnit.currentStats[7] += this.buffStats.revealDebuff;						
+					
+						this.attachedUnit.reveal("on");
+						
+						this.buffStats.rangeDebuff = 0;
 						if (this.attachedUnit.currentStats[6] > this.buffStats.sight) {  // range greater than sight
 							this.buffStats.rangeDebuff = this.buffStats.sight - this.attachedUnit.currentStats[6];
 							this.attachedUnit.buffStats[6] += this.buffStats.rangeDebuff;		
@@ -202,9 +211,8 @@
 						this.removeBuff();
 											
 						this.attachedUnit.buffStats[5] -= this.buffStats.sightDebuff;
-						this.attachedUnit.buffStats[6] -= this.buffStats.rangeDebuff;	
-						
-						this.					
+						this.attachedUnit.buffStats[6] -= this.buffStats.rangeDebuff;
+						this.attachedUnit.buffStats[7] -= this.buffStats.revealDebuff;					
 						
 					break;
 				}   
@@ -811,7 +819,9 @@
 						var unit2 = grid2.currentUnit.Remove();
 												
 						unit1.Move(grid2);
+						unit1.currentStats[4] += 1;
 						unit2.Move(grid1);	
+						unit2.currentStats[4] += 1;
 						
 						combatLog.push(unit1.baseStats[0] + " swapped places with " + unit2.baseStats[0]);
 						
@@ -879,12 +889,16 @@
 						
 					case "Defend":
 					
-						var healAmount = this.attachedUnit.currentStats[3] - source.currentStats[2];
+						if (this.attachedUnit.currentStats[9] > 0) {
+							
+							var healAmount = this.attachedUnit.currentStats[3] - source.currentStats[2];
 						
-						this.attachedUnit.heal(healAmount, this.buffType);
-						
-						this.buffStats.blocks--;
-						if (this.buffStats.blocks == 0) { this.eventProc("Removal"); };
+							this.attachedUnit.heal(healAmount, this.buffType);
+							
+							this.buffStats.blocks--;
+							if (this.buffStats.blocks == 0) { this.eventProc("Removal"); };
+							
+						}
 					
 					break;
 					
@@ -1199,7 +1213,8 @@
 					case "Initialize":
 						
 						this.sourceUnit.Remove();
-						this.sourceUnit.Move(this.targetSpot);					
+						this.sourceUnit.Move(this.targetSpot);	
+						this.sourceUnit.currentStats[4] += 1;				
 						
 						break;	
 				}   

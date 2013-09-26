@@ -102,24 +102,25 @@
 			{						
 			this.sight("off"); //maybe we should make sure the unit is alive before messing with this stuff
 			this.currentStats[5] = this.baseStats[5] + this.buffStats[5]; // sight
+			if (this.currentStats[5] < 1) { this.currentStats[5] = 1; }
 			this.sight("on");
 			
 			this.currentStats[4] = this.baseStats[4] + this.buffStats[4]; //movement
 			if (this.currentStats[4] < 0) { this.currentStats[4] = 0 };
 			
 			this.currentStats[6] = this.baseStats[6] + this.buffStats[6]; // range
+			if (this.currentStats[6] < 1) { this.currentStats[6] = 1; }
 			
 			this.reveal("off");
 			this.currentStats[7] = this.baseStats[7] + this.buffStats[7]; // reveal
+			if (this.currentStats[7] < 1) { this.currentStats[7] = 1; }
 			this.reveal("on");	
 			
 			this.currentStats[8] = this.baseStats[8] + this.buffStats[8];	//#attacks
 			
 			this.currentStats[9] = this.baseStats[9] + this.buffStats[9]; //#defends 
 			}
-			
-			
-			
+						
 			this.currentStats[3] = this.baseStats[3] + this.buffStats[3]; // defense
 			
 			this.currentStats[2] = this.baseStats[2] + this.buffStats[2]; // damage

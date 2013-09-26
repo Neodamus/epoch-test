@@ -67,6 +67,7 @@ ability.prototype.abilityStats = function(abilityName)
 				target: "enemy",
 				duration: 2,
 				range: 3,
+				reveal: 1,
 				sight: 1				
 			}
 			
@@ -659,67 +660,78 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	}
 	
 	// multi target casting -- ex. polarity
-	if (this.currentAbilityStats.targets != null && this.targetSpot.abilityMarker == true && this.targetUnit != null) {	
+	if (this.currentAbilityStats.targets != null && this.targetSpot.abilityMarker == true && this.targetUnit != null) {
 	
-		if ((this.targetUnit == this.sourceUnit == this.currentAbilityStats.targetSelf) || this.targetUnit != this.sourceUnit) {	
+		if ((this.targetUnit == this.sourceUnit == this.currentAbilityStats.targetSelf) || this.targetUnit != this.sourceUnit) {
+			
+			var sameTarget = false;	
 		
-			// -------------- ADD IN SAME TARGET PREVENTER HERE
+			if (this.castTargetList.indexOf(this.targetSpot) != -1) { sameTarget = true }
+			
+			if (sameTarget == false) {
 		
-			if (target == "ally") {
-				
-				if (this.targetUnit.alliance == this.sourceUnit.alliance) {			
+				if (target == "ally") {
 					
-					this.castTargetList.push(this.castTarget);
+					if (this.targetUnit.alliance == this.sourceUnit.alliance) {			
+						
+						this.castTargetList.push(this.castTarget);
+						
+						if (this.castTargetList.length < this.currentAbilityStats.targets) { 
+							this.cast(this.currentAbility, this.sourceUnit);
+							return false; 				
+						} else {
+							this.finishCast();
+						}	
+						
+					} else {
+						
+						alert("You can't use " + this.abilityName + " on an enemy")
+						return false;				
+						
+					}
+				
+				} else if (target == "enemy") {
+					
+					if (this.targetUnit.alliance != this.sourceUnit.alliance) {				
+						
+						this.castTargetList.push(this.castTarget)
+						
+						if (this.castTargetList.length < this.currentAbilityStats.targets) {
+							this.cast(this.currentAbility, this.sourceUnit); 
+							return false; 				
+						} else {
+							this.finishCast();
+						}					
+						
+					} else {
+						
+						alert("You can't use " + this.abilityName + " on an ally")	
+						return false;			
+						
+					}				
+					
+				} else if (target == "both") {
+					
+					this.castTargetList.push(this.castTarget)
 					
 					if (this.castTargetList.length < this.currentAbilityStats.targets) { 
 						this.cast(this.currentAbility, this.sourceUnit);
 						return false; 				
 					} else {
 						this.finishCast();
-					}	
+					}			
 					
-				} else {
-					
-					alert("You can't use " + this.abilityName + " on an enemy")
-					return false;				
+				} else if (target == "tile") {
+								
+					alert("You cannot target a tile with a unit on it");
+					return false;		
 					
 				}
-			
-			} else if (target == "enemy") {
 				
-				if (this.targetUnit.alliance != this.sourceUnit.alliance) {				
-					
-					this.castTargetList.push(this.castTarget)
-					
-					if (this.castTargetList.length < this.currentAbilityStats.targets) {
-						this.cast(this.currentAbility, this.sourceUnit); 
-						return false; 				
-					} else {
-						this.finishCast();
-					}					
-					
-				} else {
-					
-					alert("You can't use " + this.abilityName + " on an ally")	
-					return false;			
-					
-				}				
+			} else {
 				
-			} else if (target == "both") {
-				
-				this.castTargetList.push(this.castTarget)
-				
-				if (this.castTargetList.length < this.currentAbilityStats.targets) { 
-					this.cast(this.currentAbility, this.sourceUnit);
-					return false; 				
-				} else {
-					this.finishCast();
-				}			
-				
-			} else if (target == "tile") {
-							
-				alert("You cannot target a tile with a unit on it");
-				return false;		
+				alert("You cannot target the same target twice");
+				return false;
 				
 			}
 			
