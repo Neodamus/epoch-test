@@ -48,10 +48,16 @@ Rectangle.prototype.Contains = function(Object) {
 		return false;
   }
   
- Rectangle.prototype.setToolTip = function(text, advanced) {
- //if advanced do advanced string
-	//if regular text do regular string
-	//this.tooltipBox = new Rectangle(200, 200, 300, 150); this.tooltipBox
+ Rectangle.prototype.setTooltip = function(text, width, position) {
+
+ 
+	if (position == "right") { this.tooltipBox = new Rectangle(this.x + this.width + 25, this.y - this.height, width + 100, 180); }
+	this.tooltipBox.tooltipString = new advancedString(wordWrap(text, width), this.tooltipBox.x + 35, this.tooltipBox.y + 40);
+	this.tooltipBox.tooltip = false;
+	this.tooltipBox.boxColor = "rgba(40, 40, 40, 0.95)";
+	//this.tooltipBox.setText(text, "black");
+	return this.tooltipBox;
+	
  
  }
 
@@ -85,6 +91,9 @@ Rectangle.prototype.setImage = function(image) {
 	  
 Rectangle.prototype.draw = function() {		  
 	
+	if (this.tooltip == undefined || this.tooltip == true) {
+	
+	
 	if (this.hasImage) {
 		
 		_.context.drawImage(this.image, this.x, this.y, this.width, this.height);	  
@@ -103,34 +112,7 @@ Rectangle.prototype.draw = function() {
 		_.context.fillText(this.text, this.textX, this.textY);
 	}
 		
-		//HELPER//////////////////////////////////////////////////////////////////////
-		/* _.context.lineWidth = 0.5;
 		
-		_.context.beginPath();
-		_.context.moveTo(this.x + this.width / 2, this.y);
-		_.context.lineTo(this.x + this.width / 2, this.y + this.height);
-		_.context.strokeStyle = "blue";
-		_.context.stroke();
-		
-		
-		_.context.beginPath();
-		_.context.moveTo(this.x, this.y + this.height / 2);
-		_.context.lineTo(this.x + this.width, this.y + this.height / 2);
-		_.context.strokeStyle = "blue";
-		_.context.stroke();
-		
-		_.context.beginPath();
-		_.context.moveTo(this.textX, this.y + this.height / 2);
-		_.context.lineTo(this.textSize + this.textX, this.y + this.height / 2);
-		_.context.strokeStyle = "white";
-		_.context.stroke();
-		
-		_.context.beginPath();
-		_.context.moveTo(this.x + this.width / 2,  this.textY - globalFontSize * 0.88);
-		_.context.lineTo(this.x + this.width / 2, this.textY + globalFontSize * 0.12);
-		_.context.strokeStyle = "white";
-		_.context.stroke();
-		//////////////////////////////////////////////////////////////////////////
-		//DrawText */
-		  
+	if (this.tooltipString != undefined) { this.tooltipString.draw(); }
+  }
 }

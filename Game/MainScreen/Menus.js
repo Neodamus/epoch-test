@@ -12,9 +12,11 @@ function CreateMenus(Width, Height) {
 	  var MenuHeight = Canvas.height * 0.069;
 	  var MenuYSpace = Canvas.height * 0.093; //menuboxes /end
 	  
-	 // this.stringT = new advancedString("We&a& should make a font-class,`red` it could be like var`blue` font{size:`blue` 16,`blue` font:`blue` 16px`blue` newfont}`blue`");
+	// this.stringT = new advancedString(wordWrap("We&a& should make a font-class,`red` it`white` could be&test& like var`blue` font{size:`blue` 16,`blue` font:`blue` 16px`blue` newfont}`blue`", 400) 600, 400);
 	  
+	 // this.stringT = new advancedString(wordWrap("Hello, my name is Travis Miller", 100));
 	  
+	 //  this.stringT = new advancedString("hello`red` is this working?", 300, 600);
 	 
 	  
 	  //Create rectangles
@@ -25,6 +27,20 @@ function CreateMenus(Width, Height) {
 	  this.quickGameBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 3 - MenuY, this.StartOptionBox.width, MenuHeight);  this.quickGameBox.boxColor = "rgba(100, 20, 20, 0.9)";
 	  this.WebsiteBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 4 - MenuY, this.StartOptionBox.width, MenuHeight);  this.WebsiteBox.boxColor = "rgba(100, 20, 20, 0.9)";
 	  this.logoutBox = new Rectangle(Canvas.width * 0.9, 1, Canvas.width * 0.1, Canvas.height * 0.05);  this.logoutBox.boxColor = "rgba(100, 20, 20, 0.9)";
+	
+	this.tooltipList = new Array();
+	
+		var testing = this.quickGameBox.setTooltip("this is a Quick`red` Match box.`white` test test test test test test test test. Is this working?`pink` aaaa`green` aaaaa a aaaaaaaaa", 200, "right");
+		 this.tooltipList.push(testing);
+		 
+		 var testing = this.CreateBox.setTooltip("this is a Sandbox`red` Test mode.`white` test test test test test test test test. Is this working?`pink` aaaa`green` aaaaa a aaaaaaaaa", 200, "right");
+		 this.tooltipList.push(testing);
+		 
+		 var testing = this.FindBox.setTooltip("this is a Game`red` Lobby. test`white` test test test test test test test. Is this working?`pink` aaaa`green` aaaaa a aaaaaaaaa", 200, "right");
+		 this.tooltipList.push(testing);
+	  
+	 
+	  
 		
 	  //Set text to be displayed inside the rectangle(position is set BASED on canvas, not rectangle!)                  centreTextY(numberOfLines, y, height, fontSize)
 	  var text = "Log Out";
@@ -96,7 +112,11 @@ function CreateMenus(Width, Height) {
 		for (var i = 0; i < this.buttonList.length; i++) { if (this.buttonList[i].Contains(Mouse)) { this.colorBool = true; button = this.buttonList[i].button; break; } }
 		
 		//change all button colors to normal if applicable*
-		if (button != null || this.colorBool == true &&  button == null) {for (var i = 0; i < this.buttonList.length; i++) { this.buttonList[i].boxColor = "rgba(100, 20, 20, 0.9)"; } }
+		if (button != null || this.colorBool == true &&  button == null) {for (var i = 0; i < this.buttonList.length; i++) { 
+		this.buttonList[i].boxColor = "rgba(100, 20, 20, 0.9)"; 
+		if (this.buttonList[i].tooltipBox != undefined) { this.buttonList[i].tooltipBox.tooltip = false;}
+		} }
+		
 		if (button == null) { this.colorBool = false; }
 		
 	    
@@ -106,18 +126,22 @@ function CreateMenus(Width, Height) {
 			
 			case "logout":
 			this.logoutBox.boxColor = "rgba(240, 100, 100, 0.9)";
+			
 			break;
 			
 			case "sandbox":
 			this.CreateBox.boxColor = "rgba(240, 100, 100, 0.9)";
+			this.CreateBox.tooltipBox.tooltip = true;
 			break;
 			
 			case "browse":
 			this.FindBox.boxColor = "rgba(240, 100, 100, 0.9)";
+			this.FindBox.tooltipBox.tooltip = true;
 			break;
 			
 			case "quick":
 			this.quickGameBox.boxColor = "rgba(240, 100, 100, 0.9)";
+			this.quickGameBox.tooltipBox.tooltip = true;
 			break;
 			
 			case "web":
@@ -147,5 +171,5 @@ function CreateMenus(Width, Height) {
 			this.quickGameBox.draw();
 			this.WebsiteBox.draw();
 			this.logoutBox.draw();
-			
+			for (var i = 0; i < this.tooltipList.length; i++) { if (this.tooltipList[i].tooltip == true) {  this.tooltipList[i].draw(); } }
 			}

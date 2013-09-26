@@ -330,10 +330,7 @@
 	  stringSize = (height - stringSize) * 0.50;          //height - 
 	  return (y + stringSize)} 
 	  
-	  
-	  
-	  
-	  
+
 	  
 	//Event of mouse click
 	function Click(Mouse, WhichClick)
