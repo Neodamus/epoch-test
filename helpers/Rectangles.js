@@ -50,11 +50,14 @@ Rectangle.prototype.Contains = function(Object) {
   
  Rectangle.prototype.setTooltip = function(text, width, position) {
 
- 
+	if (position == "top") {  this.tooltipBox = new Rectangle(this.x - 33, this.y - this.height - 180 + 35, width + 100, 180); }
 	if (position == "right") { this.tooltipBox = new Rectangle(this.x + this.width + 25, this.y - this.height, width + 100, 180); }
+	if (position == "left") { this.tooltipBox = new Rectangle(this.x - width - this.width / 2 - 10, this.y - this.height, width + 100, 180); }
+	if (position == "bottom") { this.tooltipBox = new Rectangle(this.x - 33, this.y + this.height + 19, width + 100, 180); }
+	
 	this.tooltipBox.tooltipString = new advancedString(wordWrap(text, width), this.tooltipBox.x + 35, this.tooltipBox.y + 40);
 	this.tooltipBox.tooltip = false;
-	this.tooltipBox.boxColor = "rgba(40, 40, 40, 0.95)";
+	this.tooltipBox.boxColor = "rgba(40, 40, 40, 0.98)";
 	//this.tooltipBox.setText(text, "black");
 	return this.tooltipBox;
 	

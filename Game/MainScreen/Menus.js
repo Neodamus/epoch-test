@@ -30,13 +30,16 @@ function CreateMenus(Width, Height) {
 	
 	this.tooltipList = new Array();
 	
-		var testing = this.quickGameBox.setTooltip("this is a Quick`red` Match box.`white` test test test test test test test test. Is this working?`pink` aaaa`green` aaaaa a aaaaaaaaa", 200, "right");
+		var testing = this.quickGameBox.setTooltip("this is a Quick`red` Match box.`white` test test test test test test test test. Is this working?`pink` aaaa`green` aaaaa a aaaaaaaaa", 200, "top");
 		 this.tooltipList.push(testing);
 		 
 		 var testing = this.CreateBox.setTooltip("this is a Sandbox`red` Test mode.`white` test test test test test test test test. Is this working?`pink` aaaa`green` aaaaa a aaaaaaaaa", 200, "right");
 		 this.tooltipList.push(testing);
 		 
-		 var testing = this.FindBox.setTooltip("this is a Game`red` Lobby. test`white` test test test test test test test. Is this working?`pink` aaaa`green` aaaaa a aaaaaaaaa", 200, "right");
+		 var testing = this.FindBox.setTooltip("this is a Game`red` Lobby. test`white` test test test test test test test. Is this working?`pink` aaaa`green` aaaaa a aaaaaaaaa", 200, "left");
+		 this.tooltipList.push(testing);
+		 
+		 var testing = this.WebsiteBox.setTooltip("this is a website.`red` test`white` test test test test test test test. Is this working?`pink` aaaa`green` aaaaa a aaaaaaaaa", 200, "bottom");
 		 this.tooltipList.push(testing);
 	  
 	 
@@ -146,6 +149,7 @@ function CreateMenus(Width, Height) {
 			
 			case "web":
 			this.WebsiteBox.boxColor = "rgba(240, 100, 100, 0.9)";
+			this.WebsiteBox.tooltipBox.tooltip = true;
 			break;
 			}
 			
