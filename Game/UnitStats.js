@@ -81,7 +81,7 @@ var Seer = new Array(
 "3",     //damage
 "3",      //defence
 "5",      //movement
-"4",      //sight
+"5",      //sight
 "3",      //range
 "0",      //reveal
 "1",      //#attack
@@ -139,7 +139,7 @@ var Sensei = new Array(
 "1",      //range
 "0",      //reveal
 "1",      //#attack
-"2",      //#defend
+"1",      //#defend
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
@@ -207,7 +207,7 @@ var Sharpshooter = new Array(
 "6",      //damage
 "3",      //defence
 "3",      //movement
-"5",      //sight
+"4",      //sight
 "4",      //range
 "0",      //reveal
 "1",      //#attack

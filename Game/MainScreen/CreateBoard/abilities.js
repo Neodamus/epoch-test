@@ -154,7 +154,7 @@ ability.prototype.abilityStats = function(abilityName)
 				lifetime: 3,
 				duration: 3,
 				damage: 3,
-				range: 3
+				range: 4
 			}
 			
 			return stats; 
