@@ -202,6 +202,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 3,
 				damage: 2,
 				lifetime: 6,
+				tileTarget: "enemy",
 				hidden: true
 			}
 			
