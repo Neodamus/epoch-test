@@ -51,7 +51,7 @@ Rectangle.prototype.Contains = function(Object) {
  Rectangle.prototype.setToolTip = function(text, advanced) {
  //if advanced do advanced string
 	//if regular text do regular string
-	
+	//this.tooltipBox = new Rectangle(200, 200, 300, 150); this.tooltipBox
  
  }
 
