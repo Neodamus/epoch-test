@@ -652,7 +652,7 @@
 						}
 												
 						image.summon = true;
-						
+						image.turnCost = false;
 						image.sight("on");
 					
 						targetSpot.currentUnit = image;
