@@ -127,10 +127,13 @@ var clr = false;
 			var size = _.context.measureText(word).width - (width + exception); //How much is the current word off by?
 
 				var wordL = "";
+				var lastException = "";
+				var lastColor = false;
 				for (var q = 0; q < word.length - 1; q++) {
 					
 					wordL += word[word.length - 1 - q]; //forming a new line backwards.
-					
+					if (word[word.length - 1 - q] == "`") { lastColor = true; }
+					if (lastColor == true) { lastException += word[word.length - 1 - q]; if (lastException.length > 1 && word[word.length - 1 - q] == "`") { lastColor = false; } }
 						//Reading backwards and making sure it's split on a space / comparing the size--^
 						if (word[word.length - 1 - q] == " " && _.context.measureText(wordL).width >= size) {
 						
@@ -143,6 +146,7 @@ var clr = false;
 				//add the new line.
 				totalString += word;
 			    exception = -1 * _.context.measureText(wordL).width; //tell the next line that a new word is starting.
+				exception += _.context.measureText(lastException).width;
 				word = ""; //reset the line
 				
 		}
@@ -185,7 +189,7 @@ function findColor(string, i) {
 }
 
 function findTooltip(string, i, wordList) {
-		
+		//color = tooltip
 		var colorAndNumber = null;
 		if (string[i] == "&") {
 		var clr = "";

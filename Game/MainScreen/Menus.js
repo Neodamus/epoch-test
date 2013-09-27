@@ -42,7 +42,7 @@ function CreateMenus(Width, Height) {
 		 var testing = this.WebsiteBox.setTooltip("This menu will re-direct this page to our blog,`red` where`yellow` you can read all about the creators of this Epoch Game, please`orange` give this to your car wash professional, and A1 day.", 350, "right");
 		 this.tooltipList.push(testing);
 		 
-		  var testing = this.logoutBox.setTooltip("So, you don't like your current user-name? It is kinda- bad. Log`yellow` out and choose a new user-name.", 350, "right");
+		  var testing = this.logoutBox.setTooltip("So, you don't like your current user-name? It is kinda- bad. Log`yellow` out and choose a new user name.", 350, "right");
 		 this.tooltipList.push(testing);
 	  
 	 
