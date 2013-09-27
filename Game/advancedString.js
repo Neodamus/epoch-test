@@ -1,13 +1,15 @@
 function advancedString(string, x, y) {
 
+	this.font = "15px Georgia"; //line 3, 4, 6, 91 deal with font-- needs cleanup
+	_.context.font = this.font;
 	this.canvas = _.canvas;
     this.context = _.context;
-	_.context.font = "14px Georgia";
+	
 	
 	this.string = string;
 	
 	this.spaceWidth = this.context.measureText(" ").width; //used for spacing between words
-	this.spaceHeight = 16 * 2.5; //used for height spacing
+	this.spaceHeight = 15 * 2.5; //used for height spacing
 	
 	this.wordRectangle = new Array(); //used for words with colors to have a tooltip event.
 	
@@ -29,7 +31,7 @@ function advancedString(string, x, y) {
 	
 	for (var i = 0; i < string.length; i++) { 
 	
-		//Add string letter to currentword
+		//Add string letter to current word
 		if (string[i] != " " && string[i] != "`" && string[i] != "^" && string[i] != "&") { 
 			currentWord += string[i];
 		 }
@@ -68,7 +70,7 @@ function advancedString(string, x, y) {
 			
 			
 			this.wordPositionList[this.wordList.length] = {x: currentLength, y: currentHeight };
-			currentLength += this.spaceWidth + 5;
+			currentLength += this.spaceWidth;
 			
 			currentWord = "";
 		}
@@ -86,87 +88,72 @@ function advancedString(string, x, y) {
 
 }
 
-function wordWrap(string, width) {
-_.context.font = "14px Georgia";
+function wordWrap(string, width) { //Current word wrap bugs: sometimes the last word can be pushed to the next line... starts @ line 152, minor bug.
+_.context.font = "15px Georgia";
 var totalString = "";
 var word = "";
 var exception = 0;
 
 var clr = false;
-	//color and tooltip extras are counted when they shouldnt be... need to find a solution.
+
+	//if a color is found-- it measures the color and makes an exception for the word wrapping because it won't be visible.
 	for (var i = 0; i < string.length; i ++) {
-		
-				//found Color indicator
 				
 		if (string[i] == "`" && clr == false) {
-			//var color = string.indexOf("`", i - 10); //console.warn(color);
 			var cWord = "";
+			
 				for (var t = 0; t < string.length - i; t++) {
 					
-					cWord += string[i + t]; //console.warn(string[t]);
+					cWord += string[i + t]; 
 					if (string[i + t] == "`" && t != 0) { break; }
 				}
-				exception = _.context.measureText(cWord).width + (_.context.measureText("`").width * 2);// console.warn(cWord);
-				clr = true;
-			} else { if (string[i] == "`") { clr = false; } }
-		//found tooltip indicator
-		if (string[i] == "&") { 
-
+				
+			exception += _.context.measureText(cWord).width; console.warn(cWord);// console.warn(cWord);
+			clr = true;} 
+			else { if (string[i] == "`") { clr = false; } }
+			
+			
+		//if a tooltip is found-- it should ignore all text within!
+			if (string[i] == "&") { 
 			} 
 			
 		
-		word += string[i];
-	/*	if (totalString + word - exception > width) { 
+		word += string[i]; //adds character to current line.
+
+		//Measuring current line, making exceptions, and adding a word to the next line(which negatively influences the exception)
 		
-				totalString += " ^ "; 
+		if (string[i] == " " && _.context.measureText(word).width > width + exception) {
+
+			var size = _.context.measureText(word).width - (width + exception); //How much is the current word off by?
+
+				var wordL = "";
+				for (var q = 0; q < word.length - 1; q++) {
+					
+					wordL += word[word.length - 1 - q]; //forming a new line backwards.
+					
+						//Reading backwards and making sure it's split on a space / comparing the size--^
+						if (word[word.length - 1 - q] == " " && _.context.measureText(wordL).width >= size) {
+						
+							//adding in the new-line character.
+							word = [word.slice(0, word.length - 1 - q), " ^", word.slice(word.length - 1 - q)].join(''); break;
+						}
+				
+				}
+				
+				//add the new line.
 				totalString += word;
-				exception = 0;
-				word = "";
-		}*/
-		if (exception > 0 ) {console.warn(exception); }
-		if (_.context.measureText(word).width > width + exception) {
-			
-			
-			
-			//if (_.context.measureText(word).width > width - 100) {
+			    exception = -1 * _.context.measureText(wordL).width; //tell the next line that a new word is starting.
+				word = ""; //reset the line
 				
-				//search for previous spaces to use...
-				totalString += word;
-			    exception = 0;
-				var lastSpaceIndex = -1;
-				for (var t = 0; t < 50; t++) { if (lastSpaceIndex == -1) {
-				
-				lastSpaceIndex = totalString.indexOf(" ", (totalString.length - 2) - t); } }
-				var newLine = " ^";
-				var totalString = [totalString.slice(0, lastSpaceIndex), newLine, totalString.slice(lastSpaceIndex)].join('');
-				word = ""; 
-				
-		//	} //else { totalString += " ^ "}
-			
-			//extreme case
-		/*	if (_.context.measureText(word).width - exception  > width + 50) {
-				
-				//search for previous spaces to use...
-				var lastSpaceIndex = totalString.indexOf(" ", totalString.length - 15);
-				var newLine = " ^";
-				var totalString = [totalString.slice(0, lastSpaceIndex), newLine, totalString.slice(lastSpaceIndex)].join('');
-				word = ""; 
-			}
-			
-			exception = 0;*/
-			
-			
-		//	word = ""; 
 		}
 		
 	
 	}
+	
+	//this is adding the last line that might not have been added in the previous code...
 	if (word != "") {
-
 	totalString += word; 
 		if (_.context.measureText(word).width > width) {
-			console.warn(totalString);
-			//search for previous spaces to use...
 			var lastSpaceIndex = -1;
 				for (var t = 0; t < 50; t++) { if (lastSpaceIndex == -1) {
 					lastSpaceIndex = totalString.indexOf(" ", totalString.length - t); } }
@@ -177,7 +164,7 @@ var clr = false;
 	}
 	
 	
-return totalString;
+return totalString; //returning the string-coded word wrap!
 }
 
 
@@ -219,17 +206,18 @@ function findTooltip(string, i, wordList) {
 
 advancedString.prototype.draw = function() {
 
-	this.context.font = "14px Georgia";
+	this.context.font = this.font;;
 	
 	for (var i = 0; i < this.wordRectangle.length; i++) {
-	this.wordRectangle[i].draw(); }
-    this.context.fillStyle = "white";
+		this.wordRectangle[i].draw(); 
+	}
+		
+	this.context.fillStyle = "white";
 	
 	for (var i = 0; i < this.wordList.length; i++) {
-	//this.context.fillStyle = "white";
-	//for (var t = 0; t < this.wordColorList.length; t++) { if (i == this.wordColorList[t].word) { this.context.fillStyle = this.wordColorList[t].color; } } //color
-	this.context.fillStyle = this.wordColorList[i];
-	this.context.fillText(this.wordList[i], this.wordPositionList[i].x, this.wordPositionList[i].y); }
+		this.context.fillStyle = this.wordColorList[i];
+		this.context.fillText(this.wordList[i], this.wordPositionList[i].x, this.wordPositionList[i].y); 
+	}
 
 }
 

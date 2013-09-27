@@ -323,6 +323,7 @@ ability.prototype.abilityStats = function(abilityName)
 			stats = {
 				cooldown: 3,
 				movementCost: 1,
+				hidden: true,
 				tileTarget: "enemy",
 				auraRange: 3,
 				duration: 2,

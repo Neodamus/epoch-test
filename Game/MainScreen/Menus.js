@@ -30,16 +30,19 @@ function CreateMenus(Width, Height) {
 	
 	this.tooltipList = new Array();
 	
-		var testing = this.quickGameBox.setTooltip("Search the Game`red` List for`white` the first available game. If`yellow` no games are available you will host a new game lobby.", 200, "right");
+		var testing = this.quickGameBox.setTooltip("Search the Game`red` List for`white` the first available game. If`yellow` no games are available you will host a new game lobby.", 350, "right");
 		 this.tooltipList.push(testing);
 		 
-		 var testing = this.CreateBox.setTooltip("Create a single-player`red` GameBoard`white` with extra options. This`yellow` is for learning and testing out units and game mechanics.", 200, "right");
+		 var testing = this.CreateBox.setTooltip("Create a single-player`red` GameBoard`white` with options. This`yellow` is for learning and testing out units and game mechanics.", 350, "right");
 		 this.tooltipList.push(testing);
 		 
-		 var testing = this.FindBox.setTooltip("Enter the Game`red` Lobby to`white` join and create games, and`yellow` chat with other players.", 200, "right");
+		 var testing = this.FindBox.setTooltip("Enter the Game`red` Lobby to`white` join, create games, and chat`yellow` with other players of this Epoch a a a a a a a a a a a a Community! the`orange` last word of these tooltips can be buggy, but it's an easy fix.", 350, "right");
 		 this.tooltipList.push(testing);
 		 
-		 var testing = this.WebsiteBox.setTooltip("This menu will re-direct this page to our blog.`red`", 200, "right");
+		 var testing = this.WebsiteBox.setTooltip("This menu will re-direct this page to our blog,`red` where`yellow` you can read all about the creators of this Epoch Game, please`orange` give this to your car wash professional, and A1 day.", 350, "right");
+		 this.tooltipList.push(testing);
+		 
+		  var testing = this.logoutBox.setTooltip("So, you don't like your current user-name? It is kinda- bad. Log`yellow` out and choose a new user-name.", 350, "right");
 		 this.tooltipList.push(testing);
 	  
 	 
@@ -129,7 +132,7 @@ function CreateMenus(Width, Height) {
 			
 			case "logout":
 			this.logoutBox.boxColor = "rgba(240, 100, 100, 0.9)";
-			
+			this.logoutBox.tooltipBox.tooltip = true;
 			break;
 			
 			case "sandbox":

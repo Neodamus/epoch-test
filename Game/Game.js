@@ -104,7 +104,12 @@
 	  Images[103].src = "Game/Images/scrolldown.png"
 	  Images[104].src = "Game/Images/stealthpick.png"
 	  
+
 	  Images[112].src = "Game/Images/abilities/summon.png";
+	  
+	  
+	  Images[113].src = "Game/Images/abilities/mist.png";
+	  Images[114].src = "Game/Images/abilities/sentry.png";
 	  
 	}
 	
@@ -119,7 +124,9 @@
 			case "Creeping Vines": return Images[17];
 			case "Energy Field": return Images[16];
 			case "Smoke Screen": return Images[18];
-			case "Magma Trap": return Images[19]
+			case "Magma Trap": return Images[19];
+			case "Mist": return Images[113];
+			case "Sentry": return Images[114];
 		}
 		return Images[10];
 	}
