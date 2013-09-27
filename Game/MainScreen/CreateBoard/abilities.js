@@ -140,7 +140,7 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				movementCost: 1,
-				blocks: 2
+				blocks: 1
 			}
 			
 			return stats; 

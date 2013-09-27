@@ -376,23 +376,27 @@
 		if (this.unitStealth == true) { this.stealthedLastAttack = true; } else { this.stealthedLastAttack = false; }	
 		
 		// defend proc
-		for (var i = 0; i < NewGridSpot.currentUnit.buffList.length; i++) { 
-			if (NewGridSpot.currentUnit.buffList[i].eventProc("Defend", this) == true) { i--; }  
-		}	 
+		if (NewGridSpot.currentUnit == null || NewGridSpot.currentUnit == undefined) {
 		
-		// receive damage
-		NewGridSpot.currentUnit.receivePhysicalDamage(damage, this);
+			for (var i = 0; i < NewGridSpot.currentUnit.buffList.length; i++) { 
+				if (NewGridSpot.currentUnit.buffList[i].eventProc("Defend", this) == true) { i--; }  
+			}	 
+			
+			// receive damage
+			NewGridSpot.currentUnit.receivePhysicalDamage(damage, this);
+			
+			// apply attack buffs
+			if (this.currentStats[10] != 0 && NewGridSpot.currentUnit != null) {
+				var buffIt = new newBuff(this.currentStats[10], NewGridSpot, this); }
+			
+			// attack proc		
+			for (var i = 0; i < this.buffList.length; i++) {  if (this.buffList[i].eventProc("Attack") == true) { i--; }  }
+			
+				this.currentStats[4] -= this.attackMovementCost;
+				this.currentStats[8] -= this.attackCost;
+			}
 		
-		// apply attack buffs
-		if (this.currentStats[10] != 0 && NewGridSpot.currentUnit != null) {
-			var buffIt = new newBuff(this.currentStats[10], NewGridSpot, this); }
-		
-		// attack proc		
-		for (var i = 0; i < this.buffList.length; i++) {  if (this.buffList[i].eventProc("Attack") == true) { i--; }  }
-		
-			this.currentStats[4] -= this.attackMovementCost;
-			this.currentStats[8] -= this.attackCost;
-		}
+		} else { alert(this.name + " tried to attack gridspot at " + NewGridSpot.x + ", " + NewGridSpot.y + " but no unit is there") }
 	  }
 	 }
 	  
