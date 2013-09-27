@@ -124,7 +124,7 @@
 			this.currentStats[3] = this.baseStats[3] + this.buffStats[3]; // defense
 			
 			this.currentStats[2] = this.baseStats[2] + this.buffStats[2]; // damage
-		 }
+		 	}
 		 }
 		 
 		 
