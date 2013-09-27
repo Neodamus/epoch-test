@@ -113,7 +113,7 @@
 			
 			this.reveal("off");
 			this.currentStats[7] = this.baseStats[7] + this.buffStats[7]; // reveal
-			if (this.currentStats[7] < 1) { this.currentStats[7] = 0; }
+			if (this.currentStats[7] < 0) { this.currentStats[7] = 0; }
 			this.reveal("on");	
 			
 			this.currentStats[8] = this.baseStats[8] + this.buffStats[8];	//#attacks
