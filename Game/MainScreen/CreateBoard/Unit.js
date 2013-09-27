@@ -384,7 +384,7 @@
 		NewGridSpot.currentUnit.receivePhysicalDamage(damage, this);
 		
 		// apply attack buffs
-		if (this.currentStats[10] != 0) {
+		if (this.currentStats[10] != 0 && NewGridSpot.currentUnit != null) {
 			var buffIt = new newBuff(this.currentStats[10], NewGridSpot, this); }
 		
 		// attack proc		
