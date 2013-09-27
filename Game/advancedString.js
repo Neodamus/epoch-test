@@ -157,7 +157,7 @@ var clr = false;
 	//this is adding the last line that might not have been added in the previous code...
 	if (word != "") {
 	totalString += word; 
-		if (_.context.measureText(word).width > width) {
+		if (_.context.measureText(word).width > width + exception) {
 			var lastSpaceIndex = -1;
 				for (var t = 0; t < 50; t++) { if (lastSpaceIndex == -1) {
 					lastSpaceIndex = totalString.indexOf(" ", totalString.length - t); } }
