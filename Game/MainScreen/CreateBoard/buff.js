@@ -650,6 +650,8 @@
 							}
 							image.buffStats[i] = 0;
 						}
+						
+						image.currentStats[4] = 0;
 												
 						image.summon = true;
 						image.turnCost = false;
@@ -817,11 +819,11 @@
 						
 						var unit1 = grid1.currentUnit.Remove();
 						var unit2 = grid2.currentUnit.Remove();
-												
+						
+						unit1.currentStats[4] += 1;	
 						unit1.Move(grid2);
-						unit1.currentStats[4] += 1;
-						unit2.Move(grid1);	
 						unit2.currentStats[4] += 1;
+						unit2.Move(grid1);	
 						
 						combatLog.push(unit1.baseStats[0] + " swapped places with " + unit2.baseStats[0]);
 						
@@ -985,15 +987,18 @@
 						var xbowman = this.sourceUnit.sourceUnit;						
 						var sentry = this.sourceUnit;
 						
-						this.attachedUnit.receivePureDamage(this.buffStats.damage, xbowman.baseStats[0]);
+						if (ClientsTurn && this.attachedUnit.unitStealth == false) {
+							
+							this.attachedUnit.receivePureDamage(this.buffStats.damage, xbowman.baseStats[0]);
 						
-						sentry.stats.attacks--;
-						if (sentry.stats.attacks == 0) {
-							
-							sentry.attachedBuff.eventProc("Removal");
-							
+							sentry.stats.attacks--;
+							if (sentry.stats.attacks == 0) {
+								
+								sentry.attachedBuff.eventProc("Removal");
+								
+							}
+							this.removeTileModifier();
 						}
-						this.removeTileModifier();	
 					}
 					
 				break;
@@ -1213,8 +1218,8 @@
 					case "Initialize":
 						
 						this.sourceUnit.Remove();
-						this.sourceUnit.Move(this.targetSpot);	
-						this.sourceUnit.currentStats[4] += 1;				
+						this.sourceUnit.currentStats[4] += 1;
+						this.sourceUnit.Move(this.targetSpot);				
 						
 						break;	
 				}   

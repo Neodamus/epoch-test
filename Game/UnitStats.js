@@ -117,7 +117,7 @@ var Infiltrator = new Array(
 "6",      //damage
 "4",      //defence
 "4",      //movement
-"5",      //sight
+"4",      //sight
 "3",      //range
 "0",      //reveal
 "1",      //#attack

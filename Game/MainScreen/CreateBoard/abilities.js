@@ -217,7 +217,7 @@ ability.prototype.abilityStats = function(abilityName)
 				targetSelf: true,
 				target: "ally",
 				targets: 2,
-				range: 4
+				range: 3
 			}
 			
 			return stats;
