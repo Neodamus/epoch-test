@@ -184,7 +184,7 @@ function messageHandler(message) {
 			
 		case "startTurn":		
 			ClientsTurn = true;
-			if (GameBoard.waiting == true) { GameBoard.waiting = false; }
+			if (GameBoard != null) { if (GameBoard.waiting == true) { GameBoard.waiting = false; } }
 		break;
 			
 	}

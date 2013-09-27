@@ -375,8 +375,8 @@
 		
 		if (this.unitStealth == true) { this.stealthedLastAttack = true; } else { this.stealthedLastAttack = false; }	
 		
-		// defend proc
-		if (NewGridSpot.currentUnit == null || NewGridSpot.currentUnit == undefined) {
+
+		if (NewGridSpot.currentUnit != null && NewGridSpot.currentUnit != undefined) {
 		
 			for (var i = 0; i < NewGridSpot.currentUnit.buffList.length; i++) { 
 				if (NewGridSpot.currentUnit.buffList[i].eventProc("Defend", this) == true) { i--; }  
