@@ -30,16 +30,16 @@ function CreateMenus(Width, Height) {
 	
 	this.tooltipList = new Array();
 	
-		var testing = this.quickGameBox.setTooltip("this is a Quick`red` Match box.`white` test test test test test test test test. Is this working?`pink` aaaa`green` aaaaa a aaaaaaaaa", 200, "top");
+		var testing = this.quickGameBox.setTooltip("Search the Game`red` List for`white` the first available game. If`yellow` no games are available you will host a new game lobby.", 200, "right");
 		 this.tooltipList.push(testing);
 		 
-		 var testing = this.CreateBox.setTooltip("this is a Sandbox`red` Test mode.`white` test test test test test test test test. Is this working?`pink` aaaa`green` aaaaa a aaaaaaaaa", 200, "right");
+		 var testing = this.CreateBox.setTooltip("Create a single-player`red` GameBoard`white` with extra options. This`yellow` is for learning and testing out units and game mechanics.", 200, "right");
 		 this.tooltipList.push(testing);
 		 
-		 var testing = this.FindBox.setTooltip("this is a Game`red` Lobby. test`white` test test test test test test test. Is this working?`pink` aaaa`green` aaaaa a aaaaaaaaa", 200, "left");
+		 var testing = this.FindBox.setTooltip("Enter the Game`red` Lobby to`white` join and create games, and`yellow` chat with other players.", 200, "right");
 		 this.tooltipList.push(testing);
 		 
-		 var testing = this.WebsiteBox.setTooltip("this is a website.`red` test`white` test test test test test test test. Is this working?`pink` aaaa`green` aaaaa a aaaaaaaaa", 200, "bottom");
+		 var testing = this.WebsiteBox.setTooltip("This menu will re-direct this page to our blog.`red`", 200, "right");
 		 this.tooltipList.push(testing);
 	  
 	 

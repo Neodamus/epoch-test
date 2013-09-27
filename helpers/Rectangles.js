@@ -55,7 +55,7 @@ Rectangle.prototype.Contains = function(Object) {
 	if (position == "left") { this.tooltipBox = new Rectangle(this.x - width - this.width / 2 - 10, this.y - this.height, width + 100, 180); }
 	if (position == "bottom") { this.tooltipBox = new Rectangle(this.x - 33, this.y + this.height + 19, width + 100, 180); }
 	
-	this.tooltipBox.tooltipString = new advancedString(wordWrap(text, width), this.tooltipBox.x + 35, this.tooltipBox.y + 40);
+	this.tooltipBox.tooltipString = new advancedString(wordWrap(text, width), this.tooltipBox.x + 15, this.tooltipBox.y + 25);
 	this.tooltipBox.tooltip = false;
 	this.tooltipBox.boxColor = "rgba(40, 40, 40, 0.98)";
 	//this.tooltipBox.setText(text, "black");
