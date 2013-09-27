@@ -106,7 +106,7 @@ var clr = false;
 					cWord += string[i + t]; //console.warn(string[t]);
 					if (string[i + t] == "`" && t != 0) { break; }
 				}
-				exception = _.context.measureText(cWord).width; console.warn(cWord);
+				exception = _.context.measureText(cWord).width + (_.context.measureText("`").width * 2);// console.warn(cWord);
 				clr = true;
 			} else { if (string[i] == "`") { clr = false; } }
 		//found tooltip indicator
@@ -124,7 +124,7 @@ var clr = false;
 				word = "";
 		}*/
 		if (exception > 0 ) {console.warn(exception); }
-		if (_.context.measureText(word).width - exception   > width) {
+		if (_.context.measureText(word).width > width + exception) {
 			
 			
 			

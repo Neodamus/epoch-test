@@ -162,7 +162,7 @@ function CreateMenus(Width, Height) {
 		  
 		    context = document.getElementById('Mycanvas').getContext('2d')
 			
-			context.drawImage(Images[0],0 ,0 ,Canvas.width, Canvas.height);
+			context.drawImage(Images[0],0 ,Canvas.height * 0.34 ,Canvas.width, Canvas.height);
 			 
 			//this.stringT.draw();
 			//context.font = this.fontSize;
