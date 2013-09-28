@@ -169,17 +169,19 @@
 		//Unit Stats
 		context.save();
 		context.font = '10px outline';
+		var stats; //RETREIVE STATS
+		if (this.currentUnit.displayStats == true && this.currentUnit.alliance == "enemy") { stats = this.currentUnit.fakeStats; } else { stats = this.currentUnit.currentStats; }
+		
 		if (this.currentUnit != null && this.currentUnit.alliance == "ally" && this.visible == true ||
 		this.currentUnit != null && this.currentUnit.unitStealth == false && this.visible == true) {
 		
 		context.lineWidth=4.2;
-		context.strokeText(this.currentUnit.currentStats[4], this.ThisRectangle.x + 7, this.ThisRectangle.y + 23);
-		context.strokeText(this.currentUnit.currentStats[1], this.ThisRectangle.x + this.ThisRectangle.width - 15, this.ThisRectangle.y + 23);
-		context.strokeText(this.currentUnit.currentStats[2], this.ThisRectangle.x + 7, this.ThisRectangle.y + 42);
-		context.strokeText(this.currentUnit.currentStats[3], this.ThisRectangle.x + this.ThisRectangle.width - 15, this.ThisRectangle.y + 42);
+		context.strokeText(stats[4], this.ThisRectangle.x + 7, this.ThisRectangle.y + 23);
+		context.strokeText(stats[1], this.ThisRectangle.x + this.ThisRectangle.width - 15, this.ThisRectangle.y + 23);
+		context.strokeText(stats[2], this.ThisRectangle.x + 7, this.ThisRectangle.y + 42);
+		context.strokeText(stats[3], this.ThisRectangle.x + this.ThisRectangle.width - 15, this.ThisRectangle.y + 42);
 		
-		var stats;
-		if (this.currentUnit.displayStats == true && this.currentUnit.alliance == "enemy") { stats = this.currentUnit.fakeStats; } else { stats = this.currentUnit.currentStats; }
+		
 		context.fillStyle = "rgba(250, 250, 60, 1)";
 		context.fillText(stats[4], this.ThisRectangle.x + 7, this.ThisRectangle.y + 23);
 		context.fillStyle = "rgba(255, 120, 120, 1)";
