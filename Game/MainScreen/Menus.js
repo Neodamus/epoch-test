@@ -12,11 +12,10 @@ function CreateMenus(Width, Height) {
 	  var MenuHeight = Canvas.height * 0.069;
 	  var MenuYSpace = Canvas.height * 0.093; //menuboxes /end
 	  
-	// this.stringT = new advancedString(wordWrap("We&a& should make a font-class,`red` it`white` could be&test& like var`blue` font{size:`blue` 16,`blue` font:`blue` 16px`blue` newfont}`blue`", 400) 600, 400);
 	  
-	 // this.stringT = new advancedString(wordWrap("Hello, my name is Travis Miller", 100));
+	 this.stringT = { x: "lala", y: "blahblah", string: "" };
+	 this.stringT.string = this.stringT.x + " " + this.stringT.y;
 	  
-	 //  this.stringT = new advancedString("hello`red` is this working?", 300, 600);
 	 
 	  
 	  //Create rectangles
@@ -166,7 +165,8 @@ function CreateMenus(Width, Height) {
 		    context = document.getElementById('Mycanvas').getContext('2d')
 			
 			context.drawImage(Images[0],0 ,Canvas.height * 0.34 ,Canvas.width, Canvas.height);
-			 
+			 //this.stringT = { blah: "lala", string: "ooh " + blah };
+			 context.fillText(this.stringT.string, 400, 400);
 			//this.stringT.draw();
 			//context.font = this.fontSize;
 			

@@ -206,7 +206,7 @@ ability.prototype.abilityStats = function(abilityName)
 				tileTarget: "enemy",
 				hidden: true
 			}
-			
+
 			return stats;
 			
 		case "Mirror Image":
