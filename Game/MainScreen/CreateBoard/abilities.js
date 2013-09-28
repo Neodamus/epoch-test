@@ -1315,9 +1315,13 @@ ability.prototype.receiveAbility = function(packet) {
 	this.currentAbilityStats = this.abilityStats(this.abilityName);
 	this.sourceUnit = GridSpot[source.x][source.y].currentUnit;
 	
-	for (i = 0; i < this.sourceUnit.ability.length; i++) {
-		if (this.sourceUnit.ability[i].name == this.abilityName) { this.currentAbility = this.sourceUnit.ability[i]; }
-	}
+	if (this.sourceUnit != null) {
+	
+		for (i = 0; i < this.sourceUnit.ability.length; i++) {
+			if (this.sourceUnit.ability[i].name == this.abilityName) { this.currentAbility = this.sourceUnit.ability[i]; }
+		}
+		
+	} else { alert("this.sourceUnit in receiveAbility is null"); }		
 	
 	if (target.length == 1) {
 		
