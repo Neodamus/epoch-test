@@ -1051,13 +1051,13 @@
 								
 						}					
 						
-						if (this.sourceUnit instanceof tileModifier) {
+						/* if (this.sourceUnit instanceof tileModifier) {
 						   
 							this.attachedUnit.buffList.push(this);
 					
 							this.attachedUnit.noStealthList = [];			
 						
-						}
+						} */
 						
 					break;
 					
