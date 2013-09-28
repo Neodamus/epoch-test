@@ -630,13 +630,17 @@
 						
 						var image = GameBoard.CreateUnit(copiedUnit.alliance, copiedUnit.baseStats[0], targetSpot.x, targetSpot.y);
 						
+						if (image.auras.length != 0) {
+							for (i = 0; i < image.auras.length; i++) { image.auraTileModifier("off", image.auras[i]); }
+						}
+						image.abilities = [];
+						
 						image.Remove();
 						
 						image.currentStats = copiedUnit.currentStats.clone();
 						
 						image.displayStats = true;
 						image.fakeStats = image.currentStats.clone();
-						image.abilities = [];
 						
 						image.baseStats = MirrorImage;
 						
