@@ -394,7 +394,14 @@
 			
 				this.currentStats[4] -= this.attackMovementCost;
 				this.currentStats[8] -= this.attackCost;
+				
+				if (this.displayStats == true) { 
+				
+					this.fakeStats[4] -= this.attackMovementCost; 
+					this.fakeStats[8] -= this.attackCost;
+				}
 			}
+			
 		
 		} else { alert(this.name + " tried to attack gridspot at " + NewGridSpot.x + ", " + NewGridSpot.y + " but no unit is there") }
 	  }
@@ -411,7 +418,8 @@
 		
 		
 		 //Checks for on move event in buffs
-		 this.currentStats[4] -= 1;    //minus movement cost for this unit.
+		 this.currentStats[4] -= this.movementCost;    //minus movement cost for this unit.
+		 if (this.displayStats == true) { this.fakeStats[4] -= this.movementCost; }
 		 
 		// this.sight("off");
 		 

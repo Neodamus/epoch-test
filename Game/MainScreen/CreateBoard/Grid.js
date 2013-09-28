@@ -170,7 +170,8 @@
 		context.save();
 		context.font = '10px outline';
 		var stats; //RETREIVE STATS
-		if (this.currentUnit.displayStats == true && this.currentUnit.alliance == "enemy") { stats = this.currentUnit.fakeStats; } else { stats = this.currentUnit.currentStats; }
+		if (this.currentUnit != null) {
+		if (this.currentUnit.displayStats == true && this.currentUnit.alliance == "enemy") { stats = this.currentUnit.fakeStats; } else { stats = this.currentUnit.currentStats; } }
 		
 		if (this.currentUnit != null && this.currentUnit.alliance == "ally" && this.visible == true ||
 		this.currentUnit != null && this.currentUnit.unitStealth == false && this.visible == true) {
