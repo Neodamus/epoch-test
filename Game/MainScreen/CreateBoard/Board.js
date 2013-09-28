@@ -143,7 +143,7 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 		if (WhichClick == "2") {
 	
 		//Movement Action
-		if (CurrentSelectedGrid != null && CurrentTarget != null && CurrentTarget.moveMarker == true && CurrentTarget.currentUnit == null)
+		if (CurrentSelectedGrid != null && CurrentTarget != null && CurrentTarget.moveMarker == true && CurrentTarget.currentUnit == null && this.unitsMovedThisTurn < this.unitMoves)
 		{ 
 			instructions = new Array("move", CurrentSelectedGrid.x, CurrentSelectedGrid.y, CurrentTarget.x, CurrentTarget.y); this.sendUnitInstruction(instructions);
 		
@@ -154,8 +154,8 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 			return;}
 		
 		//Attack Action		
-		if (CurrentSelectedGrid != null && CurrentTarget != null && CurrentTarget.currentUnit != null &&
-		CurrentSelectedGrid.currentUnit != null && CurrentSelectedGrid != CurrentTarget) // && CurrentTarget.attackMarker == true && CurrentSelectedGrid.currentUnit.alliance == "ally")
+		if (CurrentSelectedGrid != null && CurrentTarget != null && CurrentTarget.currentUnit != null && CurrentSelectedGrid.currentUnit != null && CurrentSelectedGrid != CurrentTarget && this.unitsMovedThisTurn < this.unitMoves
+			&& CurrentTarget.attackMarker == true && CurrentSelectedGrid.currentUnit.alliance == "ally")
 		{
 			instructions = new Array("attack", CurrentSelectedGrid.x, CurrentSelectedGrid.y, CurrentTarget.x, CurrentTarget.y); this.sendUnitInstruction(instructions);
 			
