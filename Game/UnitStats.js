@@ -174,7 +174,7 @@ var MirrorImage = new Array(
 "2",      //sight
 "0",      //range
 "0",      //reveal
-"0",      //#attack
+"1",      //#attack
 "0",      //#defend
 "0",      //onAttackAbility
 "0",      //onDefendAbility
