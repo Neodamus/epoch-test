@@ -126,7 +126,7 @@
 			case "Smoke Screen": return Images[18];
 			case "Magma Trap": return Images[19];
 			case "Mist": return Images[113];
-			case "Sentry": return Images[114];
+			//case "Sentry": return Images[114]; NEEDS TO be hidden from enemy no matter what
 		}
 		return Images[10];
 	}

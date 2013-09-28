@@ -13,8 +13,8 @@ function CreateMenus(Width, Height) {
 	  var MenuYSpace = Canvas.height * 0.093; //menuboxes /end
 	  
 	  
-	 this.stringT = { x: "lala", y: "blahblah", string: "" };
-	 this.stringT.string = this.stringT.x + " " + this.stringT.y;
+	// this.stringT = { x: "lala", y: "blahblah", string: "" };
+	// this.stringT.string = this.stringT.x + " " + this.stringT.y;
 	  
 	 
 	  
@@ -166,7 +166,7 @@ function CreateMenus(Width, Height) {
 			
 			context.drawImage(Images[0],0 ,Canvas.height * 0.34 ,Canvas.width, Canvas.height);
 			 //this.stringT = { blah: "lala", string: "ooh " + blah };
-			 context.fillText(this.stringT.string, 400, 400);
+			// context.fillText(this.stringT.string, 400, 400);
 			//this.stringT.draw();
 			//context.font = this.fontSize;
 			
