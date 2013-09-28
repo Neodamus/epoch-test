@@ -1055,7 +1055,6 @@
 						   
 							this.attachedUnit.buffList.push(this);
 					
-							this.attachedUnit.stealth("on", this);	
 							this.attachedUnit.noStealthList = [];			
 						
 						}
@@ -1071,7 +1070,6 @@
 					case "Removal":
 					
 						this.removeBuff();	
-						this.attachedUnit.stealth("off");		
 						
 					break;
 					
@@ -1249,7 +1247,8 @@
 						this.attachedUnit.currentStats[7] += this.buffStats.reveal;
 						this.attachedUnit.reveal("on");
 						this.attachedUnit.buffStats[7] += this.buffStats.reveal;
-						//this.attachedUnit.resetStats("BUFF");
+						
+						this.attachedUnit.stealth("off", this);
 						
 						break;
 				
@@ -1265,6 +1264,11 @@
 						this.removeBuff();	
 						
 						this.attachedUnit.buffStats[7] -= this.buffStats.reveal;						
+						
+						if (this.attachedUnit != null) {
+							var removeArray = listReturnArray(this.attachedUnit.noStealthList, this);
+							if (removeArray != -1) { this.attachedUnit.noStealthList.splice(removeArray, 1); }
+						} else { alert("Trying to remove " + this.buffType + " from nostealthlist but unit is null"); }
 						
 						break;
 				}   
