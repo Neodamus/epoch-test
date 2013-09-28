@@ -123,8 +123,8 @@
 		context.drawImage(Images[1],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		
 		//Drawing unit
-		if (this.currentUnit != null && this.visible == true && this.currentUnit.unitStealth == false ||
-		this.currentUnit != null && this.visible == true && this.currentUnit.unitStealth == true && this.currentUnit.alliance == "ally"){
+		if (this.currentUnit != null) {//&& this.visible == true && this.currentUnit.unitStealth == false ||
+		//this.currentUnit != null && this.visible == true && this.currentUnit.unitStealth == true && this.currentUnit.alliance == "ally"){
 			// UNIT DRAWING
 			if (this.currentUnit.unitStealth == true) { context.globalAlpha = 0.3; }
 				context.drawImage(Images[ReturnUnitImage(this.currentUnit.name)], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width,
@@ -169,8 +169,8 @@
 		//Unit Stats
 		context.save();
 		context.font = '10px outline';
-		if (this.currentUnit != null && this.currentUnit.alliance == "ally" && this.visible == true ||
-		this.currentUnit != null && this.currentUnit.unitStealth == false && this.visible == true) {
+		if (this.currentUnit != null) {// && this.currentUnit.alliance == "ally" && this.visible == true ||
+		//this.currentUnit != null && this.currentUnit.unitStealth == false && this.visible == true) {
 		
 		context.lineWidth=4.2;
 		context.strokeText(this.currentUnit.currentStats[4], this.ThisRectangle.x + 7, this.ThisRectangle.y + 23);
