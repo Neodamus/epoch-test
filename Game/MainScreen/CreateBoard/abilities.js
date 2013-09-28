@@ -127,9 +127,10 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Entanglement":	
 					
 			stats = {
+				target: "enemy",
 				cooldown: 2,
 				lifeCost: 3,
-				target: "enemy",
+				attackCost: 1,
 				damage: 5,
 				range: 4
 			}
@@ -433,6 +434,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Wound":
 		
 			stats = {
+				target: "enemy",
 				cooldown: 2,
 				movementCost: 1,
 				duration: 3,
