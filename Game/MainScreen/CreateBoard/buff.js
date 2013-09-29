@@ -93,9 +93,9 @@
 						this.removeBuff();	
 						this.attachedUnit.buffStats[8] -= this.buffStats.attacks;
 					} else {				
-						/*this.sourceUnit.auraTileModifier("off", this.aura);
+						this.sourceUnit.auraTileModifier("off", this.aura);
 						var rem = listReturnArray(this.sourceUnit.auras, this.aura); 
-						if (rem != -1) { this.sourceUnit.auras.splice(rem, 1); } */
+						if (rem != -1) { this.sourceUnit.auras.splice(rem, 1); }
 						this.removeBuff();		
 					}
 				
@@ -153,6 +153,7 @@
 					case "Defend":
 					
 						source.currentStats[8] = 0;
+						source.currentStats[4] = 0;
 					
 						break;
 					
@@ -635,6 +636,7 @@
 						if (image.auras.length != 0) {
 							for (i = 0; i < image.auras.length; i++) { image.auraTileModifier("off", image.auras[i]); }
 						}
+						image.auras = [];
 						image.abilities = [];
 						
 						image.Remove();
@@ -656,6 +658,8 @@
 							}
 							image.buffStats[i] = 0;
 						}
+						
+						image.baseStats[10] = "0";
 						
 						image.currentStats[4] = 0;
 												
@@ -1188,11 +1192,14 @@
 							var target = stompList[i].currentUnit;
 							
 							if (target != null && target.alliance != this.sourceUnit.alliance) {
+								
 								target.buffList.push(this);
 							
 								target.buffStats[4] += this.buffStats.speed;
 								target.currentStats[4] += this.buffStats.speed;
 								if (target.currentStats[4] < 0) { target.currentStats[4] = 0; }
+								
+								target.receivePureDamage(this.buffStats.damage, this.buffType);
 							}
 						}
 						

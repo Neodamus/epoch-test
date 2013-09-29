@@ -168,7 +168,7 @@ var Illusionist = new Array(
 var MirrorImage = new Array(
 "Mirror Image",       //name
 "1",      //hitpoints
-"0",      //damage
+"1",      //damage
 "0",      //defence
 "4",      //movement
 "2",      //sight
@@ -278,7 +278,7 @@ var Ironfist = new Array(
 "11",      //hitpoints
 "6",      //damage
 "4",      //defence
-"4",      //movement
+"6",      //movement
 "4",      //sight
 "1",      //range
 "0",      //reveal

@@ -393,6 +393,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 3,
 				movementCost: 2,
 				duration: 2,
+				damage: 2,
 				speed: -2,
 				radius: 1
 			}
@@ -413,8 +414,8 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				cooldown: 3,
-				movementCost: 3,
-				target: "both",
+				movementCost: 2,
+				target: "enemy",
 				range: 1
 			}
 			
@@ -802,7 +803,11 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				alert("You can't use " + this.abilityName + "on an ally");
 				finished = false;
 			
-			}			
+			}
+			
+		} else if (target == "tile") {
+			
+			alert ("You can't use this ability on a unit");
 			
 		} else { // target = both
 			
