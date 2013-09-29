@@ -29,30 +29,15 @@ ability.prototype.abilityStats = function(abilityName)
 				tileTarget: "ally",
 				auraTarget: "ally",
 				lifetime: 1,
-				auraRange: 1,
+				auraRange: 2,
 				duration: 1,
 				attacks: 1,
 				abilityTooltip: ""
 			}
-			// Colors must be changed after a word with no spacing, and it must include a space after the color... TEXT!`color` textexttext
-			// |---------Red--------| |---------Yellow-----------|
-			// "This`red` text is red. this`yellow` text is yellow."
 			
-			
-			//"this is a typical line that gets word wrapped by ^the word wrap function. ^this is a new line."
-			
-			// |--------------------Wordwrap---------------------|
-			// "this is a typical line that gets word wrapped by 
-			// the word wrap function. ^                              (space carrot " ^ " is a new line, a space on each side.)
-			// this is a new line."
-			// let me know if you think we need more functions for this. i'll writing as well, but we should have a certain way of doing it i think.
-			
-			// sidenote* if you mess up the color formatting of a string it could crash the game and the browser...   word`color`(space) textextext!
-			
-			//to edit the size of the box line 55 of rectangles, its not very dynamic atm.
-			
-			stats.abilityTooltip = "this is the ability Arrowsmith.`red` blah`white` blah blah blah. " +
-			" ^ -movement`yellow` cost is " + stats.movementCost + ". ^ -cooldown`rgba(20, 120, 180, 0.8)` cost is " + stats.cooldown + ".";
+			stats.abilityTooltip = "Arrowsmith`violet` ^ Creates`#bbb` an aura of radius`#bbb` " + stats.auraRange + "`white` around`#bbb`" + 												    			" Grovekeeper`orange` .`#bbb` If an allied ranged unit steps into the aura and waits a turn there, they will receive`#bbb`" +
+				" 1`white` additional attack`white` on`#bbb` their next`green` turn`green` .`#bbb` ^ ^ If the Grovekeeper`orange` or`#bbb` a" +
+				" unit buffed with`#bbb` Arrowsmith`violet` moves`#f33` before waiting a turn, they will not receive an additional attack."
 			
 			return stats;
 		
@@ -337,12 +322,9 @@ ability.prototype.abilityStats = function(abilityName)
 				duration: 2,
 				range: 4,
 				defense: 2,
-<<<<<<< HEAD
 				blocks: 3,
-				abilityTooltip: ""
-=======
+				abilityTooltip: "",
 				blocks: 2
->>>>>>> some fixes
 			}
 			
 			return stats; 
@@ -350,14 +332,11 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Rapid Strikes": 
 					
 			stats = {
-<<<<<<< HEAD
 				cooldown: 2,
 				attacks: 2,
-				abilityTooltip: ""
-=======
+				abilityTooltip: "",
 				cooldown: 1,
 				attacks: 2
->>>>>>> some fixes
 			}
 			
 			return stats;	

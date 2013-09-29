@@ -1,5 +1,4 @@
 var socket
-startSocket()
 
 function startSocket() {
 

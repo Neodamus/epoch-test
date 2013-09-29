@@ -5,6 +5,7 @@ window.onload = function() {
 
 	sizeCanvas();	
 	StartGame();
+	startSocket();
 	
 }
 

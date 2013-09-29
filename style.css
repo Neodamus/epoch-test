@@ -86,6 +86,9 @@ textarea {
 	height: 834px;
 	margin-left: 10px;
 	background-image: url('ad-border2.png');
+	background-repeat: no-repeat;
+	padding-top: 117px;
+	padding-left: 10px;
 	float: left;				
 }
 
@@ -94,6 +97,9 @@ textarea {
 	height: 834px;
 	margin-left: 10px;
 	background-image: url('ad-border2.png');
+	background-repeat: no-repeat;
+	padding-top: 117px;
+	padding-left: 10px;
 	float: left;				
 }
 
@@ -107,6 +113,8 @@ textarea {
 	float: left;
 	min-width: 300px;
 	min-height: 150px;
+	width: 860px;
+	height: 720px;
 	background-color: #000;
 	border-style: solid;
 	border-width: 10px;				
