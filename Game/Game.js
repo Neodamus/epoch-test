@@ -209,6 +209,7 @@
 				
 			case "GameBoard":
 				ability.castModeHighlight();
+				Ui.tooltips();
 				break;		
 		
 		}

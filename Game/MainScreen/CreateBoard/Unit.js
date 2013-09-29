@@ -30,6 +30,14 @@
 			this.ability.push(newAbility);
 			
 		}
+		
+		//how i get tooltips-- someday I plan on redoing this stuff...
+		this.abilityStats = new Array();
+		for (var i = 0; i < this.ability.length; i++) {
+		
+			this.abilityStats[i] = ability.abilityStats(this.ability[i].name); //console.warn(this.ability[i]);
+		}
+		
 		//this.ability = stringParseForList(this.currentStats[13]); //if (this.ability[0] == "") { this.ability = null; }//Gets the abilities of the unit and puts them in a list.
 		
 	 	this.buffList = new Array();

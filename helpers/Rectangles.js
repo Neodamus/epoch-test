@@ -50,16 +50,16 @@ Rectangle.prototype.Contains = function(Object) {
   
  Rectangle.prototype.setTooltip = function(text, width, position) {
 
-	if (position == "top") {  this.tooltipBox = new Rectangle(this.x - 33, this.y - this.height - 180 + 35, width + 100, 180); }
-	if (position == "right") { this.tooltipBox = new Rectangle(this.x + this.width + 25, this.y - this.height, width + 100, 180); }
-	if (position == "left") { this.tooltipBox = new Rectangle(this.x - width - this.width / 2 - 10, this.y - this.height, width + 100, 180); }
-	if (position == "bottom") { this.tooltipBox = new Rectangle(this.x - 33, this.y + this.height + 19, width + 100, 180); }
+	//if (position == "top") {  this.tooltipBox = new Rectangle(this.x - 33, this.y - this.height - 180 + 35, width + 100, 180); }
+	//if (position == "right") { this.tooltipBox = new Rectangle(this.x + this.width + 25, this.y - this.height, width + 100, 180); }
+	if (position == "left") { this.tooltipBox = new Rectangle(this.x - width - 15, this.y - 180 * 0.2, width, 180); }
+	//if (position == "bottom") { this.tooltipBox = new Rectangle(this.x - 33, this.y + this.height + 19, width + 100, 180); }
 	if (position.x != undefined) {
 	this.tooltipBox = position; }
 	
 	this.tooltipBox.tooltipString = new advancedString(wordWrap(text, width - 30), this.tooltipBox.x + 15, this.tooltipBox.y + 25);
 	this.tooltipBox.tooltip = false;
-	this.tooltipBox.boxColor = "rgba(40, 40, 40, 0.5)";
+	this.tooltipBox.boxColor = "rgba(20, 20, 20, 0.8)";
 	//this.tooltipBox.setText(text, "black");
 	return this.tooltipBox;
 	

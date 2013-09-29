@@ -9,7 +9,7 @@ function advancedString(string, x, y) {
 	this.string = string;
 	
 	this.spaceWidth = this.context.measureText(" ").width; //used for spacing between words
-	this.spaceHeight = 15 * 2.5; //used for height spacing
+	this.spaceHeight = 10 * 2.5; //used for height spacing
 	
 	this.wordRectangle = new Array(); //used for words with colors to have a tooltip event.
 	
@@ -98,42 +98,52 @@ var clr = false;
 
 	//if a color is found-- it measures the color and makes an exception for the word wrapping because it won't be visible.
 	for (var i = 0; i < string.length; i ++) {
-				
-		if (string[i] == "`" && clr == false) {
-			var cWord = "";
+		
+		if (string[i] == "^") {
+		word += string[i];
+		
+				//add the new line.
+				totalString += word;
+			    exception = 0
+				word = ""; //reset the line
+		}
+		else {
+		
+			if (string[i] == "`" && clr == false) {
+				var cWord = "";
 			
-				for (var t = 0; t < string.length - i; t++) {
+					for (var t = 0; t < string.length - i; t++) {
 					
-					cWord += string[i + t]; 
-					if (string[i + t] == "`" && t != 0) { break; }
-				}
+						cWord += string[i + t]; 
+						if (string[i + t] == "`" && t != 0) { break; }
+					}
 				
-			exception += _.context.measureText(cWord).width; console.warn(cWord);// console.warn(cWord);
+			exception += _.context.measureText(cWord).width;// console.warn(cWord);// console.warn(cWord);
 			clr = true;} 
 			else { if (string[i] == "`") { clr = false; } }
 			
 			
-		//if a tooltip is found-- it should ignore all text within!
+			//if a tooltip is found-- it should ignore all text within!
 			if (string[i] == "&") { 
 			} 
 			
 		
-		word += string[i]; //adds character to current line.
+			word += string[i]; //adds character to current line.
 
-		//Measuring current line, making exceptions, and adding a word to the next line(which negatively influences the exception)
+			//Measuring current line, making exceptions, and adding a word to the next line(which negatively influences the exception)
 		
-		if (string[i] == " " && _.context.measureText(word).width > width + exception) {
+			if (string[i] == " " && _.context.measureText(word).width > width + exception) {
 
-			var size = _.context.measureText(word).width - (width + exception); //How much is the current word off by?
+				var size = _.context.measureText(word).width - (width + exception); //How much is the current word off by?
 
-				var wordL = "";
-				var lastException = "";
-				var lastColor = false;
-				for (var q = 0; q < word.length - 1; q++) {
+					var wordL = "";
+					var lastException = "";
+					var lastColor = false;
+					for (var q = 0; q < word.length - 1; q++) {
 					
-					wordL += word[word.length - 1 - q]; //forming a new line backwards.
-					if (word[word.length - 1 - q] == "`") { lastColor = true; }
-					if (lastColor == true) { lastException += word[word.length - 1 - q]; if (lastException.length > 1 && word[word.length - 1 - q] == "`") { lastColor = false; } }
+						wordL += word[word.length - 1 - q]; //forming a new line backwards.
+						if (word[word.length - 1 - q] == "`") { lastColor = true; }
+						if (lastColor == true) { lastException += word[word.length - 1 - q]; if (lastException.length > 1 && word[word.length - 1 - q] == "`") { lastColor = false; } }
 						//Reading backwards and making sure it's split on a space / comparing the size--^
 						if (word[word.length - 1 - q] == " " && _.context.measureText(wordL).width >= size) {
 						
@@ -149,6 +159,7 @@ var clr = false;
 				exception += _.context.measureText(lastException).width;
 				word = ""; //reset the line
 				
+			}
 		}
 		
 	

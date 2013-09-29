@@ -34,14 +34,33 @@ ability.prototype.abilityStats = function(abilityName)
 				attacks: 1,
 				abilityTooltip: ""
 			}
+			// Colors must be changed after a word with no spacing, and it must include a space after the color... TEXT!`color` textexttext
+			// |---------Red--------| |---------Yellow-----------|
+			// "This`red` text is red. this`yellow` text is yellow."
 			
-			stats.abilityTooltip = "this is the ability arrowsmith. blah blah blah blah. " + "movement`yellow` cost is " + stats.movementCost + ". blah`white` blah blah blah."; 
+			
+			//"this is a typical line that gets word wrapped by ^the word wrap function. ^this is a new line."
+			
+			// |--------------------Wordwrap---------------------|
+			// "this is a typical line that gets word wrapped by 
+			// the word wrap function. ^                              (space carrot " ^ " is a new line, a space on each side.)
+			// this is a new line."
+			// let me know if you think we need more functions for this. i'll writing as well, but we should have a certain way of doing it i think.
+			
+			// sidenote* if you mess up the color formatting of a string it could crash the game and the browser...   word`color`(space) textextext!
+			
+			//to edit the size of the box line 55 of rectangles, its not very dynamic atm.
+			
+			stats.abilityTooltip = "this is the ability Arrowsmith.`red` blah`white` blah blah blah. " +
+			" ^ movement`yellow` cost is " + stats.movementCost + ". ^ cooldown`rgba(20, 120, 180, 0.8)` cost is " + stats.cooldown + ".";
+			
 			return stats;
 		
 		case "Ambush":
 		
 			stats = {
-				damageMultiplier: 1.5
+				damageMultiplier: 1.5,
+				abilityTooltip: ""
 			}
 			
 			return stats;
@@ -56,9 +75,11 @@ ability.prototype.abilityStats = function(abilityName)
 				visibility: "both",
 				stacks: false,
 				defense: 2,
-				range: 4
+				range: 4,
+				abilityTooltip: ""
 			}
 			
+			stats.abilityTooltip = "";
 			return stats;				  
 	  
 	  	case "Blind":
@@ -70,7 +91,8 @@ ability.prototype.abilityStats = function(abilityName)
 				duration: 2,
 				range: 3,
 				reveal: 1,
-				sight: 1				
+				sight: 1,
+				abilityTooltip: ""				
 			}
 			
 			return stats;
@@ -81,7 +103,8 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 4,
 				movementCost: 2,
 				duration: 3,
-				life: 2
+				life: 2,
+				abilityTooltip: ""
 			}
 			
 			return stats; 
@@ -97,7 +120,8 @@ ability.prototype.abilityStats = function(abilityName)
 				lifetime: 3,
 				duration: 1,
 				damage: 2,
-				range: 4
+				range: 4,
+				abilityTooltip: ""
 			}
 			
 			return stats; 
@@ -112,7 +136,8 @@ ability.prototype.abilityStats = function(abilityName)
 				duration: 1,
 				lifetime: 3,
 				radius: 1,
-				range: 3
+				range: 3,
+				abilityTooltip: ""
 			}
 			
 			return stats;				
@@ -121,7 +146,8 @@ ability.prototype.abilityStats = function(abilityName)
 		
 			stats = {				
 				duration: 3,
-				damage: 1
+				damage: 1,
+				abilityTooltip: ""
 			}
 			
 			return stats;
@@ -134,7 +160,8 @@ ability.prototype.abilityStats = function(abilityName)
 				lifeCost: 3,
 				attackCost: 1,
 				damage: 5,
-				range: 4
+				range: 4,
+				abilityTooltip: ""
 			}
 			
 			return stats; 
@@ -143,7 +170,8 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				movementCost: 1,
-				blocks: 1
+				blocks: 1,
+				abilityTooltip: ""
 			}
 			
 			return stats; 
@@ -158,7 +186,8 @@ ability.prototype.abilityStats = function(abilityName)
 				lifetime: 3,
 				duration: 3,
 				damage: 3,
-				range: 4
+				range: 4,
+				abilityTooltip: ""
 			}
 			
 			return stats; 
@@ -166,7 +195,8 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Frostbite":	
 					
 			stats = {
-				damage: 3
+				damage: 3,
+				abilityTooltip: ""
 			}
 			
 			return stats;
@@ -178,7 +208,8 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 3,
 				target: "ally",
 				hitpoints: 6,
-				range: 3
+				range: 3,
+				abilityTooltip: ""
 			} 
 			
 			return stats;
@@ -191,7 +222,8 @@ ability.prototype.abilityStats = function(abilityName)
 				target: "ally",
 				duration: 3,
 				speed: 3,
-				range: 4
+				range: 4,
+				abilityTooltip: ""
 			}
 			
 			return stats;
@@ -207,7 +239,8 @@ ability.prototype.abilityStats = function(abilityName)
 				damage: 2,
 				lifetime: 6,
 				tileTarget: "enemy",
-				hidden: true
+				hidden: true,
+				abilityTooltip: ""
 			}
 
 			return stats;
@@ -220,7 +253,8 @@ ability.prototype.abilityStats = function(abilityName)
 				targetSelf: true,
 				target: "ally",
 				targets: 2,
-				range: 3
+				range: 3,
+				abilityTooltip: ""
 			}
 			
 			return stats;
@@ -236,7 +270,8 @@ ability.prototype.abilityStats = function(abilityName)
 				lifetime: 3,
 				radius: 1,
 				range: 4,
-				blocks: 1
+				blocks: 1,
+				abilityTooltip: ""
 			}
 			
 			return stats;	
@@ -248,7 +283,8 @@ ability.prototype.abilityStats = function(abilityName)
 				duration: 3,
 				unitAffectNumber: 1,
 				auraRange: 2,
-				stacks: false
+				stacks: false,
+				abilityTooltip: ""
 			}
 			
 			return stats;
@@ -261,7 +297,8 @@ ability.prototype.abilityStats = function(abilityName)
 				targetSelf: true,
 				target: "ally",
 				targets: 2,
-				range: 5
+				range: 5,
+				abilityTooltip: ""
 			}
 			
 			return stats;	
@@ -272,7 +309,8 @@ ability.prototype.abilityStats = function(abilityName)
 				duration: 3,
 				visibility: "both",
 				stacks: false,
-				damage: 1
+				damage: 1,
+				abilityTooltip: ""
 			}
 			
 			return stats;	
@@ -284,7 +322,8 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 4,
 				duration: 3,
 				damage: 4,
-				range: 2
+				range: 2,
+				abilityTooltip: ""
 			}
 			
 			return stats;	
@@ -298,7 +337,8 @@ ability.prototype.abilityStats = function(abilityName)
 				duration: 3,
 				range: 4,
 				defense: 2,
-				blocks: 3
+				blocks: 3,
+				abilityTooltip: ""
 			}
 			
 			return stats; 
@@ -307,7 +347,8 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				cooldown: 2,
-				attacks: 2
+				attacks: 2,
+				abilityTooltip: ""
 			}
 			
 			return stats;	
@@ -316,7 +357,8 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				cooldown: 3,
-				speed: 3
+				speed: 3,
+				abilityTooltip: ""
 			}
 			
 			return stats;
@@ -331,7 +373,8 @@ ability.prototype.abilityStats = function(abilityName)
 				auraRange: 3,
 				duration: 2,
 				attacks: 3,
-				damage: 3
+				damage: 3,
+				abilityTooltip: ""
 			}
 			
 			return stats;
@@ -347,7 +390,8 @@ ability.prototype.abilityStats = function(abilityName)
 				duration: 3,
 				range: 3,
 				radius: 1,
-				visionBlock: true
+				visionBlock: true,
+				abilityTooltip: ""
 			}
 			
 			return stats;
@@ -360,7 +404,8 @@ ability.prototype.abilityStats = function(abilityName)
 				target: "ally",
 				duration: 3,
 				hitpoints: 2,
-				range: 5
+				range: 5,
+				abilityTooltip: ""
 			}
 			
 			return stats;	
@@ -373,7 +418,8 @@ ability.prototype.abilityStats = function(abilityName)
 				target: "ally",
 				duration: 2,
 				damage: 2,
-				range: 4
+				range: 4,
+				abilityTooltip: ""
 			}
 			
 			return stats;	
@@ -382,7 +428,8 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				cooldown: 3,
-				movementCost: 1
+				movementCost: 1,
+				abilityTooltip: ""
 			}
 			
 			return stats;	
@@ -395,7 +442,8 @@ ability.prototype.abilityStats = function(abilityName)
 				duration: 2,
 				damage: 2,
 				speed: -2,
-				radius: 1
+				radius: 1,
+				abilityTooltip: ""
 			}
 			
 			return stats;	
@@ -405,7 +453,8 @@ ability.prototype.abilityStats = function(abilityName)
 			stats = {
 				cooldown: 6,
 				target: "tile",
-				range: 6
+				range: 6,
+				abilityTooltip: ""
 			}
 			
 			return stats;	
@@ -416,7 +465,8 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 3,
 				movementCost: 2,
 				target: "enemy",
-				range: 1
+				range: 1,
+				abilityTooltip: ""
 			}
 			
 			return stats;							
@@ -429,7 +479,8 @@ ability.prototype.abilityStats = function(abilityName)
 				target: "ally",
 				duration: 3,
 				reveal: 2,
-				range: 4				
+				range: 4,
+				abilityTooltip: ""				
 			}
 			
 			return stats;
@@ -442,7 +493,8 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 1,
 				duration: 3,
 				speed: -2,
-				range: 4
+				range: 4,
+				abilityTooltip: ""
 			}
 			
 			return stats;				

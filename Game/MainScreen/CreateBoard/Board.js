@@ -63,6 +63,8 @@ Board.prototype.spawnZones = function(toggle) {
 	x++; if (x == GridSpot.length) { x = 0; y++;} } }			  
 
 }
+
+
 	  
 //Handle Clicks
 Board.prototype.ClickGrid = function(Mouse, WhichClick)
@@ -81,7 +83,7 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 	CurrentSelectedGrid.Select("on"); 
 	if (CurrentSelectedGrid.currentUnit != null && CurrentSelectedGrid.allyVision.length > 0) { 
 	Ui.currentStats = CurrentSelectedGrid.currentUnit.baseStats;
-	Ui.currentUnit = CurrentSelectedGrid.currentUnit;
+	Ui.currentUnit = CurrentSelectedGrid.currentUnit; Ui.setTooltips();
 	}
 	}
 	

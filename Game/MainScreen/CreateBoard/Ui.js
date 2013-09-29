@@ -9,6 +9,10 @@
 		else { this.createPlacementUi(); }
         //Set Rectangles
 		
+		this.tooltipList = new Array();
+		
+		
+		
 		//finishedPlacementBox
 		this.finishPlacementBox = new Rectangle(Canvas.width * 0.52 - Canvas.width * 0.21, Canvas.height * 0.5 - Canvas.height * 0.04, Canvas.width * 0.21, Canvas.height * 0.04);
 		this.finishPlacementBox.boxColor = "Green";
@@ -50,6 +54,44 @@
 		this.currentStats = null;
 		this.currentUnit = null;
 	  }
+	  
+Ui.prototype.setTooltips = function() {
+
+	if (this.currentUnit != null) {
+	
+		this.tooltipList = new Array() 
+		for (var i = 0; i < this.currentUnit.abilityStats.length; i++) {
+		var string = "nothing is here";
+			if (this.currentUnit.abilityStats[i].abilityTooltip != undefined && this.currentUnit.abilityStats[i].abilityTooltip != "") {
+			
+				string = this.currentUnit.abilityStats[i].abilityTooltip;
+				}
+				
+			//push all ability tooltips
+		var tooltip = this.currentAbilities[i].setTooltip(string, 300, "left");
+		this.tooltipList.push(tooltip);
+			//
+		//this.currentAbilities[i].setTooltip("no information", 200, "left");
+		}
+	}
+}
+	  
+	  Ui.prototype.tooltips = function() {
+	  
+	  //Mouse
+		if (this.currentUnit != null) {
+			for (var i = 0; i < this.currentAbilities.length; i++) {
+				
+				if (this.tooltipList[i] != undefined) {
+					this.tooltipList[i].tooltip = false;
+					if (this.currentAbilities[i].Contains(Mouse) == true) { this.tooltipList[i].tooltip = true; }
+				}
+			}
+		}
+			
+	  }
+	  
+	  
 	  
 	  //Ability was clicked
 	  Ui.prototype.useAbility = function(from, oldSpot) { 
@@ -222,6 +264,7 @@
 	  
 		//Abilities
 		var numberOfAbility = 4;
+		
 	    this.currentAbilities = new Array(numberOfAbility);
 		this.abilityCastNeedsClick = false;
 		
@@ -232,6 +275,7 @@
 		for (var i = 0; i < numberOfAbility; i++) {
 			this.currentAbilities[i] = new Rectangle(posX + (x * (thiswidth + posSpacer)), posY + (y * (thisheight + posSpacer)), thiswidth, thisheight);
 			this.currentAbilities[i].boxColor = "rgba(0, 0, 0, 1)";
+			this.currentAbilities[i].setTooltip("no information", 200, "left");
 			x++; if (x == abilitiesPerRow) { y++; x = 0; } }
 		
 		//Buffs			
@@ -247,7 +291,8 @@
 			this.currentBuffs[i].boxColor = "rgba(0, 0, 90, 1)";
 			x++; if (x == buffsPerRow) { y++; x = 0; } }	
 			
-			
+		
+		
 			
 	  }
 	  
@@ -374,5 +419,10 @@
 		
 		if (PlacementStage == false && GameBoard.gameType == "normal" || GameBoard.gameType == "sandbox") { 
 		context.fillText(GameBoard.unitMoves - GameBoard.unitsMovedThisTurn.length, canvas.width - 20, 20); }
+		
+		for (var i = 0; i < this.tooltipList.length; i++) {
+		
+			if (this.tooltipList[i].tooltip == true) { this.tooltipList[i].draw(); }
+			}
 	  }
 			
