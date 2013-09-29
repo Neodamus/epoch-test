@@ -28,20 +28,25 @@ function CreateMenus(Width, Height) {
 	  this.logoutBox = new Rectangle(Canvas.width * 0.9, 1, Canvas.width * 0.1, Canvas.height * 0.05);  this.logoutBox.boxColor = "rgba(100, 20, 20, 0.9)";
 	
 	this.tooltipList = new Array();
+	var width = 350;
+	var tooltipRect = new Rectangle(_.canvas.width * 0.5 - (width) * 0.5, _.canvas.height * 0.5, width, 180);
+		var testing = this.quickGameBox.setTooltip("Find`yellow` a`white` match with another player. If`red` a game cannot be found you will host a new game and wait for another player.", width, tooltipRect);
+		 this.tooltipList.push(testing);
+		 
+	var tooltipRect = new Rectangle(_.canvas.width * 0.5 - (width) * 0.5, _.canvas.height * 0.5, width, 180);	 
+		 var testing = this.CreateBox.setTooltip("Create a single-player`yellow` GameBoard`white` with options. This`red` is for learning and testing out units and game mechanics.", width, tooltipRect);
+		 this.tooltipList.push(testing);
+		 
+	var tooltipRect = new Rectangle(_.canvas.width * 0.5 - (width) * 0.5, _.canvas.height * 0.5, width, 180);	 
+		 var testing = this.FindBox.setTooltip("Enter the Game`yellow` Lobby to`white` join, create games, and chat with other players of this Epoch Community! the`red` last word of these tooltips can be buggy, but it's an easy fix.", width, tooltipRect);
+		 this.tooltipList.push(testing);
 	
-		var testing = this.quickGameBox.setTooltip("Find`yellow` a`white` match with another player. If`red` a game cannot be found you will host a new game and wait for another player.", 350, "right");
+	var tooltipRect = new Rectangle(_.canvas.width * 0.5 - (width) * 0.5, _.canvas.height * 0.5, width, 180);
+		 var testing = this.WebsiteBox.setTooltip("This menu will re-direct this page to our blog,`yellow` where`red` you can read all about the creators of this Epoch Game, please`orange` give this to your car wash professional, and A1 day.", width, tooltipRect);
 		 this.tooltipList.push(testing);
 		 
-		 var testing = this.CreateBox.setTooltip("Create a single-player`yellow` GameBoard`white` with options. This`red` is for learning and testing out units and game mechanics.", 350, "right");
-		 this.tooltipList.push(testing);
-		 
-		 var testing = this.FindBox.setTooltip("Enter the Game`yellow` Lobby to`white` join, create games, and chat with other players of this Epoch Community! the`red` last word of these tooltips can be buggy, but it's an easy fix.", 350, "right");
-		 this.tooltipList.push(testing);
-		 
-		 var testing = this.WebsiteBox.setTooltip("This menu will re-direct this page to our blog,`yellow` where`red` you can read all about the creators of this Epoch Game, please`orange` give this to your car wash professional, and A1 day.", 350, "right");
-		 this.tooltipList.push(testing);
-		 
-		  var testing = this.logoutBox.setTooltip("So, you don't like your current user-name? It is kinda- bad. Log`yellow` out and choose a new user name.", 350, "right");
+	var tooltipRect = new Rectangle(_.canvas.width * 0.5 - (width) * 0.5, _.canvas.height * 0.5, width, 180);
+		  var testing = this.logoutBox.setTooltip("So, you don't like your current user-name? It is kinda- bad. Log`yellow` out and choose a new user name.", width, tooltipRect);
 		 this.tooltipList.push(testing);
 	  
 	 

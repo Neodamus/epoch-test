@@ -31,9 +31,11 @@ ability.prototype.abilityStats = function(abilityName)
 				lifetime: 1,
 				auraRange: 1,
 				duration: 1,
-				attacks: 1			
+				attacks: 1,
+				abilityTooltip: ""
 			}
 			
+			stats.abilityTooltip = "this is the ability arrowsmith. blah blah blah blah. " + "movement`yellow` cost is " + stats.movementCost + ". blah`white` blah blah blah."; 
 			return stats;
 		
 		case "Ambush":

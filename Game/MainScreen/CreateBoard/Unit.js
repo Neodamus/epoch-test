@@ -119,6 +119,12 @@
 			this.currentStats[8] = this.baseStats[8] + this.buffStats[8];	//#attacks
 			
 			this.currentStats[9] = this.baseStats[9] + this.buffStats[9]; //#defends 
+			
+				if (this.displayStats == true) { 
+					this.fakeStats[4] = this.baseStats[4] + this.buffStats[4];
+					this.fakeStats[8] = this.baseStats[8] + this.buffStats[8];
+					this.fakeStats[9] = this.baseStats[9] + this.buffStats[9];
+				}
 			}
 						
 			this.currentStats[3] = this.baseStats[3] + this.buffStats[3]; // defense

@@ -145,7 +145,7 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 		//Movement Action
 		if (CurrentSelectedGrid != null && CurrentTarget != null && CurrentTarget.moveMarker == true && CurrentTarget.currentUnit == null)
 		{ 
-			if (this.unitsMovedThisTurn.length < this.unitMoves || listContains(this.unitsMovedThisTurn, CurrentSelectedGrid.currentUnit) == true) {
+			if (this.unitsMovedThisTurn.length < this.unitMoves || listContains(this.unitsMovedThisTurn, CurrentSelectedGrid.currentUnit) == true || CurrentSelectedGrid.currentUnit.turnCost == false) {
 			instructions = new Array("move", CurrentSelectedGrid.x, CurrentSelectedGrid.y, CurrentTarget.x, CurrentTarget.y); this.sendUnitInstruction(instructions);
 		
 		CurrentSelectedGrid.currentUnit.Move(CurrentTarget); CurrentSelectedGrid.Select("off");
@@ -160,7 +160,7 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 		if (CurrentSelectedGrid != null && CurrentTarget != null && CurrentTarget.currentUnit != null && CurrentSelectedGrid.currentUnit != null && CurrentSelectedGrid != CurrentTarget
 			&& CurrentTarget.attackMarker == true && CurrentSelectedGrid.currentUnit.alliance == "ally")
 		{
-			if (this.unitsMovedThisTurn.length < this.unitMoves || listContains(this.unitsMovedThisTurn, CurrentSelectedGrid.currentUnit) == true) {
+			if (this.unitsMovedThisTurn.length < this.unitMoves || listContains(this.unitsMovedThisTurn, CurrentSelectedGrid.currentUnit) == true || CurrentSelectedGrid.currentUnit.turnCost == false) {
 			instructions = new Array("attack", CurrentSelectedGrid.x, CurrentSelectedGrid.y, CurrentTarget.x, CurrentTarget.y); this.sendUnitInstruction(instructions);
 			
 			CurrentSelectedGrid.currentUnit.Attack(CurrentTarget); CurrentSelectedGrid.Select("off");
