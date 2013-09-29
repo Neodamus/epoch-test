@@ -172,16 +172,21 @@ Ui.prototype.setTooltips = function() {
 		 if (ClientsTurn == true && this.finishTurnBox.Contains(Mouse) == true && ClientsTurn == true) {
 			var endTurn = new Array();
 			endTurn.push("end");
+			
 			for (var i = 0; i < GameBoard.tileModifierList.length; i++) { var theSame = GameBoard.tileModifierList[i]; GameBoard.tileModifierList[i].turnRefresh("enemy");
 			if (theSame != GameBoard.tileModifierList[i]) { i--; } } //fixing index error
+			
 			GameBoard.sendUnitInstruction(endTurn);
 			if (GameBoard.gameType == "normal") { 
 				ClientsTurn = false; 
 				GameBoard.unitsMovedThisTurn = new Array();
+				
 				for (var i = 0; i < GameBoard.EnemyUnits.length; i++) {  var theSame = GameBoard.EnemyUnits[i]; GameBoard.EnemyUnits[i].turnFunction(); 
 				if (theSame != GameBoard.EnemyUnits[i]) { i--; } } //fixing index error}
+				
 			} else if (GameBoard.gameType == "sandbox") {
 				GameBoard.unitsMovedThisTurn = new Array();
+				
 				for (var i = 0; i < GameBoard.AllyUnits.length; i++) { var theSame = GameBoard.AllyUnits[i]; GameBoard.AllyUnits[i].turnFunction();
 					if (theSame != GameBoard.AllyUnits[i]) { i--; } } //fixing index error}				}
 			}

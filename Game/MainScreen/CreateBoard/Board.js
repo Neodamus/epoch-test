@@ -227,7 +227,9 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 			break;
 			
 			case "end":
-			for (var i = 0; i < this.AllyUnits.length; i++) { this.AllyUnits[i].turnFunction(); } 
+			for (var i = 0; i < this.AllyUnits.length; i++) { var theSame = this.AllyUnits[i]; this.AllyUnits[i].turnFunction(); 
+			if (theSame != this.tileModifierList[i]) { i--; } }
+			
 			for (var i = 0; i < this.tileModifierList.length; i++) { var theSame = this.tileModifierList[i]; this.tileModifierList[i].turnRefresh("ally"); 
 			if (theSame != this.tileModifierList[i]) { i--; } } //fixing index error
 			ClientsTurn = true; combatLog.push("Turn End.");
