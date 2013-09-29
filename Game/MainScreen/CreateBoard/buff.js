@@ -184,9 +184,11 @@
 					
 						this.attachedUnit.reveal("off");
 						
-						this.buffStats.revealDebuff = this.buffStats.reveal - this.attachedUnit.currentStats[7];					
-						this.attachedUnit.buffStats[7] += this.buffStats.revealDebuff;			
-						this.attachedUnit.currentStats[7] += this.buffStats.revealDebuff;						
+						if (this.attachedUnit.currentStats[7] > 0) {
+							this.buffStats.revealDebuff = this.buffStats.reveal - this.attachedUnit.currentStats[7];					
+							this.attachedUnit.buffStats[7] += this.buffStats.revealDebuff;			
+							this.attachedUnit.currentStats[7] += this.buffStats.revealDebuff;
+						}
 					
 						this.attachedUnit.reveal("on");
 						
