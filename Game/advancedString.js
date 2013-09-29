@@ -8,8 +8,17 @@ function advancedString(string, x, y) {
 	
 	this.string = string;
 	
+	var fontsize = _.context.font;
+	var temp = fontsize.indexOf("p");
+	fontsize = "";
+	for (var i = 0; i < temp; i++) {
+	
+		fontsize += _.context.font[i];
+	}
+	this.fontSize = parseInt(fontsize, 10);
+	
 	this.spaceWidth = this.context.measureText(" ").width; //used for spacing between words
-	this.spaceHeight = 10 * 2.5; //used for height spacing
+	this.spaceHeight = this.fontSize * 1.3; //used for height spacing
 	
 	this.wordRectangle = new Array(); //used for words with colors to have a tooltip event.
 	

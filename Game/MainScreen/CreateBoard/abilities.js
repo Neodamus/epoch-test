@@ -52,7 +52,7 @@ ability.prototype.abilityStats = function(abilityName)
 			//to edit the size of the box line 55 of rectangles, its not very dynamic atm.
 			
 			stats.abilityTooltip = "this is the ability Arrowsmith.`red` blah`white` blah blah blah. " +
-			" ^ movement`yellow` cost is " + stats.movementCost + ". ^ cooldown`rgba(20, 120, 180, 0.8)` cost is " + stats.cooldown + ".";
+			" ^ -movement`yellow` cost is " + stats.movementCost + ". ^ -cooldown`rgba(20, 120, 180, 0.8)` cost is " + stats.cooldown + ".";
 			
 			return stats;
 		
