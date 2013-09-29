@@ -190,7 +190,9 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 		// 			   6 = target2.x, 7 = target2.y;
 		//var instructions = new Array(Action, sourcex, sourcey, targetx, targety, Ability, target2x, target2y);
 		if (this.gameType == "normal") {
-		sendPacket2("unitAction", sendData); }
+		sendPacket2("unitAction", sendData); 
+		if (sendData == "end") { console.warn("Turn End"); }
+		}
 	  }
 	  
 	  //Removes unit from lists
@@ -232,7 +234,8 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 			
 			for (var i = 0; i < this.tileModifierList.length; i++) { var theSame = this.tileModifierList[i]; this.tileModifierList[i].turnRefresh("ally"); 
 			if (theSame != this.tileModifierList[i]) { i--; } } //fixing index error
-			ClientsTurn = true; combatLog.push("Turn End.");
+			console.warn("Turn End");
+			ClientsTurn = true; combatLog.push("Turn End");
 			break;
 			
 			case "ability":
