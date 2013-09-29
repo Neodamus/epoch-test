@@ -152,8 +152,10 @@
 						
 					case "Defend":
 					
-						source.currentStats[8] = 0;
-						source.currentStats[4] = 0;
+						if (source.baseStats[6] == 1) {
+							source.currentStats[8] = 0;
+							source.currentStats[4] = 1;
+						}
 					
 						break;
 					
@@ -1185,22 +1187,29 @@
 				switch(Procedure) {
 				
 					case "Initialize":
-					
-						var stompList = this.targetSpot;
 						
-						for (i = 0; i < stompList.length; i++) {
-							var target = stompList[i].currentUnit;
+						if (this.targetSpot instanceof Array) {
 							
-							if (target != null && target.alliance != this.sourceUnit.alliance) {
+							var stompList = this.targetSpot;
+						
+							for (i = 1; i < stompList.length; i++) {
 								
-								target.buffList.push(this);
-							
-								target.buffStats[4] += this.buffStats.speed;
-								target.currentStats[4] += this.buffStats.speed;
-								if (target.currentStats[4] < 0) { target.currentStats[4] = 0; }
+								var target = stompList[i].currentUnit;
 								
-								target.receivePureDamage(this.buffStats.damage, this.buffType);
+								if (target != null && target.alliance != this.sourceUnit.alliance) {
+									
+									new newBuff(this.buffType, stompList[i], this.sourceUnit);
+								}
 							}
+						} else {
+							
+							this.attachedUnit.buffList.push(this);
+						
+							this.attachedUnit.buffStats[4] += this.buffStats.speed;
+							this.attachedUnit.currentStats[4] += this.buffStats.speed;
+							if (this.attachedUnit.currentStats[4] < 0) { this.attachedUnit.currentStats[4] = 0; }
+							
+							this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
 						}
 						
 					break;

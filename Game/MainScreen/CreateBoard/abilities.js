@@ -334,11 +334,15 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 3,
 				movementCost: 2,
 				target: "ally",
-				duration: 3,
+				duration: 2,
 				range: 4,
 				defense: 2,
+<<<<<<< HEAD
 				blocks: 3,
 				abilityTooltip: ""
+=======
+				blocks: 2
+>>>>>>> some fixes
 			}
 			
 			return stats; 
@@ -346,9 +350,14 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Rapid Strikes": 
 					
 			stats = {
+<<<<<<< HEAD
 				cooldown: 2,
 				attacks: 2,
 				abilityTooltip: ""
+=======
+				cooldown: 1,
+				attacks: 2
+>>>>>>> some fixes
 			}
 			
 			return stats;	
@@ -437,6 +446,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Stomp":	
 					
 			stats = {
+				target: "both",
 				cooldown: 3,
 				movementCost: 2,
 				duration: 2,
