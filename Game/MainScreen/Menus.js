@@ -29,7 +29,7 @@ function CreateMenus(Width, Height) {
 	
 	this.tooltipList = new Array();
 	var width = 350;
-	var tooltipRect = new Rectangle(_.canvas.width * 0.5 - (width) * 0.5, _.canvas.height * 0.5, width, 180);
+	var tooltipRect = new Rectangle(_.canvas.width * 0.5 - (width) * 0.5, _.canvas.height * 0.5, width, 0);
 		var testing = this.quickGameBox.setTooltip("Find`yellow` a`white` match with another player. If`red` a game cannot be found you will host a new game and wait for another player.", width, tooltipRect);
 		 this.tooltipList.push(testing);
 		 

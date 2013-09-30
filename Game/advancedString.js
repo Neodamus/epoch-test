@@ -20,6 +20,9 @@ function advancedString(string, x, y) {
 	this.spaceWidth = this.context.measureText(" ").width; //used for spacing between words
 	this.spaceHeight = this.fontSize * 1.3; //used for height spacing
 	
+	this.totalHeight = 0;
+	
+	
 	this.wordRectangle = new Array(); //used for words with colors to have a tooltip event.
 	
 	var currentWord = "";
@@ -31,6 +34,8 @@ function advancedString(string, x, y) {
 	
 	var startx = x;
 	var starty = y;
+	
+	
 	
 	var currentLength = startx;
 	var currentHeight = starty;
@@ -48,6 +53,7 @@ function advancedString(string, x, y) {
 		//new line found
 		if (string[i] == "^") {
 			//this.spaceHeight;
+			this.totalHeight += this.spaceHeight;
 			currentHeight += this.spaceHeight;
 			currentLength = startx;
 		}
@@ -99,6 +105,7 @@ function advancedString(string, x, y) {
 
 function wordWrap(string, width) { //Current word wrap bugs: sometimes the last word can be pushed to the next line... starts @ line 152, minor bug.
 _.context.font = "15px Georgia";
+
 var totalString = "";
 var word = "";
 var exception = 0;
@@ -110,7 +117,6 @@ var clr = false;
 		
 		if (string[i] == "^") {
 		word += string[i];
-		
 				//add the new line.
 				totalString += word;
 			    exception = 0
@@ -181,6 +187,7 @@ var clr = false;
 			var lastSpaceIndex = -1;
 				for (var t = 0; t < 50; t++) { if (lastSpaceIndex == -1) {
 					lastSpaceIndex = totalString.indexOf(" ", totalString.length - t); } }
+					this.totalHeight += this.spaceHeight;
 					var newLine = " ^";
 					var totalString = [totalString.slice(0, lastSpaceIndex), newLine, totalString.slice(lastSpaceIndex)].join('');
 					word = ""; 

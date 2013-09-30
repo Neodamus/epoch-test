@@ -49,13 +49,17 @@ Rectangle.prototype.Contains = function(Object) {
   }
   
  Rectangle.prototype.setTooltip = function(text, width, position) {
-
+	
+	var wordwrapText = new advancedString(wordWrap(text, width - 30), 0, 0);
+	
 	//if (position == "top") {  this.tooltipBox = new Rectangle(this.x - 33, this.y - this.height - 180 + 35, width + 100, 180); }
 	//if (position == "right") { this.tooltipBox = new Rectangle(this.x + this.width + 25, this.y - this.height, width + 100, 180); }
 	if (position == "left") { this.tooltipBox = new Rectangle(this.x - width - 15, this.y - 220 * 0.2, width, 220); }
 	//if (position == "bottom") { this.tooltipBox = new Rectangle(this.x - 33, this.y + this.height + 19, width + 100, 180); }
 	if (position.x != undefined) {
 	this.tooltipBox = position; }
+	
+	this.tooltipBox.height = wordwrapText.totalHeight + 40;
 	
 	this.tooltipBox.tooltipString = new advancedString(wordWrap(text, width - 30), this.tooltipBox.x + 15, this.tooltipBox.y + 25);
 	this.tooltipBox.tooltip = false;
