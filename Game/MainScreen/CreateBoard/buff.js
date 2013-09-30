@@ -983,8 +983,11 @@
 					if (this.sourceUnit instanceof Unit) {		// initial cast by crossbowman
 						
 						this.initializeBuff();
+						
+						this.attachedUnit.sight("off");
 						this.attachedUnit.buffStats[5] += this.buffStats.sight;
 						this.attachedUnit.currentStats[5] += this.buffStats.sight;
+						this.attachedUnit.sight("on");
 
 						this.aura = new tileModifier(this.attachedUnit, this.buffType);
 						this.aura.attachedBuff = this;
