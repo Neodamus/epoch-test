@@ -1325,7 +1325,7 @@ newBuff.prototype.initializeBuff = function() {
 	// check if unit has buff of same name... if it does, add the index to list
 	var hasBuff = [];
 	for (i = 0; i < this.attachedUnit.buffList.length; i++) {
-		if (this.attachedUnit.buffList[i].buffType = this.buffType) { hasBuff.push(i); }	
+		if (this.attachedUnit.buffList[i].buffType == this.buffType) { hasBuff.push(i); }	
 	}
 	
 	// if unit has buff, decide if it should be refreshed or stacked.. if unit doesn't have buff, just add it
