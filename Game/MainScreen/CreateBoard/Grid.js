@@ -72,7 +72,7 @@
 			
 			if (modifier == "all") { for (var i = 0; i < this.tileBuffList.length; i++) {
 			var wasItRemoved = this.tileBuffList[i];
-			console.warn ("Grid initializing")
+			//console.warn ("Grid initializing")
 			this.tileBuffList[i].eventProc(procedure, this.currentUnit); 
 			if (this.tileBuffList[i] != wasItRemoved) { i--; }
 			} }
