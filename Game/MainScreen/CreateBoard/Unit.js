@@ -458,8 +458,9 @@ Unit.prototype.Attack = function(NewGridSpot) {
 			if (this.alliance == "ally" && this.currentStats[1] > 0){
 		 
 				this.sight("on");
-				this.reveal("on");
 			}
+			
+			this.reveal("on");
 			
 			for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("move", this.auras[i]); } //move all aura origins
 		 
@@ -475,7 +476,7 @@ Unit.prototype.Attack = function(NewGridSpot) {
 				if (NewGridSpot.revealList[i].alliance != this.alliance && listContains(this.revealersOnGridList, NewGridSpot.revealList[i]) == false) {
 					this.revealersOnGridList.push(NewGridSpot.revealList[i]);
 					this.stealth("off", NewGridSpot.revealList[i]);
-				}   
+				}  
 			}
 			}
 		 }
