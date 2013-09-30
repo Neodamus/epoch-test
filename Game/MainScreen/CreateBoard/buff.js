@@ -50,25 +50,24 @@
 				
 					case "Initialize":
 					
-					if (this.attachedUnit == this.sourceUnit) {		// initial cast by crossbowman
+					if (this.sourceUnit instanceof Unit) {		// initial cast by grovekeeper
 						
-						this.attachedUnit.buffList.push(this);
+						this.sourceUnit.buffList.push(this);
 
-						this.aura = new tileModifier(this.attachedUnit, this.buffType);
+						this.aura = new tileModifier(this.attachedUnit, this.buffType);						
+						this.sourceUnit.auras.push(this.aura);
+						this.sourceUnit.auraTileModifier("on", this.aura);
 						
-						this.aura.attachedBuff = this; //Used For Referencing the buff from the aura
+					} else if (this.sourceUnit instanceof tileModifier) { 	// give extra attack
+					
+						var grovekeeper = this.sourceUnit.sourceUnit
+					
+						if (this.sourceUnit.stats.lifetime == 2 && this.attachedUnit != grovekeeper) {
 						
-						this.attachedUnit.auras.push(this.aura);
-						this.attachedUnit.auraTileModifier("on", this.aura);
-						
-					} else if (this.attachedUnit == this.sourceUnit.sourceUnit) { 	// prevents self targeting
-						
-					} else { 	// give extra attack
-						var grovekeeper = this.sourceUnit.sourceUnit;
-						
-						if (this.attachedUnit.baseStats[6] > 1) {
-							this.attachedUnit.buffList.push(this);
-							this.attachedUnit.buffStats[8] += this.buffStats.attacks;
+							if (this.attachedUnit.baseStats[6] > 1) {
+								this.attachedUnit.buffList.push(this);
+								this.attachedUnit.buffStats[8] += this.buffStats.attacks;
+							}
 						}
 					}
 					
@@ -76,21 +75,24 @@
 				
 				case "Turn":					
 				
-					if (this.buffStats.duration <= 0) {	this.eventProc("Removal"); }
-					this.buffStats.duration--;				
+					this.buffStats.duration--;	
+					if (this.buffStats.duration <= 0) {	this.eventProc("Removal"); }			
 					
 				break;
 				
 				case "Move":
 				
-					this.eventProc("Removal");
+					if (this.sourceUnit instanceof tileModifier) {
+						this.eventProc("Removal");
+					}
 				
 				break;
 				
 				case "Removal":
 				
 					if (this.sourceUnit instanceof tileModifier) {
-						this.removeBuff();	
+						this.removeBuff();
+						this.removeTileModifier();	
 						this.attachedUnit.buffStats[8] -= this.buffStats.attacks;
 					} else {				
 						var rem = listReturnArray(this.sourceUnit.auras, this.aura); 
@@ -376,7 +378,7 @@
 				
 					case "Initialize":
 					
-						this.attachedUnit.buffList.push(this);
+						this.initializeBuff();
 					
 						this.attachedUnit.stealth("off", this);
 						//this.attachedUnit.noStealthList.push(this);
@@ -799,17 +801,21 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list					
+						this.initializeBuff();				
 						
 						break;
 				
 					case "Turn":
-					
-						this.attachedUnit.receivePureDamage(this.buffStats.damage, "Poison Tips")
 						
-						this.buffStats.duration--; //reduce buff time;  
+						this.buffStats.duration--;  
 						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
 						
+						break;
+						
+					case "Move":
+					
+						this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
+					
 						break;
 					
 					case "Removal":
@@ -1001,7 +1007,8 @@
 						var xbowman = this.sourceUnit.sourceUnit;						
 						var sentry = this.sourceUnit;
 						
-						if (ClientsTurn && this.attachedUnit.unitStealth == false) {
+						if (((ClientsTurn && xbowman.alliance == "enemy") || (ClientsTurn == false && xbowman.alliance == "ally"))
+							&& this.attachedUnit.unitStealth == false) {
 							
 							this.attachedUnit.receivePureDamage(this.buffStats.damage, xbowman.baseStats[0]);
 						
@@ -1011,8 +1018,9 @@
 								sentry.attachedBuff.eventProc("Removal");
 								
 							}
-							this.removeTileModifier();
 						}
+						
+						this.removeTileModifier();
 					}
 					
 				break;
@@ -1304,9 +1312,13 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);	
+						this.attachedUnit.buffList.push(this);
 						
-						this.attachedUnit.buffStats[4] += this.buffStats.speed				
+						var currentSpeed = this.attachedUnit.baseStats[4] + this.attachedUnit.buffStats[4];
+						var woundDamage = currentSpeed - this.buffStats.damage;
+						this.attachedUnit.receivePureDamage(woundDamage, this.buffType);	
+						
+						this.attachedUnit.buffStats[4] += this.buffStats.speed;
 						
 						break;
 				
@@ -1321,7 +1333,7 @@
 					
 						this.removeBuff();
 						
-						this.attachedUnit.buffStats[4] -= this.buffStats.speed	 	
+						this.attachedUnit.buffStats[4] -= this.buffStats.speed;	 	
 						
 						break;
 				}   
@@ -1330,6 +1342,31 @@
 		
 		if (this.attachedUnit != null) { this.attachedUnit.resetStats("BUFF"); } return this.removeReturn;
 	}
+	
+newBuff.prototype.initializeBuff = function() {
+
+	// check if unit has buff of same name... if it does, add the index to list
+	var hasBuff = [];
+	for (i = 0; i < this.attachedUnit.buffList.length; i++) {
+		if (this.attachedUnit.buffList[i].buffType = this.buffType) { hasBuff.push(i); }	
+	}
+	
+	// if unit has buff, decide if it should be refreshed or stacked.. if unit doesn't have buff, just add it
+	if (hasBuff.length > 0) {
+		
+		if (this.buffStats.stacks) {
+			
+			// add stacking code
+			
+		} else { // refreshes
+		
+			this.attachedUnit.buffList[hasBuff[0]].buffStats.duration = this.buffStats.duration;
+			
+		}		
+	} else {		
+		this.attachedUnit.buffList.push(this);		
+	}
+}
 	
 newBuff.prototype.removeBuff = function() {
 	

@@ -82,8 +82,10 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 	{ 
 	CurrentSelectedGrid.Select("on"); 
 	if (CurrentSelectedGrid.currentUnit != null && CurrentSelectedGrid.allyVision.length > 0) { 
-	Ui.currentStats = CurrentSelectedGrid.currentUnit.baseStats;
-	Ui.currentUnit = CurrentSelectedGrid.currentUnit; Ui.setTooltips();
+		if (CurrentSelectedGrid.currentUnit.unitStealth == false) {
+			Ui.currentStats = CurrentSelectedGrid.currentUnit.baseStats;
+			Ui.currentUnit = CurrentSelectedGrid.currentUnit; Ui.setTooltips();
+		}
 	}
 	}
 	

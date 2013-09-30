@@ -28,9 +28,10 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 1,
 				tileTarget: "ally",
 				auraTarget: "ally",
-				lifetime: 1,
+				lifetime: 2,
 				auraRange: 2,
-				duration: 1,
+				turnProc: true,
+				duration: 2,
 				attacks: 1,
 				abilityTooltip: ""
 			}
@@ -209,7 +210,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 3,
 				movementCost: 2,
 				target: "ally",
-				duration: 3,
+				duration: 2,
 				speed: 3,
 				range: 4,
 				abilityTooltip: ""
@@ -295,10 +296,9 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Poison Tips":
 		
 			stats = {
-				duration: 3,
+				duration: 2,
 				visibility: "both",
-				stacks: false,
-				damage: 1,
+				damage: 2,
 				abilityTooltip: ""
 			}
 			stats.abilityTooltip = abilityName + " ^ ";
@@ -406,7 +406,7 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				cooldown: 2,
-				movementCost: 3,
+				movementCost: 2,
 				target: "ally",
 				duration: 2,
 				damage: 2,
@@ -483,8 +483,10 @@ ability.prototype.abilityStats = function(abilityName)
 			stats = {
 				target: "enemy",
 				cooldown: 2,
+				attackCost: 1,
 				movementCost: 1,
-				duration: 3,
+				duration: 2,
+				damage: 4,
 				speed: -2,
 				range: 4,
 				abilityTooltip: ""

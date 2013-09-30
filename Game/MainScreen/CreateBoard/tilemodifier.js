@@ -18,7 +18,7 @@ function tileModifier(sourceUnit, name)
 
 tileModifier.prototype.turnRefresh = function(alliance)
 {
-	if (alliance == this.sourceUnit.alliance)
+	// if (alliance == this.sourceUnit.alliance)
 		{
 			if (this.stats.lifetime != 'undefined' && this.stats.lifetime != null)
 				{
@@ -34,6 +34,14 @@ tileModifier.prototype.turnRefresh = function(alliance)
 					
 					}
 				}
+				
+			if (this.stats.turnProc) {
+				
+				var currentUnits = this.getCurrentUnits();	// instanceof array
+				for (i = 0; i < currentUnits.length; i++) {
+					this.eventProc("initialize", currentUnits[i]);	
+				}
+			}
 		}
 
 }
@@ -201,26 +209,41 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 					if (rem != -1) { this.tileList[i].tileBuffList.splice(rem, 1); } 
 				}
 			} else {
-				alert(this.name + " casted by " + this.sourceUnit + " has a null tileList so it cannot be turned off.");
+				// this aura is already off and is trying to be turned off again
 			}
 			
 			this.tileList = null;
 			for (var i = 0; i < oldUnitList.length; i++) {  this.eventProc("remove", oldUnitList[i]); }//remove from units
 			
 			var rem = listReturnArray(GameBoard.tileModifierList, this); //removing this tilemodifier from the list of all tilemods on board.
-			if (rem != -1) { GameBoard.tileModifierList.splice(rem, 1); } else { alert("splicing modifier error, in OFF of tileModClass"); }
-			
-			if (this.stats.auraRange != undefined && this.stats.auraRange != null) { 
-				
-				var rem = listReturnArray(this.sourceUnit.auras, this.name); 
-						if (rem != -1) { 
-							this.sourceUnit.auras.splice(rem, 1); 
-						}
-			}
+			if (rem != -1) { GameBoard.tileModifierList.splice(rem, 1); } else { /* this list has already been removed */ }
 		
 			break;
 
 	}
+}
+
+tileModifier.prototype.getCurrentUnits = function() {		// retrieves all the units that this tileModifier is currently affecting
+	
+	var currentUnitList = [];
+
+	for (var x = 0; x < GridSpot.length; x++) {
+	
+		for (var y = 0; y < GridSpot[x].length; y++) {
+			
+			if (GridSpot[x][y].tileBuffList.length != 0) {
+				
+				for (i = 0; i < GridSpot[x][y].tileBuffList.length; i++) {
+				
+					if (GridSpot[x][y].tileBuffList[i] == this && GridSpot[x][y].currentUnit != null) { 
+						currentUnitList.push(GridSpot[x][y].currentUnit); 
+					}					
+				}
+			}
+		}
+	}
+	
+	return currentUnitList;	
 }
 
 tileModifier.prototype.draw = function(context, canvas) {

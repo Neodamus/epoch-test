@@ -149,7 +149,7 @@
 			switch(Action){
 			
 			case "move":
-			if (Toggle == "on" && GridSpot[x][y].currentUnit == null && this.currentStats[4] >= this.movementCost) { if (x != this.x || y != this.y) {GridSpot[x][y].moveMarker = true; }}
+			if (Toggle == "on" && (GridSpot[x][y].currentUnit == null || GridSpot[x][y].currentUnit.unitStealth == true) && this.currentStats[4] >= this.movementCost) { if (x != this.x || y != this.y) {GridSpot[x][y].moveMarker = true; }}
 			if (Toggle == "off") { if (x != this.x || y != this.y) {GridSpot[x][y].moveMarker = false; }}
 			break;
 			
@@ -378,48 +378,56 @@
 			combatLog.push(this.baseStats[0] + " healed by " + source + " for " + hp + " hit points.")
 	   }
 	   	  
-	   Unit.prototype.Attack = function(NewGridSpot)
-	  {
-		if (this.currentStats[8] > 0 && this.currentStats[4] > 0)
-		{
-		if (this.turnCost == true && this.alliance == "ally" && GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves && listContains(GameBoard.unitsMovedThisTurn, this) == false) { GameBoard.unitsMovedThisTurn.push(this); }
-			if (listContains(GameBoard.unitsMovedThisTurn, this) == true || this.alliance == "enemy" || this.turnCost == false) {
-				this.Select("off");
-				var damage = this.currentStats[2];
+Unit.prototype.Attack = function(NewGridSpot) {
+	
+	if (this.currentStats[8] > 0 && this.currentStats[4] > 0) {
 		
-		if (this.unitStealth == true) { this.stealthedLastAttack = true; } else { this.stealthedLastAttack = false; }	
+		if (this.turnCost == true && this.alliance == "ally" && GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves && 
+			listContains(GameBoard.unitsMovedThisTurn, this) == false) { GameBoard.unitsMovedThisTurn.push(this); }
 		
+		if (listContains(GameBoard.unitsMovedThisTurn, this) == true || this.alliance == "enemy" || this.turnCost == false) {
+			
+			this.Select("off");
+			var damage = this.currentStats[2];
+		
+			if (this.unitStealth == true) { this.stealthedLastAttack = true; } else { this.stealthedLastAttack = false; }			
 
-		if (NewGridSpot.currentUnit != null && NewGridSpot.currentUnit != undefined) {
+			if (NewGridSpot.currentUnit != null && NewGridSpot.currentUnit != undefined) {
 		
-			for (var i = 0; i < NewGridSpot.currentUnit.buffList.length; i++) { 
-				if (NewGridSpot.currentUnit.buffList[i].eventProc("Defend", this) == true) { i--; }  
-			}	 
-			
-			// receive damage
-			NewGridSpot.currentUnit.receivePhysicalDamage(damage, this);
-			
-			// apply attack buffs
-			if (this.currentStats[10] != 0 && NewGridSpot.currentUnit != null) {
-				var buffIt = new newBuff(this.currentStats[10], NewGridSpot, this); }
-			
-			// attack proc		
-			for (var i = 0; i < this.buffList.length; i++) {  if (this.buffList[i].eventProc("Attack") == true) { i--; }  }
-			
-				this.currentStats[4] -= this.attackMovementCost;
-				this.currentStats[8] -= this.attackCost;
+				if (NewGridSpot.currentUnit.unitStealth == false) {
 				
-				if (this.displayStats == true) { 
-				
-					this.fakeStats[4] -= this.attackMovementCost; 
-					this.fakeStats[8] -= this.attackCost;
-				}
-			}
+					for (var i = 0; i < NewGridSpot.currentUnit.buffList.length; i++) { 
+						if (NewGridSpot.currentUnit.buffList[i].eventProc("Defend", this) == true) { i--; }  
+					}	 
+					
+					// receive damage
+					NewGridSpot.currentUnit.receivePhysicalDamage(damage, this);
+					
+					// apply attack buffs
+					if (this.currentStats[10] != 0 && NewGridSpot.currentUnit != null) {
+						var buffIt = new newBuff(this.currentStats[10], NewGridSpot, this); }
+					
+					// attack proc		
+					for (var i = 0; i < this.buffList.length; i++) {  if (this.buffList[i].eventProc("Attack") == true) { i--; }  }
+					
+					this.currentStats[4] -= this.attackMovementCost;
+					this.currentStats[8] -= this.attackCost;
+					
+					if (this.displayStats == true) { 
+					
+						this.fakeStats[4] -= this.attackMovementCost; 
+						this.fakeStats[8] -= this.attackCost;
+					}
+				} else {
 			
-		
-		} else { alert(this.name + " tried to attack gridspot at " + NewGridSpot.x + ", " + NewGridSpot.y + " but no unit is there") }
-	  }
-	 }
+				  NewGridSpot.currentUnit.unitStealth = false;
+				  this.currentStats[4] -= this.movementCost;
+				  if (this.displayStats == true) { this.fakeStats[4] -= this.movementCost; }
+				}	 
+			} else { alert(this.name + " tried to attack gridspot at " + NewGridSpot.x + ", " + NewGridSpot.y + " but no unit is there") }
+	 	}
+	}
+}
 	  
 	  
 	  
@@ -464,13 +472,11 @@
 						this.revealersOnGridList.splice(i, 1); i--; } }
 			
 			for (var i = 0; i < NewGridSpot.revealList.length; i++) { 
-				if (//NewGridSpot.revealList[i].alliance == "enemy" && 
-					listContains(this.revealersOnGridList, NewGridSpot.revealList[i]) == false) {
+				if (NewGridSpot.revealList[i].alliance == "enemy" && listContains(this.revealersOnGridList, NewGridSpot.revealList[i]) == false) {
 					this.revealersOnGridList.push(NewGridSpot.revealList[i]);
 					this.stealth("off", NewGridSpot.revealList[i]);
-				}
-	   
-				}
+				}	   
+			}
 			}
 		 }
 	  }
@@ -481,7 +487,7 @@
 	  {
 			switch(Toggle) {
 				case "on": 
-					if (listContains(this.revealersOnGridList, unit) == false) {//NewGridSpot.revealList[i].alliance == "enemy" && 
+					if (listContains(this.revealersOnGridList, unit) == false && unit.alliance != this.alliance) { 
 						
 						this.revealersOnGridList.push(unit);
 						this.stealth("off", unit);
