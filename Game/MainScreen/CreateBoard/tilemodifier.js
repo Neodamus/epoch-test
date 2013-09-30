@@ -18,7 +18,7 @@ function tileModifier(sourceUnit, name)
 
 tileModifier.prototype.turnRefresh = function(alliance)
 {
-	// if (alliance == this.sourceUnit.alliance)
+	 if (alliance == this.sourceUnit.alliance || GameBoard.gameType == "sandbox")
 		{
 			if (this.stats.lifetime != 'undefined' && this.stats.lifetime != null)
 				{
