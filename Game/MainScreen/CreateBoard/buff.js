@@ -983,6 +983,8 @@
 					if (this.sourceUnit instanceof Unit) {		// initial cast by crossbowman
 						
 						this.initializeBuff();
+						this.attachedUnit.buffStats[5] += this.buffStats.sight;
+						this.attachedUnit.currentStats[5] += this.buffStats.sight;
 
 						this.aura = new tileModifier(this.attachedUnit, this.buffType);
 						this.aura.attachedBuff = this;
@@ -1032,6 +1034,7 @@
 					this.sourceUnit.auraTileModifier("off", this.aura);
 					var rem = listReturnArray(this.sourceUnit.auras, this.aura);
 					if (rem != -1) { this.sourceUnit.auras.splice(rem, 1); }
+					this.attachedUnit.buffStats[5] -= this.buffStats.sight;
 				
 				break;
 				}
@@ -1238,7 +1241,8 @@
 					case "Initialize":
 						
 						var damage = Math.ceil(this.attachedUnit.currentStats[1] / 2)
-						this.attachedUnit.receivePureDamage(damage, this.sourceUnit.name)
+						this.attachedUnit.receivePureDamage(damage, this.sourceUnit.name);
+						this.sourceUnit.currentStats[4] += Math.floor(damage * 0.5);
 						
 						break;
 				}   
