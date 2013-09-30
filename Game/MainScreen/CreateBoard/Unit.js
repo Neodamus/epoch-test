@@ -472,10 +472,10 @@ Unit.prototype.Attack = function(NewGridSpot) {
 						this.revealersOnGridList.splice(i, 1); i--; } }
 			
 			for (var i = 0; i < NewGridSpot.revealList.length; i++) { 
-				if (NewGridSpot.revealList[i].alliance == "enemy" && listContains(this.revealersOnGridList, NewGridSpot.revealList[i]) == false) {
+				if (NewGridSpot.revealList[i].alliance != this.alliance && listContains(this.revealersOnGridList, NewGridSpot.revealList[i]) == false) {
 					this.revealersOnGridList.push(NewGridSpot.revealList[i]);
 					this.stealth("off", NewGridSpot.revealList[i]);
-				}	   
+				}   
 			}
 			}
 		 }
@@ -487,6 +487,7 @@ Unit.prototype.Attack = function(NewGridSpot) {
 	  {
 			switch(Toggle) {
 				case "on": 
+					if (unit.alliance == undefined) { alert("line490 of unit"); }
 					if (listContains(this.revealersOnGridList, unit) == false && unit.alliance != this.alliance) { 
 						
 						this.revealersOnGridList.push(unit);

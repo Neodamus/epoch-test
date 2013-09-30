@@ -82,7 +82,7 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 	{ 
 	CurrentSelectedGrid.Select("on"); 
 	if (CurrentSelectedGrid.currentUnit != null && CurrentSelectedGrid.allyVision.length > 0) { 
-		if (CurrentSelectedGrid.currentUnit.unitStealth == false) {
+		if (CurrentSelectedGrid.currentUnit.alliance == "ally" || CurrentSelectedGrid.currentUnit.unitStealth == false) {
 			Ui.currentStats = CurrentSelectedGrid.currentUnit.baseStats;
 			Ui.currentUnit = CurrentSelectedGrid.currentUnit; Ui.setTooltips();
 		}
