@@ -56,7 +56,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 3,
 				movementCost: 1,
 				target: "ally",
-				duration: 3,
+				duration: 2,
 				visibility: "both",
 				stacks: false,
 				defense: 2,
