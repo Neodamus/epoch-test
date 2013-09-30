@@ -387,7 +387,7 @@ var Rainmaker = new Array(
 "4",      //damage2 
 "3",      //defence3
 "6",      //movement4
-"2",      //sight5
+"3",      //sight5
 "2",      //range 6
 "0",      //reveal 7
 "1",      //#attack8

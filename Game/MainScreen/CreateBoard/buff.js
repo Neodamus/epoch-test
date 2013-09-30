@@ -52,6 +52,7 @@
 					
 					if (this.sourceUnit instanceof Unit) {		// initial cast by grovekeeper
 						
+						this.buffStats.duration--;
 						this.sourceUnit.buffList.push(this);
 
 						this.aura = new tileModifier(this.attachedUnit, this.buffType);						
@@ -62,10 +63,10 @@
 					
 						var grovekeeper = this.sourceUnit.sourceUnit
 					
-						if (this.sourceUnit.stats.lifetime == 2 && this.attachedUnit != grovekeeper) {
+						if (this.sourceUnit.stats.lifetime == 1 && this.attachedUnit != grovekeeper) {
 						
 							if (this.attachedUnit.baseStats[6] > 1) {
-								this.attachedUnit.buffList.push(this);
+								this.initializeBuff();
 								this.attachedUnit.buffStats[8] += this.buffStats.attacks;
 							}
 						}
@@ -141,7 +142,7 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list
+						this.initializeBuff();	
 						
 						this.attachedUnit.buffStats[3] += this.buffStats.defense					
 						
@@ -179,7 +180,7 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);
+						this.initializeBuff();
 					
 						this.attachedUnit.sight("off");
 						
@@ -233,7 +234,7 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);
+						this.initializeBuff();
 						
 						break;
 				
@@ -292,7 +293,7 @@
 							var rem = listReturnArray(this.sourceUnit.tileList, GridSpot[this.attachedUnit.x][this.attachedUnit.y]); //Remove creeping vine tilemod from tilemodifier class' tile list.
 							if (rem != -1) { this.sourceUnit.tileList.splice(rem, 1);}
 							
-							this.attachedUnit.buffList.push(this);
+							this.initializeBuff();
 							this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
 							this.attachedUnit.currentStats[4] = 0;	
 
@@ -348,7 +349,7 @@
 						
 						if (this.sourceUnit instanceof tileModifier) {
 						   
-							this.attachedUnit.buffList.push(this);
+							this.initializeBuff();
 							this.attachedUnit.currentStats[4]++;				
 						
 						}
@@ -423,7 +424,7 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list
+						this.initializeBuff();
 					
 						this.attachedUnit.currentStats[9] += this.buffStats.blocks					
 						
@@ -467,7 +468,7 @@
 						// if unit steps on trap
 						if (this.sourceUnit instanceof tileModifier) {
 						   
-							this.attachedUnit.buffList.push(this);
+							this.initializeBuff();
 							this.attachedUnit.receivePureDamage(this.buffStats.damage - 2, this.buffType);
 							
 							this.buffStats.duration = this.sourceUnit.stats.lifetime;
@@ -531,7 +532,7 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);
+						this.initializeBuff();
 						
 						this.attachedUnit.buffStats[4] += this.buffStats.speed
 						this.attachedUnit.currentStats[4] += this.buffStats.speed					
@@ -598,7 +599,7 @@
 							var test = [ "off" ];							
 							if (rem != -1) { this.attachedUnit.currentTileMods[rem].affectedTiles(test); }
 						   
-							this.attachedUnit.buffList.push(this);
+							this.initializeBuff();
 							this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
 					
 							this.attachedUnit.stealth("off", this);		
@@ -703,33 +704,20 @@
 						
 						if (this.sourceUnit instanceof tileModifier) {
 							
-							var check = false;
-							
-							for (i = 0; i < this.attachedUnit.buffList.length; i++) {
-								
-								if (this.attachedUnit.buffList[i].buffType == this.buffType) { check = true; }
-								
-							}
-						   
-						   	if (check == false) {
-								this.attachedUnit.buffList.push(this);
+							var init = this.initializeBuff();
+							if (init != "refreshed") {
 								this.attachedUnit.buffStats[9] += this.buffStats.blocks;
-								this.attachedUnit.currentStats[9] += this.buffStats.blocks;			
+								this.attachedUnit.currentStats[9] += this.buffStats.blocks;
 							}
-						
+							this.removeTileModifier();						
 						}
 						
 					break;
 					
 					case "Turn":
 					
-						var mistCheck = false;
-						
-						for (i = 0; i < this.attachedUnit.currentTileMods.length; i++) {							
-							if (this.attachedUnit.currentTileMods[i].name == this.buffType) { mistCheck = true; }
-						}
-						
-						if (mistCheck == false) { this.eventProc("Removal"); }
+						this.buffStats.duration--;
+						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
 						
 					break;
 					
@@ -771,7 +759,7 @@
 						
 						}					
 						
-						if (stacks == false) { this.attachedUnit.buffList.push(this); }
+						if (stacks == false) { this.initializeBuff(); }
 					
 					break;
 				
@@ -859,7 +847,7 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);	// add buff to unit's buff list
+						this.initializeBuff();	// add buff to unit's buff list
 						
 						this.attachedUnit.buffStats[2] += this.buffStats.damage;
 						this.attachedUnit.currentStats[2] += this.buffStats.damage;							
@@ -895,7 +883,7 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);
+						this.initializeBuff();
 						
 						this.attachedUnit.buffStats[3] += this.buffStats.defense;
 						this.attachedUnit.currentStats[3] += this.buffStats.defense;
@@ -940,7 +928,7 @@
 				
 					case "Initialize":
 					
-						this.attachedUnit.buffList.push(this);
+						this.initializeBuff();
 					
 						this.attachedUnit.currentStats[8] += this.buffStats.attacks;  
 						
@@ -966,7 +954,7 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);
+						this.initializeBuff();
 						
 						this.attachedUnit.currentStats[4] += this.buffStats.speed;							
 						
@@ -994,7 +982,7 @@
 					
 					if (this.sourceUnit instanceof Unit) {		// initial cast by crossbowman
 						
-						this.attachedUnit.buffList.push(this);
+						this.initializeBuff();
 
 						this.aura = new tileModifier(this.attachedUnit, this.buffType);
 						this.aura.attachedBuff = this;
@@ -1066,20 +1054,8 @@
 							Instructions.push("on");
 							Instructions.push( smokeScreenTiles );
 							Trap.affectedTiles(Instructions);
-							
-							/* for (i = 0; i < smokeScreenTiles.length; i++) {
-								GridSpot[smokeScreenTiles[i].x][smokeScreenTiles[i].y].visionBlock.push(this);
-							} */
 								
-						}					
-						
-						/* if (this.sourceUnit instanceof tileModifier) {
-						   
-							this.attachedUnit.buffList.push(this);
-					
-							this.attachedUnit.noStealthList = [];			
-						
-						} */
+						}
 						
 					break;
 					
@@ -1105,7 +1081,7 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);
+						this.initializeBuff();
 						
 						break;
 				
@@ -1132,7 +1108,7 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);
+						this.initializeBuff();
 						
 						this.attachedUnit.currentStats[2] += this.buffStats.damage 
 						this.attachedUnit.buffStats[2] += this.buffStats.damage
@@ -1165,7 +1141,7 @@
 						
 						this.attachedUnit.stealth("on");
 						if (this.attachedUnit.unitStealth == true) {
-						this.attachedUnit.buffList.push(this); }
+						this.initializeBuff(); }
 						
 						break;
 					
@@ -1213,7 +1189,7 @@
 							}
 						} else {
 							
-							this.attachedUnit.buffList.push(this);
+							this.initializeBuff();
 						
 							this.attachedUnit.buffStats[4] += this.buffStats.speed;
 							this.attachedUnit.currentStats[4] += this.buffStats.speed;
@@ -1274,7 +1250,7 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);
+						this.initializeBuff();
 						this.attachedUnit.reveal("off");
 						this.attachedUnit.currentStats[7] += this.buffStats.reveal;
 						this.attachedUnit.reveal("on");
@@ -1312,7 +1288,7 @@
 				
 					case "Initialize":
 						
-						this.attachedUnit.buffList.push(this);
+						this.initializeBuff();
 						
 						var currentSpeed = this.attachedUnit.baseStats[4] + this.attachedUnit.buffStats[4];
 						var woundDamage = currentSpeed - this.buffStats.damage;
@@ -1341,6 +1317,7 @@
 		}
 		
 		if (this.attachedUnit != null) { this.attachedUnit.resetStats("BUFF"); } return this.removeReturn;
+		
 	}
 	
 newBuff.prototype.initializeBuff = function() {
@@ -1356,15 +1333,17 @@ newBuff.prototype.initializeBuff = function() {
 		
 		if (this.buffStats.stacks) {
 			
-			// add stacking code
+			return ("stacked");
 			
 		} else { // refreshes
 		
 			this.attachedUnit.buffList[hasBuff[0]].buffStats.duration = this.buffStats.duration;
+			return ("refreshed");
 			
 		}		
 	} else {		
-		this.attachedUnit.buffList.push(this);		
+		this.attachedUnit.buffList.push(this);
+		return ("added");		
 	}
 }
 	

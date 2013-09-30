@@ -39,7 +39,7 @@ tileModifier.prototype.turnRefresh = function(alliance)
 				
 				var currentUnits = this.getCurrentUnits();	// instanceof array
 				for (i = 0; i < currentUnits.length; i++) {
-					this.eventProc("initialize", currentUnits[i]);	
+					this.eventProc("turn", currentUnits[i]);	
 				}
 			}
 		}
@@ -84,10 +84,35 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 				for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
 				
 				//if (exists == false || this.stats.stacks != undefined && this.stats.stacks == true) {
-				var buffIt = new newBuff(this.name, GridSpot[currentUnit.x][currentUnit.y], this); //}
+				var buffIt = new newBuff(this.name, GridSpot[currentUnit.x][currentUnit.y], this); //}			
 			}
 		}
 		
+		break;
+	
+		case "turn": 
+		
+		if (listContains(currentUnit.currentTileMods, this) == false) {
+			
+			// checks aura targets to verify it should be initialized
+			if ((currentUnit.alliance == this.sourceUnit.alliance && this.stats.tileTarget == "ally") || 
+					(currentUnit.alliance != this.sourceUnit.alliance && this.stats.tileTarget == "enemy") || this.stats.tileTarget == "both") {
+						
+				currentUnit.currentTileMods.push(this);
+				
+				var exists = false;
+				for (var i = 0; i < currentUnit.buffList.length; i++) { if (currentUnit.buffList[i].buffType == this.name) { exists = true; } }
+				
+				//if (exists == false || this.stats.stacks != undefined && this.stats.stacks == true) { 
+							
+				var buff = new newBuff(this.name, GridSpot[currentUnit.x][currentUnit.y], this); //}
+				
+				var buffList = currentUnit.buffsByString(buff.buffType);
+				for (i = 0; i < buffList.length; i++) {
+					buffList[i].buffStats.duration++;	
+				}
+			}
+		}
 		break;
 		
 		

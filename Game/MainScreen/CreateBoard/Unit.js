@@ -505,6 +505,19 @@ Unit.prototype.Attack = function(NewGridSpot) {
 			
 			}
 	  }
+
+// will return a list of buffs from buffList that match buff string
+Unit.prototype.buffsByString = function(buff) {
+	
+	var buffList = [];
+		  
+	for (i = 0; i < this.buffList.length; i++) {
+		if (this.buffList[i].buffType == buff) { buffList.push(this.buffList[i]); }
+	}
+	
+	return buffList;
+		  
+}
 	  
 	  
 	  

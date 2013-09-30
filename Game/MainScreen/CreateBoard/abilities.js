@@ -28,9 +28,8 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 1,
 				tileTarget: "ally",
 				auraTarget: "ally",
-				lifetime: 2,
+				lifetime: 1,
 				auraRange: 2,
-				turnProc: true,
 				duration: 2,
 				attacks: 1,
 				abilityTooltip: ""
@@ -256,7 +255,8 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 4,
 				target: "any",
 				tileTarget: "ally",
-				duration: 3,
+				turnProc: true,
+				duration: 1,
 				lifetime: 3,
 				radius: 1,
 				range: 4,
@@ -327,8 +327,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4,
 				defense: 2,
 				blocks: 3,
-				abilityTooltip: "",
-				blocks: 2
+				abilityTooltip: ""
 			}
 			stats.abilityTooltip = abilityName + " ^ ";
 			return stats; 
