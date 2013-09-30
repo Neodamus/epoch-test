@@ -184,7 +184,7 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 		case "off":
 			//remove from all tiles...
 			var oldUnitList = new Array();
-			if (this.tileList.length) {
+			if (this.tileList != null) {
 				for (var i = 0; i < this.tileList.length; i++) { 
 					
 					if (this.stats.visionBlock != undefined && this.stats.visionBlock == true) {
@@ -209,6 +209,14 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 			
 			var rem = listReturnArray(GameBoard.tileModifierList, this); //removing this tilemodifier from the list of all tilemods on board.
 			if (rem != -1) { GameBoard.tileModifierList.splice(rem, 1); } else { alert("splicing modifier error, in OFF of tileModClass"); }
+			
+			if (this.stats.auraRange != undefined && this.stats.auraRange != null) { 
+				
+				var rem = listReturnArray(this.sourceUnit.auras, this.name); 
+						if (rem != -1) { 
+							this.sourceUnit.auras.splice(rem, 1); 
+						}
+			}
 		
 			break;
 
