@@ -158,6 +158,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Exothermia":
 					
 			stats = {
+				cooldown: 2,
 				movementCost: 1,
 				blocks: 1,
 				abilityTooltip: ""
