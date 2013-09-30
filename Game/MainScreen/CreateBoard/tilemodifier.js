@@ -184,20 +184,25 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 		case "off":
 			//remove from all tiles...
 			var oldUnitList = new Array();
-			for (var i = 0; i < this.tileList.length; i++) { 
-				
-				if (this.stats.visionBlock != undefined && this.stats.visionBlock == true) {
-						var rem = listReturnArray(this.tileList[i].visionBlock, this);
+			if (this.tileList.length) {
+				for (var i = 0; i < this.tileList.length; i++) { 
+					
+					if (this.stats.visionBlock != undefined && this.stats.visionBlock == true) {
+							var rem = listReturnArray(this.tileList[i].visionBlock, this);
+								
 							if (rem != -1) { this.tileList[i].visionBlock.splice(rem, 1); }
 							this.tileList[i].refreshUnitSight();
-							}
-				
-			
-				this.tileList[i].tileModifiers(this, "remove");
-				if (this.tileList[i].currentUnit != null) { oldUnitList.push(this.tileList[i].currentUnit); }
-				
-				var rem = listReturnArray(this.tileList[i].tileBuffList, this);
-				if (rem != -1) { this.tileList[i].tileBuffList.splice(rem, 1); } }
+					}
+					
+					this.tileList[i].tileModifiers(this, "remove");
+					if (this.tileList[i].currentUnit != null) { oldUnitList.push(this.tileList[i].currentUnit); }
+					
+					var rem = listReturnArray(this.tileList[i].tileBuffList, this);
+					if (rem != -1) { this.tileList[i].tileBuffList.splice(rem, 1); } 
+				}
+			} else {
+				alert(this.name + " casted by " + this.sourceUnit + " has a null tileList so it cannot be turned off.");
+			}
 			
 			this.tileList = null;
 			for (var i = 0; i < oldUnitList.length; i++) {  this.eventProc("remove", oldUnitList[i]); }//remove from units
