@@ -18,7 +18,7 @@ function ability() {
 
 ability.prototype.abilityStats = function(abilityName)
 {
-	
+	var clr = "`gray`";
 	switch(abilityName){
 		
 		case "Arrowsmith":
@@ -34,10 +34,10 @@ ability.prototype.abilityStats = function(abilityName)
 				attacks: 1,
 				abilityTooltip: ""
 			}
-			
-			stats.abilityTooltip = "Arrowsmith`violet` ^ Creates`#bbb` an aura of radius`#bbb` " + stats.auraRange + "`white` around`#bbb`" + 												    			" Grovekeeper`orange` .`#bbb` If an allied ranged unit steps into the aura and waits a turn there, they will receive`#bbb`" +
+			  stats.abilityTooltip = clr + abilityName + " ^ Give +" + stats.attacks + " attack to surrounding allies at the start of your next turn. ^ ^ Costs: " + stats.movementCost + " Movement point ^ Cooldown: " + stats.cooldown + "Turn(s) ^ Cast type: " + "Instant" + " ^ ^ Aura range of " + stats.auraRange + " and lasts " + stats.lifetime + " turn(s).";
+			/*stats.abilityTooltip = "Arrowsmith`violet` ^ Creates`#bbb` an aura of radius`#bbb` " + stats.auraRange + "`white` around`#bbb`" + 												    			" Grovekeeper`orange` .`#bbb` If an allied ranged unit steps into the aura and waits a turn there, they will receive`#bbb`" +
 				" 1`white` additional attack`white` on`#bbb` their next`green` turn`green` .`#bbb` ^ ^ If the Grovekeeper`orange` or`#bbb` a" +
-				" unit buffed with`#bbb` Arrowsmith`violet` moves`#f33` before waiting a turn, they will not receive an additional attack."
+				" unit buffed with`#bbb` Arrowsmith`violet` moves`#f33` before waiting a turn, they will not receive an additional attack."*/
 			
 			return stats;
 		
@@ -47,6 +47,9 @@ ability.prototype.abilityStats = function(abilityName)
 				damageMultiplier: 1.5,
 				abilityTooltip: ""
 			}
+			
+			 stats.abilityTooltip = clr + abilityName + " ^ Increases damage by a multiplier of " + stats.damageMultiplier + " while stealthed. ^ ^ " +
+			 "Cast type: none (Passive)";
 			
 			return stats;
 		
@@ -64,7 +67,7 @@ ability.prototype.abilityStats = function(abilityName)
 				abilityTooltip: ""
 			}
 			
-			stats.abilityTooltip = "";
+			stats.abilityTooltip = clr + abilityName + " ^ Applies a buff to an ally unit that increases defense by " + stats.defense + ", and if the unit is attacked, the attacker will lose all attack and movement points. ^ ^ Costs: " + stats.movementCost + " Movement point(s) ^ Cooldown: " + stats.cooldown + " Turn(s) ^ Cast type: Target ^ ^ Cast range of " + stats.range + " and lasts " + stats.duration + " turn(s).";
 			return stats;				  
 	  
 	  	case "Blind":
@@ -80,6 +83,7 @@ ability.prototype.abilityStats = function(abilityName)
 				abilityTooltip: ""				
 			}
 			
+			 stats.abilityTooltip = abilityName + " ^ ";
 			return stats;
 					
 		case "Condense":	
@@ -91,7 +95,7 @@ ability.prototype.abilityStats = function(abilityName)
 				life: 2,
 				abilityTooltip: ""
 			}
-			
+			 stats.abilityTooltip = abilityName + " ^ ";
 			return stats; 
 					
 		case "Creeping Vines":	
@@ -108,7 +112,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats; 
 			
 		case "Energy Field":
@@ -124,7 +128,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 3,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;				
 	  
 		case "Engulf": 
@@ -134,7 +138,7 @@ ability.prototype.abilityStats = function(abilityName)
 				damage: 1,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;
 							
 		case "Entanglement":	
@@ -148,7 +152,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats; 
 					
 		case "Exothermia":
@@ -158,7 +162,7 @@ ability.prototype.abilityStats = function(abilityName)
 				blocks: 1,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats; 
 					
 		case "Fire Wall":	
@@ -174,7 +178,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats; 
 					
 		case "Frostbite":	
@@ -183,7 +187,7 @@ ability.prototype.abilityStats = function(abilityName)
 				damage: 3,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;
 			
 		case "Heal":	
@@ -196,7 +200,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 3,
 				abilityTooltip: ""
 			} 
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;
 					
 		case "Haste":	
@@ -210,7 +214,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;
 			
 		case "Magma Trap":
@@ -227,7 +231,7 @@ ability.prototype.abilityStats = function(abilityName)
 				hidden: true,
 				abilityTooltip: ""
 			}
-
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;
 			
 		case "Mirror Image":
@@ -241,7 +245,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 3,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;
 			
 		case "Mist":
@@ -258,7 +262,7 @@ ability.prototype.abilityStats = function(abilityName)
 				blocks: 1,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;	
 					
 		case "Panic Aura": 
@@ -271,7 +275,7 @@ ability.prototype.abilityStats = function(abilityName)
 				stacks: false,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;
 					
 		case "Polarity":
@@ -285,7 +289,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 5,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;	
 					
 		case "Poison Tips":
@@ -297,7 +301,7 @@ ability.prototype.abilityStats = function(abilityName)
 				damage: 1,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;	
 					
 		case "Precision":
@@ -310,7 +314,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 3,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;	
 					
 		case "Rain Shield":	
@@ -326,7 +330,7 @@ ability.prototype.abilityStats = function(abilityName)
 				abilityTooltip: "",
 				blocks: 2
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats; 
 					
 		case "Rapid Strikes": 
@@ -338,7 +342,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 1,
 				attacks: 2
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;	
 					
 		case "Second Wind":
@@ -348,7 +352,7 @@ ability.prototype.abilityStats = function(abilityName)
 				speed: 3,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;
 					
 		case "Sentry": 
@@ -364,7 +368,7 @@ ability.prototype.abilityStats = function(abilityName)
 				damage: 3,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;
 			
 		case "Smoke Screen":
@@ -381,7 +385,7 @@ ability.prototype.abilityStats = function(abilityName)
 				visionBlock: true,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;
 					
 		case "Soulfire": 
@@ -395,7 +399,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 5,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;	
 					
 		case "Static":	
@@ -409,7 +413,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;	
 		
 		case "Stealth":	
@@ -419,7 +423,7 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 1,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;	
 		
 		case "Stomp":	
@@ -434,7 +438,7 @@ ability.prototype.abilityStats = function(abilityName)
 				radius: 1,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;	
 			
 		case "Teleport":	
@@ -445,7 +449,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 6,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;	
 			
 		case "Thunderclap":	
@@ -457,7 +461,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 1,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;							
 					
 		case "Torch": 
@@ -471,7 +475,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4,
 				abilityTooltip: ""				
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;
 					
 		case "Wound":
@@ -485,7 +489,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4,
 				abilityTooltip: ""
 			}
-			
+			stats.abilityTooltip = abilityName + " ^ ";
 			return stats;				
 
   return null; } }

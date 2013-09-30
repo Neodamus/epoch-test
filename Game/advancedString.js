@@ -41,7 +41,7 @@ function advancedString(string, x, y) {
 	for (var i = 0; i < string.length; i++) { 
 	
 		//Add string letter to current word
-		if (string[i] != " " && string[i] != "`" && string[i] != "^" && string[i] != "&") { 
+		if (string[i] != " " && string[i] != "`" && string[i] != "^" && string[i] != "&" && string[i] != "|") { 
 			currentWord += string[i];
 		 }
 		
@@ -70,16 +70,16 @@ function advancedString(string, x, y) {
 			string = returnList.string; }
 		
 		//new word has formed
-		if (string[i] == " " || i == string.length - 1 || string[i] == null) { 
-			if (this.wordPositionList.length == 1) { currentLength += this.spaceWidth; }
-			
+		if (string[i] == " " || i == string.length - 1 || string[i] == null || string[i] == "|") { 
+			if (this.wordPositionList.length == 1 && string[i] != "|") { currentLength += this.spaceWidth; }
+			if (string[i] == "|") { currentLength -= this.spaceWidth; }
 			currentLength += this.context.measureText(currentWord).width;
 			this.wordColorList[this.wordList.length] = currentColor;
 			this.wordList.push(currentWord);
 			
 			
 			this.wordPositionList[this.wordList.length] = {x: currentLength, y: currentHeight };
-			currentLength += this.spaceWidth;
+			currentLength += this.spaceWidth; 
 			
 			currentWord = "";
 		}
@@ -201,7 +201,7 @@ function findColor(string, i) {
 		//var colorAndNumber = { word: this.wordList.length, color: clr };
 		
 		var half1 = string.substring(0, i);
-		var half2 = string.substring(point + 1, string.length);
+		var half2 = string.substring(point, string.length);
 
 		string = half1 + half2;}
 		var returnList = {string: string, color: clr};

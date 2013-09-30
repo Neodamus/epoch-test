@@ -52,7 +52,7 @@ Rectangle.prototype.Contains = function(Object) {
 
 	//if (position == "top") {  this.tooltipBox = new Rectangle(this.x - 33, this.y - this.height - 180 + 35, width + 100, 180); }
 	//if (position == "right") { this.tooltipBox = new Rectangle(this.x + this.width + 25, this.y - this.height, width + 100, 180); }
-	if (position == "left") { this.tooltipBox = new Rectangle(this.x - width - 15, this.y - 180 * 0.2, width, 180); }
+	if (position == "left") { this.tooltipBox = new Rectangle(this.x - width - 15, this.y - 220 * 0.2, width, 220); }
 	//if (position == "bottom") { this.tooltipBox = new Rectangle(this.x - 33, this.y + this.height + 19, width + 100, 180); }
 	if (position.x != undefined) {
 	this.tooltipBox = position; }
