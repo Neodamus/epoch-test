@@ -385,7 +385,7 @@ Unit.prototype.Attack = function(NewGridSpot) {
 		if (this.turnCost == true && this.alliance == "ally" && GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves && 
 			listContains(GameBoard.unitsMovedThisTurn, this) == false) { GameBoard.unitsMovedThisTurn.push(this); }
 		
-		if (listContains(GameBoard.unitsMovedThisTurn, this) == true || this.alliance == "enemy" || this.turnCost == false) {
+		if (listContains(GameBoard.unitsMovedThisTurn, this) == true || (this.alliance == "enemy" || GameBoard.gameType == "sandbox") || this.turnCost == false) {
 			
 			this.Select("off");
 			var damage = this.currentStats[2];
