@@ -304,10 +304,10 @@ ability.prototype.abilityStats = function(abilityName)
 		
 			stats = {
 				cooldown: 2,
-				movementCost: 4,
+				movementCost: 3,
 				duration: 3,
-				damage: 4,
-				range: 2,
+				damage: 3,
+				range: 3,
 				abilityTooltip: ""
 			}
 			
@@ -430,7 +430,7 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 2,
 				duration: 2,
 				damage: 2,
-				speed: -2,
+				speed: -1,
 				radius: 1,
 				abilityTooltip: ""
 			}
