@@ -63,7 +63,7 @@ Rectangle.prototype.Contains = function(Object) {
 	
 	this.tooltipBox.tooltipString = new advancedString(wordWrap(text, width - 30), this.tooltipBox.x + 15, this.tooltipBox.y + 25);
 	this.tooltipBox.tooltip = false;
-	this.tooltipBox.boxColor = "rgba(20, 20, 20, 0.8)";
+	this.tooltipBox.boxColor = "rgba(20, 20, 20, 0.90)";
 	//this.tooltipBox.setText(text, "black");
 	return this.tooltipBox;
 	
