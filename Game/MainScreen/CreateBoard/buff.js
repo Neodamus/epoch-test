@@ -287,10 +287,10 @@
 						
 						if (this.sourceUnit instanceof tileModifier) {				
 							
-							var rem = listReturnArray(GridSpot[this.attachedUnit.x][this.attachedUnit.y].tileBuffList, this.sourceUnit); //Remove creeping vine tilemod from gridspot
+							var rem = listReturnArray(GridSpot[this.attachedUnit.x][this.attachedUnit.y].tileBuffList, this.sourceUnit);
 							if (rem != -1) { GridSpot[this.attachedUnit.x][this.attachedUnit.y].tileBuffList.splice(rem, 1);}
 							
-							var rem = listReturnArray(this.sourceUnit.tileList, GridSpot[this.attachedUnit.x][this.attachedUnit.y]); //Remove creeping vine tilemod from tilemodifier class' tile list.
+							var rem = listReturnArray(this.sourceUnit.tileList, GridSpot[this.attachedUnit.x][this.attachedUnit.y]);
 							if (rem != -1) { this.sourceUnit.tileList.splice(rem, 1);}
 							
 							this.initializeBuff();
