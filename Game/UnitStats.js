@@ -100,7 +100,7 @@ var Firebringer = new Array(
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
-"Torch, Fiery Eye",   //ability
+"Soulfire, Fiery Eye",   //ability
 "Fire"		//element
 );
  

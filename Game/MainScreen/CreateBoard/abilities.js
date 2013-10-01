@@ -277,7 +277,7 @@ ability.prototype.abilityStats = function(abilityName)
 				abilityTooltip: ""
 			}
 			stats.abilityTooltip = abilityName + " ^ ";
-			return stats;	
+			return stats;
 					
 		case "Panic Aura": 
 		
