@@ -62,7 +62,9 @@ Ui.prototype.setTooltips = function() {
 		this.tooltipList = new Array() 
 		for (var i = 0; i < this.currentUnit.abilityStats.length; i++) {
 		var string = "nothing is here";
-			if (this.currentUnit.abilityStats[i].abilityTooltip != undefined && this.currentUnit.abilityStats[i].abilityTooltip != "") {
+			if (this.currentUnit.abilityStats[i] != undefined && 
+			this.currentUnit.abilityStats[i].abilityTooltip != undefined &&
+			this.currentUnit.abilityStats[i].abilityTooltip != "") {
 			
 				string = this.currentUnit.abilityStats[i].abilityTooltip;
 				}
