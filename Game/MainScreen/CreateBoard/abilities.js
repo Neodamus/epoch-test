@@ -309,7 +309,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Poison Tips":
 		
 			stats = {
-				duration: 2,
+				duration: 3,
 				visibility: "both",
 				damage: 2,
 				abilityTooltip: ""
