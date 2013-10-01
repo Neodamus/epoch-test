@@ -132,7 +132,7 @@
 				if (this.currentUnit.unitStealth == true) {context.globalAlpha = 1; } 
 				
 				if (this.currentUnit.summon == true && this.currentUnit.alliance == "ally") {
-				context.globalAlpha = 0.5;
+				context.globalAlpha = 0.40;
 				context.drawImage(Images[112], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width,
 				this.ThisRectangle.height); context.globalAlpha = 1;}
 				}

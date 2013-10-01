@@ -110,6 +110,7 @@
 	  
 	  Images[113].src = "Game/Images/abilities/mist.png";
 	  Images[114].src = "Game/Images/abilities/sentry.png";
+	  Images[115].src = "Game/Images/Units/fire-eye.png";
 	  
 	}
 	
@@ -156,6 +157,7 @@
 			case "Theurgist": return 37; 
 			case "Healer": return 38;
 			case "Rainmaker": return 39; 
+			case "Fiery Eye": return 115;
 			}
 			
 	}

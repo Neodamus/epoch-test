@@ -1,5 +1,6 @@
 
 var AllUnits;
+var Summons;
 
 function UnitStats()
 {
@@ -10,17 +11,45 @@ Assassin, Infiltrator, Sensei, Illusionist, /*MirrorImage,*/	//air units
 Crossbowman, Sharpshooter, Ranger, Grovekeeper, 	 			//earth units
 Charger, Ironfist, Inductor, Titan,                  			//lightning units
 IceSpirit, Theurgist, Healer, Rainmaker);			 			//water units
+
+Summons = new Array(
+MirrorImage, FieryEye);
 }
 
 function returnUnitStats(name)
 {
-	for (var i = 0; i < AllUnits.length; i++)
-	{
+	for (var i = 0; i < AllUnits.length; i++) {
+	
 		if (AllUnits[i][0] == name) { return AllUnits[i]; }
+	}
+	
+	for (var i = 0; i < Summons.length; i++) {
+	
+		if (Summons[i][0] == name) { return Summons[i]; }
 	}
 }
 
 //might want to reduce the amount of global variables... make these all private 'this.variables'
+var FieryEye = new Array(
+"Fiery Eye",       //name
+"1",      //hitpoints
+"0",      //damage
+"0",      //defence
+"4",      //movement
+"2",      //sight
+"0",      //range
+"1",      //reveal
+"0",      //#attack
+"0",      //#defend
+"0",      //onAttackAbility
+"0",      //onDefendAbility
+"0, 0",   //auras
+"",   //ability
+"Fire"		//element
+);
+
+
+
 var Vangaurd = new Array(
 "Vangaurd",	//name
 "12",      //hitpoints1
@@ -71,7 +100,7 @@ var Firebringer = new Array(
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
-"Torch, Soulfire",   //ability
+"Torch, Fiery Eye",   //ability
 "Fire"		//element
 );
  

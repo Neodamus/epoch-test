@@ -165,7 +165,19 @@ ability.prototype.abilityStats = function(abilityName)
 			}
 			stats.abilityTooltip = abilityName + " ^ ";
 			return stats; 
-					
+			
+		case "Fiery Eye":
+		
+			stats = {
+				cooldown: 3,
+				movementCost: 2,
+				target: "tile",
+				range: 2,
+				abilityTooltip: ""
+			}
+			stats.abilityTooltip = abilityName + " ^ ";
+			return stats;
+			
 		case "Fire Wall":	
 					
 			stats = {
@@ -577,6 +589,11 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 			this.castTarget = selfTarget;
 			this.finishCast();
 			finished = true;
+			break;
+			
+		case "Fiery Eye":
+			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
+			finished = false;						
 			break;
 			
 		case "Fire Wall":

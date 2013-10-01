@@ -443,6 +443,24 @@
 						break;
 				}   
 			break;
+
+			case "Fiery Eye":
+			
+				switch(Procedure) {
+				
+					case "Initialize":
+						console.warn(FieryEye);
+						var eye = GameBoard.CreateUnit(this.sourceUnit.alliance, FieryEye[0], this.targetSpot.x, this.targetSpot.y);
+
+						eye.currentStats[4] = 0;
+												
+						eye.summon = true;
+						eye.turnCost = false;
+
+					break;
+
+				}
+			break;
 			
 			case "Fire Wall":
 				
