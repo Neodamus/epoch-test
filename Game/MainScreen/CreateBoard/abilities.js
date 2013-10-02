@@ -123,7 +123,7 @@ ability.prototype.abilityStats = function(abilityName)
 				target: "any",
 				tileTarget: "both",
 				duration: 1,
-				lifetime: 3,
+				lifetime: 2,
 				radius: 1,
 				range: 3,
 				abilityTooltip: ""
@@ -497,7 +497,6 @@ ability.prototype.abilityStats = function(abilityName)
 			stats = {
 				target: "enemy",
 				cooldown: 2,
-				attackCost: 1,
 				movementCost: 1,
 				duration: 2,
 				damage: 4,
@@ -873,7 +872,17 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 			
 		} else if (target == "tile") {
 			
-			alert ("You can't use this ability on a unit");
+			if (this.targetUnit.unitStealth == true) {
+				
+				this.targetUnit.stealth("off");
+				this.failCast();
+				finished = true;
+				
+			} else {				
+			
+				alert ("You can't use this ability on a unit");
+				
+			}
 			
 		} else { // target = both
 			
@@ -952,6 +961,28 @@ ability.prototype.finishCast = function() {
 	if (listContains(GameBoard.unitsMovedThisTurn, this.sourceUnit) == false && this.sourceUnit.alliance == "ally") {		
 		GameBoard.unitsMovedThisTurn.push(this.sourceUnit); 
 	}
+}
+
+
+ability.prototype.failCast = function() {
+	
+	if (ClientsTurn) { this.sendAbility(); }	// must be before removeMarkers	
+	
+	combatLog.push(ability.sourceUnit.name + " has failed to cast " + ability.abilityName + ".");
+	
+	// decrease ability costs
+	this.currentAbility.cooldown = this.currentAbilityStats.cooldown;	
+	if (this.currentAbilityStats.lifeCost != undefined) { this.sourceUnit.currentStats[1] -= this.currentAbilityStats.lifeCost; }
+	if (this.currentAbilityStats.movementCost != undefined) { this.sourceUnit.currentStats[4] -= this.currentAbilityStats.movementCost; }
+	if (this.currentAbilityStats.attackCost != undefined) { this.sourceUnit.currentStats[8] -= this.currentAbilityStats.attackCost; }
+	this.removeMarkers();
+	
+	if (this.sourceUnit.alliance == "ally") { this.sourceUnit.Select("on"); }
+	
+	if (listContains(GameBoard.unitsMovedThisTurn, this.sourceUnit) == false && this.sourceUnit.alliance == "ally") {		
+		GameBoard.unitsMovedThisTurn.push(this.sourceUnit); 
+	}
+	
 }
 
 

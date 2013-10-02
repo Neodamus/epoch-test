@@ -420,7 +420,7 @@ Unit.prototype.Attack = function(NewGridSpot) {
 					}
 				} else {
 			
-				  NewGridSpot.currentUnit.unitStealth = false;
+				  NewGridSpot.currentUnit.stealth("off");
 				  this.currentStats[4] -= this.movementCost;
 				  if (this.displayStats == true) { this.fakeStats[4] -= this.movementCost; }
 				}	 
