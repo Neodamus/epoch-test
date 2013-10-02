@@ -58,6 +58,10 @@
 		this.unitStealth = false;
 		this.summon = false;
 		this.turnCost = true;
+		
+		this.attackReq = "local";
+		this.spellReq = "global";
+		
 		//mirror image fake stats
 		this.displayStats = false;
 		this.fakeStats = new Array();
@@ -154,7 +158,19 @@
 			break;
 			
 			case "attack":
-			if (Toggle == "on" && this.currentStats[4] >= this.attackMovementCost && this.currentStats[8] >= this.attackCost) { if (GridSpot[x][y].currentUnit == null || GridSpot[x][y].currentUnit != null && GridSpot[x][y].currentUnit.alliance != "ally") {if (x != this.x || y != this.y) {GridSpot[x][y].attackMarker = true; } } }
+			if (Toggle == "on" && this.currentStats[4] >= this.attackMovementCost && this.currentStats[8] >= this.attackCost) { 
+			if (GridSpot[x][y].currentUnit == null || GridSpot[x][y].currentUnit != null && GridSpot[x][y].currentUnit.alliance != "ally") {if (x != this.x || y != this.y) {
+			
+				if (this.attackReq == "local" && listContains(GridSpot[x][y].allyVision, this) == true) { GridSpot[x][y].attackMarker = true; }
+				
+				if (this.attackReq == "ally") { var allySight = false; for (var i = 0; i < GridSpot[x][y].allyVision.length; i++) {
+						if (GridSpot[x][y].allyVision[i].alliance == this.alliance) { allySight = true; break; } }
+						if (allySight == true) {GridSpot[x][y].attackMarker = true; } }
+						
+				if (this.attackReq == "global") { GridSpot[x][y].attackMarker = true; }
+				}
+
+			} } 
 			if (Toggle == "off") { if (x != this.x || y != this.y) {GridSpot[x][y].attackMarker = false; }}
 			break;
 			
@@ -171,7 +187,17 @@
 			break;
 			
 			case "ability":
-			if (Toggle == "on" ) { GridSpot[x][y].abilityMarker = true; }
+			if (Toggle == "on" ) { 
+			
+				if (this.spellReq == "local" && listContains(GridSpot[x][y].allyVision, this) == true) { GridSpot[x][y].abilityMarker = true; }
+				
+				if (this.spellReq == "ally") { var allySight = false; for (var i = 0; i < GridSpot[x][y].allyVision.length; i++) {
+						if (GridSpot[x][y].allyVision[i].alliance == this.alliance) { allySight = true; break; } }
+						if (allySight == true) {GridSpot[x][y].abilityMarker = true; } }
+						
+				if (this.spellReq == "global") { GridSpot[x][y].abilityMarker = true; }
+
+			}
 			if (Toggle == "off") { GridSpot[x][y].abilityMarker = false; }
 			break;
 			

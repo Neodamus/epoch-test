@@ -18,7 +18,9 @@ function ability() {
 
 ability.prototype.abilityStats = function(abilityName)
 {
-	var clr = "`gray`";
+	var clr = "`rgba(140, 140, 140, 1)`";
+	
+	
 	switch(abilityName){
 		
 		case "Arrowsmith":
@@ -34,8 +36,8 @@ ability.prototype.abilityStats = function(abilityName)
 				attacks: 1,
 				abilityTooltip: ""
 			}
-			  stats.abilityTooltip = clr + abilityName + " ^ Give +" + stats.attacks + " attack to surrounding allies at the start of your next turn. ^ ^ Costs: " + stats.movementCost + " Movement point ^ Cooldown: " + stats.cooldown + "Turn(s) ^ Cast type: " + "Instant" + " ^ ^ Aura range of " + stats.auraRange + " and lasts " + stats.lifetime + " turn(s).";
-			/*stats.abilityTooltip = "Arrowsmith`violet` ^ Creates`#bbb` an aura of radius`#bbb` " + stats.auraRange + "`white` around`#bbb`" + 												    			" Grovekeeper`orange` .`#bbb` If an allied ranged unit steps into the aura and waits a turn there, they will receive`#bbb`" +
+			  stats.abilityTooltip = clr +  abilityName + " ^ Give +" + stats.attacks + " attack to surrounding allies at the start of your next turn. ^ ^ Costs: " + stats.movementCost + " Movement point ^ Cooldown: " + stats.cooldown + "Turn(s) ^ Cast type: " + "Instant" + " ^ ^ Aura range of " + stats.auraRange + " and lasts " + stats.lifetime + " turn(s).";
+			/*stats.abilityTooltip = clr +  "Arrowsmith`violet` ^ Creates`#bbb` an aura of radius`#bbb` " + stats.auraRange + "`white` around`#bbb`" + 												    			" Grovekeeper`orange` .`#bbb` If an allied ranged unit steps into the aura and waits a turn there, they will receive`#bbb`" +
 				" 1`white` additional attack`white` on`#bbb` their next`green` turn`green` .`#bbb` ^ ^ If the Grovekeeper`orange` or`#bbb` a" +
 				" unit buffed with`#bbb` Arrowsmith`violet` moves`#f33` before waiting a turn, they will not receive an additional attack."*/
 			
@@ -48,7 +50,7 @@ ability.prototype.abilityStats = function(abilityName)
 				abilityTooltip: ""
 			}
 			
-			 stats.abilityTooltip = clr + abilityName + " ^ Increases damage by a multiplier of " + stats.damageMultiplier + " while stealthed. ^ ^ " +
+			 stats.abilityTooltip = clr +  abilityName + " ^ Increases damage by a multiplier of " + stats.damageMultiplier + " while stealthed. ^ ^ " +
 			 "Cast type: none (Passive)";
 			
 			return stats;
@@ -67,7 +69,7 @@ ability.prototype.abilityStats = function(abilityName)
 				abilityTooltip: ""
 			}
 			
-			stats.abilityTooltip = clr + abilityName + " ^ Applies a buff to an ally unit that increases defense by " + stats.defense + ", and if the unit is attacked, the attacker will lose all attack and movement points. ^ ^ Costs: " + stats.movementCost + " Movement point(s) ^ Cooldown: " + stats.cooldown + " Turn(s) ^ Cast type: Target ^ ^ Cast range of " + stats.range + " and lasts " + stats.duration + " turn(s).";
+			stats.abilityTooltip = clr +  abilityName + " ^ Applies a buff to an ally unit that increases defense by " + stats.defense + ", and if the unit is attacked, the attacker will lose all attack and movement points. ^ ^ Costs: " + stats.movementCost + " Movement point(s) ^ Cooldown: " + stats.cooldown + " Turn(s) ^ Cast type: Target ^ ^ Cast range of " + stats.range + " and lasts " + stats.duration + " turn(s).";
 			return stats;				  
 	  
 	  	case "Blind":
@@ -83,7 +85,7 @@ ability.prototype.abilityStats = function(abilityName)
 				abilityTooltip: ""				
 			}
 			
-			 stats.abilityTooltip = abilityName + " ^ ";
+			 stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ Duration: " + stats.duration + " ^ range: " + stats.range; 
 			return stats;
 					
 		case "Condense":	
@@ -95,7 +97,7 @@ ability.prototype.abilityStats = function(abilityName)
 				life: 2,
 				abilityTooltip: ""
 			}
-			 stats.abilityTooltip = abilityName + " ^ ";
+			 stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ Duration: " + stats.duration + " ^ lifeperturn: " + stats.life; 
 			return stats; 
 					
 		case "Creeping Vines":	
@@ -112,7 +114,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ Duration: " + stats.duration + " ^ lifetime: " + stats.lifetime; 
 			return stats; 
 			
 		case "Energy Field":
@@ -128,7 +130,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 3,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ Duration: " + stats.duration + " ^ range: " + stats.range; 
 			return stats;				
 	  
 		case "Engulf": 
@@ -138,7 +140,7 @@ ability.prototype.abilityStats = function(abilityName)
 				damage: 1,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ Duration: " + stats.duration + " ^ Damage per turn: " + stats.damage; 
 			return stats;
 							
 		case "Entanglement":	
@@ -152,7 +154,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ life cost: " + stats.lifeCost + " ^ attack cost: " + stats.attackCost + " ^ damage dealt: " + stats.damage; 
 			return stats; 
 					
 		case "Exothermia":
@@ -163,7 +165,7 @@ ability.prototype.abilityStats = function(abilityName)
 				blocks: 1,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ blocks: " + stats.blocks;
 			return stats; 
 			
 		case "Fiery Eye":
@@ -175,7 +177,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 2,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ range: " + stats.range + " ^ Summons a scouting eye with 1 reveal and 2 sight"; 
 			return stats;
 			
 		case "Fire Wall":	
@@ -191,7 +193,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ life time: " + stats.lifetime + " ^ initial damage: 1 ^ per turn damage:" + stats.damage; 
 			return stats; 
 					
 		case "Frostbite":	
@@ -200,7 +202,7 @@ ability.prototype.abilityStats = function(abilityName)
 				damage: 3,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ Passive ability ^ when unit attacks, it deals a minimum of 3 damage."
 			return stats;
 			
 		case "Heal":	
@@ -209,11 +211,11 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 2,
 				movementCost: 3,
 				target: "ally",
-				hitpoints: 6,
+				hitpoints: 6,    //change to life
 				range: 3,
 				abilityTooltip: ""
 			} 
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ Heal amount: " + stats.hitpoints + " ^ range: " + stats.range; 
 			return stats;
 					
 		case "Haste":	
@@ -227,7 +229,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ Duration: " + stats.duration + " ^ speed: " + stats.speed; 
 			return stats;
 			
 		case "Magma Trap":
@@ -244,7 +246,7 @@ ability.prototype.abilityStats = function(abilityName)
 				hidden: true,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ life time: " + stats.lifetime + " ^ damage: " + stats.damage; 
 			return stats;
 			
 		case "Mirror Image":
@@ -258,7 +260,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 3,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName +" ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ range: " + stats.range + " ^ Clone target unit and choose placement for mirror image to appear"; 
 			return stats;
 			
 		case "Mist":
@@ -276,8 +278,8 @@ ability.prototype.abilityStats = function(abilityName)
 				blocks: 1,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
-			return stats;
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ life time: " + stats.lifetime + " ^ blocks: " + stats.blocks; 
+			return stats;	
 					
 		case "Panic Aura": 
 		
@@ -289,7 +291,7 @@ ability.prototype.abilityStats = function(abilityName)
 				stacks: false,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ unitsaffected per turn: " + stats.unitAffectNumber + " ^ Movement lost on affected enemy units:  all" + " ^ aura range: " + stats.auraRange; 
 			return stats;
 					
 		case "Polarity":
@@ -303,7 +305,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 5,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ range: " + stats.range; 
 			return stats;	
 					
 		case "Poison Tips":
@@ -314,7 +316,7 @@ ability.prototype.abilityStats = function(abilityName)
 				damage: 2,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ duration: " + stats.duration + " ^ damage per enemy movement: " + stats.damage; 
 			return stats;	
 					
 		case "Precision":
@@ -327,7 +329,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 3,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ damage increase: " + stats.damage + " ^ duration: " + stats.duration;
 			return stats;	
 					
 		case "Rain Shield":	
@@ -342,7 +344,7 @@ ability.prototype.abilityStats = function(abilityName)
 				blocks: 3,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ defense: " + stats.defense + " ^ heals unit if a blocked attack has less attack than unit's defense. "; 
 			return stats; 
 					
 		case "Rapid Strikes": 
@@ -351,10 +353,10 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 2,
 				attacks: 2,
 				abilityTooltip: "",
-				cooldown: 1,
-				attacks: 2
+				cooldown: 1, //why is there two movements
+				attacks: 2 //why is there two attacks?
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ attacks: " + stats.attacks; 
 			return stats;	
 					
 		case "Second Wind":
@@ -364,7 +366,7 @@ ability.prototype.abilityStats = function(abilityName)
 				speed: 3,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ movement increase: " + stats.speed;
 			return stats;
 					
 		case "Sentry": 
@@ -381,7 +383,7 @@ ability.prototype.abilityStats = function(abilityName)
 				sight: 1,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ range: " + stats.auraRange + " ^ damage per attack: " + stats.damage + " ^ sight increase: " + stats.sight; 
 			return stats;
 			
 		case "Smoke Screen":
@@ -398,7 +400,7 @@ ability.prototype.abilityStats = function(abilityName)
 				visionBlock: true,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ range: " + stats.range; 
 			return stats;
 					
 		case "Soulfire": 
@@ -408,11 +410,11 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 2,
 				target: "ally",
 				duration: 3,
-				hitpoints: 2,
+				hitpoints: 2, //life
 				range: 5,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ duration: " + stats.duration + " ^ life per turn: " + stats.hitpoints; 
 			return stats;	
 					
 		case "Static":	
@@ -426,7 +428,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ damage increase: " + stats.damage + " duration: " + stats.duration + " ^ range: " + stats.range; 
 			return stats;	
 		
 		case "Stealth":	
@@ -436,7 +438,7 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 1,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ unit becomes stealthed. cannot be seen by enemy units without being revealed";
 			return stats;	
 		
 		case "Stomp":	
@@ -451,7 +453,7 @@ ability.prototype.abilityStats = function(abilityName)
 				radius: 1,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ affected radius around: " + stats.radius + " ^ damage: " + stats.damage + " ^ speed reduction: " + stats.speed + " ^ duration of speed reduction: " + stats.duration; 
 			return stats;	
 			
 		case "Teleport":	
@@ -462,7 +464,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 6,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ range: " + stats.range + " ^ teleports unit to tile."; 
 			return stats;	
 			
 		case "Thunderclap":	
@@ -475,7 +477,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 1,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName+ " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ attack cost: " + stats.attackCost + " ^ damage: half of target's current health rounded up. "; 
 			return stats;							
 					
 		case "Torch": 
@@ -489,7 +491,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4,
 				abilityTooltip: ""				
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ reveal increase: " + stats.reveal + " ^ duration: " + stats.duration; 
 			return stats;
 					
 		case "Wound":
@@ -504,7 +506,7 @@ ability.prototype.abilityStats = function(abilityName)
 				range: 4,
 				abilityTooltip: ""
 			}
-			stats.abilityTooltip = abilityName + " ^ ";
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ speed reduction: " + stats.speed + " ^ attackCost: " + stats.attackCost + " ^ duration: " + stats.duration + " ^ damage: " + stats.damage; 
 			return stats;				
 
   return null; } }

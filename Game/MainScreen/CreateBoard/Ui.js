@@ -248,16 +248,22 @@ Ui.prototype.setTooltips = function() {
 	  //Create Sandbox Ui
 	  Ui.prototype.sandboxUi = function() {
 	  
-	    this.startGameBox = new Rectangle(Canvas.width * 0.63, 0, Canvas.width * 0.20, Canvas.height * 0.04); this.startGameBox.boxColor = "rgba(200, 0, 0, 1)";
+	    this.startGameBox = new Rectangle(Canvas.width * 0.63, 0, Canvas.width * 0.20, Canvas.height * 0.04); this.startGameBox.boxColor = "rgba(80, 150, 60, 1)";
 		var text = "Switch Game State";
 		this.startGameBox.setText(text, "Black", centreTextX(text, this.startGameBox.x, this.startGameBox.width, 
 		globalFontSize), centreTextY(1, this.startGameBox.y, this.startGameBox.height, globalFontSize));
 		
+		/*this.allianceBox = new Rectangle(Canvas.width * 0.63, Canvas.height * 0.045, Canvas.width * 0.20, Canvas.height * 0.04); this.allianceBox.boxColor = "rgba(200, 0, 0, 1)";
+		var text = "Switch Alliance";
+		this.allianceBox.setText(text, "Black", centreTextX(text, this.startGameBox.x, this.startGameBox.width, 
+		globalFontSize), centreTextY(1, this.startGameBox.y, this.startGameBox.height, globalFontSize));*/
+		
+		
 		this.sandboxRectangle = new Array(AllUnits.length);
 		this.sandboxUiBox = new Rectangle(0, 0, Canvas.width, Canvas.height * 0.16); this.sandboxUiBox.boxColor = "rgba(0, 30, 0, 1)";
 		
-		var x = 0; var y = 0; var sizeX = Canvas.width * 0.032; var sizeY = Canvas.height * 0.05;
-		var unitsPerRow = 12; var PositionX = 0; var PositionY = Canvas.height * 0.040; var PositionSpacer = 10;
+		var x = 0; var y = 0; var sizeX = Canvas.width * 0.035; var sizeY = Canvas.height * 0.052;
+		var unitsPerRow = 12; var PositionX = Canvas.width * 0.035; var PositionY = Canvas.height * 0.040; var PositionSpacer = 10;
 		
 		for (var i = 0; i < AllUnits.length; i++) {
 			this.sandboxRectangle[i] = new Rectangle(PositionX + x * (sizeX + PositionSpacer), PositionY + y * (sizeY + PositionSpacer), sizeX, sizeY);
@@ -326,7 +332,9 @@ Ui.prototype.setTooltips = function() {
 		//SandBoxUI
 		if (this.unitPicks == null) { if (PlacementStage == true){ this.sandboxUiBox.draw();
 			for (var i = 0; i < this.sandboxRectangle.length; i++) { this.sandboxRectangle[i].draw(); }}
-			this.startGameBox.draw(); } //Switch button to turn off ui
+			this.startGameBox.draw(); 
+			//this.allianceBox.draw();
+			} //Switch button to turn off ui
 	  
 		//Unit Placement
 		if (this.unitPicks != null && PlacementStage == true) {
@@ -348,10 +356,10 @@ Ui.prototype.setTooltips = function() {
 		context.fillStyle = "White"; for (var i = 0; i < stats.length; i++) { if (i < 10) {
 		var extra = " ";
 		if (i == 0) { extra = ""; } //Name: 
-		if (i == 1) { extra = "Hitpoints: "; }
+		if (i == 1) { extra = "Life: "; }
 		if (i == 2) { extra = "Damage: "; }
 		if (i == 3) { extra = "Defence: "; }
-		if (i == 4) { extra = "Movement: "; }
+		if (i == 4) { extra = "Speed: "; }
 		if (i == 5) { extra = "Sight: "; }
 		if (i == 6) { extra = "Range: "; }
 		if (i == 7) { extra = "Reveal: "; }

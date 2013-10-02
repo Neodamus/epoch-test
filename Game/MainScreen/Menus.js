@@ -1,6 +1,7 @@
 function CreateMenus(Width, Height) {
 	  this.id = "menus"		
-	  
+	  console.warn(_.canvas.height);
+	  console.warn(_.canvas.width);
 	  var textYPosition = Canvas.height * 0.0369; //text adjustment for y
 	 // this.fontSize = _.fontSize; //font size
 	  
