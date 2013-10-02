@@ -162,7 +162,7 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 		
 		//Attack Action		
 		if (CurrentSelectedGrid != null && CurrentTarget != null && CurrentTarget.currentUnit != null && CurrentSelectedGrid.currentUnit != null && CurrentSelectedGrid != CurrentTarget
-			&& (CurrentTarget.attackMarker == true || GameBoard.gameType == "sandbox") && CurrentSelectedGrid.currentUnit.alliance == "ally")
+			&& (CurrentTarget.attackMarker == true && CurrentTarget.currentUnit.unitStealth != true  || GameBoard.gameType == "sandbox") && CurrentSelectedGrid.currentUnit.alliance == "ally")
 		{
 			if (this.unitsMovedThisTurn.length < this.unitMoves || listContains(this.unitsMovedThisTurn, CurrentSelectedGrid.currentUnit) == true || CurrentSelectedGrid.currentUnit.turnCost == false) {
 			instructions = new Array("attack", CurrentSelectedGrid.x, CurrentSelectedGrid.y, CurrentTarget.x, CurrentTarget.y); this.sendUnitInstruction(instructions);
