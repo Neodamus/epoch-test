@@ -389,7 +389,7 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Smoke Screen":
 		
 			stats = {
-				cooldown: 3,
+				cooldown: 4,
 				movementCost: 3,
 				target: "any",
 				tileTarget: "both",

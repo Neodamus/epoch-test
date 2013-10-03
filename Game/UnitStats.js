@@ -78,7 +78,7 @@ var Nightmare = new Array(
 "3",      //range
 "0",      //reveal
 "1",      //#attack
-"2",      //#defend
+"1",      //#defend
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "Panic Aura",   //auras
