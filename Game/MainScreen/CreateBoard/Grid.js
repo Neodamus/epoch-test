@@ -177,18 +177,18 @@
 		this.currentUnit != null && this.currentUnit.unitStealth == false && this.visible == true) {
 		
 		context.lineWidth=4.2;
-		context.strokeText(stats[4], this.ThisRectangle.x + this.ThisRectangle.width * 0.1, this.ThisRectangle.y + this.ThisRectangle.height * 0.4);
+		context.strokeText(stats[4], this.ThisRectangle.x + this.ThisRectangle.width * 0.135, this.ThisRectangle.y + this.ThisRectangle.height * 0.4);
 		context.strokeText(stats[1], this.ThisRectangle.x + this.ThisRectangle.width - this.ThisRectangle.width * 0.30, this.ThisRectangle.y + this.ThisRectangle.height * 0.4);
-		context.strokeText(stats[2], this.ThisRectangle.x + this.ThisRectangle.width * 0.1, this.ThisRectangle.y + this.ThisRectangle.height * 0.75);
+		context.strokeText(stats[2], this.ThisRectangle.x + this.ThisRectangle.width * 0.135, this.ThisRectangle.y + this.ThisRectangle.height * 0.75);
 		context.strokeText(stats[3], this.ThisRectangle.x + this.ThisRectangle.width - this.ThisRectangle.width * 0.30, this.ThisRectangle.y + this.ThisRectangle.height * 0.75);
 		
 		//var test = 
 		context.fillStyle = "rgba(250, 250, 60, 1)";
-		context.fillText(stats[4], this.ThisRectangle.x + this.ThisRectangle.width * 0.1, this.ThisRectangle.y + this.ThisRectangle.height * 0.4);
+		context.fillText(stats[4], this.ThisRectangle.x + this.ThisRectangle.width * 0.135, this.ThisRectangle.y + this.ThisRectangle.height * 0.4);
 		context.fillStyle = "rgba(255, 120, 120, 1)";
 		context.fillText(stats[1], this.ThisRectangle.x + this.ThisRectangle.width - this.ThisRectangle.width * 0.30, this.ThisRectangle.y + this.ThisRectangle.height * 0.4);
 		context.fillStyle = "rgba(220, 220, 220, 1)";
-		context.fillText(stats[2], this.ThisRectangle.x + this.ThisRectangle.width * 0.1, this.ThisRectangle.y + this.ThisRectangle.height * 0.75);
+		context.fillText(stats[2], this.ThisRectangle.x + this.ThisRectangle.width * 0.135, this.ThisRectangle.y + this.ThisRectangle.height * 0.75);
 		context.fillStyle = "rgba(140, 140, 250, 1)";
 		context.fillText(stats[3], this.ThisRectangle.x + this.ThisRectangle.width - this.ThisRectangle.width * 0.30, this.ThisRectangle.y + this.ThisRectangle.height * 0.75);
 		

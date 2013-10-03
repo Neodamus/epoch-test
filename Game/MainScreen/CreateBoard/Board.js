@@ -9,6 +9,12 @@ var gridSpotList;
 //initialize board requirements
 function Board(userPicks)
 {
+	this.sec = 0;
+	this.min = 0;
+	this.hour = 0;
+	
+	this.timer = setInterval(function(){ GameBoard.stopwatch() }, 1000);
+	
 	this.id = "game";
 	
 	this.unitMoves = 3;
@@ -48,6 +54,22 @@ function Board(userPicks)
 	}
 
 }
+
+
+Board.prototype.stopwatch = function() {
+   this.sec++;
+  if (this.sec == 60) {
+   this.sec = 0;
+   this.min = this.min + 1; }
+   
+  if (this.min == 60) {
+   this.min = 0;
+   this.hour += 1; }
+ //  console.warn(this.sec);
+}
+
+
+
 	  
 Board.prototype.spawnZones = function(toggle) {
 	

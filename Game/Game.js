@@ -43,7 +43,7 @@
 	  globalFont = (Canvas.height * 0.031).toString() + 'px FLORI';
 	  globalFontSize = Canvas.height * 0.031;
 	  
-	  var frame = setInterval(function(){Draw(context, canvas)},FrameRate);
+	  var frame = setInterval(function(){ Draw(context, canvas) },FrameRate);
 	  
 	}
 	
