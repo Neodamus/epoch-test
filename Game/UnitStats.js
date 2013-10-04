@@ -52,15 +52,15 @@ var FieryEye = new Array(
 
 var Vangaurd = new Array(
 "Vangaurd",	//name
-"12",      //hitpoints1
+"10",      //hitpoints1
 "5",       //damage2
 "4",       //defence3
 "5",       //movement4
-"3",       //sight5
+"4",       //sight5
 "1",       //range6
 "1",       //reveal 7
 "1",       //#attack8
-"2",       //#defend9
+"3",       //#defend9
 "Engulf",  //onAttackAbility10
 "0",       //onDefendAbility11
 "0, 0",    //auras12
@@ -72,7 +72,7 @@ var Nightmare = new Array(
 "Nightmare",     //name
 "8",      //hitpoints
 "6",      //damage
-"3",      //defence
+"4",      //defence
 "5",      //movement
 "4",      //sight
 "3",      //range
@@ -88,15 +88,15 @@ var Nightmare = new Array(
  
 var Firebringer = new Array(
 "Firebringer",      //name
-"6",      //hitpoints
+"7",      //hitpoints
 "4",     //damage
-"3",      //defence
+"2",      //defence
 "5",      //movement
 "4",      //sight
 "2",      //range
 "0",      //reveal
 "1",      //#attack
-"1",      //#defend
+"2",      //#defend
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
@@ -108,13 +108,13 @@ var Seer = new Array(
 "Seer",       //name
 "8",      //hitpoints
 "3",     //damage
-"3",      //defence
+"2",      //defence
 "5",      //movement
 "5",      //sight
-"3",      //range
+"2",      //range
 "0",      //reveal
 "1",      //#attack
-"1",      //#defend
+"2",      //#defend
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
@@ -163,7 +163,7 @@ var Sensei = new Array(
 "10",      //hitpoints
 "5",      //damage
 "4",      //defence
-"6",      //movement
+"5",      //movement
 "3",      //sight
 "1",      //range
 "0",      //reveal
@@ -286,7 +286,7 @@ var Grovekeeper = new Array(
  
 var Charger = new Array(
 "Charger",       //name
-"12",      //hitpoints
+"13",      //hitpoints
 "4",      //damage
 "3",      //defence
 "6",      //movement
@@ -306,7 +306,7 @@ var Ironfist = new Array(
 "Ironfist",       //name
 "11",      //hitpoints
 "6",      //damage
-"3",      //defence
+"4",      //defence
 "6",      //movement
 "3",      //sight
 "1",      //range
@@ -322,12 +322,12 @@ var Ironfist = new Array(
  
 var Inductor = new Array(
 "Inductor",       //name
-"7",      //hitpoints
+"8",      //hitpoints
 "4",      //damage
-"4",      //defence
+"2",      //defence
 "5",      //movement
 "3",      //sight
-"3",      //range
+"2",      //range
 "0",      //reveal
 "1",      //#attack
 "1",      //#defend
@@ -360,9 +360,9 @@ var IceSpirit = new Array(
 "Ice Spirit",       //name
 "15",      //hitpoints
 "5",      //damage
-"6",      //defence
+"7",      //defence
 "5",      //movement
-"4",      //sight
+"3",      //sight
 "1",      //range
 "0",      //reveal
 "1",      //#attack
@@ -376,9 +376,9 @@ var IceSpirit = new Array(
  
 var Theurgist = new Array(
 "Theurgist",       //name
-"11",      //hitpoints
+"13",      //hitpoints
 "5",      //damage
-"3",      //defence
+"5",      //defence
 "4",      //movement
 "4",      //sight
 "3",      //range
@@ -394,10 +394,10 @@ var Theurgist = new Array(
  
 var Healer = new Array(
 "Healer",       //name
-"8",      //hitpoints
+"10",      //hitpoints
 "3",      //damage
-"2",      //defence
-"5",      //movement
+"3",      //defence
+"4",      //movement
 "3",      //sight
 "3",      //range
 "0",      //reveal
@@ -412,12 +412,12 @@ var Healer = new Array(
  
 var Rainmaker = new Array(
 "Rainmaker",       //name 0
-"9",      //hitpoints 1 
+"11",      //hitpoints 1 
 "4",      //damage2 
-"3",      //defence3
-"6",      //movement4
+"4",      //defence3
+"5",      //movement4
 "3",      //sight5
-"2",      //range 6
+"3",      //range 6
 "0",      //reveal 7
 "1",      //#attack8
 "1",      //#defend9

@@ -78,7 +78,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 3,
 				movementCost: 2,
 				target: "enemy",
-				duration: 2,
+				duration: 3,
 				range: 3,
 				reveal: 1,
 				sight: 1,
@@ -190,7 +190,7 @@ ability.prototype.abilityStats = function(abilityName)
 				lifetime: 3,
 				duration: 3,
 				damage: 3,
-				range: 4,
+				range: 3,
 				abilityTooltip: ""
 			}
 			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ life time: " + stats.lifetime + " ^ initial damage: 1 ^ per turn damage:" + stats.damage; 
@@ -209,10 +209,10 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				cooldown: 2,
-				movementCost: 3,
+				movementCost: 2,
 				target: "ally",
-				hitpoints: 6,    //change to life
-				range: 3,
+				life: 6,
+				range: 4,
 				abilityTooltip: ""
 			} 
 			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ Heal amount: " + stats.hitpoints + " ^ range: " + stats.range; 
@@ -239,7 +239,7 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 2,
 				target: "tile",
 				duration: 2,
-				range: 3,
+				range: 4,
 				damage: 2,
 				lifetime: 6,
 				tileTarget: "enemy",
@@ -267,15 +267,15 @@ ability.prototype.abilityStats = function(abilityName)
 		
 			stats = {
 				cooldown: 4,
-				movementCost: 4,
+				movementCost: 3,
 				target: "any",
 				tileTarget: "ally",
 				turnProc: true,
 				duration: 1,
-				lifetime: 3,
+				lifetime: 2,
 				radius: 1,
 				range: 4,
-				blocks: 1,
+				life: 0.25,
 				abilityTooltip: ""
 			}
 			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ life time: " + stats.lifetime + " ^ blocks: " + stats.blocks; 
@@ -313,7 +313,7 @@ ability.prototype.abilityStats = function(abilityName)
 			stats = {
 				duration: 3,
 				visibility: "both",
-				damage: 2,
+				damage: 1,
 				abilityTooltip: ""
 			}
 			stats.abilityTooltip = clr +  abilityName + " ^ duration: " + stats.duration + " ^ damage per enemy movement: " + stats.damage; 
@@ -336,12 +336,12 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				cooldown: 3,
-				movementCost: 2,
+				movementCost: 1,
 				target: "ally",
 				duration: 2,
 				range: 4,
 				defense: 2,
-				blocks: 3,
+				blocks: 2,
 				abilityTooltip: ""
 			}
 			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ defense: " + stats.defense + " ^ heals unit if a blocked attack has less attack than unit's defense. "; 
@@ -868,7 +868,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 				
 			} else { // target is an ally with an enemy buff
 					
-				alert("You can't use " + this.abilityName + "on an ally");
+				alert("You can't use " + this.abilityName + " on an ally");
 				finished = false;
 			
 			}
@@ -951,6 +951,9 @@ ability.prototype.finishCast = function() {
 	} else {
 		new newBuff (this.abilityName, this.castTargetList, this.sourceUnit);
 	}
+
+	// cast proc	
+	for (var i = 0; i < this.sourceUnit.buffList.length; i++) { if (this.sourceUnit.buffList[i].eventProc("Cast")) { i--; }  }
 	
 	// decrease ability costs
 	this.currentAbility.cooldown = this.currentAbilityStats.cooldown;	

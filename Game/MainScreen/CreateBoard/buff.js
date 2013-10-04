@@ -222,7 +222,7 @@
 											
 						this.attachedUnit.buffStats[5] -= this.buffStats.sightDebuff;
 						this.attachedUnit.buffStats[6] -= this.buffStats.rangeDebuff;
-						this.attachedUnit.buffStats[7] -= this.buffStats.revealDebuff;					
+						if (this.buffStats.revealDebuff != undefined) { this.attachedUnit.buffStats[7] -= this.buffStats.revealDebuff;	}				
 						
 					break;
 				}   
@@ -581,8 +581,8 @@
 				
 					case "Initialize":
 					
-						if (this.attachedUnit.currentStats[1] + this.buffStats.hitpoints <= this.attachedUnit.baseStats[1]) {						
-							this.attachedUnit.heal(this.buffStats.hitpoints, this.sourceUnit.baseStats[0]);
+						if (this.attachedUnit.currentStats[1] + this.buffStats.life <= this.attachedUnit.baseStats[1]) {						
+							this.attachedUnit.heal(this.buffStats.life, this.sourceUnit.baseStats[0]);
 						} else {
 							this.attachedUnit.heal(this.attachedUnit.baseStats[1] - this.attachedUnit.currentStats[1],this.sourceUnit.baseStats[0]);
 						}
@@ -666,10 +666,10 @@
 						
 						image.Remove();
 						
-						image.currentStats = copiedUnit.currentStats.clone();
+						// image.currentStats = copiedUnit.currentStats.clone();
 						
 						image.displayStats = true;
-						image.fakeStats = image.currentStats.clone();
+						image.fakeStats = copiedUnit.baseStats.clone();
 						
 						image.baseStats = MirrorImage;
 						
@@ -677,7 +677,7 @@
 						for (var i = 0; i < image.baseStats.length; i++)
 						{
 							image.currentStats[i] = image.baseStats[i];
-							if (i > 0 && i < 10) {
+							if (i > 0 && i < 9) {
 							image.baseStats[i] = parseInt(image.baseStats[i], 10); 
 							image.currentStats[i] = parseInt(image.baseStats[i], 10);
 							}
@@ -722,27 +722,9 @@
 						
 						if (this.sourceUnit instanceof tileModifier) {
 							
-							var init = this.initializeBuff();
-							if (init != "refreshed") {
-								this.attachedUnit.buffStats[9] += this.buffStats.blocks;
-								this.attachedUnit.currentStats[9] += this.buffStats.blocks;
-							}
+							this.attachedUnit.heal(Math.round(this.attachedUnit.baseStats[1] * this.buffStats.life))
 							this.removeTileModifier();						
 						}
-						
-					break;
-					
-					case "Turn":
-					
-						this.buffStats.duration--;
-						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
-						
-					break;
-					
-					case "Removal":
-					
-						this.removeBuff();
-						this.attachedUnit.buffStats[9] -= this.buffStats.blocks		
 						
 					break;
 					
@@ -815,14 +797,19 @@
 						
 						this.buffStats.duration--;  
 						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+					break;
 						
-						break;
-						
-					case "Move":
-					
+					case "Move":					
 						this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
-					
-						break;
+					break;
+						
+					case "Attack":					
+						this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
+					break;
+						
+					case "Cast":					
+						this.attachedUnit.receivePureDamage(this.buffStats.damage, this.buffType);
+					break;
 					
 					case "Removal":
 					
