@@ -58,7 +58,7 @@
 	 // myAudio.currentTime = 0;
 	  myAudio.play();
 	 
-	  myAudio.volume = 0.12;
+	  myAudio.volume = 0.40;
 	  
 	}
 	
