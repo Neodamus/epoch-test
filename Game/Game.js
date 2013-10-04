@@ -45,6 +45,16 @@
 	  
 	  var frame = setInterval(function(){ Draw(context, canvas) },FrameRate);
 	  
+	  
+	  myAudio = new Audio('Game/Images/modWardruna - Hagal.mp3'); 
+		myAudio.addEventListener('ended', function() {
+		this.currentTime = 0;
+		this.play();
+		}, false);
+	  myAudio.play();
+	  //myAudio.currentTime = 10;
+	  myAudio.volume = 0.12;
+	  
 	}
 	
 	function LoadImageContent()

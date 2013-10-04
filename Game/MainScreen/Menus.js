@@ -32,11 +32,11 @@ function CreateMenus(Width, Height) {
 	  this.logoutBox = new Rectangle(Canvas.width * 0.9, 1, Canvas.width * 0.1, Canvas.height * 0.05);  this.logoutBox.boxColor = this.color1;
 	  
 	  
-	   this.fireBox = new Rectangle(_.canvas.width * 0.12, _.canvas.height * 0.69, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.fireBox.boxColor =  "red";
-	   this.airBox = new Rectangle(_.canvas.width * 0.27, _.canvas.height * 0.69, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.airBox.boxColor =  "gray";
-	   this.earthBox = new Rectangle(_.canvas.width * 0.42, _.canvas.height * 0.69, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.earthBox.boxColor =  "green";
-	   this.lightningBox = new Rectangle(_.canvas.width * 0.57, _.canvas.height * 0.69, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.lightningBox.boxColor =  "yellow";
-	   this.waterBox = new Rectangle(_.canvas.width * 0.72, _.canvas.height * 0.69, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.waterBox.boxColor =  "blue";
+	   this.fireBox = new Rectangle(_.canvas.width * 0.12, _.canvas.height * 0.67, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.fireBox.boxColor =  "red";
+	   this.airBox = new Rectangle(_.canvas.width * 0.27, _.canvas.height * 0.67, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.airBox.boxColor =  "gray";
+	   this.earthBox = new Rectangle(_.canvas.width * 0.42, _.canvas.height * 0.67, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.earthBox.boxColor =  "green";
+	   this.lightningBox = new Rectangle(_.canvas.width * 0.57, _.canvas.height * 0.67, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.lightningBox.boxColor =  "yellow";
+	   this.waterBox = new Rectangle(_.canvas.width * 0.72, _.canvas.height * 0.67, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.waterBox.boxColor =  "blue";
 	
 	   this.moonBox = new Rectangle(_.canvas.width * 0.24, _.canvas.height * 0.28, _.canvas.width * 0.07, _.canvas.width * 0.07); //this.moon.boxColor = "gray";
 	   
