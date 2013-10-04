@@ -10,6 +10,8 @@
 	 var globalFont;
 	 var globalFontSize;
 	 
+	 var myAudio;
+	 
 	 var shiftKey = false // returns true if it's down, false if it's up
 	 
 	 var ClientsTurn = false;
@@ -51,8 +53,9 @@
 		this.currentTime = 0;
 		this.play();
 		}, false);
+	 // myAudio.currentTime = 0;
 	  myAudio.play();
-	  //myAudio.currentTime = 10;
+	 
 	  myAudio.volume = 0.12;
 	  
 	}

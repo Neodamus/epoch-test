@@ -162,11 +162,17 @@ function CreateMenus(Width, Height) {
 			break;
 			
 			case "quick":
-			sendPacket("quickGame")
+			sendPacket("quickGame");
 			break;
 			
 			case "web":
 			window.location = "http://epochofelements.com/blog/";
+			break;
+			
+			case "moon":
+			if (myAudio.paused == true) {  myAudio.play(); }
+			else { myAudio.pause(); }
+			
 			break;
 			}
 	  }
