@@ -90,7 +90,7 @@ var Firebringer = new Array(
 "Firebringer",      //name
 "7",      //hitpoints
 "4",     //damage
-"2",      //defence
+"3",      //defence
 "5",      //movement
 "4",      //sight
 "2",      //range
@@ -108,7 +108,7 @@ var Seer = new Array(
 "Seer",       //name
 "8",      //hitpoints
 "3",     //damage
-"2",      //defence
+"3",      //defence
 "5",      //movement
 "5",      //sight
 "2",      //range
