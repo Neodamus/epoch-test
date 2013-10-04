@@ -112,6 +112,12 @@
 	  Images[114].src = "Game/Images/abilities/sentry.png";
 	  Images[115].src = "Game/Images/Units/fire-eye.png";
 	  
+	  
+	  Images[130].src = "Game/Images/fire.png";
+	  Images[131].src = "Game/Images/air.png";
+	  Images[132].src = "Game/Images/earth.png";
+	  Images[133].src = "Game/Images/lightning.png";
+	  Images[134].src = "Game/Images/water.png";
 	}
 	
 	function returnTileImage(name)
