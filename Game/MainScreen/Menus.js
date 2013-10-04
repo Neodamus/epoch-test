@@ -7,7 +7,10 @@ function CreateMenus(Width, Height) {
 	  //Rectangle dynamic adjustments
 	  var newwidth = Canvas.width * 0.243;
 	  var newheight = Canvas.height * 0.403;
-	  var newyh = Canvas.height * 0.03; //backgroundbox /end
+	  
+	  var newxw = (Canvas.width - newwidth) * 0.5; //posx
+	  var newyh = Canvas.height * 0.05; //posy
+	  
 	  var MenuY = Canvas.height * 0.069;
 	  var MenuHeight = Canvas.height * 0.069;
 	  var MenuYSpace = Canvas.height * 0.093; //menuboxes /end
@@ -16,39 +19,41 @@ function CreateMenus(Width, Height) {
 	// this.stringT = { x: "lala", y: "blahblah", string: "" };
 	// this.stringT.string = this.stringT.x + " " + this.stringT.y;
 	  
-	 
+	 this.color1 = "rgba(120, 20, 20, 0.5)"; //normal
+	 this.color2 = "rgba(238, 0, 0, 0.8)"; //highlight
 	  
 	  //Create rectangles
-	  this.StartOptionBox = new Rectangle(Canvas.width * 0.5 - newwidth * 0.5, newyh, newwidth, newheight); this.StartOptionBox.boxColor = "rgba(10, 10, 10, 0.4)"
+	  this.StartOptionBox = new Rectangle(newxw, newyh, newwidth, newheight); this.StartOptionBox.boxColor = "rgba(50, 50, 50, 0.2)"
 
-	  this.CreateBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 1 - MenuY, this.StartOptionBox.width, MenuHeight); this.CreateBox.boxColor = "rgba(100, 20, 20, 0.9)";
-	  this.FindBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 2 - MenuY, this.StartOptionBox.width, MenuHeight);  this.FindBox.boxColor = "rgba(100, 20, 20, 0.9)";
-	  this.quickGameBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 3 - MenuY, this.StartOptionBox.width, MenuHeight);  this.quickGameBox.boxColor = "rgba(100, 20, 20, 0.9)";
-	  this.WebsiteBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 4 - MenuY, this.StartOptionBox.width, MenuHeight);  this.WebsiteBox.boxColor = "rgba(100, 20, 20, 0.9)";
-	  this.logoutBox = new Rectangle(Canvas.width * 0.9, 1, Canvas.width * 0.1, Canvas.height * 0.05);  this.logoutBox.boxColor = "rgba(100, 20, 20, 0.9)";
+	  this.CreateBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 1 - MenuY, this.StartOptionBox.width, MenuHeight); this.CreateBox.boxColor =  this.color1
+	  this.FindBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 2 - MenuY, this.StartOptionBox.width, MenuHeight);  this.FindBox.boxColor =  this.color1
+	  this.quickGameBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 3 - MenuY, this.StartOptionBox.width, MenuHeight);  this.quickGameBox.boxColor =  this.color1
+	  this.WebsiteBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 4 - MenuY, this.StartOptionBox.width, MenuHeight);  this.WebsiteBox.boxColor =  this.color1;
+	  this.logoutBox = new Rectangle(Canvas.width * 0.9, 1, Canvas.width * 0.1, Canvas.height * 0.05);  this.logoutBox.boxColor = this.color1;
 	
 	this.tooltipList = new Array();
 	var width = 350;
+	var posX = _.canvas.width * 0.5 - (width) * 0.5 ; posY =  _.canvas.height * 0.5; //           
 	var clr = "`rgba(238, 0, 0, 0.5)`";
 	var clr1 = "`rgba(238, 238, 0, 0.5)`";
 	var clr2 = "`rgba(150, 150, 150, 0.7)`";
-	var tooltipRect = new Rectangle(_.canvas.width * 0.5 - (width) * 0.5, _.canvas.height * 0.5, width, 0);
+	var tooltipRect = new Rectangle(posX, posY, width, 0);
 		var testing = this.quickGameBox.setTooltip(clr + "Find " + clr2 + "a match with another player. ^ ^ " + clr1 + "If a game cannot be found you will host a new game and wait for another player.", width, tooltipRect);
 		 this.tooltipList.push(testing);
 		 
-	var tooltipRect = new Rectangle(_.canvas.width * 0.5 - (width) * 0.5, _.canvas.height * 0.5, width, 180);	 
+	var tooltipRect = new Rectangle(posX, posY, width, 0); 
 		 var testing = this.CreateBox.setTooltip(clr2 +"Create a " + clr + "Single-player " + clr2 + "gameboard with options. ^ ^ " + clr1 + "This is for testing out units and game mechanics.", width, tooltipRect);
 		 this.tooltipList.push(testing);
 		 
-	var tooltipRect = new Rectangle(_.canvas.width * 0.5 - (width) * 0.5, _.canvas.height * 0.5, width, 180);	 
+	var tooltipRect = new Rectangle(posX, posY, width, 0);
 		 var testing = this.FindBox.setTooltip(clr2 + "Enter the " + clr + "Game Lobby " + clr2 + "to join or create specific games. ^ ^ " + clr1 + "Also chat with other players of this Epoch Community!", width, tooltipRect);
 		 this.tooltipList.push(testing);
 	
-	var tooltipRect = new Rectangle(_.canvas.width * 0.5 - (width) * 0.5, _.canvas.height * 0.5, width, 180);
-		 var testing = this.WebsiteBox.setTooltip(clr2 + "This menu will re-direct this page to our " + clr + "Blog|" + clr2 + ". ^ ^ " + clr1 + "TLDR: Where you can read all about the creators, ideas, and making of this Epoch Game!", width, tooltipRect);
+	var tooltipRect = new Rectangle(posX, posY, width, 0);
+		 var testing = this.WebsiteBox.setTooltip(clr2 + "This menu will re-direct this page to our " + clr + "Blog|" + clr2 + ". ^ ^ " + clr1 + "Where you can read all about the creators, ideas, and the making of this Epoch Game!", width, tooltipRect);
 		 this.tooltipList.push(testing);
 		 
-	var tooltipRect = new Rectangle(_.canvas.width * 0.5 - (width) * 0.5, _.canvas.height * 0.5, width, 180);
+	var tooltipRect = new Rectangle(posX, posY, width, 0);
 		  var testing = this.logoutBox.setTooltip(clr + "Change " + clr2 + "your current user-name to another name. ^ ^ " + clr1 + "No signup or register is required!", width, tooltipRect);
 		 this.tooltipList.push(testing);
 	  
@@ -126,7 +131,7 @@ function CreateMenus(Width, Height) {
 		
 		//change all button colors to normal if applicable*
 		if (button != null || this.colorBool == true &&  button == null) {for (var i = 0; i < this.buttonList.length; i++) { 
-		this.buttonList[i].boxColor = "rgba(100, 20, 20, 0.9)"; 
+		this.buttonList[i].boxColor =  this.color1;
 		if (this.buttonList[i].tooltipBox != undefined) { this.buttonList[i].tooltipBox.tooltip = false;}
 		} }
 		
@@ -138,27 +143,27 @@ function CreateMenus(Width, Height) {
 		switch(button) {
 			
 			case "logout":
-			this.logoutBox.boxColor = "rgba(240, 100, 100, 0.9)";
+			this.logoutBox.boxColor = this.color2;
 			this.logoutBox.tooltipBox.tooltip = true;
 			break;
 			
 			case "sandbox":
-			this.CreateBox.boxColor = "rgba(240, 100, 100, 0.9)";
+			this.CreateBox.boxColor = this.color2;
 			this.CreateBox.tooltipBox.tooltip = true;
 			break;
 			
 			case "browse":
-			this.FindBox.boxColor = "rgba(240, 100, 100, 0.9)";
+			this.FindBox.boxColor = this.color2;
 			this.FindBox.tooltipBox.tooltip = true;
 			break;
 			
 			case "quick":
-			this.quickGameBox.boxColor = "rgba(240, 100, 100, 0.9)";
+			this.quickGameBox.boxColor = this.color2;
 			this.quickGameBox.tooltipBox.tooltip = true;
 			break;
 			
 			case "web":
-			this.WebsiteBox.boxColor = "rgba(240, 100, 100, 0.9)";
+			this.WebsiteBox.boxColor = this.color2;
 			this.WebsiteBox.tooltipBox.tooltip = true;
 			break;
 			}
@@ -172,7 +177,7 @@ function CreateMenus(Width, Height) {
 		  
 		    context = document.getElementById('Mycanvas').getContext('2d')
 			
-			context.drawImage(Images[0],0 ,Canvas.height * 0.34 ,Canvas.width, Canvas.height);
+			context.drawImage(Images[0], (_.canvas.width - 955) * 0.5 , _.canvas.height - 560 ,955, 745);
 			 //this.stringT = { blah: "lala", string: "ooh " + blah };
 			// context.fillText(this.stringT.string, 400, 400);
 			//this.stringT.draw();
