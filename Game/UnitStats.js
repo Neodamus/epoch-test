@@ -286,9 +286,9 @@ var Grovekeeper = new Array(
  
 var Charger = new Array(
 "Charger",       //name
-"13",      //hitpoints
+"12",      //hitpoints
 "4",      //damage
-"4",      //defence
+"3",      //defence
 "6",      //movement
 "3",      //sight
 "1",      //range
@@ -306,9 +306,9 @@ var Ironfist = new Array(
 "Ironfist",       //name
 "11",      //hitpoints
 "6",      //damage
-"4",      //defence
+"3",      //defence
 "6",      //movement
-"4",      //sight
+"3",      //sight
 "1",      //range
 "0",      //reveal
 "1",      //#attack

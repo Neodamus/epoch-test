@@ -225,7 +225,7 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 2,
 				target: "ally",
 				duration: 2,
-				speed: 3,
+				speed: 2,
 				range: 4,
 				abilityTooltip: ""
 			}
@@ -351,12 +351,13 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				cooldown: 2,
+				movementCost: 1,
 				attacks: 2,
 				abilityTooltip: "",
-				cooldown: 1, //why is there two movements
-				attacks: 2 //why is there two attacks?
+				attacks: 2
 			}
-			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ attacks: " + stats.attacks; 
+			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ attacks: " + stats.attacks + 
+				" ^ Movement cost: " + stats.movementCost; 
 			return stats;	
 					
 		case "Second Wind":
