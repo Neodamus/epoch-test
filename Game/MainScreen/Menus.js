@@ -30,6 +30,18 @@ function CreateMenus(Width, Height) {
 	  this.quickGameBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 3 - MenuY, this.StartOptionBox.width, MenuHeight);  this.quickGameBox.boxColor =  this.color1
 	  this.WebsiteBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 4 - MenuY, this.StartOptionBox.width, MenuHeight);  this.WebsiteBox.boxColor =  this.color1;
 	  this.logoutBox = new Rectangle(Canvas.width * 0.9, 1, Canvas.width * 0.1, Canvas.height * 0.05);  this.logoutBox.boxColor = this.color1;
+	  
+	  
+	   this.fireBox = new Rectangle(_.canvas.width * 0.12, _.canvas.height * 0.69, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.fireBox.boxColor =  "red";
+	   this.airBox = new Rectangle(_.canvas.width * 0.27, _.canvas.height * 0.69, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.airBox.boxColor =  "gray";
+	   this.earthBox = new Rectangle(_.canvas.width * 0.42, _.canvas.height * 0.69, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.earthBox.boxColor =  "green";
+	   this.lightningBox = new Rectangle(_.canvas.width * 0.57, _.canvas.height * 0.69, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.lightningBox.boxColor =  "yellow";
+	   this.waterBox = new Rectangle(_.canvas.width * 0.72, _.canvas.height * 0.69, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.waterBox.boxColor =  "blue";
+	
+	   this.moonBox = new Rectangle(_.canvas.width * 0.24, _.canvas.height * 0.28, _.canvas.width * 0.07, _.canvas.width * 0.07); //this.moon.boxColor = "gray";
+	   
+	   this.epochBox = new Rectangle(_.canvas.width * 0.15, _.canvas.height * 0.88, _.canvas.width * 0.66, _.canvas.width * 0.3); //this.epochBox.boxColor = "gray";
+	  
 	
 	this.tooltipList = new Array();
 	var width = 350;
@@ -56,8 +68,39 @@ function CreateMenus(Width, Height) {
 	var tooltipRect = new Rectangle(posX, posY, width, 0);
 		  var testing = this.logoutBox.setTooltip(clr + "Change " + clr2 + "your current user-name to another name. ^ ^ " + clr1 + "No signup or register is required!", width, tooltipRect);
 		 this.tooltipList.push(testing);
+		 
+	//elementals...
 	  
-	 
+	 var tooltipRect = new Rectangle(posX, posY, width, 0);
+		  var testing = this.fireBox.setTooltip(clr + "Fire. ^ ^ " + clr1 + "sooooo firey!", width, tooltipRect);
+		 this.tooltipList.push(testing);
+		 
+	 var tooltipRect = new Rectangle(posX, posY, width, 0);
+		  var testing = this.airBox.setTooltip(clr + "Air. ^ ^ " + clr1 + "sooooo airy!", width, tooltipRect);
+		 this.tooltipList.push(testing);
+		 
+	 var tooltipRect = new Rectangle(posX, posY, width, 0);
+		  var testing = this.earthBox.setTooltip(clr + "Earth. ^ ^ " + clr1 + "sooooo earthy!", width, tooltipRect);
+		 this.tooltipList.push(testing);
+		 
+	 var tooltipRect = new Rectangle(posX, posY, width, 0);
+		  var testing = this.lightningBox.setTooltip(clr + "Lightning. ^ ^ " + clr1 + "sooooo lightningy!", width, tooltipRect);
+		 this.tooltipList.push(testing);
+		 
+	 var tooltipRect = new Rectangle(posX, posY, width, 0);
+		  var testing = this.waterBox.setTooltip(clr + "Water. ^ ^ " + clr1 + "sooooo watery!", width, tooltipRect);
+		 this.tooltipList.push(testing);
+		 
+	 var tooltipRect = new Rectangle(posX, posY, width, 0);
+		  var testing = this.moonBox.setTooltip(clr + "This is a moon. ^ ^ " + clr1 + "This is not an element or a button.", width, tooltipRect);
+		 this.tooltipList.push(testing);
+		 
+	 var tooltipRect = new Rectangle(posX, posY, width, 0);
+		  var testing = this.epochBox.setTooltip(clr + "The most epoch game in existence. ^ ^ " + clr1 + "Please support us by visiting our support page!", width, tooltipRect);
+		 this.tooltipList.push(testing);
+		 
+		 
+		 
 	  
 		
 	  //Set text to be displayed inside the rectangle(position is set BASED on canvas, not rectangle!)                  centreTextY(numberOfLines, y, height, fontSize)
@@ -80,7 +123,14 @@ function CreateMenus(Width, Height) {
 	  this.FindBox.setButton("browse", this.buttonList);
 	  this.quickGameBox.setButton("quick", this.buttonList);
 	  this.WebsiteBox.setButton("web", this.buttonList);
-	   
+	  
+	   this.fireBox.setButton("fire", this.buttonList);
+	   this.airBox.setButton("air", this.buttonList);
+	   this.earthBox.setButton("earth", this.buttonList);
+	   this.lightningBox.setButton("lightning", this.buttonList);
+	   this.waterBox.setButton("water", this.buttonList);
+	   this.moonBox.setButton("moon", this.buttonList);
+	   this.epochBox.setButton("epoch", this.buttonList);
 	 // this.colorBool = false; //used to change colors of buttons normal
 	 // this.fontSize = this.fontSize.toString(); 
 	 // this.fontSize += 'px FLORI'; //finalize fontSize
@@ -166,6 +216,38 @@ function CreateMenus(Width, Height) {
 			this.WebsiteBox.boxColor = this.color2;
 			this.WebsiteBox.tooltipBox.tooltip = true;
 			break;
+			
+			case "fire":
+			this.fireBox.tooltipBox.tooltip = true;
+			break;
+			
+			case "air":
+			this.airBox.tooltipBox.tooltip = true;
+			break;
+			
+			case "earth":
+			this.earthBox.tooltipBox.tooltip = true;
+			break;
+			
+			case "lightning":
+			this.lightningBox.tooltipBox.tooltip = true;
+			break;
+			
+			case "water":
+			this.waterBox.tooltipBox.tooltip = true;
+			break;
+			
+			case "moon":
+			this.moonBox.tooltipBox.tooltip = true;
+			break;
+			
+			case "epoch":
+			this.epochBox.tooltipBox.tooltip = true;
+			break;
+			
+			
+			
+			
 			}
 			
 	  }
@@ -177,7 +259,7 @@ function CreateMenus(Width, Height) {
 		  
 		    context = document.getElementById('Mycanvas').getContext('2d')
 			
-			context.drawImage(Images[0], (_.canvas.width - 955) * 0.5 , _.canvas.height - 560 ,955, 745);
+			context.drawImage(Images[0], (_.canvas.width * 0.0238) * 0.5, _.canvas.height * 0.2585, _.canvas.width * 0.986 , _.canvas.height * 0.9612);
 			 //this.stringT = { blah: "lala", string: "ooh " + blah };
 			// context.fillText(this.stringT.string, 400, 400);
 			//this.stringT.draw();
@@ -191,5 +273,7 @@ function CreateMenus(Width, Height) {
 			this.quickGameBox.draw();
 			this.WebsiteBox.draw();
 			this.logoutBox.draw();
+			
+			
 			for (var i = 0; i < this.tooltipList.length; i++) { if (this.tooltipList[i].tooltip == true) {  this.tooltipList[i].draw(); } }
 			}
