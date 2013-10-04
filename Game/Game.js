@@ -35,7 +35,7 @@
 	  canvas.oncontextmenu = function(event) { event.preventDefault(); event.stopPropagation(); return false; } //disables rightclick on canvas
 	  canvas.onmousedown = function(){ return false;} //ON MOUSE DOWN -- Disable highlighting text on page
 	  startEventHandlers()
-	  
+	  canvas.style.cursor = "none";
 	  currentScreen = { id: "blank" }	  
 	  
 	  LoadImageContent();
@@ -124,7 +124,7 @@
 	  Images[113].src = "Game/Images/abilities/mist.png";
 	  Images[114].src = "Game/Images/abilities/sentry.png";
 	  Images[115].src = "Game/Images/Units/fire-eye.png";
-	  
+	  Images[116].src = "Game/Images/mouse1.png";
 	  
 	  Images[130].src = "Game/Images/fire.png";
 	  Images[131].src = "Game/Images/air.png";
@@ -415,6 +415,7 @@
 	    context.clearRect(0, 0, canvas.width, canvas.height);
 		context.fillStyle = "white";
 		
+		
 
 		switch(Screen) {
 			case "Menus": Menus.Draw(context, canvas); alert ("Drawing menus from screen"); break;				
@@ -467,5 +468,7 @@
 			
 		}
       
+	  
+	  _.context.drawImage(Images[116], Mouse.x, Mouse.y);
 	}
 	
