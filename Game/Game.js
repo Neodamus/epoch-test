@@ -35,7 +35,9 @@
 	  canvas.oncontextmenu = function(event) { event.preventDefault(); event.stopPropagation(); return false; } //disables rightclick on canvas
 	  canvas.onmousedown = function(){ return false;} //ON MOUSE DOWN -- Disable highlighting text on page
 	  startEventHandlers()
+	  
 	  canvas.style.cursor = "none";
+	  
 	  currentScreen = { id: "blank" }	  
 	  
 	  LoadImageContent();
