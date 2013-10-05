@@ -38,7 +38,7 @@ tileModifier.prototype.turnRefresh = function(alliance)
 			if (this.stats.turnProc) {
 				
 				var currentUnits = this.getCurrentUnits();	// instanceof array
-				for (i = 0; i < currentUnits.length; i++) {
+				for (var i = 0; i < currentUnits.length; i++) {
 					this.eventProc("turn", currentUnits[i]);	
 				}
 			}
@@ -108,7 +108,7 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 				var buff = new newBuff(this.name, GridSpot[currentUnit.x][currentUnit.y], this); //}				
 				
 				var buffList = currentUnit.buffsByString(buff.buffType);
-				for (i = 0; i < buffList.length; i++) {
+				for (var i = 0; i < buffList.length; i++) {
 					buffList[i].buffStats.duration++;	
 				}
 			}

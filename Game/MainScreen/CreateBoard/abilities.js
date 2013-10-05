@@ -122,11 +122,11 @@ ability.prototype.abilityStats = function(abilityName)
 			stats = {
 				cooldown: 4,
 				movementCost: 3,
+				tiles: 4,
 				target: "any",
 				tileTarget: "both",
 				duration: 1,
 				lifetime: 2,
-				radius: 1,
 				range: 3,
 				abilityTooltip: ""
 			}
@@ -268,12 +268,12 @@ ability.prototype.abilityStats = function(abilityName)
 			stats = {
 				cooldown: 4,
 				movementCost: 3,
+				tiles: 3,
 				target: "any",
 				tileTarget: "ally",
 				turnProc: true,
 				duration: 1,
 				lifetime: 2,
-				radius: 1,
 				range: 4,
 				life: 0.25,
 				abilityTooltip: ""
@@ -579,7 +579,7 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 		case "Energy Field":
 			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;
-			this.castType = "radius";
+			this.castType = "numTiles";
 			this.castTargeOption = this.currentAbilityStats.radius;									
 			break;
 		
@@ -629,7 +629,7 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 		case "Mist":
 			this.sourceUnit.abilityMarkers("on", this.currentAbilityStats.range);
 			finished = false;
-			this.castType = "radius";
+			this.castType = "numTiles";
 			this.castTargeOption = this.currentAbilityStats.radius;									
 			break;
 			
@@ -1021,7 +1021,7 @@ ability.prototype.castModeHighlight = function(option) {
 	
 	if (this.castMode)	{
 		
-		if (this.castTarget.ThisRectangle.Contains(mousePosition) == false || option == true) {
+		if (this.castTarget.ThisRectangle.Contains(mousePosition) == false || option == true || this.castType == "numTiles") {
 			
 			// remove marker
 			this.castTarget.abilitySelectMarker = false;
@@ -1072,6 +1072,16 @@ ability.prototype.castModeHighlight = function(option) {
 						for (i = 0; i < this.castTargetList.length; i++) {
 							this.castTargetList[i].abilitySelectMarker = true;	
 						}					
+					
+					break;
+					
+					case "numTiles":
+					
+						this.castTargetList = this.specialAreaSelect(this.castTarget, this.currentAbilityStats.tiles, this.castTargetOption);
+							
+						for (i = 0; i < this.castTargetList.length; i++) {
+							this.castTargetList[i].abilitySelectMarker = true;	
+						}
 					
 					break;
 						
@@ -1149,6 +1159,26 @@ ability.prototype.specialAreaSelect = function(gridCenter, numberOfTiles, option
 				
 				}
 
+			break;
+			
+			case "numTiles":
+			
+				var initialTiles = this.AreaSelect(gridCenter, 1);
+				var distances = [];
+				pointA = { x: _.mouse.x, y: _.mouse.y };
+				
+				for (i = 0; i < initialTiles.length; i++) {
+					pointB = { x: initialTiles[i].centrePixelX, y: initialTiles[i].centrePixelY };
+					distances.push(this.distance(pointA, pointB));
+				}
+				
+				var sorted = distances.clone().sort(function(a,b){return a-b});
+				
+				gridList = [];
+				for (i = 0; i < numberOfTiles; i++) {				
+					gridList.push(initialTiles[distances.indexOf(sorted[i])]);
+				}
+			
 			break;
 	} 
 	
@@ -1346,6 +1376,18 @@ ability.prototype.AreaSelect = function(CentreGrid, Radius)
 			return gridList;
 			
 	  }
+	  
+	  
+ability.prototype.distance = function(pointA, pointB) {
+	
+	distanceX = Math.pow(pointA.x - pointB.x, 2);
+	distanceY = Math.pow(pointA.y - pointB.y, 2);
+	
+	d = Math.sqrt(distanceX + distanceY);
+	
+	return d;
+	
+}
 
 
 	  

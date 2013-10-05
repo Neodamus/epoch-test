@@ -213,12 +213,14 @@
 		
         var rect = _.canvas.getBoundingClientRect()
 		
-        Mouse = { 
+        _.mouse = { 
 		
 			x: Math.floor(mouse.clientX - rect.left), 
 			y: Math.floor(mouse.clientY - rect.top)
 			
-        }
+        };
+		
+		Mouse = _.mouse;
 			
 		switch (_.currentMode.id) { 
 		
