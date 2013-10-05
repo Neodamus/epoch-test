@@ -285,7 +285,7 @@
 								
 						}					
 						
-						if (this.sourceUnit instanceof tileModifier) {				
+						if (this.sourceUnit instanceof tileModifier && this.attachedUnit.unitStealth == false) {				
 							
 							var rem = listReturnArray(GridSpot[this.attachedUnit.x][this.attachedUnit.y].tileBuffList, this.sourceUnit);
 							if (rem != -1) { GridSpot[this.attachedUnit.x][this.attachedUnit.y].tileBuffList.splice(rem, 1);}
@@ -722,7 +722,7 @@
 						
 						if (this.sourceUnit instanceof tileModifier) {
 							
-							this.attachedUnit.heal(Math.round(this.attachedUnit.baseStats[1] * this.buffStats.life))
+							this.attachedUnit.heal(Math.round(this.attachedUnit.baseStats[1] * this.buffStats.life), this.buffType)
 							this.removeTileModifier();						
 						}
 						
@@ -839,10 +839,8 @@
 						var unit1 = grid1.currentUnit.Remove();
 						var unit2 = grid2.currentUnit.Remove();
 						
-						unit1.currentStats[4] += 1;	
-						unit1.Move(grid2);
-						unit2.currentStats[4] += 1;
-						unit2.Move(grid1);	
+						unit1.place(grid2);
+						unit2.place(grid1);	
 						
 						combatLog.push(unit1.baseStats[0] + " swapped places with " + unit2.baseStats[0]);
 						
@@ -1241,11 +1239,11 @@
 					case "Initialize":
 						
 						this.sourceUnit.Remove();
-						this.sourceUnit.currentStats[4] += 1;
-						this.sourceUnit.Move(this.targetSpot);				
+						this.sourceUnit.place(this.targetSpot);				
 						
 						break;	
-				}   
+				}
+				   
 			break;
 			
 			case "Thunderclap":

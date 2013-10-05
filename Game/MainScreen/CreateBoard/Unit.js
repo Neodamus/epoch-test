@@ -511,6 +511,38 @@ Unit.prototype.Attack = function(NewGridSpot) {
 			}
 		 }
 	  }
+
+	  
+Unit.prototype.place = function(NewGridSpot) {
+	 
+	combatLog.push(this.baseStats[0] + " has moved.");
+	NewGridSpot.currentUnit = this;
+	this.x = NewGridSpot.x;
+	this.y = NewGridSpot.y;	 
+	 
+	NewGridSpot.tileModifiers("all", "move");
+	
+	if (this.alliance == "ally" && this.currentStats[1] > 0) {	 
+		this.sight("on");
+		this.reveal("on");
+	}
+		
+	for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("move", this.auras[i]); }
+	 
+	for (var i = 0; i < this.currentTileMods.length; i++) {  this.currentTileMods[i].eventProc("remove", this); }
+		
+	for (var i = 0 ; i < this.revealersOnGridList.length; i++) { if (listContains(NewGridSpot.revealList, this.revealersOnGridList[i]) == false) { 
+			var rem = listReturnArray(this.noStealthList, this.revealersOnGridList[i]);
+				if (rem != -1) { this.noStealthList.splice(rem, 1); }
+					this.revealersOnGridList.splice(i, 1); i--; } }
+		
+		for (var i = 0; i < NewGridSpot.revealList.length; i++) { 
+			if (NewGridSpot.revealList[i].alliance != this.alliance && listContains(this.revealersOnGridList, NewGridSpot.revealList[i]) == false) {
+				this.revealersOnGridList.push(NewGridSpot.revealList[i]);
+				this.stealth("off", NewGridSpot.revealList[i]);
+			}  
+	}
+}
 	  
 	  
 	  
