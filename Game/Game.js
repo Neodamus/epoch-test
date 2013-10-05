@@ -36,7 +36,7 @@
 	  canvas.onmousedown = function(){ return false;} //ON MOUSE DOWN -- Disable highlighting text on page
 	  startEventHandlers()
 	  
-	  canvas.style.cursor = "none";
+	  //canvas.style.cursor = "none";
 	  
 	  currentScreen = { id: "blank" }	  
 	  
@@ -470,7 +470,7 @@
 			
 		}
       
-	  if (Mouse != undefined) { 
-	  _.context.drawImage(Images[116], Mouse.x, Mouse.y); }
+	 // if (Mouse != undefined) { 
+	 // _.context.drawImage(Images[116], Mouse.x, Mouse.y); }
 	}
 	
