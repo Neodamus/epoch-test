@@ -103,14 +103,14 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Creeping Vines":	
 					
 			stats = {
-				cooldown: 3,
+				cooldown: 4,
 				movementCost: 3,
 				target: "any",
 				tileTarget: "enemy",
 				hidden: true,
 				lifetime: 3,
 				duration: 1,
-				damage: 2,
+				damage: 1,
 				range: 4,
 				abilityTooltip: ""
 			}
@@ -151,7 +151,7 @@ ability.prototype.abilityStats = function(abilityName)
 				lifeCost: 3,
 				attackCost: 1,
 				damage: 5,
-				range: 4,
+				range: 3,
 				abilityTooltip: ""
 			}
 			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ life cost: " + stats.lifeCost + " ^ attack cost: " + stats.attackCost + " ^ damage dealt: " + stats.damage; 
@@ -285,8 +285,8 @@ ability.prototype.abilityStats = function(abilityName)
 		
 			stats = {
 				tileTarget: "enemy",
-				duration: 3,
-				unitAffectNumber: 1,
+				duration: 1,
+				procsPerTurn: 1,
 				auraRange: 2,
 				stacks: false,
 				abilityTooltip: ""
@@ -351,6 +351,7 @@ ability.prototype.abilityStats = function(abilityName)
 					
 			stats = {
 				cooldown: 2,
+				duration: 1,
 				movementCost: 1,
 				attacks: 2,
 				abilityTooltip: "",

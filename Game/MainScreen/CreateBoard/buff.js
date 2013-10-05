@@ -738,46 +738,52 @@
 				
 					case "Initialize":
 					
-						var isSelf = this.sourceUnit.sourceUnit == this.attachedUnit;	// determines if proc is self
-					
-						var stacks = false;
-						for (var i = 0; i < this.attachedUnit.buffList.length; i++) { 
-							if (this.attachedUnit.buffList[i].buffType == this.buffType) { 
-								stacks = true; break;
-							} 
+						if (this.sourceUnit instanceof Unit) {
+														
 						}
 						
-						for (var i = 0; i < this.attachedUnit.currentTileMods.length; i++) { 
-											
-							if (this.attachedUnit.currentTileMods[i].name == this.buffType && 
-								this.attachedUnit.currentTileMods[i].stats.unitAffectNumber > 0 && isSelf == false) { 
+						if (this.sourceUnit instanceof tileModifier) {
+							var panic = this.sourceUnit;
+							var nightmare = panic.sourceUnit;
+							
+							if (nightmare.auraTurnProc == false && this.attachedUnit != nightmare) {
+								this.removeTileModifier();
 								
-									if (stacks == false) { this.attachedUnit.currentStats[4] = 0; } 
+								if (this.attachedUnit.buffsByString(this.buffType).length == 0) {
 									
-								this.attachedUnit.currentTileMods[i].stats.unitAffectNumber--; 
+									nightmare.auraTurnProc = true;
+									this.attachedUnit.currentStats[4] = 0;
+								
+									if (ClientsTurn && nightmare.alliance == "ally" ||
+										(ClientsTurn == false && this.attachedUnit.alliance == "ally")) {
+											
+										this.attachedUnit.buffList.push(this);
+										
+									} else if (ClientsTurn && nightmare.alliance == "enemy" ||  
+										(ClientsTurn == false && this.attachedUnit.alliance == "enemy")) {
+										
+										this.buffStats.duration--;
+										this.attachedUnit.buffList.push(this);								
+										
+									}
+								}
 							}
-						
-						}					
-						
-						if (stacks == false) { this.initializeBuff(); }
+						}
 					
 					break;
 				
 					case "Turn":
 					
-						this.buffStats.duration--; 
-						this.sourceUnit.stats.unitAffectNumber = this.buffStats.unitAffectNumber;
-						
-						if (listContains(this.attachedUnit.currentTileMods, this.sourceUnit) == true) { this.buffStats.duration++; }
-						
-						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+						if (this.buffStats.duration > 0) { this.attachedUnit.currentStats[4] = 0; }
+					
+						this.buffStats.duration--;						
+						if (this.buffStats.duration <= 0) { this.eventProc("Removal"); }
 						
 					break;
 						
 					case "Removal":
 					
-						removeArray = listReturnArray(this.attachedUnit.buffList, this);
-						this.attachedUnit.buffList.splice(removeArray, 1); 
+						this.removeBuff(); 
 						
 					break;
 				}

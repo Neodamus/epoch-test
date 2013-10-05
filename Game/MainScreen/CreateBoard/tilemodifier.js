@@ -105,7 +105,7 @@ tileModifier.prototype.eventProc = function(procedure, currentUnit) {
 				
 				//if (exists == false || this.stats.stacks != undefined && this.stats.stacks == true) { 
 							
-				var buff = new newBuff(this.name, GridSpot[currentUnit.x][currentUnit.y], this); //}
+				var buff = new newBuff(this.name, GridSpot[currentUnit.x][currentUnit.y], this); //}				
 				
 				var buffList = currentUnit.buffsByString(buff.buffType);
 				for (i = 0; i < buffList.length; i++) {

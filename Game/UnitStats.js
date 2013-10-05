@@ -376,9 +376,9 @@ var IceSpirit = new Array(
  
 var Theurgist = new Array(
 "Theurgist",       //name
-"13",      //hitpoints
+"12",      //hitpoints
 "5",      //damage
-"5",      //defence
+"4",      //defence
 "4",      //movement
 "4",      //sight
 "3",      //range
@@ -394,7 +394,7 @@ var Theurgist = new Array(
  
 var Healer = new Array(
 "Healer",       //name
-"10",      //hitpoints
+"8",      //hitpoints
 "3",      //damage
 "3",      //defence
 "4",      //movement

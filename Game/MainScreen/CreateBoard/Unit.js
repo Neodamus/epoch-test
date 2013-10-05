@@ -20,6 +20,7 @@
 		for (var i = 0; i < this.auraNames.length; i++) {
 		if (this.auraNames[i] != "" && this.auraNames[i] != "0" && this.auraNames[i] != 0)
 		{ var newMod = new tileModifier(this, this.auraNames[i]); this.auras.push(newMod);} } //making auras.A
+		this.auraTurnProc = false;	// put this in aura class
 		
 		this.genericGridList = new Array();//used for stuff like auras and abilities...
 		var abilityName = stringParseForList(this.currentStats[13]);
@@ -94,12 +95,15 @@
 	   Unit.prototype.turnFunction = function()
 	    {
 			
+			this.resetStats();
+			
+			this.auraTurnProc = false;  // put this in aura class when its created
+			
 			for (var i = 0; i < this.buffList.length; i++) { 
 			
 			if (this.buffList[i].eventProc("Turn") == true) { i--; } 
 			  }
-			
-			this.resetStats();
+			  
 			for (var i = 0; i < this.ability.length; i++) {
 				if (this.ability[i].cooldown > 0) { this.ability[i].cooldown--; }
 			}
