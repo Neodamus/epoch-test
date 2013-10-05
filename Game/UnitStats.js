@@ -144,7 +144,7 @@ var Infiltrator = new Array(
 "Infiltrator",       //name
 "8",      //hitpoints
 "6",      //damage
-"4",      //defence
+"3",      //defence
 "4",      //movement
 "4",      //sight
 "3",      //range
@@ -162,13 +162,13 @@ var Sensei = new Array(
 "Sensei",       //name
 "10",      //hitpoints
 "5",      //damage
-"4",      //defence
+"3",      //defence
 "5",      //movement
 "3",      //sight
 "1",      //range
 "0",      //reveal
 "1",      //#attack
-"1",      //#defend
+"2",      //#defend
 "0",      //onAttackAbility
 "0",      //onDefendAbility
 "0, 0",   //auras
@@ -218,7 +218,7 @@ var Crossbowman = new Array(
 "5",      //damage
 "4",      //defence
 "4",      //movement
-"3",      //sight
+"4",      //sight
 "3",      //range
 "0",      //reveal
 "1",      //#attack
@@ -234,9 +234,9 @@ var Sharpshooter = new Array(
 "Sharpshooter",       //name
 "7",      //hitpoints
 "6",      //damage
-"3",      //defence
+"2",      //defence
 "3",      //movement
-"4",      //sight
+"5",      //sight
 "4",      //range
 "0",      //reveal
 "1",      //#attack
@@ -270,7 +270,7 @@ var Grovekeeper = new Array(
 "Grovekeeper",       //name
 "7",      //hitpoints
 "4",      //damage
-"3",      //defence
+"2",      //defence
 "5",      //movement
 "3",      //sight
 "2",      //range
@@ -414,7 +414,7 @@ var Rainmaker = new Array(
 "Rainmaker",       //name 0
 "11",      //hitpoints 1 
 "4",      //damage2 
-"4",      //defence3
+"3",      //defence3
 "5",      //movement4
 "3",      //sight5
 "3",      //range 6

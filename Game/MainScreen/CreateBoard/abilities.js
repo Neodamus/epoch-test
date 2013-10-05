@@ -323,9 +323,9 @@ ability.prototype.abilityStats = function(abilityName)
 		
 			stats = {
 				cooldown: 2,
-				movementCost: 3,
+				movementCost: 2,
 				duration: 3,
-				damage: 3,
+				damage: 2,
 				range: 3,
 				abilityTooltip: ""
 			}
@@ -394,7 +394,7 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 3,
 				target: "any",
 				tileTarget: "both",
-				lifetime: 3,
+				lifetime: 2,
 				duration: 3,
 				range: 3,
 				radius: 1,
@@ -425,7 +425,7 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 2,
 				target: "ally",
 				duration: 2,
-				damage: 2,
+				damage: 1,
 				range: 4,
 				abilityTooltip: ""
 			}
