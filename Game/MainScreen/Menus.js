@@ -19,8 +19,8 @@ function CreateMenus(Width, Height) {
 	// this.stringT = { x: "lala", y: "blahblah", string: "" };
 	// this.stringT.string = this.stringT.x + " " + this.stringT.y;
 	  
-	 this.color1 = "rgba(120, 20, 20, 0.5)"; //normal
-	 this.color2 = "rgba(238, 0, 0, 0.8)"; //highlight
+	 this.color1 = "rgba(110, 20, 20, 0.9)"; //normal
+	 this.color2 = "rgba(238, 80, 80, 0.6)"; //highlight
 	  
 	  //Create rectangles
 	  this.StartOptionBox = new Rectangle(newxw, newyh, newwidth, newheight); this.StartOptionBox.boxColor = "rgba(50, 50, 50, 0.2)"
@@ -104,16 +104,17 @@ function CreateMenus(Width, Height) {
 	  
 		
 	  //Set text to be displayed inside the rectangle(position is set BASED on canvas, not rectangle!)                  centreTextY(numberOfLines, y, height, fontSize)
+	  var menuColor = "rgba(18,18,18, 1)";
 	  var text = "Log Out";
-	  this.logoutBox.setText(text, "Black", centreTextX(text, this.logoutBox.x, this.logoutBox.width, this.fontSize), centreTextY(1, this.logoutBox.y, this.logoutBox.height, this.fontSize));
+	  this.logoutBox.setText(text, menuColor, centreTextX(text, this.logoutBox.x, this.logoutBox.width, this.fontSize), centreTextY(1, this.logoutBox.y, this.logoutBox.height, this.fontSize));
 	  var text = "Sandbox";
-	  this.CreateBox.setText(text, "Black", centreTextX(text, this.CreateBox.x, this.CreateBox.width, this.fontSize), centreTextY(1, this.CreateBox.y, this.CreateBox.height, this.fontSize));
+	  this.CreateBox.setText(text, menuColor, centreTextX(text, this.CreateBox.x, this.CreateBox.width, this.fontSize), centreTextY(1, this.CreateBox.y, this.CreateBox.height, this.fontSize));
 	  var text = "Game Lobby";
-	  this.FindBox.setText(text, "Black", centreTextX(text, this.FindBox.x, this.FindBox.width, this.fontSize), centreTextY(1, this.FindBox.y, this.FindBox.height, this.fontSize));
+	  this.FindBox.setText(text, menuColor, centreTextX(text, this.FindBox.x, this.FindBox.width, this.fontSize), centreTextY(1, this.FindBox.y, this.FindBox.height, this.fontSize));
 	  var text = "Quick Game Search";
-	  this.quickGameBox.setText(text, "Black", 0, 0);
+	  this.quickGameBox.setText(text, menuColor, 0, 0);
 	  var text = "Visit the Blog";
-	  this.WebsiteBox.setText(text, "Black", centreTextX(text, this.WebsiteBox.x, this.WebsiteBox.width, this.fontSize), centreTextY(1, this.WebsiteBox.y, this.WebsiteBox.height, this.fontSize));
+	  this.WebsiteBox.setText(text, menuColor, centreTextX(text, this.WebsiteBox.x, this.WebsiteBox.width, this.fontSize), centreTextY(1, this.WebsiteBox.y, this.WebsiteBox.height, this.fontSize));
 	  
 	  this.buttonList = new Array(); //list that contains all buttons.
 	  

@@ -470,7 +470,7 @@
 			
 		}
       
-	  
-	  _.context.drawImage(Images[116], Mouse.x, Mouse.y);
+	  if (Mouse != undefined) { 
+	  _.context.drawImage(Images[116], Mouse.x, Mouse.y); }
 	}
 	
