@@ -14,9 +14,7 @@
 	 
 	 var shiftKey = false // returns true if it's down, false if it's up
 	 
-	 var ClientsTurn = false;
-	 
-	 
+	 var ClientsTurn = false;	 
 	 
 	 //public Classes
 	 var UnitStats;
