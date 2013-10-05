@@ -56,7 +56,7 @@
 		this.play();
 		}, false);
 	 // myAudio.currentTime = 0;
-	  myAudio.play();
+	  //  myAudio.play();
 	 
 	  myAudio.volume = 0.40;
 	  

@@ -104,7 +104,7 @@ function CreateMenus(Width, Height) {
 	  
 		
 	  //Set text to be displayed inside the rectangle(position is set BASED on canvas, not rectangle!)                  centreTextY(numberOfLines, y, height, fontSize)
-	  var menuColor = "rgba(18,18,18, 1)";
+	  var menuColor = "rgba(0,0,0, 1)";
 	  var text = "Log Out";
 	  this.logoutBox.setText(text, menuColor, centreTextX(text, this.logoutBox.x, this.logoutBox.width, this.fontSize), centreTextY(1, this.logoutBox.y, this.logoutBox.height, this.fontSize));
 	  var text = "Sandbox";
