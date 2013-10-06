@@ -539,6 +539,12 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 	
 	if (this.canCast()) { this.castMode = true; } else { return null; }
 	
+	if (this.target == "tile") { 
+		this.sourceUnit.spellReq = "global";
+	} else {
+		this.sourceUnit.spellReq = "local";	
+	}
+	
 	this.sourceUnit.Select("off");
 	
 	var finished = null;
