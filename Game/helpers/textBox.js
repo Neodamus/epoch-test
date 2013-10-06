@@ -1,36 +1,39 @@
 function textBox(x, y, width, height) {
 	
-	this.x = Math.floor(x)
-	this.y = Math.floor(y)
-	this.width = Math.floor(width)
-	this.height = Math.floor(height)
+	this.x = Math.floor(x);
+	this.y = Math.floor(y);
+	this.width = Math.floor(width);
+	this.height = Math.floor(height);
 	
-	this.context = document.getElementById('Mycanvas').getContext('2d')
-	this.textBoxColor = "#333"
+	this.context = _.context;
+	
+	this.globalAlpha = 1;
+	
+	this.textBoxColor = "#333";
 	
 	this.fontSize = _.fontSize;
 	this.fontFamily = _.fontFamily;
 	this.fontColor = "#BBB";
 	this.font = _.font;
 	
-	this.columns = 1
-	this.columnArray = [ 0 ]
+	this.columns = 1;
+	this.columnArray = [ 0 ];
 	
-	this.rows = 0
-	this.rowHeight = 18
-	this.rowBuffer = 6
-	this.maxRows = Math.floor(this.height / (this.rowHeight + this.rowBuffer))
+	this.rows = 0;
+	this.rowHeight = 18;
+	this.rowBuffer = 6;
+	this.maxRows = Math.floor(this.height / (this.rowHeight + this.rowBuffer));
 	
-	this.leftPadding = 10
-	this.topPadding = 5
+	this.leftPadding = 10;
+	this.topPadding = 5;
 	
-	this.text = []
-	this.textColumns = 0
-	this.textRows = 0
-	this.textReverse = false
+	this.text = [];
+	this.textColumns = 1;
+	this.textRows = 0;
+	this.textReverse = false;
 	
-	this.scrollbar = false
-	this.scrollRow = 0
+	this.scrollbar = false;
+	this.scrollRow = 0;
 	
 	this.scrollbarRect = new Rectangle(this.x + this.width - this.leftPadding - 10, this.y + this.topPadding, 10, this.height - this.topPadding * 2)
 	this.scrollbarUp = new Rectangle(this.scrollbarRect.x, this.scrollbarRect.y, 10, 10)
@@ -44,12 +47,8 @@ function textBox(x, y, width, height) {
 	this.textHeight = this.height - this.topPadding * 2
 }
 
-
-textBox.prototype.setFontSize = function(fontSize) {
-	
-	this.font = fontSize + "px " + this.fontFamily	
-	
-}
+textBox.prototype.setFontFamily = function(fontFamily) { this.fontFamily = fontFamily; this.font = this.fontSize + "px " + fontFamily; }
+textBox.prototype.setFontSize = function(fontSize) { this.fontSize = fontSize; this.font = fontSize + "px " + this.fontFamily	}
 
 textBox.prototype.setColumns = function(columnArray) {
 	
@@ -60,8 +59,9 @@ textBox.prototype.setColumns = function(columnArray) {
 
 textBox.prototype.draw = function() {
 	
-	this.context.fillStyle = this.textBoxColor
-	this.context.fillRect(this.x, this.y, this.width, this.height)
+	this.context.fillStyle = this.textBoxColor;
+	_.context.globalAlpha = this.globalAlpha;
+	this.context.fillRect(this.x, this.y, this.width, this.height);
 	
 	if (this.selectedRow != 0) {
 		this.context.fillStyle = "#929005"
@@ -174,9 +174,21 @@ textBox.prototype.inputText = function(textArray) {
 	
 }
 
+
+textBox.prototype.addText = function(text) {
+	
+	this.text.push(text);
+	this.textRows++;	
+	
+}
+
+
+
 textBox.prototype.inputObjects = function(objectArray, objProps) {
 	
-	this.text = new Array()
+	console.warn ("Using outdated .inputObjects in textBox, please update");
+	
+	/* this.text = new Array()
 	
 	this.columns = objProps	
 	this.textColumns = objProps
@@ -192,7 +204,7 @@ textBox.prototype.inputObjects = function(objectArray, objProps) {
 				count++
 			}
 		}
-	}
+	} */
 }
 
 textBox.prototype.inputObject = function(objectArray) {
@@ -243,6 +255,12 @@ textBox.prototype.inputObject = function(objectArray) {
 	this.textColumns = properties.length	
 	this.textRows = this.text.length / this.textColumns
 		
+}
+
+textBox.prototype.receiveText = function(text) {
+
+	this.addText(text);	
+	
 }
 
 textBox.prototype.scrollToLastRow = function() {

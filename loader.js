@@ -6,6 +6,7 @@ window.onload = function() {
 	sizeCanvas();	
 	StartGame();
 	startSocket();
+	_.console = new console();
 	
 }
 
@@ -48,6 +49,8 @@ function globals() {
 	
 	this.connectionStatus = 0; 								// 0 = connecting, 1 = logging in, 2 = logged in
 	
+	this.console;
+	
 	this.canvas = document.getElementById('Mycanvas');
     if (this.canvas != null) { this.context = this.canvas.getContext('2d'); }
 	
@@ -72,7 +75,10 @@ globals.prototype.fontResize = function() {
 	this.font = this.fontSize + "px " + this.fontFamily;
 }
 
-window.onresize = function() { sizeCanvas() }
+window.onresize = function() { 
+	sizeCanvas(); 
+	_.console.initialize();
+}
 
 function sizeCanvas() {
 	

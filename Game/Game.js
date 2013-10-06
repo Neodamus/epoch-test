@@ -259,6 +259,10 @@
 		
 		}
 		
+		if (_.console.display == 1) {
+			_.console.consoleClick();
+		}
+		
 	}
 	
 	function mouseWheelHandler(mouse) {
@@ -284,42 +288,51 @@
 		
 	}
 	  
-	function keyDownHandler(key) {
+function keyDownHandler(key) {
 		
-		var alphaNumeric = false	// returns true if key is letter or number
+	var alphaNumeric = false	// returns true if key is letter or number
+	
+	// alert(key.keyCode);
+	
+	if ((key.keyCode >= 96 && key.keyCode <= 105) || (key.keyCode >= 48 && key.keyCode <= 57) || (key.keyCode >= 65 && key.keyCode <= 90)
+		|| key.keyCode == 8) {
 		
-		if ((key.keyCode >= 96 && key.keyCode <= 105) || (key.keyCode >= 48 && key.keyCode <= 57) || (key.keyCode >= 65 && key.keyCode <= 90)
-			|| key.keyCode == 8) {
-			
-			alphaNumeric = true
-			
-		}
+		alphaNumeric = true
 		
-		switch(key.keyCode) {
-			
-			case 16: 
-				shiftKey = true
-				break
-				
-		}
-		
-		switch(_.currentMode.id) {
-		
-			case "login": 
-			
-				if (alphaNumeric) { loginKeydown(key) }
-				
-				break
-				
-			case "lobby":
-			
-				lobbyKeyDown(key)
-				
-				break
-			
-		}
-		  
 	}
+		  
+	if (_.console.display == 1) {
+		_.console.consoleKeyDown(key);	
+	}	
+	
+	switch(key.keyCode) {
+		
+		case 16: 
+			shiftKey = true
+			break
+			
+		case 192: 	// tilde for console
+			_.console.toggle();
+		break;
+			
+	}
+	
+	switch(_.currentMode.id) {
+	
+		case "login": 
+		
+			if (alphaNumeric) { loginKeydown(key) }
+			
+			break
+			
+		case "lobby":
+		
+			lobbyKeyDown(key)
+			
+			break
+		
+	}	
+}
 	
 	function keyUpHandler(key) {
 		
@@ -417,6 +430,7 @@
 		//Clear canvas before drawing next scene
 	    context.clearRect(0, 0, canvas.width, canvas.height);
 		context.fillStyle = "white";
+		_.context.globalAlpha = 1;
 		
 		
 
@@ -470,6 +484,8 @@
 				break
 			
 		}
+		
+		_.console.draw();
       
 	 // if (Mouse != undefined) { 
 	 // _.context.drawImage(Images[116], Mouse.x, Mouse.y); }
