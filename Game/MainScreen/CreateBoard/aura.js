@@ -23,12 +23,17 @@ function aura(auraType, sourceUnit) {
 			
 	*/
 	
-	this.auraTime;
+	// required properties
+	this.radius = this.stats.auraRadius;
+	this.mode = this.stats.auraMode;
+	
+	// optional properties
+	this.time;
 	this.numProcs;
 	this.turnProc;
 	
 	// sets all properties if they're enabled
-	if (this.stats.auraTime != undefined) { this.auraTime = this.stats.auraTime; }
+	if (this.stats.auraTime != undefined) { this.time = this.stats.auraTime; }
 	if (this.stats.auraNumProcs != undefined) { this.numProcs = this.stats.auraNumProcs; }
 	if (this.stats.auraTurnProc != undefined) { this.turnProc = this.stats.auraTurnProc; }
 	
@@ -56,9 +61,9 @@ aura.prototype.setAuraTiles = function() {
 		if (auraUnit != null) { 
 		
 			// if the aura is moving aura, it will remove buffs from old units and add it to new ones; if its proc aura, it will run proc
-			if (this.stats.auraMode == "moving") {
+			if (this.mode == "moving") {
 				this.unitsList.push(auraUnit); 
-			} else if (this.stats.auraMode == "proc") {
+			} else if (this.mode == "proc") {
 				this.proc(auraTile);
 			}
 		}
@@ -85,9 +90,9 @@ aura.prototype.turn = function() {
 		}
 	}
 	
-	if (this.auraTime != null) { 
-		this.auraTime--;
-		if (this.auraTime == 0) { this.sourceUnit.setAura(this, "off"); }
+	if (this.time != null) { 
+		this.time--;
+		if (this.time == 0) { this.sourceUnit.setAura(this, "off"); }
 	}
 	
 }
@@ -95,7 +100,7 @@ aura.prototype.turn = function() {
 
 aura.prototype.moveInto = function(gridTile) {
 	
-	switch (this.stats.auraMode) {
+	switch (this.mode) {
 	
 		case "moving":
 		

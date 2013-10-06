@@ -63,7 +63,7 @@
 					
 					if (this.sourceUnit instanceof aura) {
 						
-						if (this.sourceUnit.auraTime == 1) {
+						if (this.sourceUnit.time == 1) {
 							this.attachedUnit.currentStats[8]++;	
 						}
 						
