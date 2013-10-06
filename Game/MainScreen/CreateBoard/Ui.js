@@ -155,20 +155,29 @@ Ui.prototype.setTooltips = function() {
 			 return true; } } } }
 		 
 		 //sandbox selection
-		 if (this.unitPicks == null && this.sandboxRectangle != null){
+		if (this.unitPicks == null && this.sandboxRectangle != null){
+		 
+			if (PlacementStage == true && this.allianceBox.Contains(Mouse) == true) {
+			if (GameBoard.alliance == "ally") { GameBoard.alliance = "enemy"; this.allianceBox.boxColor = "red"; } 
+				else { GameBoard.alliance = "ally"; this.allianceBox.boxColor = "blue";} }
+		 
+			//switch gamestate was clicked
 		  if (this.startGameBox.Contains(Mouse) == true){
-			if (PlacementStage == true) {
-			   PlacementStage = false; ClientsTurn = true; }
-			   else{
-			    PlacementStage = true; ClientsTurn = false; } 
+			if (PlacementStage == true) { PlacementStage = false;  GameBoard.observer = false; ClientsTurn = true; }
+			   else{ PlacementStage = true; GameBoard.observer = true; ClientsTurn = false; } 
 				return true;}
-		   if (PlacementStage == true) {
-		   for (var i = 0; i < this.sandboxRectangle.length; i++) {
-			  if (this.sandboxRectangle[i].Contains(Mouse) == true){
-				this.SelectedUnit = this.sandboxRectangle[i];
-				this.SelectedUnit.clicked = true;
-				return true; }} } 
-				if (PlacementStage == true && this.sandboxUiBox.Contains(Mouse) == true) { return true; } }
+				
+			//placing units (unit was selected)
+		   if (PlacementStage == true) { for (var i = 0; i < this.sandboxRectangle.length; i++) { if (this.sandboxRectangle[i].Contains(Mouse) == true){
+					this.SelectedUnit = this.sandboxRectangle[i];
+					this.SelectedUnit.clicked = true;
+					return true; }} } 
+				if (PlacementStage == true && this.sandboxUiBox.Contains(Mouse) == true) { return true; } 
+				
+			
+			
+
+		}
 		 
 		 //End turn box
 		 if (ClientsTurn == true && this.finishTurnBox.Contains(Mouse) == true && ClientsTurn == true) {
@@ -247,16 +256,16 @@ Ui.prototype.setTooltips = function() {
 	  
 	  //Create Sandbox Ui
 	  Ui.prototype.sandboxUi = function() {
-	  
+	    
 	    this.startGameBox = new Rectangle(Canvas.width * 0.63, 0, Canvas.width * 0.20, Canvas.height * 0.04); this.startGameBox.boxColor = "rgba(80, 150, 60, 1)";
 		var text = "Switch Game State";
 		this.startGameBox.setText(text, "Black", centreTextX(text, this.startGameBox.x, this.startGameBox.width, 
 		globalFontSize), centreTextY(1, this.startGameBox.y, this.startGameBox.height, globalFontSize));
 		
-		/*this.allianceBox = new Rectangle(Canvas.width * 0.63, Canvas.height * 0.045, Canvas.width * 0.20, Canvas.height * 0.04); this.allianceBox.boxColor = "rgba(200, 0, 0, 1)";
+		this.allianceBox = new Rectangle(Canvas.width * 0.63, Canvas.height * 0.045, Canvas.width * 0.20, Canvas.height * 0.04); this.allianceBox.boxColor = "rgba(0, 0, 200, 1)";
 		var text = "Switch Alliance";
 		this.allianceBox.setText(text, "Black", centreTextX(text, this.startGameBox.x, this.startGameBox.width, 
-		globalFontSize), centreTextY(1, this.startGameBox.y, this.startGameBox.height, globalFontSize));*/
+		globalFontSize), centreTextY(1, this.startGameBox.y, this.startGameBox.height, globalFontSize));
 		
 		
 		this.sandboxRectangle = new Array(AllUnits.length);
@@ -331,9 +340,9 @@ Ui.prototype.setTooltips = function() {
 		
 		//SandBoxUI
 		if (this.unitPicks == null) { if (PlacementStage == true){ this.sandboxUiBox.draw();
-			for (var i = 0; i < this.sandboxRectangle.length; i++) { this.sandboxRectangle[i].draw(); }}
+			for (var i = 0; i < this.sandboxRectangle.length; i++) { this.sandboxRectangle[i].draw(); } this.allianceBox.draw();}
 			this.startGameBox.draw(); 
-			//this.allianceBox.draw();
+			
 			} //Switch button to turn off ui
 	  
 		//Unit Placement

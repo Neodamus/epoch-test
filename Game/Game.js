@@ -131,6 +131,7 @@
 	  Images[132].src = "Game/Images/earth.png";
 	  Images[133].src = "Game/Images/lightning.png";
 	  Images[134].src = "Game/Images/water.png";
+	  Images[135].src = "Game/Images/menu.png";
 	}
 	
 	function returnTileImage(name)
@@ -446,7 +447,7 @@
 		}
 		
 		context.fillStyle = "#BBB"
-		context.font = (_.fontSize * 0.9) + "px " + _.fontFamily;;
+		context.font = (_.fontSize * 1) + "px " + _.fontFamily;;
 		
 		switch (_.connectionStatus) {
 			

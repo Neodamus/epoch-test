@@ -279,11 +279,11 @@ tileModifier.prototype.draw = function(context, canvas) {
 		if (this.stats.hidden != undefined && this.stats.hidden == true) { var revealed = false; 
 			for (var t = 0; t < this.tileList[i].revealList.length; t++) { if (this.tileList[i].revealList[t].alliance == "ally") { revealed = true; break; } } }
 			
-		if (this.stats.hidden == undefined || this.stats.hidden != undefined && revealed == true || this.sourceUnit.alliance == "ally") {
+		if (this.stats.hidden == undefined || this.stats.hidden != undefined && revealed == true || this.sourceUnit.alliance == "ally" || GameBoard.observer == true) {
 		var drawmg = true;
 		if (returnTileImage(this.name) == Images[10] && this.sourceUnit.alliance != "ally") { drawmg = false; }
 		
-		if (drawmg == true) {
+		if (drawmg == true || GameBoard.observer == true) {
 		context.drawImage(returnTileImage(this.name), this.tileList[i].ThisRectangle.x, this.tileList[i].ThisRectangle.y, this.tileList[i].ThisRectangle.width, this.tileList[i].ThisRectangle.height);  } }
 		
 		context.globalAlpha = 1; 

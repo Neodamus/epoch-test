@@ -93,6 +93,7 @@
 		{
 			this.visible = true;
 		}
+		if (GameBoard.observer == true) { this.visible = true; }
 	   }
 	  
 	  Grid.prototype.Clicked = function(Mouse)
@@ -125,15 +126,15 @@
 		context.drawImage(Images[1],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		
 		//Drawing unit
-		if (this.currentUnit != null && this.visible == true && this.currentUnit.unitStealth == false ||
-		this.currentUnit != null && this.visible == true && this.currentUnit.unitStealth == true && this.currentUnit.alliance == "ally"){
+		if (this.currentUnit != null && (this.visible == true && this.currentUnit.unitStealth == false ||
+		   this.visible == true && this.currentUnit.unitStealth == true && this.currentUnit.alliance == "ally" || GameBoard.observer == true)){
 			// UNIT DRAWING
 			if (this.currentUnit.unitStealth == true) { context.globalAlpha = 0.3; }
 				context.drawImage(Images[ReturnUnitImage(this.currentUnit.name)], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width,
 				this.ThisRectangle.height); 
 				if (this.currentUnit.unitStealth == true) {context.globalAlpha = 1; } 
 				
-				if (this.currentUnit.summon == true && this.currentUnit.alliance == "ally") {
+				if (this.currentUnit.summon == true && (this.currentUnit.alliance == "ally" || GameBoard.observer == true)) {
 				context.globalAlpha = 0.40;
 				context.drawImage(Images[112], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width,
 				this.ThisRectangle.height); context.globalAlpha = 1;}
@@ -163,7 +164,7 @@
 		//revealed by unit spots
 		var drawReveal = false;
 		for (var i = 0; i < this.revealList.length; i ++){
-		if (this.revealList[i].alliance == "ally") { drawReveal = true; break;} }
+		if (this.revealList[i].alliance == "ally" && this.currentUnit == null) { drawReveal = true; break;} }
 		if (drawReveal == true) {  context.globalAlpha = 0.4;
 		context.drawImage( Images[11],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		context.globalAlpha = 1;}
@@ -175,8 +176,8 @@
 		if (this.currentUnit != null) {
 		if (this.currentUnit.displayStats == true && this.currentUnit.alliance == "enemy") { stats = this.currentUnit.fakeStats; } else { stats = this.currentUnit.currentStats; } }
 		
-		if (this.currentUnit != null && this.currentUnit.alliance == "ally" && this.visible == true ||
-		this.currentUnit != null && this.currentUnit.unitStealth == false && this.visible == true) {
+		if (this.currentUnit != null && (this.currentUnit.alliance == "ally" && this.visible == true ||
+		    this.currentUnit.unitStealth == false && this.visible == true || GameBoard.observer == true)) {
 		
 		context.lineWidth=4.2;
 		context.strokeText(stats[4], this.ThisRectangle.x + this.ThisRectangle.width * 0.135, this.ThisRectangle.y + this.ThisRectangle.height * 0.4);

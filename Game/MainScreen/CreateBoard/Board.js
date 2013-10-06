@@ -9,6 +9,8 @@ var gridSpotList;
 //initialize board requirements
 function Board(userPicks)
 {
+	this.alliance = "ally"; //using this for sandbox...
+	this.observer = false;
 	this.sec = 0;
 	this.min = 0;
 	this.hour = 0;
@@ -25,7 +27,7 @@ function Board(userPicks)
 	this.BoardY = 0;
 	cg = CreateGrid();
 	this.gameType = "normal";
-	if (userPicks == "sandbox") { this.gameType = "sandbox"; }
+	if (userPicks == "sandbox") { this.gameType = "sandbox"; this.observer = true; }
 	
 	Ui = new Ui(userPicks);
   
@@ -185,7 +187,7 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 		
 		//Attack Action		
 		if (CurrentSelectedGrid != null && CurrentTarget != null && CurrentTarget.currentUnit != null && CurrentSelectedGrid.currentUnit != null && CurrentSelectedGrid != CurrentTarget
-			&& (CurrentTarget.attackMarker == true && CurrentTarget.currentUnit.unitStealth != true  || GameBoard.gameType == "sandbox") && CurrentSelectedGrid.currentUnit.alliance == "ally")
+			&& (CurrentTarget.attackMarker == true && CurrentTarget.currentUnit.unitStealth != true) && CurrentSelectedGrid.currentUnit.alliance == "ally")
 		{
 			if (this.unitsMovedThisTurn.length < this.unitMoves || listContains(this.unitsMovedThisTurn, CurrentSelectedGrid.currentUnit) == true || CurrentSelectedGrid.currentUnit.turnCost == false) {
 			instructions = new Array("attack", CurrentSelectedGrid.x, CurrentSelectedGrid.y, CurrentTarget.x, CurrentTarget.y); this.sendUnitInstruction(instructions);
@@ -440,7 +442,7 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 				{
 				//Add unit to the board
 				if (Ui.unitPicks != null) {
-				var name = Ui.SelectedUnit.customValue[0][Ui.SelectedUnit.customValue[1]][0];}
+				var name = Ui.SelectedUnit.customValue[0][Ui.SelectedUnit.customValue[1]][0]; }
 				
 				if (Ui.unitPicks == null) { var name = Ui.SelectedUnit.customValue[0]; } //sandbox
 				
@@ -450,7 +452,7 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 				var CreateUnitArray = new Array("ally", name, CurrentTarget.x, CurrentTarget.y, Ui.SelectedUnit.customValue[0], Ui.SelectedUnit.customValue[1]);
 				if (this.gameType == "normal") { sendPacket2("createUnit", CreateUnitArray); }
 				
-				this.CreateUnit("ally", name, CurrentTarget.x, CurrentTarget.y, Ui.SelectedUnit.customValue[0], Ui.SelectedUnit.customValue[1]);
+				this.CreateUnit(this.alliance, name, CurrentTarget.x, CurrentTarget.y, Ui.SelectedUnit.customValue[0], Ui.SelectedUnit.customValue[1]);
 				
 				if (Ui.unitPicks != null) { //game mode
 					Ui.SelectedUnit.customValue[0] = null; 

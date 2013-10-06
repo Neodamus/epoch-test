@@ -19,17 +19,26 @@ function CreateMenus(Width, Height) {
 	// this.stringT = { x: "lala", y: "blahblah", string: "" };
 	// this.stringT.string = this.stringT.x + " " + this.stringT.y;
 	  
-	 this.color1 = "rgba(110, 20, 20, 0.9)"; //normal
+	 this.color1 = "rgba(150, 20, 20, 0.6)"; //normal
 	 this.color2 = "rgba(238, 80, 80, 0.6)"; //highlight
 	  
 	  //Create rectangles
-	  this.StartOptionBox = new Rectangle(newxw, newyh, newwidth, newheight); this.StartOptionBox.boxColor = "rgba(50, 50, 50, 0.2)"
+	  this.StartOptionBox = new Rectangle(newxw, newyh, newwidth, newheight); this.StartOptionBox.boxColor = "rgba(50, 50, 50, 0.0)"
 
-	  this.CreateBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 1 - MenuY, this.StartOptionBox.width, MenuHeight); this.CreateBox.boxColor =  this.color1
+	  this.CreateBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 3 - MenuY, this.StartOptionBox.width, MenuHeight); this.CreateBox.boxColor =  this.color1
+	  this.CreateBox.setImage(Images[135]); this.CreateBox.drawBehind = true;
+	  
 	  this.FindBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 2 - MenuY, this.StartOptionBox.width, MenuHeight);  this.FindBox.boxColor =  this.color1
-	  this.quickGameBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 3 - MenuY, this.StartOptionBox.width, MenuHeight);  this.quickGameBox.boxColor =  this.color1
+	  this.FindBox.setImage(Images[135]); this.FindBox.drawBehind = true;
+	  
+	  this.quickGameBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 1 - MenuY, this.StartOptionBox.width, MenuHeight);  this.quickGameBox.boxColor =  this.color1
+	   this.quickGameBox.setImage(Images[135]); this.quickGameBox.drawBehind = true;
+	  
 	  this.WebsiteBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 4 - MenuY, this.StartOptionBox.width, MenuHeight);  this.WebsiteBox.boxColor =  this.color1;
+	  this.WebsiteBox.setImage(Images[135]); this.WebsiteBox.drawBehind = true;
+	  
 	  this.logoutBox = new Rectangle(Canvas.width * 0.9, 1, Canvas.width * 0.1, Canvas.height * 0.05);  this.logoutBox.boxColor = this.color1;
+	   this.logoutBox.setImage(Images[135]); this.logoutBox.drawBehind = true;
 	  
 	  
 	   this.fireBox = new Rectangle(_.canvas.width * 0.12, _.canvas.height * 0.67, _.canvas.width * 0.15, _.canvas.width * 0.15); //this.fireBox.boxColor =  "red";
@@ -104,17 +113,28 @@ function CreateMenus(Width, Height) {
 	  
 		
 	  //Set text to be displayed inside the rectangle(position is set BASED on canvas, not rectangle!)                  centreTextY(numberOfLines, y, height, fontSize)
-	  var menuColor = "rgba(0,0,0, 1)";
+	  var menuColor = "rgba(80,80,80, 1)";
 	  var text = "Log Out";
-	  this.logoutBox.setText(text, menuColor, centreTextX(text, this.logoutBox.x, this.logoutBox.width, this.fontSize), centreTextY(1, this.logoutBox.y, this.logoutBox.height, this.fontSize));
-	  var text = "Sandbox";
-	  this.CreateBox.setText(text, menuColor, centreTextX(text, this.CreateBox.x, this.CreateBox.width, this.fontSize), centreTextY(1, this.CreateBox.y, this.CreateBox.height, this.fontSize));
+	  this.logoutBox.setText(text, menuColor, 0, 0);
+	  this.logoutBox.outlineFont = true;
+	  
+
+	  
+	   var text = "Sandbox";
+	  this.CreateBox.setText(text, menuColor, 0, 0);
+	   this.CreateBox.outlineFont = true;
+	   
 	  var text = "Game Lobby";
-	  this.FindBox.setText(text, menuColor, centreTextX(text, this.FindBox.x, this.FindBox.width, this.fontSize), centreTextY(1, this.FindBox.y, this.FindBox.height, this.fontSize));
+	  this.FindBox.setText(text, menuColor, 0, 0);
+	   this.FindBox.outlineFont = true;
+	  
 	  var text = "Quick Game Search";
 	  this.quickGameBox.setText(text, menuColor, 0, 0);
+	  this.quickGameBox.outlineFont = true;
+	  
 	  var text = "Visit the Blog";
-	  this.WebsiteBox.setText(text, menuColor, centreTextX(text, this.WebsiteBox.x, this.WebsiteBox.width, this.fontSize), centreTextY(1, this.WebsiteBox.y, this.WebsiteBox.height, this.fontSize));
+	  this.WebsiteBox.setText(text, menuColor, 0, 0);
+	  this.WebsiteBox.outlineFont = true;
 	  
 	  this.buttonList = new Array(); //list that contains all buttons.
 	  
@@ -266,15 +286,15 @@ function CreateMenus(Width, Height) {
 		  
 		    context = document.getElementById('Mycanvas').getContext('2d')
 			
-			context.drawImage(Images[0], (_.canvas.width * 0.0238) * 0.5, _.canvas.height * 0.2585, _.canvas.width * 0.986 , _.canvas.height * 0.9612);
+			_.context.drawImage(Images[0], (_.canvas.width * 0.0238) * 0.5, _.canvas.height * 0.2585, _.canvas.width * 0.986 , _.canvas.height * 0.9612);
 			 //this.stringT = { blah: "lala", string: "ooh " + blah };
 			// context.fillText(this.stringT.string, 400, 400);
 			//this.stringT.draw();
 			//context.font = this.fontSize;
 			
-			context.fillStyle = "rgba(20, 20, 20, 0.5)";
+			_.context.fillStyle = "rgba(20, 20, 20, 0.5)";
 			this.StartOptionBox.draw();
-			context.fillStyle = "rgba(100, 20, 20, 0.9)";
+			_.context.fillStyle = "rgba(100, 20, 20, 0.9)";
 			this.CreateBox.draw();
 			this.FindBox.draw();
 			this.quickGameBox.draw();
