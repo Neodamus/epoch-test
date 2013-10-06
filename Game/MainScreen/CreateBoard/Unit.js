@@ -169,7 +169,14 @@
 			switch(Action){
 			
 			case "move":
-			if (Toggle == "on" && (GridSpot[x][y].currentUnit == null || GridSpot[x][y].currentUnit.unitStealth == true) && this.currentStats[4] >= this.movementCost) { if (x != this.x || y != this.y) {GridSpot[x][y].moveMarker = true; }}
+			if (GridSpot[x][y].visible == false) {
+			var allySight = false; for (var i = 0; i < GridSpot[x][y].allyVision.length; i++) {
+						if (GridSpot[x][y].allyVision[i].alliance == this.alliance) { allySight = true; break; } } }
+						
+			if (Toggle == "on" && (GridSpot[x][y].currentUnit == null || GridSpot[x][y].currentUnit.unitStealth == true || (GridSpot[x][y].visible == false && allySight == false)) && this.currentStats[4] >= this.movementCost) { if (x != this.x || y != this.y) {
+			
+			GridSpot[x][y].moveMarker = true; }}
+			
 			if (Toggle == "off") { if (x != this.x || y != this.y) {GridSpot[x][y].moveMarker = false; }}
 			break;
 			
