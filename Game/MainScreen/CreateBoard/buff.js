@@ -55,11 +55,20 @@
 						this.buffStats.duration--;
 						this.sourceUnit.buffList.push(this);
 
-						this.aura = new tileModifier(this.attachedUnit, this.buffType);						
+						/* this.aura = new tileModifier(this.attachedUnit, this.buffType);						
 						this.sourceUnit.auras.push(this.aura);
-						this.sourceUnit.auraTileModifier("on", this.aura);
+						this.sourceUnit.auraTileModifier("on", this.aura); */
 						
-					} else if (this.sourceUnit instanceof tileModifier) { 	// give extra attack
+					} 
+					
+					if (this.sourceUnit instanceof aura) {
+						
+						if (this.sourceUnit.auraTime == 1) {
+							this.attachedUnit.currentStats[8]++;	
+						}
+						
+					}
+					/* else if (this.sourceUnit instanceof tileModifier) { 	// give extra attack
 					
 						var grovekeeper = this.sourceUnit.sourceUnit
 					
@@ -70,7 +79,7 @@
 								this.attachedUnit.buffStats[8] += this.buffStats.attacks;
 							}
 						}
-					}
+					} */
 					
 				break;
 				
@@ -81,27 +90,28 @@
 					
 				break;
 				
-				case "Move":
+				/* case "Move":
 				
 					if (this.sourceUnit instanceof tileModifier) {
 						this.eventProc("Removal");
 					}
 				
-				break;
+				break; */
 				
 				case "Removal":
+				
+					this.sourceUnit.buffList.splice(this.sourceUnit.buffList.indexOf(this));
 				
 					if (this.sourceUnit instanceof tileModifier) {
 						this.removeBuff();
 						this.removeTileModifier();	
 						this.attachedUnit.buffStats[8] -= this.buffStats.attacks;
 					} else {				
-						var rem = listReturnArray(this.sourceUnit.auras, this.aura); 
+						/* var rem = listReturnArray(this.sourceUnit.auras, this.aura); 
 						if (rem != -1) { 
 							this.sourceUnit.auraTileModifier("off", this.aura);
 							this.sourceUnit.auras.splice(rem, 1); 
-						}
-						this.removeBuff();		
+						} */		
 					}
 				
 				break;
@@ -742,7 +752,7 @@
 														
 						}
 						
-						if (this.sourceUnit instanceof tileModifier) {
+						/* if (this.sourceUnit instanceof tileModifier) {
 							var panic = this.sourceUnit;
 							var nightmare = panic.sourceUnit;
 							
@@ -768,8 +778,35 @@
 									}
 								}
 							}
-						}
-					
+						} */
+						
+						if (this.sourceUnit instanceof aura) {
+						
+							var panic = this.sourceUnit
+							var nightmare = panic.sourceUnit
+							
+							if (panic.numProcs > 0 && this.attachedUnit.alliance != nightmare.alliance) {
+							
+								if (this.attachedUnit.buffsByString(this.buffType).length == 0) {
+									
+									panic.numProcs--;
+									this.attachedUnit.currentStats[4] = 0;
+								
+									if (ClientsTurn && nightmare.alliance == "ally" ||
+										(ClientsTurn == false && this.attachedUnit.alliance == "ally")) {
+											
+										this.attachedUnit.buffList.push(this);
+										
+									} else if (ClientsTurn && nightmare.alliance == "enemy" ||  
+										(ClientsTurn == false && this.attachedUnit.alliance == "enemy")) {
+										
+										this.buffStats.duration--;
+										this.attachedUnit.buffList.push(this);								
+										
+									}
+								}									
+							}							
+						}					
 					break;
 				
 					case "Turn":
@@ -1009,8 +1046,9 @@
 						var xbowman = this.sourceUnit.sourceUnit;						
 						var sentry = this.sourceUnit;
 						
-						if (((ClientsTurn && xbowman.alliance == "enemy") || (ClientsTurn == false && xbowman.alliance == "ally"))
-							&& this.attachedUnit.unitStealth == false) {
+						if (((ClientsTurn && xbowman.alliance == "enemy" && this.targetSpot.enemyVision.indexOf(xbowman) != -1) || 
+							(ClientsTurn == false && xbowman.alliance == "ally" && this.targetSpot.allyVision.indexOf(xbowman) != -1))
+							&& this.attachedUnit.unitStealth == false)  {
 							
 							this.attachedUnit.receivePureDamage(this.buffStats.damage, xbowman.baseStats[0]);
 						
@@ -1332,7 +1370,7 @@
 			break;				
 		}
 		
-		if (this.attachedUnit != null) { this.attachedUnit.resetStats("BUFF"); } return this.removeReturn;
+		if (this.attachedUnit != null && this.sourceUnit instanceof aura == false) { this.attachedUnit.resetStats("BUFF"); } return this.removeReturn; 
 		
 	}
 	

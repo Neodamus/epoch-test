@@ -35,6 +35,7 @@ function Board(userPicks)
 	this.EnemyUnits = new Array();
 	
 	this.tileModifierList = new Array();
+	this.auraList = [];
 	
 	combatLog.push("Game Board was created.");
 	Screen = "GameBoard";
@@ -363,6 +364,8 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 		
 		context.font = globalFont;
 		
+		for (var i = 0; i < this.AllyUnits.length; i++) { this.AllyUnits[i].draw(); }
+		
 		// Draw waiting box		
 		if (this.waiting) {
 				
@@ -470,5 +473,195 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 			}
 		}
 		}
+		
+Board.prototype.AreaSelect = function(CentreGrid, Radius)
+	  {
+			var x = 0; 
+			var y = 0;
+            var row = 1;
+            var howmanyleft = 0;
+            var push = 0;
+			
+			var gridList = [];		// holds the gridList to return
+			
+            {
+                if (CentreGrid.y % 2 == 0)
+                {
+                    for (var i = 0; i < (Radius * ((Radius * 2 + 1) + Radius)) / 2; i++)
+                    {
+                        if (i == 0)
+                        {
+                            howmanyleft = Radius;
+                            if (row != 1) { howmanyleft += 2; }
+                        }
+                        x = CentreGrid.x + howmanyleft - (Math.floor(Radius / 2) + 1) - push;
+
+                        y = CentreGrid.y - Radius + row - 1;
+
+                        if (Radius % 2 == 0 && y % 2 == 0) { x++; }
+
+                        if (x >= 0 && x < GridSpot.length &&
+                             y >= 0 && y < GridSpot[0].length)
+                        {
+
+                               gridList.push(GridSpot[x][y])
+
+                        }
+                        howmanyleft--;
+                        if (howmanyleft == -1)
+                        {
+
+                            howmanyleft = Radius;
+                            howmanyleft += row;
+                            row++;
+                            if ((row - 1) % 2 == 0 && row != 1) { push++; }
+                        }
+                    }
+                }
+                row = 1;
+                howmanyleft = 0;
+                push = 0;
+                if (CentreGrid.y % 2 == 0)
+                {
+                    for (var i = 0; i < (Radius * ((Radius * 2 + 1) + Radius)) / 2; i++)
+                    {
+                        if (i == 0)
+                        {
+                            howmanyleft = Radius;
+                            if (row != 1) { howmanyleft += 2; }
+
+                        }
+                        x = CentreGrid.x + howmanyleft - (Math.floor(Radius / 2) + 1) - push;
+
+                        y = CentreGrid.y + Radius - row + 1;
+                        if (Radius % 2 == 0 && y % 2 == 0) { x++; }
+
+                        if (x >= 0 && x < GridSpot.length &&
+                             y >= 0 && y < GridSpot[0].length)
+                        {
+
+
+
+                               gridList.push(GridSpot[x][y]);
+
+
+                        }
+                        howmanyleft--;
+                        if (howmanyleft == -1)
+                        {
+
+                            howmanyleft = Radius;
+                            howmanyleft += row;
+                            row++;
+                            if ((row - 1) % 2 == 0 && row != 1) { push++; }
+                        }
+                    }
+                }
+
+
+                for (var i = 0; i < Radius + 1; i++)
+                {
+                    x = CentreGrid.x + i;
+                    y = CentreGrid.y;
+                    if (x >= 0 && x < GridSpot.length &&
+                         y >= 0 && y < GridSpot[0].length)
+                    {
+                           gridList.push(GridSpot[x][y]);
+                    }
+                }
+                for (var i = 0; i < Radius + 1; i++)
+                {
+                    x = CentreGrid.x - i;
+                    y = CentreGrid.y;
+                    if (x >= 0 && x < GridSpot.length &&
+                         y >= 0 && y < GridSpot[0].length)
+                    {
+                             if (x != CentreGrid.x) { gridList.push(GridSpot[x][y]); }
+                    }
+                }
+
+
+
+                row = 1;
+                howmanyleft = 0;
+                push = 0;
+                if (CentreGrid.y % 2 != 0)
+                {
+                    for (var i = 0; i < (Radius * ((Radius * 2 + 1) + Radius)) / 2; i++)
+                    {
+                        if (i == 0)
+                        {
+                            howmanyleft = Radius;
+                            if (row != 1) { howmanyleft += 2; }
+                        }
+                        x = CentreGrid.x + howmanyleft - (Math.floor(Radius / 2) + 1) - push;
+
+                        y = CentreGrid.y - Radius + row - 1;
+                        if (y % 2 != 0) { x++; }
+                        if (Radius % 2 != 0 && y % 2 == 0) { x++; }
+                        if (Radius % 2 != 0 && y % 2 != 0) { x--; }
+                        if (Radius % 2 == 0 && y % 2 == 0) { x++; }
+                        if (x >= 0 && x < GridSpot.length &&
+                             y >= 0 && y < GridSpot[0].length)
+                        {
+                               gridList.push(GridSpot[x][y]);
+
+                        }
+                        howmanyleft--;
+                        if (howmanyleft == -1)
+                        {
+
+                            howmanyleft = Radius;
+                            howmanyleft += row;
+                            row++;
+                            if ((row - 1) % 2 == 0 && row != 1) { push++; }
+                        }
+                    }
+                }
+                row = 1;
+                howmanyleft = 0;
+                push = 0;
+                if (CentreGrid.y % 2 != 0)
+                {
+                    for (var i = 0; i < (Radius * ((Radius * 2 + 1) + Radius)) / 2; i++)
+                    {
+                        if (i == 0)
+                        {
+                            howmanyleft = Radius;
+                            if (row != 1) { howmanyleft += 2; }
+
+                        }
+                        x = CentreGrid.x + howmanyleft - (Math.floor(Radius / 2) + 1) - push + 1;
+
+                        y = CentreGrid.y + Radius - row + 1;
+                        // if (Radius % 2 == 0 && y % 2 == 0) { x++; }
+                        if (Radius % 2 != 0) { x--; }
+                        if (Radius % 2 != 0 && y % 2 == 0) { x++; }
+
+                        if (y % 2 == 0)
+                        {
+                            //x++;
+                        }
+                        if (x >= 0 && x < GridSpot.length &&
+                             y >= 0 && y < GridSpot[0].length)
+                        {
+                               gridList.push(GridSpot[x][y]);
+                        }
+                        howmanyleft--;
+                        if (howmanyleft == -1)
+                        {
+
+                            howmanyleft = Radius;
+                            howmanyleft += row;
+                            row++;
+                            if ((row - 1) % 2 == 0 && row != 1) { push++; }
+                        }
+                    }
+                }
+            }
+			
+			return gridList;
+			
+}
 	  
   

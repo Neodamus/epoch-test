@@ -1,6 +1,8 @@
 	  function Unit(Alliance, Name, x, y, Element, Value) //element& value may not be needed
 	  {
 	    this.alliance = Alliance;
+		this.x = x;
+		this.y = y;
 
 	    this.baseStats = returnUnitStats(Name);
 		this.buffStats = new Array(this.baseStats.length);
@@ -17,10 +19,21 @@
 		
 		this.auraNames = stringParseForList(this.currentStats[12]); //if (this.auras[0] == "") { this.auras = null; }
 		this.auras = new Array();
-		for (var i = 0; i < this.auraNames.length; i++) {
+		/* for (var i = 0; i < this.auraNames.length; i++) {
 		if (this.auraNames[i] != "" && this.auraNames[i] != "0" && this.auraNames[i] != 0)
 		{ var newMod = new tileModifier(this, this.auraNames[i]); this.auras.push(newMod);} } //making auras.A
-		this.auraTurnProc = false;	// put this in aura class
+		this.auraTurnProc = false;	// put this in aura class */
+		
+		this.newAuras = [];
+		for (var i = 0; i < this.auraNames.length; i++) {
+			if (this.auraNames[i] != "0") { 
+				var tempAura = new aura(this.auraNames[i], this); 
+				this.setAura(tempAura, "on"); 
+			}
+		}
+		
+		this.currentAuras = [];
+		
 		
 		this.genericGridList = new Array();//used for stuff like auras and abilities...
 		var abilityName = stringParseForList(this.currentStats[13]);
@@ -44,8 +57,6 @@
 	 	this.buffList = new Array();
 		this.noStealthList = new Array(); //reasons unit can not stealth or go invis.
 		this.visibleGridSpots = new Array(); //squares that this unit has vision over
-		this.x = x;
-		this.y = y;
 		
 		// attack properties
 		this.stealthedLastAttack;	// determines if stealth was active at last physical attack
@@ -97,7 +108,6 @@
 			
 			this.resetStats();
 			
-			this.auraTurnProc = false;  // put this in aura class when its created
 			
 			for (var i = 0; i < this.buffList.length; i++) { 
 			
@@ -107,6 +117,8 @@
 			for (var i = 0; i < this.ability.length; i++) {
 				if (this.ability[i].cooldown > 0) { this.ability[i].cooldown--; }
 			}
+			
+			for (var i = 0; i < this.newAuras.length; i++) { this.newAuras[i].turn(); }
 		
 	    }
 	  
@@ -211,8 +223,31 @@
 		  }
 		}
 	  }
-	  
-	  
+
+
+// turns an aura on or off	  
+Unit.prototype.setAura = function(Aura, toggle) {
+
+	switch (toggle) {
+		
+		case "on":
+		
+			this.newAuras.push(Aura); 
+			GameBoard.auraList.push(Aura);
+		
+		break;
+		
+		case "off":
+		
+			this.newAuras.splice(this.newAuras.indexOf(Aura));
+			GameBoard.auraList.splice(GameBoard.auraList.indexOf(Aura));
+		
+		break;		
+	}	
+}
+
+
+
 	  //Put Toggle in these functions so they can be useable for on/off purposes.
 	    Unit.prototype.auraTileModifier = function(Toggle, aura)
 	   {
@@ -484,6 +519,13 @@ Unit.prototype.Attack = function(NewGridSpot) {
 		 
 		 for (var i = 0; i < this.buffList.length; i++) {  if (this.buffList[i].eventProc("Move") == true) { i--; }  }
 		 
+		 for (var i = 0; i < GameBoard.auraList.length; i++) {
+			  
+		 	if (GameBoard.auraList[i].contains(NewGridSpot)) {
+				GameBoard.auraList[i].moveInto(NewGridSpot);
+			}
+		 }
+		 
 		 // make sure unit is alive before giving back vision
 			if (this.alliance == "ally" && this.currentStats[1] > 0){
 		 
@@ -492,7 +534,8 @@ Unit.prototype.Attack = function(NewGridSpot) {
 			
 			this.reveal("on");
 			
-			for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("move", this.auras[i]); } //move all aura origins
+			//for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("move", this.auras[i]); } //move all aura origins
+			for (var i = 0; i < this.newAuras.length; i++) { this.newAuras[i].setAuraTiles(); } 
 		 
 			for (var i = 0; i < this.currentTileMods.length; i++) {  this.currentTileMods[i].eventProc("remove", this); } //this could have an indexing problem when a tilemod is removed and can't find the next one
 				NewGridSpot.tileModifiers("all", "move"); //get new tile modifiers
@@ -585,7 +628,11 @@ Unit.prototype.buffsByString = function(buff) {
 	  
 	  
 	  
-	  
+Unit.prototype.draw = function() {
+	
+	if (this.newAuras.length > 0) { for (var i = 0; i < this.newAuras.length; i++) { this.newAuras[i].draw(); } }	
+	
+}
 	  
 	  
 

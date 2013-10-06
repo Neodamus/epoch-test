@@ -26,20 +26,19 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Arrowsmith":
 		
 			stats = {
+				auraRadius: 2,
+				auraMode: "moving",
+				auraTime: 1,
+				auraTarget: "ally",
+				auraTurnProc: true,
 				cooldown: 3,
 				movementCost: 1,
 				tileTarget: "ally",
-				auraTarget: "ally",
-				lifetime: 1,
-				auraRange: 2,
 				duration: 2,
 				attacks: 1,
 				abilityTooltip: ""
 			}
 			  stats.abilityTooltip = clr +  abilityName + " ^ Give +" + stats.attacks + " attack to surrounding allies at the start of your next turn. ^ ^ Costs: " + stats.movementCost + " Movement point ^ Cooldown: " + stats.cooldown + "Turn(s) ^ Cast type: " + "Instant" + " ^ ^ Aura range of " + stats.auraRange + " and lasts " + stats.lifetime + " turn(s).";
-			/*stats.abilityTooltip = clr +  "Arrowsmith`violet` ^ Creates`#bbb` an aura of radius`#bbb` " + stats.auraRange + "`white` around`#bbb`" + 												    			" Grovekeeper`orange` .`#bbb` If an allied ranged unit steps into the aura and waits a turn there, they will receive`#bbb`" +
-				" 1`white` additional attack`white` on`#bbb` their next`green` turn`green` .`#bbb` ^ ^ If the Grovekeeper`orange` or`#bbb` a" +
-				" unit buffed with`#bbb` Arrowsmith`violet` moves`#f33` before waiting a turn, they will not receive an additional attack."*/
 			
 			return stats;
 		
@@ -61,6 +60,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 3,
 				movementCost: 1,
 				target: "ally",
+				spellReq: "ally",
 				duration: 2,
 				visibility: "both",
 				stacks: false,
@@ -106,6 +106,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 4,
 				movementCost: 3,
 				target: "any",
+				spellReq: "global",
 				tileTarget: "enemy",
 				hidden: true,
 				lifetime: 3,
@@ -124,6 +125,7 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 3,
 				tiles: 4,
 				target: "any",
+				spellReq: "global",
 				tileTarget: "both",
 				duration: 1,
 				lifetime: 2,
@@ -186,6 +188,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 3,
 				movementCost: 3,
 				target: "any",
+				spellReq: "global",
 				tileTarget: "both",
 				lifetime: 3,
 				duration: 3,
@@ -211,6 +214,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 2,
 				movementCost: 2,
 				target: "ally",
+				spellReq: "ally",
 				life: 6,
 				range: 4,
 				abilityTooltip: ""
@@ -224,6 +228,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 3,
 				movementCost: 2,
 				target: "ally",
+				spellReq: "ally",
 				duration: 2,
 				speed: 2,
 				range: 4,
@@ -238,6 +243,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 2,
 				movementCost: 2,
 				target: "tile",
+				spellReq: "global",
 				duration: 2,
 				range: 4,
 				damage: 2,
@@ -270,6 +276,7 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 3,
 				tiles: 3,
 				target: "any",
+				spellReq: "global",
 				tileTarget: "ally",
 				turnProc: true,
 				duration: 1,
@@ -288,6 +295,9 @@ ability.prototype.abilityStats = function(abilityName)
 				duration: 1,
 				procsPerTurn: 1,
 				auraRange: 2,
+				auraMode: "proc",
+				auraNumProcs: 1,
+				auraRadius: 2,
 				stacks: false,
 				abilityTooltip: ""
 			}
@@ -301,6 +311,7 @@ ability.prototype.abilityStats = function(abilityName)
 				movementCost: 3,
 				targetSelf: true,
 				target: "ally",
+				spellReq: "ally",
 				targets: 2,
 				range: 5,
 				abilityTooltip: ""
@@ -324,6 +335,8 @@ ability.prototype.abilityStats = function(abilityName)
 			stats = {
 				cooldown: 2,
 				movementCost: 2,
+				target: "ally",
+				spellReq: "ally",
 				duration: 3,
 				damage: 2,
 				range: 3,
@@ -338,6 +351,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 3,
 				movementCost: 1,
 				target: "ally",
+				spellReq: "ally",
 				duration: 2,
 				range: 4,
 				defense: 2,
@@ -394,6 +408,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 4,
 				movementCost: 3,
 				target: "any",
+				spellReq: "global",
 				tileTarget: "both",
 				lifetime: 2,
 				duration: 3,
@@ -411,9 +426,10 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 3,
 				movementCost: 2,
 				target: "ally",
+				spellReq: "ally",
 				duration: 3,
 				hitpoints: 2, //life
-				range: 5,
+				range: 4,
 				abilityTooltip: ""
 			}
 			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ duration: " + stats.duration + " ^ life per turn: " + stats.hitpoints; 
@@ -425,6 +441,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 2,
 				movementCost: 2,
 				target: "ally",
+				spellReq: "ally",
 				duration: 2,
 				damage: 1,
 				range: 4,
@@ -463,6 +480,7 @@ ability.prototype.abilityStats = function(abilityName)
 			stats = {
 				cooldown: 6,
 				target: "tile",
+				spellReq: "ally",
 				range: 6,
 				abilityTooltip: ""
 			}
@@ -488,6 +506,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 3,
 				movementCost: 3,
 				target: "ally",
+				spellReq: "ally",
 				duration: 2,
 				reveal: 2,
 				range: 4,
@@ -519,8 +538,8 @@ ability.prototype.specialAbilityList = function() {
 this.noCastList = new Array();  //List of abilities that cannot be casted.
 this.noCastList.push("Engulf", "Panic Aura");
 
-this.twoTargetList = new Array(); //List of abilities that require two clicks.
-this.twoTargetList.push("Polarity", "test1");
+/* this.twoTargetList = new Array(); //List of abilities that require two clicks.
+this.twoTargetList.push("Polarity", "test1"); */
 }
 
 
@@ -539,8 +558,9 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 	
 	if (this.canCast()) { this.castMode = true; } else { return null; }
 	
-	if (this.target == "tile") { 
-		this.sourceUnit.spellReq = "global";
+	// sets what ability markers can be used based on sight
+	if (this.currentAbilityStats.spellReq != undefined) { 
+		this.sourceUnit.spellReq = this.currentAbilityStats.spellReq;
 	} else {
 		this.sourceUnit.spellReq = "local";	
 	}
@@ -555,7 +575,8 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 	switch (this.abilityName) {
 	
 		case "Arrowsmith":
-			this.castTarget = selfTarget;
+			var tempAura = new aura(this.abilityName, this.sourceUnit);
+			this.sourceUnit.setAura(tempAura, "on");
 			this.finishCast();
 			finished = true;
 			break;	
@@ -1381,7 +1402,7 @@ ability.prototype.AreaSelect = function(CentreGrid, Radius)
 			
 			return gridList;
 			
-	  }
+}
 	  
 	  
 ability.prototype.distance = function(pointA, pointB) {

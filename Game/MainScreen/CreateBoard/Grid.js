@@ -6,6 +6,8 @@
 		this.centreRect = new Rectangle(this.centrePixelX, this.centrePixelY, 2, 2); this.centreRect.boxColor = "red";
 		this.x = x; //Gridpos[X]
 		this.y = y; //Gridpos[Y]
+		this.width = Width;
+		this.height = Height;
 		this.Positionx = Positionx; //pixel location X
 		this.Positiony = Positiony; //pixel location Y
 		this.ThisRectangle = new Rectangle(Positionx, Positiony, Width, Height);
