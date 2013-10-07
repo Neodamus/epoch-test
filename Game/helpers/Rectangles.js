@@ -49,7 +49,7 @@ Rectangle.prototype.Contains = function(Object) {
 				}
 		}
 		return false;
-  }
+}
   
  Rectangle.prototype.setTooltip = function(text, width, position) {
 	

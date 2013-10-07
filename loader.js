@@ -49,7 +49,8 @@ function globals() {
 	
 	this.connectionStatus = 0; 								// 0 = connecting, 1 = logging in, 2 = logged in
 	
-	this.console;
+	this.console;											// used to send server commands: broadcast, server, etc.	
+	this.messages;											// holds server messages, whispers, etc. -- fade text
 	
 	this.canvas = document.getElementById('Mycanvas');
     if (this.canvas != null) { this.context = this.canvas.getContext('2d'); }

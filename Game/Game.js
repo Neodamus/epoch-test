@@ -58,6 +58,12 @@
 	 
 	  myAudio.volume = 0.40;
 	  
+	  // initialize message box --- change to initialize when initialize is added to textBox
+	  _.messages = new textBox(_.canvas.width * 0.05, _.canvas.height * 0.05, _.canvas.width * 0.9, _.canvas.height * 0.5);
+	  _.messages.setAlpha(0, 1);
+	  _.messages.setFontFamily("Georgia");
+	  _.messages.setMaxRows(5);	   
+	  
 	}
 	
 	function LoadImageContent()
@@ -410,20 +416,6 @@ function keyDownHandler(key) {
 		}
 	}
 	
-	/* function detectCapsLock(key) {	
-	
-		var temp = document.createElement('p')	
-		
-		var s = document.createTextNode(key.which)
-		temp.appendChild(s)
-		temp.id = 'temp'
-		  
-		document.getElementById('bottom').insertBefore(temp, document.getElementById('bottom').childNodes[0])
-		
-		document.getElementById('temp').parentNode.removeChild(document.getElementById('temp'))
-		
-	} */
-	
 	//Drawing
 	function Draw(context, canvas)
 	{
@@ -486,6 +478,7 @@ function keyDownHandler(key) {
 		}
 		
 		_.console.draw();
+		_.messages.draw();
       
 	 // if (Mouse != undefined) { 
 	 // _.context.drawImage(Images[116], Mouse.x, Mouse.y); }

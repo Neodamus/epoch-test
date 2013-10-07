@@ -14,20 +14,22 @@ userConsole.prototype.initialize = function() {
 	// console display
 	this.consoleDisplay = new textBox(_.canvas.width * 0.05, _.canvas.height * 0.7, _.canvas.width * 0.9, _.canvas.height * 0.25);
 	this.consoleDisplay.setFontFamily("Georgia");
-	this.consoleDisplay.setFontSize(this.consoleDisplay.height * 0.12);
-	this.consoleDisplay.globalAlpha = 0.7;
+	this.consoleDisplay.setFontSize(this.consoleDisplay.height * 0.1);
+	this.consoleDisplay.setAlpha(0.7, 0.7);
 	this.consoleDisplay.textBoxColor = "#277";
-	this.consoleDisplay.maxRows = this.consoleDisplay.maxRows * 0.55;
+	this.consoleDisplay.leftPadding = Math.floor(_.canvas.width * 0.03);
+	this.consoleDisplay.topPadding = Math.floor(_.canvas.height * 0.02);
+	this.consoleDisplay.setMaxRows(4);
 	
 	// console input
 	this.consoleInput = new inputBox(_.canvas.width * 0.07, _.canvas.height * 0.88, _.canvas.width * 0.86, _.canvas.height * 0.05);
 	this.consoleInput.setPadding(this.consoleInput.height * 0.05, this.consoleInput.width * 0.05,
-		this.consoleInput.height * 0.25, this.consoleInput.width * 0.01);
+		this.consoleInput.height * 0.3, this.consoleInput.width * 0.01);
 	this.consoleInput.setFontSize(this.consoleInput.height * 0.6);
 	
 	this.consoleInput.escapeFunction = function() { this.text = ""; }
 	
-	this.consoleInput.enterFunction = function() { this.sendText(_.console.consoleDisplay); this.text = ""; }	
+	this.consoleInput.enterFunction = function() { sendPacket("console", this.text); this.text = ""; }	
 }
 
 
@@ -52,6 +54,7 @@ userConsole.prototype.consoleKeyDown = function(key) {
 userConsole.prototype.consoleClick = function() {
 	
 	this.consoleInput.containsClick();
+	this.consoleDisplay.containsClick();
 	
 }
 

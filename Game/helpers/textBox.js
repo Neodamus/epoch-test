@@ -7,7 +7,8 @@ function textBox(x, y, width, height) {
 	
 	this.context = _.context;
 	
-	this.globalAlpha = 1;
+	this.boxAlpha = 1;
+	this.textAlpha = 1;
 	
 	this.textBoxColor = "#333";
 	
@@ -35,11 +36,13 @@ function textBox(x, y, width, height) {
 	this.scrollbar = false;
 	this.scrollRow = 0;
 	
-	this.scrollbarRect = new Rectangle(this.x + this.width - this.leftPadding - 10, this.y + this.topPadding, 10, this.height - this.topPadding * 2)
+	this.scrollbarX = this.x + this.width - this.leftPadding - 10;
+	this.scrollBarY = this.y + this.topPadding;
+	this.scrollbarRect = new Rectangle(this.scrollbarX, this.scrollBarY, 10, this.maxRows * (this.rowHeight + this.rowBuffer))
 	this.scrollbarUp = new Rectangle(this.scrollbarRect.x, this.scrollbarRect.y, 10, 10)
-	this.scrollbarUp.setImage(Images[102])
+	this.scrollbarUp.setImage(Images[102]);
 	this.scrollbarDown = new Rectangle(this.scrollbarRect.x, this.scrollbarRect.y + this.scrollbarRect.height - 10, 10, 10)
-	this.scrollbarDown.setImage(Images[103])
+	this.scrollbarDown.setImage(Images[103]);
 	
 	this.selectedRow = 0
 	
@@ -47,20 +50,45 @@ function textBox(x, y, width, height) {
 	this.textHeight = this.height - this.topPadding * 2
 }
 
+// textBox settings
+textBox.prototype.setAlpha = function(box, text) { this.boxAlpha = box; this.textAlpha = text; }
 textBox.prototype.setFontFamily = function(fontFamily) { this.fontFamily = fontFamily; this.font = this.fontSize + "px " + fontFamily; }
-textBox.prototype.setFontSize = function(fontSize) { this.fontSize = fontSize; this.font = fontSize + "px " + this.fontFamily	}
+textBox.prototype.setFontSize = function(fontSize) { this.fontSize = fontSize; this.font = fontSize + "px " + this.fontFamily }
 
 textBox.prototype.setColumns = function(columnArray) {
 	
-		this.columns = columnArray.length
-		this.columnArray = columnArray
+		this.columns = columnArray.length;
+		this.columnArray = columnArray;
 	
 }
+
+textBox.prototype.setMaxRows = function(maxRows) {
+	
+	this.maxRows = maxRows;
+	
+	this.scrollbarX = this.x + this.width - this.leftPadding - 10;
+	this.scrollBarY = this.y + this.topPadding;
+	this.scrollbarRect = new Rectangle(this.scrollbarX, this.scrollBarY, 10, this.maxRows * (this.rowHeight + this.rowBuffer))
+	this.scrollbarUp = new Rectangle(this.scrollbarRect.x, this.scrollbarRect.y, 10, 10);
+	this.scrollbarUp.setImage(Images[102]);
+	this.scrollbarDown = new Rectangle(this.scrollbarRect.x, this.scrollbarRect.y + this.scrollbarRect.height - 10, 10, 10);
+	this.scrollbarDown.setImage(Images[103]);
+}
+
+
+textBox.prototype.clear = function() {
+	
+	this.text = [];
+	this.textColumns = 1;
+	this.textRows = 0;	
+	
+}
+
 
 textBox.prototype.draw = function() {
 	
 	this.context.fillStyle = this.textBoxColor;
-	_.context.globalAlpha = this.globalAlpha;
+	_.context.globalAlpha = this.boxAlpha;
 	this.context.fillRect(this.x, this.y, this.width, this.height);
 	
 	if (this.selectedRow != 0) {
@@ -81,6 +109,7 @@ textBox.prototype.drawText = function() {
 	
 	this.context.fillStyle = this.fontColor
 	this.context.font = this.font
+	_.context.globalAlpha = this.textAlpha;
 	
 	// determine if a scrollbar is needed	
 	if (this.textRows > this.maxRows) {
@@ -132,6 +161,7 @@ textBox.prototype.drawText = function() {
 			
 		}	
 	
+	_.context.globalAlpha = this.boxAlpha;	
 	this.scrollbarRect.draw()
 	this.scrollbarUp.draw()
 	this.scrollbarDown.draw()
@@ -146,8 +176,15 @@ textBox.prototype.drawText = function() {
 				var x = this.x + this.leftPadding + this.textWidth * this.columnArray[col]
 				var y = this.y + this.topPadding + (this.rowHeight + this.rowBuffer) * (row + 1) - this.rowBuffer
 			
-				this.context.fillText(text, x, y)
-					
+				var colorTest = text.split("`");
+				
+				if (colorTest.length == 1) {			
+					_.context.fillText(text, x, y);
+				} else {
+					_.context.fillStyle = colorTest[1];
+					_.context.fillText(colorTest[2], x, y);
+					_.context.fillStyle = this.fontColor;	
+				}
 			}
 			
 		}
@@ -178,7 +215,8 @@ textBox.prototype.inputText = function(textArray) {
 textBox.prototype.addText = function(text) {
 	
 	this.text.push(text);
-	this.textRows++;	
+	this.textRows++;
+	this.scrollToLastRow();	
 	
 }
 
@@ -311,4 +349,22 @@ textBox.prototype.getSelectionData = function() {
 	
 	sendPacket2("joinGame", data)
 		
+}
+
+
+textBox.prototype.containsClick = function() {
+	
+	var x = _.mouse.x;
+	var y = _.mouse.y;	
+	
+	if (x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height) {
+		
+		if (this.scrollbarUp.Contains(_.mouse) && this.scrollRow > 0) { this.scrollRow--; }
+		if (this.scrollbarDown.Contains(_.mouse) && this.scrollRow < this.textRows - this.maxRows) { this.scrollRow++; }
+		
+		return true;
+		
+	} else {
+		return false;	
+	}	
 }

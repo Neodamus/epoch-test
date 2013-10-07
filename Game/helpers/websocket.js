@@ -80,6 +80,10 @@ function messageHandler(message) {
 			ability.receiveAbility(data);		
 		break;
 		
+		case "broadcast":
+			_.messages.addText("`pink`" + data);
+		break;
+		
 		case "loginSuccess":		
 			_.userName = data
 			document.title = _.userName + " - Epoch of Elements"
@@ -162,10 +166,14 @@ function messageHandler(message) {
 			
 				case "lobby":
 				
-					_.currentMode.chatRoom.inputObject(data)
-					_.currentMode.chatRoom.scrollToLastRow()
-					
-					break	
+					_.currentMode.chatRoom.clear();
+									
+					if (data[0] != undefined) {
+						_.currentMode.chatRoom.inputObject(data);
+						_.currentMode.chatRoom.scrollToLastRow();
+					}
+										
+				break;	
 				
 			}
 		
