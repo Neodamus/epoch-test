@@ -62,6 +62,7 @@
 	  _.messages = new textBox(_.canvas.width * 0.05, _.canvas.height * 0.05, _.canvas.width * 0.9, _.canvas.height * 0.5);
 	  _.messages.setAlpha(0, 1);
 	  _.messages.setFontFamily("Georgia");
+	  _.messages.setFontSize(Math.floor(_.canvas.height * 0.025));
 	  _.messages.setMaxRows(5);	   
 	  
 	}

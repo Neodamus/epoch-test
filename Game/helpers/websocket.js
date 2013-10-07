@@ -81,7 +81,7 @@ function messageHandler(message) {
 		break;
 		
 		case "broadcast":
-			_.messages.addText("`pink`" + data);
+			_.messages.addFadeText("`pink`" + data);
 		break;
 		
 		case "loginSuccess":		

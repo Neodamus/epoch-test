@@ -33,6 +33,8 @@ function textBox(x, y, width, height) {
 	this.textRows = 0;
 	this.textReverse = false;
 	
+	this.fadeText = [];		// holds objects -- index of faded text and time it was entered
+	
 	this.scrollbar = false;
 	this.scrollRow = 0;
 	
@@ -155,7 +157,15 @@ textBox.prototype.drawText = function() {
 				var x = this.x + this.leftPadding + this.textWidth * this.columnArray[col]
 				var y = this.y + this.topPadding + (this.rowHeight + this.rowBuffer) * (row - this.scrollRow + 1) - this.rowBuffer
 			
-				this.context.fillText(text, x, y)
+				var colorTest = text.split("`");
+				
+				if (colorTest.length == 1) {			
+					_.context.fillText(text, x, y);
+				} else {
+					_.context.fillStyle = colorTest[1];
+					_.context.fillText(colorTest[2], x, y);
+					_.context.fillStyle = this.fontColor;	
+				}
 					
 			}
 			
@@ -175,6 +185,8 @@ textBox.prototype.drawText = function() {
 				var text = textOutput[row * this.textColumns + col]
 				var x = this.x + this.leftPadding + this.textWidth * this.columnArray[col]
 				var y = this.y + this.topPadding + (this.rowHeight + this.rowBuffer) * (row + 1) - this.rowBuffer
+				
+				this.fade(row);
 			
 				var colorTest = text.split("`");
 				
@@ -183,7 +195,8 @@ textBox.prototype.drawText = function() {
 				} else {
 					_.context.fillStyle = colorTest[1];
 					_.context.fillText(colorTest[2], x, y);
-					_.context.fillStyle = this.fontColor;	
+					_.context.fillStyle = this.fontColor;
+					_.context.globalAlpha = this.textAlpha;	
 				}
 			}
 			
@@ -220,6 +233,39 @@ textBox.prototype.addText = function(text) {
 	
 }
 
+
+textBox.prototype.addFadeText = function(text) {
+	
+	this.text.push(text);
+	this.textRows++;
+	this.scrollToLastRow();	
+	
+	var fadeTextObject = { index: this.text.length - 1, timestamp: Date.now() };
+	
+	this.fadeText.push(fadeTextObject);	
+}
+
+
+textBox.prototype.fade = function(index) {
+	
+	for (var i = 0; i < this.fadeText.length; i++) {	
+	
+		fadeObject = this.fadeText[i];
+		
+		if (fadeObject.index == index) {
+		
+			var fadeTime = (Date.now() - fadeObject.timestamp) / 1000;
+			
+			if (fadeTime < 5) { _.context.globalAlpha = this.textAlpha; 
+			} else if (fadeTime >= 5 && fadeTime < 10) { 
+				var alpha = (1 - ((fadeTime - 5) / 5)) * this.textAlpha; 
+				_.context.globalAlpha = Math.round(alpha * 1000) / 1000;
+			} else if (fadeTime >= 10) { _.context.globalAlpha = 0; }
+			
+						
+		}	
+	}	
+}
 
 
 textBox.prototype.inputObjects = function(objectArray, objProps) {
