@@ -52,7 +52,7 @@ aura.prototype.setAuraTiles = function() {
 	this.auraTiles = GameBoard.AreaSelect(sourceGrid, this.stats.auraRadius);
 	
 	// set new units list
-	this.unitsList = [];	
+	this.unitsList.splice();	
 	for (var i = 0; i < this.auraTiles.length; i++) {
 		
 		var auraTile = this.auraTiles[i];
@@ -67,8 +67,7 @@ aura.prototype.setAuraTiles = function() {
 				this.proc(auraTile);
 			}
 		}
-	}
-	
+	}	
 }
 
 

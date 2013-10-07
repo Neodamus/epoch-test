@@ -6,7 +6,7 @@ window.onload = function() {
 	sizeCanvas();	
 	StartGame();
 	startSocket();
-	_.console = new console();
+	_.console = new userConsole();
 	
 }
 

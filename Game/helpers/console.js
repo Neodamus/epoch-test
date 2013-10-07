@@ -1,4 +1,4 @@
-function console() {
+function userConsole() {
 	
 	this.consoleDisplay;
 	this.consoleInput;
@@ -9,7 +9,7 @@ function console() {
 }
 
 
-console.prototype.initialize = function() {
+userConsole.prototype.initialize = function() {
 
 	// console display
 	this.consoleDisplay = new textBox(_.canvas.width * 0.05, _.canvas.height * 0.7, _.canvas.width * 0.9, _.canvas.height * 0.25);
@@ -31,7 +31,7 @@ console.prototype.initialize = function() {
 }
 
 
-console.prototype.toggle = function() {
+userConsole.prototype.toggle = function() {
 
 	switch (this.display) {
 	
@@ -43,20 +43,20 @@ console.prototype.toggle = function() {
 }
 
 
-console.prototype.consoleKeyDown = function(key) {
+userConsole.prototype.consoleKeyDown = function(key) {
 	
 	this.consoleInput.keyDown(key);
 }
 
 
-console.prototype.consoleClick = function() {
+userConsole.prototype.consoleClick = function() {
 	
 	this.consoleInput.containsClick();
 	
 }
 
 
-console.prototype.draw = function() {
+userConsole.prototype.draw = function() {
 	
 	if (this.display) {
 		this.consoleDisplay.draw();

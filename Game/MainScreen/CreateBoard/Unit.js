@@ -250,7 +250,9 @@ Unit.prototype.setAura = function(Aura, toggle) {
 			GameBoard.auraList.splice(GameBoard.auraList.indexOf(Aura));
 		
 		break;		
-	}	
+	}
+	
+	return Aura;	
 }
 
 
@@ -542,7 +544,11 @@ Unit.prototype.Attack = function(NewGridSpot) {
 			this.reveal("on");
 			
 			//for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("move", this.auras[i]); } //move all aura origins
-			for (var i = 0; i < this.newAuras.length; i++) { this.newAuras[i].setAuraTiles(); } 
+			for (var i = 0; i < this.newAuras.length; i++) { 
+				var tempAura = this.setAura(this.newAuras[i], "off");
+				tempAura.setAuraTiles();
+				this.setAura(tempAura, "on");
+			} 
 		 
 			for (var i = 0; i < this.currentTileMods.length; i++) {  this.currentTileMods[i].eventProc("remove", this); } //this could have an indexing problem when a tilemod is removed and can't find the next one
 				NewGridSpot.tileModifiers("all", "move"); //get new tile modifiers
