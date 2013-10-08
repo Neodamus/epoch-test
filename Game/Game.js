@@ -139,6 +139,7 @@
 	  Images[133].src = "Game/Images/lightning.png";
 	  Images[134].src = "Game/Images/water.png";
 	  Images[135].src = "Game/Images/menu.png";
+	  Images[136].src = "Game/Images/enemy.png";
 	}
 	
 	function returnTileImage(name)

@@ -454,6 +454,7 @@ Ui.prototype.setTooltips = function() {
 		
 			if (this.tooltipList[i].tooltip == true) { this.tooltipList[i].draw(); }
 			}
+	    context.font = '18px Arial';
 		context.fillStyle = "rgba(250, 250, 250, 0.5)";
 		context.fillText( GameBoard.hour + ":" + GameBoard.min + ":" + GameBoard.sec, _.canvas.width * 0.40, 20);
 	  }

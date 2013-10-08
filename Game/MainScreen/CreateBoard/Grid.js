@@ -138,6 +138,11 @@
 				context.globalAlpha = 0.40;
 				context.drawImage(Images[112], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width,
 				this.ThisRectangle.height); context.globalAlpha = 1;}
+				if (this.currentUnit.alliance == "enemy") {
+					 context.globalAlpha = 0.60;
+					context.drawImage(Images[136], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
+					context.globalAlpha = 1;
+				}
 				}
 				
 		if (this.visible == false)		//Fog of war
@@ -153,9 +158,8 @@
 		if (this.abilityMarker == true) { context.drawImage( Images[9],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		
 		if (this.selected == true) { context.drawImage( Images[3],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
-		context.globalAlpha = 0.25;
+		context.globalAlpha = 0.35;
 		if (this.moveMarker == true) { context.drawImage( Images[5],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
-		
 		if (this.attackMarker == true) { context.drawImage( Images[6],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		context.globalAlpha = 1;
 		if (this.abilitySelectMarker == true) { context.drawImage( Images[13],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
