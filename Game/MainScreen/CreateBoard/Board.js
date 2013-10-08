@@ -27,7 +27,7 @@ function Board(userPicks)
 	this.BoardY = 0;
 	cg = CreateGrid();
 	this.gameType = "normal";
-	if (userPicks == "sandbox") { this.gameType = "sandbox"; this.observer = true; }
+	if (userPicks == "sandbox") { this.gameType = "sandbox"; this.observer = true; this.BoardY += 120; this.UpdateBoardPosition();}
 	
 	Ui = new Ui(userPicks);
   

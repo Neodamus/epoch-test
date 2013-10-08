@@ -205,7 +205,7 @@
 			break;
 			
 			case "reveal":
-			if (Toggle == "on" ) { if (this.x != x || this.y != y) { GridSpot[x][y].reveal("on", this); if (listContains(GridSpot[x][y].allyVision, this) == false) { GridSpot[x][y].allyVision.push(this); } } }
+			if (Toggle == "on" ) { if (this.x != x || this.y != y) { GridSpot[x][y].reveal("on", this); if (this.alliance == "ally" && listContains(GridSpot[x][y].allyVision, this) == false) { GridSpot[x][y].allyVision.push(this); } } }
 			if (Toggle == "off") { GridSpot[x][y].reveal("off", this); }
 			break;
 			
