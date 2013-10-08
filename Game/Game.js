@@ -140,6 +140,7 @@
 	  Images[134].src = "Game/Images/water.png";
 	  Images[135].src = "Game/Images/menu.png";
 	  Images[136].src = "Game/Images/enemy.png";
+	  Images[137].src = "Game/Images/moveable.png";
 	}
 	
 	function returnTileImage(name)

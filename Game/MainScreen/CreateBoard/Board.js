@@ -181,8 +181,17 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 			//send instructions
 			
 			return; }
+		
 		//if target is not null... reveal tile until end of turn.
-		}
+		} else { 
+		if (CurrentTarget.moveMarker == true && CurrentTarget.currentUnit != null && listContains(CurrentTarget.allyVision, CurrentSelectedGrid.currentUnit) == false)
+		{
+			
+			CurrentSelectedGrid.currentUnit.currentStats[4] -= CurrentSelectedGrid.currentUnit.movementCost;
+			CurrentTarget.allyVision.push(CurrentSelectedGrid.currentUnit);
+			CurrentSelectedGrid.select("off");
+			CurrentSelectedGrid.select("on");
+		} }
 		
 		//Attack Action		
 		if (CurrentSelectedGrid != null && CurrentTarget != null && CurrentTarget.currentUnit != null && CurrentSelectedGrid.currentUnit != null && CurrentSelectedGrid != CurrentTarget

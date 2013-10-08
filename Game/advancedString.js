@@ -1,29 +1,30 @@
 function advancedString(string, x, y) {
-
-	this.font = "15px Georgia"; //line 3, 4, 6, 91 deal with font-- needs cleanup
+	//if you want the text to be wordwrapped the string needs to be pre-wordwrapped before you use this.
+	
+	this.font = "15px Georgia"; //line 4, 6+7, 106 deal with font-- (The font size should be the same as the wordwrapped font, also it should be passed to this function)
 	_.context.font = this.font;
 	this.canvas = _.canvas;
     this.context = _.context;
 	
-	
 	this.string = string;
 	
-	var fontsize = _.context.font;
-	var temp = fontsize.indexOf("p");
-	fontsize = "";
-	for (var i = 0; i < temp; i++) {
-	
-		fontsize += _.context.font[i];
-	}
-	this.fontSize = parseInt(fontsize, 10);
+	// We get the current font size from the string _.context.font and parse it to an int
+			var fontsize = _.context.font;
+			var temp = fontsize.indexOf("p"); //.font = "15px Georgia", we find the p.
+			fontsize = "";
+			for (var i = 0; i < temp; i++) { fontsize += _.context.font[i]; }
+			this.fontSize = parseInt(fontsize, 10);
+	// ////////////////////////////////////////////////////////////////////////////////////////
 	
 	this.spaceWidth = this.context.measureText(" ").width; //used for spacing between words
 	this.spaceHeight = this.fontSize * 1.3; //used for height spacing
 	
+	
+	//This will be the total height that the string + wordwrapping will take up
 	this.totalHeight = 0;
 	
-	
-	this.wordRectangle = new Array(); //used for words with colors to have a tooltip event.
+	//Reading inside strings to find codes
+	this.wordRectangle = new Array(); //used for words with colors to have a tooltip event. (NOT fully used yet) &text&
 	
 	var currentWord = "";
 	this.wordList = new Array();
@@ -35,11 +36,9 @@ function advancedString(string, x, y) {
 	var startx = x;
 	var starty = y;
 	
-	
-	
 	var currentLength = startx;
 	var currentHeight = starty;
-	var currentColor = "white";
+	var currentColor = "white"; //Sets the basic color of the string(this gets overwritten by any `color` code)
 	
 	this.wordPositionList[0] = {x: currentLength, y: currentHeight};
 	
@@ -89,7 +88,6 @@ function advancedString(string, x, y) {
 			
 			currentWord = "";
 		}
-
 	}
 	
 
@@ -98,23 +96,25 @@ function advancedString(string, x, y) {
 		 this.wordRectangle.push(new Rectangle(this.wordPositionList[this.wordTooltipList[i].word].x, this.wordPositionList[this.wordTooltipList[i].word].y - 12, boxSize, 12)); 
 		 this.wordRectangle[i].boxColor = "blue";
 	}
-
-	
-
 }
 
-function wordWrap(string, width) { //Current word wrap bugs: sometimes the last word can be pushed to the next line... starts @ line 152, minor bug.
-_.context.font = "15px Georgia";
 
-var totalString = "";
-var word = "";
-var exception = 0;
 
-var clr = false;
+//Wordwrap is used to change a string so that you can create a wordwrapped- advanced string.
+function wordWrap(string, width) { 
+
+	_.context.font = "15px Georgia"; //the font size should probably be passed to this function!
+
+	var totalString = "";
+	var word = "";
+	var exception = 0;
+
+	var clr = false;
 
 	//if a color is found-- it measures the color and makes an exception for the word wrapping because it won't be visible.
 	for (var i = 0; i < string.length; i ++) {
 		
+		//add a new line to the string
 		if (string[i] == "^") {
 		word += string[i];
 				//add the new line.
@@ -123,7 +123,7 @@ var clr = false;
 				word = ""; //reset the line
 		}
 		else {
-		
+			//If color is found, ignore it for positioning(because it will not be visible)
 			if (string[i] == "`" && clr == false) {
 				var cWord = "";
 			
@@ -133,7 +133,7 @@ var clr = false;
 						if (string[i + t] == "`" && t != 0) { break; }
 					}
 				
-			exception += _.context.measureText(cWord).width;// console.warn(cWord);// console.warn(cWord);
+			exception += _.context.measureText(cWord).width;
 			clr = true;} 
 			else { if (string[i] == "`") { clr = false; } }
 			
@@ -146,7 +146,6 @@ var clr = false;
 			word += string[i]; //adds character to current line.
 
 			//Measuring current line, making exceptions, and adding a word to the next line(which negatively influences the exception)
-		
 			if (string[i] == " " && _.context.measureText(word).width > width + exception) {
 
 				var size = _.context.measureText(word).width - (width + exception); //How much is the current word off by?
@@ -173,11 +172,8 @@ var clr = false;
 			    exception = -1 * _.context.measureText(wordL).width; //tell the next line that a new word is starting.
 				exception += _.context.measureText(lastException).width;
 				word = ""; //reset the line
-				
 			}
 		}
-		
-	
 	}
 	
 	//this is adding the last line that might not have been added in the previous code...
@@ -198,7 +194,7 @@ var clr = false;
 return totalString; //returning the string-coded word wrap!
 }
 
-
+//This is used in wordwrapping and advanced string
 function findColor(string, i) {
 
 		if (string[i] == "`") {
@@ -215,6 +211,7 @@ function findColor(string, i) {
 		return returnList;
 }
 
+//This is used in wordwrapping and advanced string
 function findTooltip(string, i, wordList) {
 		//color = tooltip
 		var colorAndNumber = null;
@@ -234,7 +231,7 @@ function findTooltip(string, i, wordList) {
 
 }
 
-
+//Draw advanced string
 advancedString.prototype.draw = function() {
 
 	this.context.font = this.font;;

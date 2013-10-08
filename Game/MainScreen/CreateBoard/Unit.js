@@ -205,7 +205,7 @@
 			break;
 			
 			case "reveal":
-			if (Toggle == "on" ) { if (this.x != x || this.y != y) {GridSpot[x][y].reveal("on", this); } }
+			if (Toggle == "on" ) { if (this.x != x || this.y != y) { GridSpot[x][y].reveal("on", this); if (listContains(GridSpot[x][y].allyVision, this) == false) { GridSpot[x][y].allyVision.push(this); } } }
 			if (Toggle == "off") { GridSpot[x][y].reveal("off", this); }
 			break;
 			
@@ -304,19 +304,6 @@ Unit.prototype.setAura = function(Aura, toggle) {
 							
 							
 					}
-				//if (this.visibleGridSpots[i] != blockers[t]) { }
-				
-					/*for (var t = 0; t < this.visibleGridSpots.length; t++) {
-						
-						if (this.visibleGridSpots[t].visionBlock.length > 0 && visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleX) == true ||
-						this.visibleGridSpots[t].visionBlock.length > 0 && visionRay.intersects(this.visibleGridSpots[t].visionBlockRectangleY) == true) { 
-						
-						if (this.visibleGridSpots[t] != this.visibleGridSpots[i]) {
-						giveSight = false; }
-						
-						
-						} 
-					}*/
 				if (giveSight == true) { this.visibleGridSpots[i].allyVision.push(this); }
 				
 				} }
@@ -382,11 +369,12 @@ Unit.prototype.setAura = function(Aura, toggle) {
 	  
 	  Unit.prototype.Select = function(Toggle)
 	  {
-		
+		if (this.turnCost == false || listContains(GameBoard.unitsMovedThisTurn, this) == true || GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves) {
 		this.AreaSelect("move", GridSpot[this.x][this.y], this.movementRange, Toggle, "");
 
 		this.AreaSelect("attack", GridSpot[this.x][this.y], this.currentStats[6], Toggle, ""); 
-
+		
+		}
 	  }
 	  //
 	  //used by AreaSelect to place movement Markers

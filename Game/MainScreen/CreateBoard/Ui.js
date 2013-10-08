@@ -374,7 +374,14 @@ Ui.prototype.setTooltips = function() {
 		if (i == 7) { extra = "Reveal: "; }
 		if (i == 8) { extra = "Attacks: "; }
 		if (i == 9) { extra = "Blocks: "; }
-		context.fillText(extra + stats[i], this.standardUiBox.x + 1, this.standardUiBox.y + (i * 23) + 60); } }
+		if (i != 0) {
+		var totalStat = " / " + this.currentUnit.baseStats[i]; 
+		if (this.currentUnit.displayStats == true) { totalStat = " / " + this.currentUnit.fakeStats[i]; } //this shou be changed
+		} else { var totalStat = ""; }
+		
+		
+		var totalString = extra + stats[i] + totalStat;
+		context.fillText(totalString, this.standardUiBox.x + 1, this.standardUiBox.y + (i * 23) + 60); } }
 		
 		//Display Unit Abilities
 		for (var i = 0; i < this.currentUnit.ability.length; i++) { //may need reworking

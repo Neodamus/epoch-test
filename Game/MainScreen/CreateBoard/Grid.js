@@ -135,12 +135,18 @@
 				if (this.currentUnit.unitStealth == true) {context.globalAlpha = 1; } 
 				
 				if (this.currentUnit.summon == true && (this.currentUnit.alliance == "ally" || GameBoard.observer == true)) {
-				context.globalAlpha = 0.40;
+				context.globalAlpha = 0.60;
 				context.drawImage(Images[112], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width,
 				this.ThisRectangle.height); context.globalAlpha = 1;}
 				if (this.currentUnit.alliance == "enemy") {
 					 context.globalAlpha = 0.60;
 					context.drawImage(Images[136], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
+					context.globalAlpha = 1;
+				}
+				if (this.currentUnit.alliance == "ally" && (listContains(GameBoard.unitsMovedThisTurn, this.currentUnit) == true || this.currentUnit.turnCost == false) ) {
+				
+					 context.globalAlpha = 1;
+					context.drawImage(Images[137], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 					context.globalAlpha = 1;
 				}
 				}
@@ -156,7 +162,7 @@
 		if (this.spawnMarker == true) { context.drawImage( Images[14],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		
 		if (this.abilityMarker == true) { context.drawImage( Images[9],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
-		
+		context.globalAlpha = 0.35;
 		if (this.selected == true) { context.drawImage( Images[3],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		context.globalAlpha = 0.35;
 		if (this.moveMarker == true) { context.drawImage( Images[5],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
@@ -172,6 +178,15 @@
 		if (drawReveal == true) {  context.globalAlpha = 0.4;
 		context.drawImage( Images[11],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 		context.globalAlpha = 1;}
+		
+		
+		if (CurrentSelectedGrid != undefined && CurrentSelectedGrid.currentUnit != null && 
+		CurrentSelectedGrid.currentUnit.alliance != "enemy" &&
+		this.visible == true && listContains(this.allyVision, CurrentSelectedGrid.currentUnit) == false) { 
+			context.globalAlpha = 0.2;
+		context.drawImage(Images[7],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
+		context.globalAlpha = 1; }
+		
 		
 		//Unit Stats
 		context.save();
