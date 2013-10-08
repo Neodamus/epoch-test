@@ -153,13 +153,19 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 			if (this.tileList instanceof Array) {for (var i = 0; i < Instructions[1].length; i++) { this.tileList.push(Instructions[1][i]); } } // needs to push all tiles affected...
 			else { this.tileList.push(Instructions[1]);  } //if tile list is just one tile .. push (this 'else' isn't working i think)
 
-			for (var i = 0; i < this.tileList.length; i++) { 
+			for (var i = 0; i < this.tileList.length; i++) {
 			
 			//This is visionBlocking variable of tilemods*
-			if (this.stats.visionBlock != undefined && this.stats.visionBlock == true) { this.tileList[i].visionBlock.push(this); this.tileList[i].refreshUnitSight();}
+			if (this.stats.visionBlock != undefined && this.stats.visionBlock == true) { this.tileList[i].visionBlock.push(this); }
 			
 			//Add tilemod to the gridspot's tilemod lost
 			this.tileList[i].tileBuffList.push(this); } 
+			
+			for (var i = 0; i < GameBoard.AllyUnits.length; i++) {  //refreshing ally units sight....
+			
+				GameBoard.AllyUnits[i].sight("off");
+				GameBoard.AllyUnits[i].sight("on");
+			}
 			
 			//Runs initialize of all of the tile list
 			for (var i = 0; i < this.tileList.length; i++) { this.tileList[i].tileModifiers(this, "initialize"); }
@@ -168,12 +174,12 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 			
 		case "move":
 
-			for (var i = 0; i < Instructions[1].length; i++) { 
+			for (var i = 0; i < Instructions[1].length; i++) {
 				
 				if (listContains(this.tileList, Instructions[1][i]) == false) { 
 					
 					//This is visionBlocking variable of tilemods*
-					if (this.stats.visionBlock != undefined && this.stats.visionBlock == true) { Instructions[1][i].visionBlock.push(this); Instructions[1][i].refreshUnitSight();}
+					if (this.stats.visionBlock != undefined && this.stats.visionBlock == true) { Instructions[1][i].visionBlock.push(this); }
 					
 					//Add tilemod to the gridspot's tilemod lost
 					Instructions[1][i].tileBuffList.push(this);
@@ -184,6 +190,9 @@ tileModifier.prototype.affectedTiles = function(Instructions)
 					//Add gridspot to the tile list.
 					this.tileList.push(Instructions[1][i]);}
 			 }
+			
+			
+			
 			
 			var oldUnitList = new Array(); //List of units on the gridspots of all of the removed tiles
 			

@@ -53,6 +53,7 @@
 		}
 	  }
 	  
+	  //i don't think this is necessary after tilemod is fixed for refreshingsight
 	  Grid.prototype.refreshUnitSight = function()
 	  {
 		var unit = new Array();
@@ -68,7 +69,6 @@
 	  //tilemod
 	  Grid.prototype.tileModifiers = function(modifier, procedure)
 	  {
-		
 		
 		if (this.currentUnit != null) { 
 			
@@ -86,6 +86,8 @@
 			}
 	  }
 	  
+	  
+	  
 	   Grid.prototype.visibleCheck = function()
 	   {
 		this.visible = false;
@@ -96,11 +98,15 @@
 		if (GameBoard.observer == true) { this.visible = true; }
 	   }
 	  
+	  
+	  
 	  Grid.prototype.Clicked = function(Mouse)
 	  {
 		if (this.ThisRectangle.Contains(Mouse) == true) { return true;}
 		return false;
 	  }
+	  
+	  
 	  
 	   Grid.prototype.Select = function(Toggle)
 	   {
@@ -110,6 +116,8 @@
 		if (Toggle == "off") { this.selected = false;}
 	   }
 
+	   
+	   
 	   Grid.prototype.UpdatePosition = function(newx, newy, newwidth, newheight)
 	  {
 		this.ThisRectangle.x = this.Positionx + newx;
@@ -118,6 +126,8 @@
 	  Grid.prototype.ReturnCurrentUnit = function()
 	  { return this.currentUnit;
 	  }
+	  
+	  
 	  
 	  Grid.prototype.Draw = function(context, canvas)
 	  {
