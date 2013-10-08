@@ -455,7 +455,7 @@ function keyDownHandler(key) {
 		}
 		
 		context.fillStyle = "#BBB"
-		context.font = (_.fontSize * 1) + "px " + _.fontFamily;;
+		context.font = (_.fontSize * 1) + "px " + _.fontFamily;
 		
 		switch (_.connectionStatus) {
 			

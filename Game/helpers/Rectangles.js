@@ -109,8 +109,9 @@ Rectangle.prototype.draw = function() {
 	if (this.hasImage) {
 	
 		if (this.drawBehind == true) {
-		if (this.boxColor != null) { _.context.fillStyle = this.boxColor; }
-		_.context.fillRect(this.x + 5, this.y + 4, this.width - 7, this.height - 10);	}//draws a smaller rectangle behind image
+			if (this.boxColor != null) { _.context.fillStyle = this.boxColor; }
+			_.context.fillRect(this.x + 5, this.y + 4, this.width - 7, this.height - 10);	
+		}//draws a smaller rectangle behind image
 		
 		_.context.drawImage(this.image, this.x, this.y, this.width, this.height);	  
 		
@@ -123,15 +124,16 @@ Rectangle.prototype.draw = function() {
 	}
 	
 	if (this.text != null) {
+			
+		_.context.font = this.font;		
+		_.context.fillStyle = this.fontColor;
+		
 		if (this.outlineFont == true) { 
 			
 			_.context.strokeStyle = 'black';
 			_.context.lineWidth=3.2;
 			_.context.strokeText(this.text, this.textX, this.textY);
 		}
-	
-		_.context.font = this.font;		
-		_.context.fillStyle = this.fontColor;
 		_.context.fillText(this.text, this.textX, this.textY);
 		
 	}

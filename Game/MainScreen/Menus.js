@@ -284,7 +284,7 @@ function CreateMenus(Width, Height) {
 		
 	  
 		  
-		    context = document.getElementById('Mycanvas').getContext('2d')
+		    context = document.getElementById('Mycanvas').getContext('2d');
 			
 			_.context.drawImage(Images[0], (_.canvas.width * 0.0238) * 0.5, _.canvas.height * 0.2585, _.canvas.width * 0.986 , _.canvas.height * 0.9612);
 			 //this.stringT = { blah: "lala", string: "ooh " + blah };
@@ -295,8 +295,8 @@ function CreateMenus(Width, Height) {
 			_.context.fillStyle = "rgba(20, 20, 20, 0.5)";
 			this.StartOptionBox.draw();
 			_.context.fillStyle = "rgba(100, 20, 20, 0.9)";
-			this.CreateBox.draw();
 			this.FindBox.draw();
+			this.CreateBox.draw();
 			this.quickGameBox.draw();
 			this.WebsiteBox.draw();
 			this.logoutBox.draw();
