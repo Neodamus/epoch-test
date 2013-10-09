@@ -262,11 +262,11 @@
 					
 				this.lifeChangeList[i].animation == "off"; this.lifeChangeList.splice(i, 1); i--; 
 			} 
-
-
 		}
+		
+		if (this.visible == true) {
 		for (var i = 0; i < this.lifeChangeList.length; i++) {
-		console.warn(this.lifeChangeList.length);
+		
 			if (this.lifeChangeList[i].animation == "on") {  
 				context.font = '9px outline';
 				if (this.lifeChangeList[i].type == "heal") { context.fillStyle = "rgba(0, 255, 0, 1)"; }
@@ -279,6 +279,7 @@
 			}
 		}
 		context.globalAlpha = 1;
+		}
 		
 		context.restore();
 		//this.centreRect.draw();
