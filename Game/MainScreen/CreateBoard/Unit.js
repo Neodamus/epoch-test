@@ -384,6 +384,10 @@ Unit.prototype.setAura = function(Aura, toggle) {
 		combatLog.push(this.baseStats[0] + " receives " + damage + " pure damage from " + from)
 		
 		this.currentStats[1] -= damage;
+		
+		//animation
+		GridSpot[this.x][this.y].lifeAnimation(damage, "damage");
+		
 		if (this.currentStats[1] <= 0){
 		
 		combatLog.push(this.baseStats[0] + " has died.");
@@ -421,6 +425,9 @@ Unit.prototype.setAura = function(Aura, toggle) {
 		this.lastDamageLoss = damageDealt;
 		attackerUnit.lastDamageHit = damageDealt;
 		
+		//animation
+		GridSpot[this.x][this.y].lifeAnimation(damageDealt, "damage");
+		
 		if (this.currentStats[1] <= 0){
 		
 		combatLog.push(this.baseStats[0] + " has died.");
@@ -438,6 +445,9 @@ Unit.prototype.setAura = function(Aura, toggle) {
 			
 			this.currentStats[1] += hp;
 			combatLog.push(this.baseStats[0] + " healed by " + source + " for " + hp + " hit points.")
+			
+			//animation
+			GridSpot[this.x][this.y].lifeAnimation(hp, "heal");
 	   }
 	   	  
 Unit.prototype.Attack = function(NewGridSpot) {

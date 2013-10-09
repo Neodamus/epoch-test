@@ -34,6 +34,8 @@
 		this.allyVision = new Array();
 		this.enemyVision = new Array();
 		
+		this.lifeChangeList = new Array();
+		
 		this.currentUnit;				// current unit on tile
 	  }
 	  
@@ -128,12 +130,20 @@
 	  }
 	  
 	  
-	  Grid.prototype.damageTaken = function(damage)
-	  {
+	  //amount of life change and positive/negative
+	  Grid.prototype.lifeAnimation = function(life, type){
 	  
+		//this.currentTime
+		var play = "off";
+		
+		if (this.lifeChangeList[0] == undefined) { play = "on"; }
+		
+		var deltaLife = { life: life, type: type, animation: play, position: 0, fade: 1 };
+		this.lifeChangeList.push(deltaLife);
+		
+		
+		
 	  }
-	  
-	  
 	  
 	  
 	  Grid.prototype.Draw = function(context, canvas)
@@ -233,6 +243,42 @@
 		
 		}
 		// this.ThisRectangle.draw();   // used to see grid numbers with line 10
+		
+		
+		//testing
+		for (var i = 0; i < this.lifeChangeList.length; i++) {
+		
+			if (i == 0 && this.lifeChangeList[0].animation == "off") { this.lifeChangeList[0].animation = "on"; }
+			
+			if (this.lifeChangeList[i].animation == "on") { this.lifeChangeList[i].position++; 
+			
+			if (this.lifeChangeList[i].position == 35 || this.lifeChangeList[i].position == 40 || this.lifeChangeList[i].position == 60 || this.lifeChangeList[i].position == 65 || this.lifeChangeList[i].position == 70) 
+			{ this.lifeChangeList[i].fade -= 0.2; }
+			
+			if (this.lifeChangeList[i + 1] != undefined && this.lifeChangeList[i].position > 12) { this.lifeChangeList[i + 1].animation = "on"; }
+			}
+				
+			if (this.lifeChangeList[i].position > 72) {
+					
+				this.lifeChangeList[i].animation == "off"; this.lifeChangeList.splice(i, 1); i--; 
+			} 
+
+
+		}
+		for (var i = 0; i < this.lifeChangeList.length; i++) {
+		console.warn(this.lifeChangeList.length);
+			if (this.lifeChangeList[i].animation == "on") {  
+				context.font = '9px outline';
+				if (this.lifeChangeList[i].type == "heal") { context.fillStyle = "rgba(0, 255, 0, 1)"; }
+				else { context.fillStyle = "rgba(255, 0, 0, 1)"; }
+				context.globalAlpha = this.lifeChangeList[i].fade;
+				context.lineWidth=4.2;
+
+				context.strokeText(this.lifeChangeList[i].life.toString(), this.ThisRectangle.x + this.ThisRectangle.width - this.ThisRectangle.width * 0.30, this.ThisRectangle.y + this.ThisRectangle.height * 0.4 - this.lifeChangeList[i].position);
+				context.fillText(this.lifeChangeList[i].life.toString(), this.ThisRectangle.x + this.ThisRectangle.width - this.ThisRectangle.width * 0.30, this.ThisRectangle.y + this.ThisRectangle.height * 0.4 - this.lifeChangeList[i].position);
+			}
+		}
+		context.globalAlpha = 1;
 		
 		context.restore();
 		//this.centreRect.draw();
