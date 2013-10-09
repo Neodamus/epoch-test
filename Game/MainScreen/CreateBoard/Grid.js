@@ -128,6 +128,13 @@
 	  }
 	  
 	  
+	  Grid.prototype.damageTaken = function(damage)
+	  {
+	  
+	  }
+	  
+	  
+	  
 	  
 	  Grid.prototype.Draw = function(context, canvas)
 	  {
