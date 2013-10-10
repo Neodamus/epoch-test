@@ -4,47 +4,34 @@ function aura(auraType, sourceUnit) {
 	this.sourceUnit = sourceUnit;
 	
 	this.stats = ability.abilityStats(auraType);
-	/* aura specific ability stats
-	
-		auraRadius (required) -		sets radius of aura
-		
-		auraMode (required) - 		moving: units gain aura effect when in it, lose it when leaving it, no buff
-									proc: units gain buff when entering aura or on turn if aura has a turn proc
-		
-		auraTime - 					number of turns aura is active, 0 if always on
-									
-		auraTarget - 				ally, enemy, or both
-									
-		auraSelf -					true if aura affects sourceUnit
-		
-		auraNumProcs - 				number of times aura can proc per turn
-						
-		auraTurnProc -				true if aura should proc on new turn
-			
-	*/
 	
 	// required properties
 	this.radius = this.stats.auraRadius;
 	this.mode = this.stats.auraMode;
 	
 	// optional properties
-	this.time;
-	this.numProcs;
-	this.turnProc;
+	this.time;						// number of turns aura lasts until turned off
+	this.selfCast;		// needs to be implemented
+	this.target;		// needs to be implemented
+	this.numProcs = 0;					// number of times aura can proc before being turned off
+	this.turnProc;					// true if aura procs on turn
+	this.procsPerTurn;				// number of times aura can proc per turn, infinite if undefined
 	
 	// sets all properties if they're enabled
 	if (this.stats.auraTime != undefined) { this.time = this.stats.auraTime; }
 	if (this.stats.auraNumProcs != undefined) { this.numProcs = this.stats.auraNumProcs; }
 	if (this.stats.auraTurnProc != undefined) { this.turnProc = this.stats.auraTurnProc; }
+	if (this.stats.auraProcsPerTurn != undefined) { this.procsPerTurn = this.stats.auraProcsPerTurn; }
 	
-	this.auraTiles = [];							// tiles affected by aura
-	this.unitsList = [];							// units affected by aura
+	this.auraTiles = [];			// tiles affected by aura -- holds grid
+	this.unitsList = [];			// units affected by aura -- holds unit
 	
 	this.setAuraTiles();
 	
 }
 
 
+// recalculates this.auraTiles -- ran when created and moving
 aura.prototype.setAuraTiles = function() {
 
 	// set new aura tiles
@@ -62,7 +49,7 @@ aura.prototype.setAuraTiles = function() {
 		
 			// if the aura is moving aura, it will remove buffs from old units and add it to new ones; if its proc aura, it will run proc
 			if (this.mode == "moving") {
-				this.unitsList.push(auraUnit.id); 
+				this.unitsList.push(auraUnit); 
 			} else if (this.mode == "proc") {
 				this.proc(auraTile);
 			}
@@ -71,20 +58,49 @@ aura.prototype.setAuraTiles = function() {
 }
 
 
-aura.prototype.proc = function(auraTile) {	
+// turns aura on and off
+aura.prototype.setAura = function(toggle) {
 	
+	switch (toggle) {
+		
+		case "on":
+		
+			this.sourceUnit.newAuras.push(this); 
+			GameBoard.auraList.push(this);
+		
+		break;
+		
+		case "off":
+		
+			this.sourceUnit.newAuras.splice(this.sourceUnit.newAuras.indexOf(this));
+			GameBoard.auraList.splice(GameBoard.auraList.indexOf(this));
+		
+		break;		
+	}
+	
+}
+
+
+// procs aura
+aura.prototype.proc = function(auraTile) {	
+
 	new newBuff(this.auraType, auraTile, this);	
+	
+	if (this.numProcs > 0) { 
+		this.numProcs--; 
+		if (this.numProcs == 0) { this.setAura("off"); }
+	}
 	
 }
 
 
 aura.prototype.turn = function() {
 	
-	if (this.numProcs != null) { this.numProcs = this.stats.auraNumProcs; }
+	if (this.procsPerTurn != null) { this.procsPerTurn = this.stats.auraProcsPerTurn; }
 	
 	if (this.turnProc) { 
 		for (var i = 0; i < this.unitsList.length; i++) {	
-			var auraUnit = GameBoard.returnUnitById(this.unitsList[i]);	
+			var auraUnit = this.unitsList[i];	
 			var gridTile = GridSpot[auraUnit.x][auraUnit.y];
 			if (gridTile != -1) { this.proc(gridTile); }
 		}
@@ -104,8 +120,8 @@ aura.prototype.moveInto = function(gridTile) {
 	
 		case "moving":
 		
-			var id = gridTile.currentUnit.id;		
-			if (this.unitsList.indexOf(id) == -1) { this.unitsList.push(id); }
+			var movingUnit = gridTile.currentUnit;		
+			if (this.unitsList.indexOf(movingUnit) == -1) { this.unitsList.push(movingUnit); }
 		
 		break;	
 		

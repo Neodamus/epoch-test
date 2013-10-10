@@ -50,77 +50,45 @@
 				
 					case "Initialize":
 					
-					if (this.sourceUnit instanceof Unit) {		// initial cast by grovekeeper
+						if (this.sourceUnit instanceof Unit) {		// initial cast by grovekeeper
+							
+							this.sourceUnit.buffList.push(this);
+							
+							var arrowsmith = new aura(this.buffType, this.sourceUnit);
+							this.sourceUnit.setAura(arrowsmith, "on");
+							
+						} 
 						
-						this.sourceUnit.buffList.push(this);
-
-						/* this.aura = new tileModifier(this.attachedUnit, this.buffType);						
-						this.sourceUnit.auras.push(this.aura);
-						this.sourceUnit.auraTileModifier("on", this.aura); */
-						
-					} 
-					
-					if (this.sourceUnit instanceof aura) {
-						
-						if (this.sourceUnit.time == 1) {
-							this.buffStats.duration = 1;
-							this.initializeBuff();
-							this.attachedUnit.currentStats[8]++;	
-						}
-						
-					}
-					/* else if (this.sourceUnit instanceof tileModifier) { 	// give extra attack
-					
-						var grovekeeper = this.sourceUnit.sourceUnit
-					
-						if (this.sourceUnit.stats.lifetime == 1 && this.attachedUnit != grovekeeper) {
-						
-							if (this.attachedUnit.baseStats[6] > 1) {
+						if (this.sourceUnit instanceof aura) {		// turn proc that adds extra attack
+							
+							if (this.sourceUnit.time == 1) {
+								this.buffStats.duration = 1;
 								this.initializeBuff();
-								this.attachedUnit.buffStats[8] += this.buffStats.attacks;
-							}
+								this.attachedUnit.currentStats[8]++;	
+							}						
 						}
-					} */
+										
+					break;
+				
+					case "Turn":					
 					
-				break;
+						this.buffStats.duration--;	
+						if (this.buffStats.duration == 0) {	this.eventProc("Removal"); }
+											
+					break;
 				
-				case "Turn":					
-				
-					this.buffStats.duration--;	
-					if (this.buffStats.duration == 0) {	this.eventProc("Removal"); }			
+					case "Removal":
 					
-				break;
-				
-				/* case "Move":
-				
-					if (this.sourceUnit instanceof tileModifier) {
-						this.eventProc("Removal");
-					}
-				
-				break; */
-				
-				case "Removal":
-				
-					if (this.sourceUnit instanceof Unit) {
-						this.sourceUnit.buffList.splice(this.sourceUnit.buffList.indexOf(this));
-					} else if (this.sourceUnit instanceof aura) {
-						this.removeBuff();	
-					}
-				
-					if (this.sourceUnit instanceof tileModifier) {
-						this.removeBuff();
-						this.removeTileModifier();	
-						this.attachedUnit.buffStats[8] -= this.buffStats.attacks;
-					} else {				
-						/* var rem = listReturnArray(this.sourceUnit.auras, this.aura); 
-						if (rem != -1) { 
-							this.sourceUnit.auraTileModifier("off", this.aura);
-							this.sourceUnit.auras.splice(rem, 1); 
-						} */		
-					}
-				
-				break;
+						if (this.sourceUnit instanceof Unit) {
+							this.sourceUnit.buffList.splice(this.sourceUnit.buffList.indexOf(this));
+						} else if (this.sourceUnit instanceof aura) {
+							this.removeBuff();	
+						}
+					
+					break;
+					
 				}
+				
 			break;
 		
 			case "Ambush":
@@ -753,48 +721,16 @@
 				
 					case "Initialize":
 					
-						if (this.sourceUnit instanceof Unit) {
-														
-						}
-						
-						/* if (this.sourceUnit instanceof tileModifier) {
-							var panic = this.sourceUnit;
-							var nightmare = panic.sourceUnit;
-							
-							if (nightmare.auraTurnProc == false && this.attachedUnit != nightmare) {
-								this.removeTileModifier();
-								
-								if (this.attachedUnit.buffsByString(this.buffType).length == 0) {
-									
-									nightmare.auraTurnProc = true;
-									this.attachedUnit.currentStats[4] = 0;
-								
-									if (ClientsTurn && nightmare.alliance == "ally" ||
-										(ClientsTurn == false && this.attachedUnit.alliance == "ally")) {
-											
-										this.attachedUnit.buffList.push(this);
-										
-									} else if (ClientsTurn && nightmare.alliance == "enemy" ||  
-										(ClientsTurn == false && this.attachedUnit.alliance == "enemy")) {
-										
-										this.buffStats.duration--;
-										this.attachedUnit.buffList.push(this);								
-										
-									}
-								}
-							}
-						} */
-						
 						if (this.sourceUnit instanceof aura) {
 						
 							var panic = this.sourceUnit
 							var nightmare = panic.sourceUnit
 							
-							if (panic.numProcs > 0 && this.attachedUnit.alliance != nightmare.alliance) {
+							if (panic.procsPerTurn > 0 && this.attachedUnit.alliance != nightmare.alliance) {
 							
 								if (this.attachedUnit.buffsByString(this.buffType).length == 0) {
 									
-									panic.numProcs--;
+									panic.procsPerTurn--;
 									this.attachedUnit.currentStats[4] = 0;
 								
 									if (ClientsTurn && nightmare.alliance == "ally" ||
@@ -1031,68 +967,58 @@
 				
 					case "Initialize":
 					
-					if (this.sourceUnit instanceof Unit) {		// initial cast by crossbowman
-						
-						this.initializeBuff();
-						
-						this.attachedUnit.sight("off");
-						this.attachedUnit.buffStats[5] += this.buffStats.sight;
-						this.attachedUnit.currentStats[5] += this.buffStats.sight;
-						this.attachedUnit.sight("on");
-
-						this.aura = new tileModifier(this.attachedUnit, this.buffType);
-						this.aura.attachedBuff = this;
-						
-						this.attachedUnit.auras.push(this.aura);
-						this.attachedUnit.auraTileModifier("on", this.aura);
-						
-					} else if (this.sourceUnit instanceof tileModifier) { 	// shoot someone's face off
-					
-						var xbowman = this.sourceUnit.sourceUnit;						
-						var sentry = this.sourceUnit;
-						
-						if (((ClientsTurn && xbowman.alliance == "enemy" && this.targetSpot.enemyVision.indexOf(xbowman) != -1) || 
-							(ClientsTurn == false && xbowman.alliance == "ally" && this.targetSpot.allyVision.indexOf(xbowman) != -1))
-							&& this.attachedUnit.unitStealth == false)  {
+						if (this.sourceUnit instanceof Unit) {		// initial cast by crossbowman
 							
-							this.attachedUnit.receivePureDamage(this.buffStats.damage, xbowman.baseStats[0]);
-						
-							sentry.stats.attacks--;
-							if (sentry.stats.attacks == 0) {
+							this.initializeBuff();
+							
+							this.attachedUnit.sight("off");
+							this.attachedUnit.buffStats[5] += this.buffStats.sight;
+							this.attachedUnit.currentStats[5] += this.buffStats.sight;
+							this.attachedUnit.sight("on");
+							
+							this.aura = new aura(this.buffType, this.sourceUnit);
+							this.aura.setAura("on");
+							
+						}
+							
+						if (this.sourceUnit instanceof aura) { 		// shoot someone's face off
+											
+							var sentry = this.sourceUnit;
+							var xbowman = this.sourceUnit.sourceUnit;	
+							
+							if (((ClientsTurn && xbowman.alliance == "enemy" && this.targetSpot.enemyVision.indexOf(xbowman) != -1) || 
+								(ClientsTurn == false && xbowman.alliance == "ally" && this.targetSpot.allyVision.indexOf(xbowman) != -1))
+								&& this.attachedUnit.unitStealth == false)  {
 								
-								sentry.attachedBuff.eventProc("Removal");
-								
+								this.attachedUnit.receivePureDamage(this.buffStats.damage, xbowman.baseStats[0]);
 							}
 						}
+					
+					break;
+				
+					case "Move":
+					
+						this.eventProc("Removal");
+					
+					break;
+				
+					case "Turn":
+					
+						this.buffStats.duration--;
+						if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
+					
+					break;
+				
+					case "Removal":
 						
-						this.removeTileModifier();
-					}
+						this.removeBuff();
+						this.aura.setAura("off");
+						this.attachedUnit.buffStats[5] -= this.buffStats.sight;
 					
-				break;
+					break;
 				
-				case "Move":
-				
-					this.eventProc("Removal");
-				
-				break;
-				
-				case "Turn":
-				
-					this.buffStats.duration--;
-					if (this.buffStats.duration == 0) { this.eventProc("Removal"); }
-				
-				break;
-				
-				case "Removal":
-					
-					this.removeBuff();
-					this.sourceUnit.auraTileModifier("off", this.aura);
-					var rem = listReturnArray(this.sourceUnit.auras, this.aura);
-					if (rem != -1) { this.sourceUnit.auras.splice(rem, 1); }
-					this.attachedUnit.buffStats[5] -= this.buffStats.sight;
-				
-				break;
 				}
+				
 			break;			
 			
 			case "Smoke Screen":

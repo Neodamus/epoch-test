@@ -80,7 +80,6 @@
 		
 		this.name = Name;                //not necessary(may need to remove any uses before removing this)
 		this.element = Element; 	     //not necessary(may need to remove any uses before removing this)
-		this.id = id; 		     //not necessary(may need to remove any uses before removing this)
 		
 		
 		//Costs
@@ -230,7 +229,7 @@
 	  }
 
 
-// turns an aura on or off	  
+// turns an aura on or off	------------------------------>>>>>>>> MOVE THIS TO AURA CLASS <<<<<<<<<<  
 Unit.prototype.setAura = function(Aura, toggle) {
 
 	switch (toggle) {

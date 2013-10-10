@@ -296,7 +296,7 @@ ability.prototype.abilityStats = function(abilityName)
 				procsPerTurn: 1,
 				auraRange: 2,
 				auraMode: "proc",
-				auraNumProcs: 1,
+				auraProcsPerTurn: 1,
 				auraRadius: 2,
 				stacks: false,
 				abilityTooltip: ""
@@ -388,13 +388,15 @@ ability.prototype.abilityStats = function(abilityName)
 		case "Sentry": 
 		
 			stats = {
+				auraRadius: 3,
+				auraMode: "proc",
+				auraTime: 3,
+				auraTarget: "enemy",
+				auraNumProcs: 3,
 				cooldown: 3,
 				movementCost: 1,
 				hidden: true,
-				tileTarget: "enemy",
-				auraRange: 3,
 				duration: 2,
-				attacks: 3,
 				damage: 3,
 				sight: 1,
 				abilityTooltip: ""
@@ -575,8 +577,7 @@ ability.prototype.cast = function(ability, sourceSpot) //Ability is clicked-> Ab
 	switch (this.abilityName) {
 	
 		case "Arrowsmith":
-			var tempAura = new aura(this.abilityName, this.sourceUnit);
-			this.sourceUnit.setAura(tempAura, "on");
+			this.castTarget = selfTarget;
 			this.finishCast();
 			finished = true;
 			break;	
