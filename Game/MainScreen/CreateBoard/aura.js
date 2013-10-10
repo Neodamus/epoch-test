@@ -52,7 +52,7 @@ aura.prototype.setAuraTiles = function() {
 	this.auraTiles = GameBoard.AreaSelect(sourceGrid, this.stats.auraRadius);
 	
 	// set new units list
-	this.unitsList.splice();	
+	this.unitsList = [];	
 	for (var i = 0; i < this.auraTiles.length; i++) {
 		
 		var auraTile = this.auraTiles[i];
@@ -103,6 +103,9 @@ aura.prototype.moveInto = function(gridTile) {
 	switch (this.mode) {
 	
 		case "moving":
+		
+			var id = gridTile.currentUnit.id;		
+			if (this.unitsList.indexOf(id) == -1) { this.unitsList.push(id); }
 		
 		break;	
 		

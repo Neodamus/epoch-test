@@ -52,7 +52,6 @@
 					
 					if (this.sourceUnit instanceof Unit) {		// initial cast by grovekeeper
 						
-						this.buffStats.duration--;
 						this.sourceUnit.buffList.push(this);
 
 						/* this.aura = new tileModifier(this.attachedUnit, this.buffType);						
@@ -64,8 +63,9 @@
 					if (this.sourceUnit instanceof aura) {
 						
 						if (this.sourceUnit.time == 1) {
+							this.buffStats.duration = 1;
 							this.initializeBuff();
-							this.attachedUnit.buffStats[8]++;	
+							this.attachedUnit.currentStats[8]++;	
 						}
 						
 					}
@@ -87,7 +87,7 @@
 				case "Turn":					
 				
 					this.buffStats.duration--;	
-					if (this.buffStats.duration <= 0) {	this.eventProc("Removal"); }			
+					if (this.buffStats.duration == 0) {	this.eventProc("Removal"); }			
 					
 				break;
 				
@@ -101,7 +101,11 @@
 				
 				case "Removal":
 				
-					this.sourceUnit.buffList.splice(this.sourceUnit.buffList.indexOf(this));
+					if (this.sourceUnit instanceof Unit) {
+						this.sourceUnit.buffList.splice(this.sourceUnit.buffList.indexOf(this));
+					} else if (this.sourceUnit instanceof aura) {
+						this.removeBuff();	
+					}
 				
 					if (this.sourceUnit instanceof tileModifier) {
 						this.removeBuff();

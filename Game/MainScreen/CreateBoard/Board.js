@@ -272,7 +272,11 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 			for (var i = 0; i < this.tileModifierList.length; i++) { var theSame = this.tileModifierList[i]; this.tileModifierList[i].turnRefresh("ally"); 
 			if (theSame != this.tileModifierList[i]) { i--; } } //fixing index error
 			
-			for (var i = 0; i < this.auraList.length; i++) { this.auraList[i].turn; }
+			for (var i = 0; i < GameBoard.auraList.length; i++) { 
+				if (GameBoard.auraList[i].sourceUnit.alliance == "enemy") {
+					GameBoard.auraList[i].turn(); 
+				}
+			}
 			
 			console.warn("Turn End");
 			ClientsTurn = true; combatLog.push("Turn End");

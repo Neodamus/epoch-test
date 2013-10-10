@@ -193,13 +193,25 @@ Ui.prototype.setTooltips = function() {
 				GameBoard.unitsMovedThisTurn = new Array();
 				
 				for (var i = 0; i < GameBoard.EnemyUnits.length; i++) {  var theSame = GameBoard.EnemyUnits[i]; GameBoard.EnemyUnits[i].turnFunction(); 
-				if (theSame != GameBoard.EnemyUnits[i]) { i--; } } //fixing index error}
+				if (theSame != GameBoard.EnemyUnits[i]) { i--; } } //fixing index error}				
+				
+				for (var i = 0; i < GameBoard.auraList.length; i++) { 
+					if (GameBoard.auraList[i].sourceUnit.alliance == "enemy") {
+						GameBoard.auraList[i].turn(); 
+					}
+				}
 				
 			} else if (GameBoard.gameType == "sandbox") {
 				GameBoard.unitsMovedThisTurn = new Array();
 				
 				for (var i = 0; i < GameBoard.AllyUnits.length; i++) { var theSame = GameBoard.AllyUnits[i]; GameBoard.AllyUnits[i].turnFunction();
-					if (theSame != GameBoard.AllyUnits[i]) { i--; } } //fixing index error}				}
+					if (theSame != GameBoard.AllyUnits[i]) { i--; } } //fixing index error}				}	
+				
+				for (var i = 0; i < GameBoard.auraList.length; i++) { 
+					if (GameBoard.auraList[i].sourceUnit.alliance == "ally") {
+						GameBoard.auraList[i].turn(); 
+					}
+				}
 			}
 			combatLog.push("Turn End.");
 			return; }
