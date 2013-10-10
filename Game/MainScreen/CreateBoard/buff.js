@@ -64,7 +64,8 @@
 					if (this.sourceUnit instanceof aura) {
 						
 						if (this.sourceUnit.time == 1) {
-							this.attachedUnit.currentStats[8]++;	
+							this.initializeBuff();
+							this.attachedUnit.buffStats[8]++;	
 						}
 						
 					}

@@ -62,7 +62,7 @@ aura.prototype.setAuraTiles = function() {
 		
 			// if the aura is moving aura, it will remove buffs from old units and add it to new ones; if its proc aura, it will run proc
 			if (this.mode == "moving") {
-				this.unitsList.push(auraUnit); 
+				this.unitsList.push(auraUnit.id); 
 			} else if (this.mode == "proc") {
 				this.proc(auraTile);
 			}
@@ -83,9 +83,10 @@ aura.prototype.turn = function() {
 	if (this.numProcs != null) { this.numProcs = this.stats.auraNumProcs; }
 	
 	if (this.turnProc) { 
-		for (var i = 0; i < this.unitsList.length; i++) {
-			var gridTile = GridSpot[this.unitsList[i].x][this.unitsList[i].y];
-			this.proc(gridTile);
+		for (var i = 0; i < this.unitsList.length; i++) {	
+			var auraUnit = GameBoard.returnUnitById(this.unitsList[i]);	
+			var gridTile = GridSpot[auraUnit.x][auraUnit.y];
+			if (gridTile != -1) { this.proc(gridTile); }
 		}
 	}
 	

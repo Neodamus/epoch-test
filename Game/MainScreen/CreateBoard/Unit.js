@@ -1,4 +1,4 @@
-	  function Unit(Alliance, Name, x, y, Element, Value) //element& value may not be needed
+	  function Unit(Alliance, Name, x, y, Element, id) //element& value may not be needed
 	  {
 	    this.alliance = Alliance;
 		this.x = x;
@@ -80,7 +80,7 @@
 		
 		this.name = Name;                //not necessary(may need to remove any uses before removing this)
 		this.element = Element; 	     //not necessary(may need to remove any uses before removing this)
-		this.value = Value; 		     //not necessary(may need to remove any uses before removing this)
+		this.id = id; 		     //not necessary(may need to remove any uses before removing this)
 		
 		
 		//Costs
@@ -117,9 +117,7 @@
 			for (var i = 0; i < this.ability.length; i++) {
 				if (this.ability[i].cooldown > 0) { this.ability[i].cooldown--; }
 			}
-			
-			for (var i = 0; i < this.newAuras.length; i++) { this.newAuras[i].turn(); }
-		
+					
 	    }
 	  
 	  

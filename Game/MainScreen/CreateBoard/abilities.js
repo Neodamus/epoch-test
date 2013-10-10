@@ -34,7 +34,7 @@ ability.prototype.abilityStats = function(abilityName)
 				cooldown: 3,
 				movementCost: 1,
 				tileTarget: "ally",
-				duration: 2,
+				duration: 1,
 				attacks: 1,
 				abilityTooltip: ""
 			}
@@ -58,7 +58,7 @@ ability.prototype.abilityStats = function(abilityName)
 		
 			stats = {
 				cooldown: 3,
-				movementCost: 1,
+				movementCost: 2,
 				target: "ally",
 				spellReq: "ally",
 				duration: 2,
@@ -281,7 +281,7 @@ ability.prototype.abilityStats = function(abilityName)
 				turnProc: true,
 				duration: 1,
 				lifetime: 2,
-				range: 4,
+				range: 2,
 				life: 0.25,
 				abilityTooltip: ""
 			}

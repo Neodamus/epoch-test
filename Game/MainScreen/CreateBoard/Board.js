@@ -19,6 +19,8 @@ function Board(userPicks)
 	
 	this.id = "game";
 	
+	this.unitCount = 0; 	// used to set unit id's
+	
 	this.unitMoves = 3;
 	this.unitsMovedThisTurn = new Array();
 	
@@ -269,6 +271,9 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 			
 			for (var i = 0; i < this.tileModifierList.length; i++) { var theSame = this.tileModifierList[i]; this.tileModifierList[i].turnRefresh("ally"); 
 			if (theSame != this.tileModifierList[i]) { i--; } } //fixing index error
+			
+			for (var i = 0; i < this.auraList.length; i++) { this.auraList[i].turn; }
+			
 			console.warn("Turn End");
 			ClientsTurn = true; combatLog.push("Turn End");
 			break;
@@ -284,10 +289,12 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 	  Board.prototype.CreateUnit = function(Alliance, Name, x, y, value1, value2)
 	  {
 		if (Alliance == "ally") { 
-			this.AllyUnits.push(new Unit(Alliance, Name, x, y, value1, value2)); 
+			this.AllyUnits.push(new Unit(Alliance, Name, x, y, value1, this.unitCount));
+			this.unitCount++; 
 			return this.AllyUnits[this.AllyUnits.length - 1];
 		} else {
 			this.EnemyUnits.push(new Unit(Alliance, Name, x, y, value1, value2));
+			this.unitCount++;
 			return this.EnemyUnits[this.EnemyUnits.length - 1];
 		}
 		
@@ -343,6 +350,16 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 			}
 		}
 	  }
+
+// returns a unit by the id thats put into it, returns -1 if no unit by that id is found  
+Board.prototype.returnUnitById = function(id) {
+
+	for (var i = 0; i < this.AllyUnits.length; i++) { if (this.AllyUnits[i].id == id) { return this.AllyUnits[i]; } }
+	for (var i = 0; i < this.EnemyUnits.length; i++) { if (this.EnemyUnits[i].id == id) { return this.EnemyUnits[i]; } }
+	
+	return -1;
+	
+}
 	 
 	  
 
