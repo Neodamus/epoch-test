@@ -306,6 +306,7 @@ Unit.prototype.setAura = function(Aura, toggle) {
 				} }
 				
 			}
+			this.reveal("on");
 	   }
 	   
 	    Unit.prototype.stealth = function(Toggle, noStealthReason)
