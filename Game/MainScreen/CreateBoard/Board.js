@@ -96,24 +96,41 @@ Board.prototype.spawnZones = function(toggle) {
 //Handle Clicks
 Board.prototype.ClickGrid = function(Mouse, WhichClick)
 {
-	if (WhichClick == "2") { ability.removeMarkers(); Ui.abilityClickOff(); } //Ability stuff
+	if (WhichClick == "2") {
+		ability.removeMarkers(); Ui.abilityClickOff(); 
+		if (CurrentSelectedGrid != null && CurrentSelectedGrid.currentUnit != null) {
+		
+			CurrentSelectedGrid.Select("on"); 
+		}
+	} 
+	//Ability stuff
 	//Turn off Selection
-	if (WhichClick == "0" && CurrentSelectedGrid != null) { CurrentSelectedGrid.Select("off"); Ui.currentStats = null; } // unless casting ability
+	if (WhichClick == "0" && CurrentSelectedGrid != null) { 
+	
+		CurrentSelectedGrid.Select("off");
+		if (ability.castMode == false){  Ui.purge(); }
+	
+	} // unless casting ability
+	
+	
 	CurrentTarget = null;
 	
 	//Unit Placement
 	if (PlacementStage == true) {this.UnitPlacement(Mouse, WhichClick); }
 	
-	//Turn On Selection
-	if (WhichClick == "0" && this.WhichGrid(Mouse, WhichClick) == true && ability.castMode == false)
-	{ 
-	CurrentSelectedGrid.Select("on"); 
-	if (CurrentSelectedGrid.currentUnit != null && CurrentSelectedGrid.allyVision.length > 0) { 
-		if (CurrentSelectedGrid.currentUnit.alliance == "ally" || CurrentSelectedGrid.currentUnit.unitStealth == false) {
-			Ui.currentStats = CurrentSelectedGrid.currentUnit.baseStats;
-			Ui.currentUnit = CurrentSelectedGrid.currentUnit; Ui.setTooltips();
-		}
-	}
+		//Turn On Selection
+		if (WhichClick == "0" && this.WhichGrid(Mouse, WhichClick) == true && ability.castMode == false) {
+		
+		CurrentSelectedGrid.Select("on"); 
+		if (CurrentSelectedGrid.currentUnit != null && (CurrentSelectedGrid.allyVision.length > 0 || this.observer == true)) {
+		
+			if (CurrentSelectedGrid.currentUnit.alliance == "ally" || CurrentSelectedGrid.currentUnit.unitStealth == false) {
+			
+				Ui.currentStats = CurrentSelectedGrid.currentUnit.baseStats;
+				Ui.currentUnit = CurrentSelectedGrid.currentUnit; Ui.setTooltips();
+			}
+		} //else { Ui.purge; }
+		
 	}
 	
 	if (ClientsTurn == true && ability.castMode == false) {
@@ -136,6 +153,7 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 	}
 	
 	if (CurrentSelectedGrid != null && CurrentSelectedGrid.selected == false) { ability.removeMarkers(); Ui.abilityClickOff(); } //Ability stuff  
+	
 }
 
 	  	  //Used by ClickGridfunction to determine which grid is clicked

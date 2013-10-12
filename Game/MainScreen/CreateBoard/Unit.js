@@ -70,6 +70,7 @@
 		this.unitStealth = false;
 		this.summon = false;
 		this.turnCost = true;
+		this.canCast = true;
 		
 		this.attackReq = "local";
 		this.spellReq = "global";

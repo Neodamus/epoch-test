@@ -673,6 +673,7 @@
 												
 						image.summon = true;
 						image.turnCost = false;
+						image.canCast = false;
 						image.sight("on");
 					
 						targetSpot.currentUnit = image;
@@ -700,7 +701,7 @@
 							Instructions.push("on");
 							Instructions.push( mistTiles );
 							Trap.affectedTiles(Instructions);
-								
+							
 						}					
 						
 						if (this.sourceUnit instanceof tileModifier) {

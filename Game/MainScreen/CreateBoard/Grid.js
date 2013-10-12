@@ -194,8 +194,9 @@
 		if (this.abilityMarker == true) { context.drawImage( Images[9],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		context.globalAlpha = 0.35;
 		if (this.selected == true) { context.drawImage( Images[3],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
-		context.globalAlpha = 0.35;
+		context.globalAlpha = 0.25;
 		if (this.moveMarker == true) { context.drawImage( Images[5],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
+		context.globalAlpha = 0.8;
 		if (this.attackMarker == true) { context.drawImage( Images[6],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
 		context.globalAlpha = 1;
 		if (this.abilitySelectMarker == true) { context.drawImage( Images[13],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);}
@@ -210,12 +211,7 @@
 		context.globalAlpha = 1;}
 		
 		
-		if (CurrentSelectedGrid != undefined && CurrentSelectedGrid.currentUnit != null && 
-		CurrentSelectedGrid.currentUnit.alliance != "enemy" &&
-		this.visible == true && listContains(this.allyVision, CurrentSelectedGrid.currentUnit) == false) { 
-			context.globalAlpha = 0.2;
-		context.drawImage(Images[7],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
-		context.globalAlpha = 1; }
+		
 		
 		
 		//Unit Stats
@@ -281,12 +277,13 @@
 				context.fillText(this.lifeChangeList[i].life.toString(), this.ThisRectangle.x + this.ThisRectangle.width - this.ThisRectangle.width * 0.30, this.ThisRectangle.y + this.ThisRectangle.height * 0.4 - this.lifeChangeList[i].position * 0.5);
 			}
 		}
-		context.globalAlpha = 1;
+		
 		}
 		
 		if (this.visible == true) {
 		if (this.abilityCastList.length > 0) {
 			this.castAnimation++;
+			context.globalAlpha = 0.9;
 			context.font = '10px outline';
 			context.fillStyle = "purple";
 			context.lineWidth=4.2;
@@ -294,6 +291,14 @@
 			context.fillText(this.abilityCastList[0], this.ThisRectangle.x - this.ThisRectangle.width * 0.40, this.ThisRectangle.y + this.ThisRectangle.height * 0.6);
 			if (this.castAnimation >= 70) { this.abilityCastList.splice(0, 1); this.castAnimation = 0;}
 		} }
+		context.globalAlpha = 1;
+		//dull vision except for selected unit's
+		if (CurrentSelectedGrid != undefined && CurrentSelectedGrid.currentUnit != null && 
+		CurrentSelectedGrid.currentUnit.alliance != "enemy" &&
+		this.visible == true && listContains(this.allyVision, CurrentSelectedGrid.currentUnit) == false) { 
+			context.globalAlpha = 0.3;
+		context.drawImage(Images[7],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
+		context.globalAlpha = 1; }
 		
 		context.restore();
 		//this.centreRect.draw();
