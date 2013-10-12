@@ -35,6 +35,8 @@
 		this.enemyVision = new Array();
 		
 		this.lifeChangeList = new Array();
+		this.abilityCastList = new Array();
+		this.castAnimation = 0;
 		
 		this.currentUnit;				// current unit on tile
 	  }
@@ -245,7 +247,7 @@
 		// this.ThisRectangle.draw();   // used to see grid numbers with line 10
 		
 		
-		//testing
+		//temporary animation
 		for (var i = 0; i < this.lifeChangeList.length; i++) {
 		
 			if (i == 0 && this.lifeChangeList[0].animation == "off") { this.lifeChangeList[0].animation = "on"; }
@@ -255,7 +257,7 @@
 			if (this.lifeChangeList[i].position == 35 || this.lifeChangeList[i].position == 40 || this.lifeChangeList[i].position == 60 || this.lifeChangeList[i].position == 65 || this.lifeChangeList[i].position == 70) 
 			{ this.lifeChangeList[i].fade -= 0.2; }
 			
-			if (this.lifeChangeList[i + 1] != undefined && this.lifeChangeList[i].position > 12) { this.lifeChangeList[i + 1].animation = "on"; }
+			if (this.lifeChangeList[i + 1] != undefined && this.lifeChangeList[i].position > 22) { this.lifeChangeList[i + 1].animation = "on"; }
 			}
 				
 			if (this.lifeChangeList[i].position > 72) {
@@ -274,12 +276,23 @@
 				context.globalAlpha = this.lifeChangeList[i].fade;
 				context.lineWidth=4.2;
 
-				context.strokeText(this.lifeChangeList[i].life.toString(), this.ThisRectangle.x + this.ThisRectangle.width - this.ThisRectangle.width * 0.30, this.ThisRectangle.y + this.ThisRectangle.height * 0.4 - this.lifeChangeList[i].position);
-				context.fillText(this.lifeChangeList[i].life.toString(), this.ThisRectangle.x + this.ThisRectangle.width - this.ThisRectangle.width * 0.30, this.ThisRectangle.y + this.ThisRectangle.height * 0.4 - this.lifeChangeList[i].position);
+				context.strokeText(this.lifeChangeList[i].life.toString(), this.ThisRectangle.x + this.ThisRectangle.width - this.ThisRectangle.width * 0.30, this.ThisRectangle.y + this.ThisRectangle.height * 0.4 - this.lifeChangeList[i].position * 0.5);
+				context.fillText(this.lifeChangeList[i].life.toString(), this.ThisRectangle.x + this.ThisRectangle.width - this.ThisRectangle.width * 0.30, this.ThisRectangle.y + this.ThisRectangle.height * 0.4 - this.lifeChangeList[i].position * 0.5);
 			}
 		}
 		context.globalAlpha = 1;
 		}
+		
+		if (this.visible == true) {
+		if (this.abilityCastList.length > 0) {
+			this.castAnimation++;
+			context.font = '10px outline';
+			context.fillStyle = "purple";
+			context.lineWidth=4.2;
+			context.strokeText(this.abilityCastList[0], this.ThisRectangle.x - this.ThisRectangle.width * 0.40, this.ThisRectangle.y + this.ThisRectangle.height * 0.6);
+			context.fillText(this.abilityCastList[0], this.ThisRectangle.x - this.ThisRectangle.width * 0.40, this.ThisRectangle.y + this.ThisRectangle.height * 0.6);
+			if (this.castAnimation >= 70) { this.abilityCastList.splice(0, 1); this.castAnimation = 0;}
+		} }
 		
 		context.restore();
 		//this.centreRect.draw();

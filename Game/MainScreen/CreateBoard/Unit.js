@@ -595,7 +595,12 @@ Unit.prototype.place = function(NewGridSpot) {
 			}  
 	}
 }
+
+	  Unit.prototype.casted = function(abilityName)
+	  {
+		GridSpot[this.x][this.y].abilityCastList.push(abilityName);
 	  
+	  }
 	  
 	  
 	   Unit.prototype.gridRevealer = function(Toggle, unit)

@@ -974,7 +974,8 @@ ability.prototype.finishCast = function() {
 	if (ClientsTurn) { this.sendAbility(); }	// must be before removeMarkers	
 	
 	combatLog.push(ability.sourceUnit.name + " has casted ability(" + ability.abilityName + ").");	
-		
+	this.sourceUnit.casted(this.abilityName);//for the cast animation.
+	
 	if (this.castTargetList.length == 0) {				
 		new newBuff (this.abilityName, this.castTarget, this.sourceUnit);
 	} else {

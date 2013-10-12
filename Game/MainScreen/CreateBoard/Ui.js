@@ -97,7 +97,7 @@ Ui.prototype.setTooltips = function() {
 	  
 	  //Ability was clicked
 	  Ui.prototype.useAbility = function(from, oldSpot) { 
-	  
+		
 	     if (this.currentUnit != null || oldSpot != null){
 		 switch(from) {
 		 
@@ -163,7 +163,7 @@ Ui.prototype.setTooltips = function() {
 		 
 			//switch gamestate was clicked
 		  if (this.startGameBox.Contains(Mouse) == true){
-			if (PlacementStage == true) { PlacementStage = false;  GameBoard.observer = false; ClientsTurn = true; }
+			if (PlacementStage == true) { this.sandBoxUiToggle(); }
 			   else{ PlacementStage = true; GameBoard.observer = true; ClientsTurn = false; } 
 				return true;}
 				
@@ -232,8 +232,14 @@ Ui.prototype.setTooltips = function() {
 		}
 		 
 		 //If click is on Ui, Don't proceed to board-clicks
+		 if (PlacementStage == true && this.standardUiBox.Contains(Mouse) && GameBoard.gameType == "sandbox") { this.sandBoxUiToggle(); }
 		 if (this.unitUiBox != null && this.unitUiBox.Contains(Mouse) == true && PlacementStage == true || this.standardUiBox.Contains(Mouse) == true){ 
 		 if (this.standardUiBox.Contains(Mouse) == true && ClientsTurn == true) {this.useAbility("ui", null);} return true; }
+	  }
+	  
+	   Ui.prototype.sandBoxUiToggle = function() {
+	   
+			PlacementStage = false;  GameBoard.observer = false; ClientsTurn = true;
 	  }
 	  
 	  //Turn ability selection off
