@@ -39,7 +39,7 @@
 	  currentScreen = { id: "blank" }	  
 	  
 	  LoadImageContent();
-	  UnitStats = UnitStats(); //initialize unitstats
+	  UnitStats = new UnitStats(); //initialize unitstats
 	  
 	  //Start Draw updates
 	  globalFont = (Canvas.height * 0.031).toString() + 'px FLORI';
@@ -117,6 +117,13 @@
 	  Images[37].src = "Game/Images/Units/theurgist.png";
 	  Images[38].src = "Game/Images/Units/healer.png";
 	  Images[39].src = "Game/Images/Units/rainmaker.png";
+	  
+	  // generals
+	  Images[50].src = "Game/Images/Units/phoenix.png";
+	  Images[51].src = "Game/Images/Units/djinn.png";
+	  Images[52].src = "Game/Images/Units/furion.png";
+	  Images[53].src = "Game/Images/Units/odin.png";
+	  Images[54].src = "Game/Images/Units/leviathan.png";
 	  
 	  Images[100].src = "Game/Images/Menus/login.png"
 	  Images[101].src = "Game/Images/Menus/login-button.png"	

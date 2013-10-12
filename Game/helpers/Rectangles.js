@@ -1,9 +1,14 @@
-function Rectangle(x, y, width, height) {
+function Rectangle(x, y, width, height, image) {
 	  		  
 	this.x = x;
 	this.y = y;
 	this.width = width;
 	this.height = height;
+	this.image;
+	this.hasImage = false;
+	
+	if (image != undefined) { this.image = image; }
+	
 	this.clicked = false;
 	this.customValue = new Array();
 	
@@ -17,8 +22,6 @@ function Rectangle(x, y, width, height) {
 	
 	this.boxColor = "#000";
 	
-	this.hasImage = false
-	this.image
 	
 	this.button;
 	

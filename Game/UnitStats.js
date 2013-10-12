@@ -12,8 +12,98 @@ Crossbowman, Sharpshooter, Ranger, Grovekeeper, 	 			//earth units
 Charger, Ironfist, Inductor, Titan,                  			//lightning units
 IceSpirit, Theurgist, Healer, Rainmaker);			 			//water units
 
+this.generals = [];
+this.initializeStats("generals");
+
 Summons = new Array(
 MirrorImage, FieryEye);
+}
+
+UnitStats.prototype.initializeStats = function(unitType) {
+	
+	switch (unitType) {
+		
+		case "generals":
+		
+			this.generals.push({
+				name: "Phoenix",
+				image: Images[50],
+				life: 18,
+				damage: 7,
+				defense: 4,
+				speed: 5,
+				sight: 5,
+				reveal: 2,
+				attacks: 1,
+				blocks: 3,
+				castAbilities: ["Sixth Sense", "Heat Shield", "Meteor"],
+				element: "Fire"			
+			});	
+		
+			this.generals.push({
+				name: "Djinn",
+				image: Images[51],
+				life: 18,
+				damage: 7,
+				defense: 4,
+				speed: 5,
+				sight: 5,
+				reveal: 2,
+				attacks: 1,
+				blocks: 3,
+				castAbilities: ["Sixth Sense", "Heat Shield", "Meteor"],
+				element: "Air"			
+			});	
+		
+			this.generals.push({
+				name: "Furion",
+				image: Images[52],
+				life: 18,
+				damage: 7,
+				defense: 4,
+				speed: 5,
+				sight: 5,
+				reveal: 2,
+				attacks: 1,
+				blocks: 3,
+				castAbilities: ["Sixth Sense", "Heat Shield", "Meteor"],
+				element: "Earth"			
+			});	
+		
+			this.generals.push({
+				name: "Odin",
+				image: Images[53],
+				life: 18,
+				damage: 7,
+				defense: 4,
+				speed: 5,
+				sight: 5,
+				reveal: 2,
+				attacks: 1,
+				blocks: 3,
+				castAbilities: ["Sixth Sense", "Heat Shield", "Meteor"],
+				element: "Lightning"			
+			});	
+		
+			this.generals.push({
+				name: "Leviathan",
+				image: Images[54],
+				life: 18,
+				damage: 7,
+				defense: 4,
+				speed: 5,
+				sight: 5,
+				reveal: 2,
+				attacks: 1,
+				blocks: 3,
+				castAbilities: ["Sixth Sense", "Heat Shield", "Meteor"],
+				element: "Water"			
+			});			
+		
+		break;
+		
+	}
+	
 }
 
 function returnUnitStats(name)

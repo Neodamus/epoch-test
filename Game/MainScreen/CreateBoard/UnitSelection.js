@@ -1,6 +1,6 @@
 	   function SelectionScreen()
 	  {
-		  this.id = "selection"	  
+		this.id = "selection"	  
 		
 		this.waiting = false;	// true if waiting for another player to join
 		  
@@ -8,9 +8,15 @@
 		this.ClickedObject = this.MainUnitBox;
 		this.Element; this.Value = -1;
 		this.pickRectangles;
-		this.currentPick = 0;
-		this.enemyPick = 0;
 		
+		this.allyPicks = [];	// holds generals for now --- should hold all units later
+		this.enemyPicks = [];
+		
+		this.unitsShown = "units";  // units if showing units, generals if showing generals
+		this.unitSelectionBoxes = [];
+		
+		this.currentPick = 0;
+		this.enemyPick = 0;		
 		this.numPicks = 9;	// replaces numberOfUnits
 		
 		this.pickOrder = [9, 9, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1]; 	// holds the pick order array
@@ -92,7 +98,7 @@
 				  
 				  this.currentPick++;
 				  this.pickCount--;
-				  }
+				  }	
 				  
 		  }
 	  }
@@ -123,6 +129,13 @@
 					alert("Please pick " + this.pickCount + " more unit(s)")
 					
 				}
+				
+			} else if (this.currentPick == this.numPicks) {   // generals pick
+ 
+ 				this.unitsShown = "generals";
+				this.createUnitSelectionBoxes();
+				
+				sendPacket("endTurn");
  
 			} else {	// end phase		
 			
@@ -148,8 +161,9 @@
 	  }
 	  
 	  
-	  SelectionScreen.prototype.UnitClicked = function(Mouse)
-	  {
+SelectionScreen.prototype.UnitClicked = function(Mouse) {
+	
+	if (this.unitsShown == "units") {
 		if (this.ClickedObject != null) {this.ClickedObject.clicked = false;}
 		for (var i = 0; i < this.ClickableRectangles.length; i++)
 		{
@@ -167,7 +181,17 @@
 		{
 		 this.DisplayStats(this.ClickedObject.customValue[0], this.ClickedObject.customValue[1]);
 		}
-	  }
+		
+	} else if (this.unitsShown == "generals") {
+	
+		for (var i = 0; i < this.unitSelectionBoxes.length; i++) {
+		
+			if (this.unitSelectionBoxes[i].Contains(_.mouse)) { this.ClickedObject = this.unitSelectionBoxes[i]; }
+			
+		}
+		
+	}
+}
 	  
 	  
 	  //Sets the stats variables to selected unit.
@@ -213,20 +237,49 @@
 
 		
 		//Draw Units
-		for (var i = 0; i < this.ClickableRectangles.length; i++)
-		{
-			context.drawImage(Images[ReturnUnitImage(this.ClickableRectangles[i].customValue[0][this.ClickableRectangles[i].customValue[1]][0])], this.ClickableRectangles[i].x, this.ClickableRectangles[i].y, this.ClickableRectangles[i].width, this.ClickableRectangles[i].height);
+		if (this.unitsShown == "units") {
+			for (var i = 0; i < this.ClickableRectangles.length; i++)
+			{
+				context.drawImage(Images[ReturnUnitImage(this.ClickableRectangles[i].customValue[0][this.ClickableRectangles[i].customValue[1]][0])], this.ClickableRectangles[i].x, this.ClickableRectangles[i].y, this.ClickableRectangles[i].width, this.ClickableRectangles[i].height);
+			}
+		} else if (this.unitsShown == "generals") {
+			
+			for (var i = 0; i < this.unitSelectionBoxes.length; i++) {
+				
+				var box = this.unitSelectionBoxes[i];
+			
+				_.context.drawImage(box.image, box.x, box.y, box.width, box.height);
+				
+			}
+				
 		}
 		//End Draw units
 		
 		//Draw Selected Unit
-		if (this.ClickedObject != null && this.ClickedObject.clicked == true) 
-		{ 
-			context.drawImage(Images[3], this.ClickedObject.x, this.ClickedObject.y, this.ClickedObject.width, this.ClickedObject.height);
-			context.fillStyle = "Black";
-			for (var i = 0; i < this.Stats.length; i++)
-			{
-				context.fillText(this.Stats[i], this.StatsInfoBox.x, this.StatsInfoBox.y + (i * 13) + 30);
+		if (this.unitsShown == "units") {
+			if (this.ClickedObject != null && this.ClickedObject.clicked == true) 
+			{ 
+				context.drawImage(Images[3], this.ClickedObject.x, this.ClickedObject.y, this.ClickedObject.width, this.ClickedObject.height);
+				context.fillStyle = "Black";
+				for (var i = 0; i < this.Stats.length; i++)
+				{
+					context.fillText(this.Stats[i], this.StatsInfoBox.x, this.StatsInfoBox.y + (i * 13) + 30);
+				}
+				
+			}
+			
+		} else if (this.unitsShown == "generals") {
+		
+			if (this.ClickedObject != null) {
+				
+				var selection = this.ClickedObject;
+				var selectionX = selection.x - selection.width * 0.05;
+				var selectionY = selection.y - selection.height * 0.05;
+				var selectionWidth = selection.width * 1.1;
+				var selectionHeight = selection.height * 1.1;
+			
+				_.context.drawImage(Images[3], selectionX, selectionY, selectionWidth, selectionHeight);
+				
 			}
 			
 		}
@@ -399,6 +452,103 @@
 			}
 		}
 	  }
+
+
+// creates all of the boxes for the unit selections	  
+SelectionScreen.prototype.createUnitSelectionBoxes = function() {
+	
+	this.ClickedObject = null;
+	this.unitSelectionBoxes = [];
+	
+	if (this.unitsShown == "units") {
+		
+	} else if (this.unitsShown == "generals") {
+		
+		var fireCount = 0;
+		var airCount = 0;
+		var earthCount = 0;
+		var lightningCount = 0;
+		var waterCount = 0;
+		
+		var vspacer = this.FireUnitBox.height * 0.05;
+		var boxWidth = this.FireUnitBox.width * 0.4;
+		var boxHeight = boxWidth;
+	
+		var fireUnitX = this.FireUnitBox.x + this.FireUnitBox.width * 0.3;
+		var fireUnitY = this.FireUnitBox.y + this.FireUnitBox.height * 0.05;
+	
+		var airUnitX = this.AirUnitBox.x + this.AirUnitBox.width * 0.3;
+		var airUnitY = this.AirUnitBox.y + this.AirUnitBox.height * 0.05;
+	
+		var earthUnitX = this.EarthUnitBox.x + this.EarthUnitBox.width * 0.3;
+		var earthUnitY = this.EarthUnitBox.y + this.EarthUnitBox.height * 0.05;
+	
+		var lightningUnitX = this.LightningUnitBox.x + this.LightningUnitBox.width * 0.3;
+		var lightningUnitY = this.LightningUnitBox.y + this.LightningUnitBox.height * 0.05;
+	
+		var waterUnitX = this.WaterUnitBox.x + this.WaterUnitBox.width * 0.3;
+		var waterUnitY = this.WaterUnitBox.y + this.WaterUnitBox.height * 0.05;
+		
+		for (var i = 0; i < UnitStats.generals.length; i++) {
+		
+			var currentUnit = UnitStats.generals[i];
+			var unitBox;
+			
+			switch (currentUnit.element) {
+				
+				case "Fire":
+				
+					unitBox = new Rectangle(fireUnitX, fireUnitY + (boxHeight + vspacer) * fireCount, boxWidth, boxHeight, currentUnit.image);
+				
+					this.unitSelectionBoxes.push(unitBox);
+					fireCount++;
+				
+				break;
+				
+				case "Air":
+				
+					unitBox = new Rectangle(airUnitX, airUnitY + (boxHeight + vspacer) * airCount, boxWidth, boxHeight, currentUnit.image);
+				
+					this.unitSelectionBoxes.push(unitBox);
+					airCount++;
+				
+				break;
+				
+				case "Earth":
+				
+					unitBox = new Rectangle(earthUnitX, earthUnitY + (boxHeight + vspacer) * earthCount, boxWidth, boxHeight, currentUnit.image);
+				
+					this.unitSelectionBoxes.push(unitBox);
+					earthCount++;
+				
+				break;
+				
+				case "Lightning":
+				
+					unitBox = new Rectangle(lightningUnitX, lightningUnitY + (boxHeight + vspacer) * lightningCount, 
+						boxWidth, boxHeight, currentUnit.image);
+				
+					this.unitSelectionBoxes.push(unitBox);
+					lightningCount++;
+				
+				break;
+				
+				case "Water":
+				
+					unitBox = new Rectangle(waterUnitX, waterUnitY + (boxHeight + vspacer) * waterCount, boxWidth, boxHeight, currentUnit.image);
+				
+					this.unitSelectionBoxes.push(unitBox);
+					waterCount++;
+				
+				break;
+				
+			}
+			
+		}
+		
+	}
+	
+}
 	 
 
 	 
