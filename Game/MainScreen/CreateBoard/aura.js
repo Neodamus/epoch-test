@@ -154,6 +154,6 @@ aura.prototype.draw = function() {
 	for (var i = 0; i < this.auraTiles.length; i++) {
 		var auraTile = this.auraTiles[i];
 		_.context.globalAlpha = 0.5;
-		_.context.drawImage(Images[10], auraTile.Positionx, auraTile.Positiony, auraTile.width, auraTile.height);		
+		_.context.drawImage(Images[10], auraTile.ThisRectangle.x, auraTile.ThisRectangle.y, auraTile.ThisRectangle.width, auraTile.ThisRectangle.height);		
 	}	
 }

@@ -374,70 +374,72 @@ Ui.prototype.setTooltips = function() {
 		
 		context.save();
 		context.font = '15px Arial';
-
-		//Display unitStats
-		if (this.currentStats != null && this.currentUnit != null) {
-		var stats;
-		if (this.currentUnit.displayStats == true && this.currentUnit.alliance == "enemy") { stats = this.currentUnit.fakeStats; } else { stats = this.currentUnit.currentStats; }
 		
-		context.fillStyle = "White"; for (var i = 0; i < stats.length; i++) { if (i < 10) {
-		var extra = " ";
-		if (i == 0) { extra = ""; } //Name: 
-		if (i == 1) { extra = "Life: "; }
-		if (i == 2) { extra = "Damage: "; }
-		if (i == 3) { extra = "Defence: "; }
-		if (i == 4) { extra = "Speed: "; }
-		if (i == 5) { extra = "Sight: "; }
-		if (i == 6) { extra = "Range: "; }
-		if (i == 7) { extra = "Reveal: "; }
-		if (i == 8) { extra = "Attacks: "; }
-		if (i == 9) { extra = "Blocks: "; }
-		if (i != 0) {
-		var totalStat = " / " + this.currentUnit.baseStats[i]; 
-		if (this.currentUnit.displayStats == true) { totalStat = " / " + this.currentUnit.fakeStats[i]; } //this shou be changed
-		} else { var totalStat = ""; }
+		if (this.currentUnit != null && (GridSpot[this.currentUnit.x][this.currentUnit.y].visible == true || GameBoard.observer == true) ) {
 		
-		
-		var totalString = extra + stats[i] + totalStat;
-		context.fillText(totalString, this.standardUiBox.x + 1, this.standardUiBox.y + (i * 23) + 60); } }
-		
-		//Display Unit Abilities
-		for (var i = 0; i < this.currentUnit.ability.length; i++) { //may need reworking
-		
-			if (this.currentUnit.ability[i].name != null && this.currentUnit.ability[i].name != "" && this.currentUnit.ability[i].name != "None") {
-				context.fillStyle = this.currentAbilities[i].customValue[0]; 
-					
-				this.currentAbilities[i].draw(); //draws as many boxes as there are abilities
-					
-				context.fillStyle = "White";
-				context.fillText(this.currentUnit.ability[i].name, this.currentAbilities[i].x + 1, this.currentAbilities[i].y + 13); //draws text on the abilities-^
-					
-				if (this.currentUnit.ability[i].cooldown > 0) {
-				context.globalAlpha = 0.3;
-				context.fillStyle = "Gray";
-				context.fillRect(this.currentAbilities[i].x, this.currentAbilities[i].y, this.currentAbilities[i].width, this.currentAbilities[i].height);
-				context.fillStyle = "White";
-				context.globalAlpha = 1;
-				context.fillText(this.currentUnit.ability[i].cooldown, this.currentAbilities[i].x + this.currentAbilities[i].width - 20, this.currentAbilities[i].y + 13); }
+			//Display unitStats
+			if (this.currentStats != null && this.currentUnit != null) {
+			var stats;
+			if (this.currentUnit.displayStats == true && this.currentUnit.alliance == "enemy") { stats = this.currentUnit.fakeStats; } else { stats = this.currentUnit.currentStats; }
+			
+			context.fillStyle = "White"; for (var i = 0; i < stats.length; i++) { if (i < 10) {
+			var extra = " ";
+			if (i == 0) { extra = ""; } //Name: 
+			if (i == 1) { extra = "Life: "; }
+			if (i == 2) { extra = "Damage: "; }
+			if (i == 3) { extra = "Defence: "; }
+			if (i == 4) { extra = "Speed: "; }
+			if (i == 5) { extra = "Sight: "; }
+			if (i == 6) { extra = "Range: "; }
+			if (i == 7) { extra = "Reveal: "; }
+			if (i == 8) { extra = "Attacks: "; }
+			if (i == 9) { extra = "Blocks: "; }
+			if (i != 0) {
+			var totalStat = " / " + this.currentUnit.baseStats[i]; 
+			if (this.currentUnit.displayStats == true) { totalStat = " / " + this.currentUnit.fakeStats[i]; } //this shou be changed
+			} else { var totalStat = ""; }
+			
+			
+			var totalString = extra + stats[i] + totalStat;
+			context.fillText(totalString, this.standardUiBox.x + 1, this.standardUiBox.y + (i * 23) + 60); } }
+			
+			//Display Unit Abilities
+			for (var i = 0; i < this.currentUnit.ability.length; i++) { //may need reworking
+			
+				if (this.currentUnit.ability[i].name != null && this.currentUnit.ability[i].name != "" && this.currentUnit.ability[i].name != "None") {
+					context.fillStyle = this.currentAbilities[i].customValue[0]; 
+						
+					this.currentAbilities[i].draw(); //draws as many boxes as there are abilities
+						
+					context.fillStyle = "White";
+					context.fillText(this.currentUnit.ability[i].name, this.currentAbilities[i].x + 1, this.currentAbilities[i].y + 13); //draws text on the abilities-^
+						
+					if (this.currentUnit.ability[i].cooldown > 0 && this.currentUnit.alliance == "ally") {
+					context.globalAlpha = 0.3;
+					context.fillStyle = "Gray";
+					context.fillRect(this.currentAbilities[i].x, this.currentAbilities[i].y, this.currentAbilities[i].width, this.currentAbilities[i].height);
+					context.fillStyle = "White";
+					context.globalAlpha = 1;
+					context.fillText(this.currentUnit.ability[i].cooldown, this.currentAbilities[i].x + this.currentAbilities[i].width - 20, this.currentAbilities[i].y + 13); }
+				}
+			} 
+			
+			context.restore();
+			//Display Unit Buffs
+			
+			for (var i = 0; i < this.currentUnit.buffList.length; i++) { //may need reworking
+			if (this.currentBuffs.length > i) { this.currentBuffs[i].draw();
+				context.font = '7px Arial';
+			context.fillStyle = "White";
+				context.fillText(this.currentUnit.buffList[i].buffType, this.currentBuffs[i].x, this.currentBuffs[i].y + 8 + ((i % 4) * 5));
+				context.font = '13px Arial';
+				context.fillStyle = "Yellow";
+				if (this.currentUnit.buffList[i].buffStats.duration != undefined) {
+				context.fillText(this.currentUnit.buffList[i].buffStats.duration, this.currentBuffs[i].x + 14, this.currentBuffs[i].y + 22); }
 			}
-		} 
+			} }
 		
-		context.restore();
-		//Display Unit Buffs
-		
-		for (var i = 0; i < this.currentUnit.buffList.length; i++) { //may need reworking
-		if (this.currentBuffs.length > i) { this.currentBuffs[i].draw();
-			context.font = '7px Arial';
-		context.fillStyle = "White";
-			context.fillText(this.currentUnit.buffList[i].buffType, this.currentBuffs[i].x, this.currentBuffs[i].y + 8 + ((i % 4) * 5));
-			context.font = '13px Arial';
-			context.fillStyle = "Yellow";
-			if (this.currentUnit.buffList[i].buffStats.duration != undefined) {
-			context.fillText(this.currentUnit.buffList[i].buffStats.duration, this.currentBuffs[i].x + 14, this.currentBuffs[i].y + 22); }
 		}
-		} }
-		
-		
 		
 		//Display Placeable units during PlacementPhase
 		if (this.unitPicks != null && PlacementStage == true) {
