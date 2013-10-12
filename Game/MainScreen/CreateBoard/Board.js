@@ -98,10 +98,6 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 {
 	if (WhichClick == "2") {
 		ability.removeMarkers(); Ui.abilityClickOff(); 
-		if (CurrentSelectedGrid != null && CurrentSelectedGrid.currentUnit != null) {
-		
-			CurrentSelectedGrid.Select("on"); 
-		}
 	} 
 	//Ability stuff
 	//Turn off Selection
@@ -153,6 +149,12 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 	}
 	
 	if (CurrentSelectedGrid != null && CurrentSelectedGrid.selected == false) { ability.removeMarkers(); Ui.abilityClickOff(); } //Ability stuff  
+	
+	if (WhichClick == "2" && CurrentSelectedGrid != null && CurrentSelectedGrid.currentUnit != null) {
+		
+		CurrentSelectedGrid.Select("on");
+	}
+	
 	
 }
 
@@ -710,7 +712,7 @@ Board.prototype.gridClick = function() {
 	for (var x = 0; x < GridSpot.length; x++) {
 	
 		for (var y = 0; y < GridSpot[x].length; y++) {
-			if (GridSpot[x][y].Contains(_.mouse)) { return true; }	
+			if (GridSpot[x][y].ThisRectangle.Contains(_.mouse)) { return true; }	
 		}		
 		
 	}
