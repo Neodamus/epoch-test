@@ -187,7 +187,7 @@ function CreateMenus(Width, Height) {
 			break;
 			
 			case "web":
-			window.location = "http://epochofelements.com/blog/";
+			window.location = "http://epoch-neodamus.rhcloud.com/";
 			break;
 			
 			case "moon":

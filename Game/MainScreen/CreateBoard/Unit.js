@@ -302,12 +302,14 @@ Unit.prototype.setAura = function(Aura, toggle) {
 							
 							
 					}
+					
+				if (giveSight == false && listContains(this.visibleGridSpots[i].revealList, this) == true) { giveSight = true; }
 				if (giveSight == true) { this.visibleGridSpots[i].allyVision.push(this); }
 				
 				} }
 				
 			}
-			this.reveal("on");
+			//this.reveal("on");
 	   }
 	   
 	    Unit.prototype.stealth = function(Toggle, noStealthReason)
@@ -575,11 +577,11 @@ Unit.prototype.place = function(NewGridSpot) {
 	 
 	NewGridSpot.tileModifiers("all", "move");
 	
-	if (this.alliance == "ally" && this.currentStats[1] > 0) {	 
-		this.sight("on");
-		this.reveal("on");
+	if (this.alliance == "ally" && this.currentStats[1] > 0) {
+		this.sight("on");	
 	}
-		
+	
+	this.reveal("on");
 	for (var i = 0; i < this.auras.length; i++) { this.auraTileModifier("move", this.auras[i]); }
 	 
 	for (var i = 0; i < this.currentTileMods.length; i++) {  this.currentTileMods[i].eventProc("remove", this); }
@@ -593,7 +595,7 @@ Unit.prototype.place = function(NewGridSpot) {
 			if (NewGridSpot.revealList[i].alliance != this.alliance && listContains(this.revealersOnGridList, NewGridSpot.revealList[i]) == false) {
 				this.revealersOnGridList.push(NewGridSpot.revealList[i]);
 				this.stealth("off", NewGridSpot.revealList[i]);
-			}  
+			}
 	}
 }
 
