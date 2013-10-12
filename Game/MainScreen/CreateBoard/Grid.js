@@ -172,7 +172,8 @@
 					context.drawImage(Images[136], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
 					context.globalAlpha = 1;
 				}
-				if (this.currentUnit.alliance == "ally" && (listContains(GameBoard.unitsMovedThisTurn, this.currentUnit) == true || this.currentUnit.turnCost == false) ) {
+				//MOVE-ABLE UNIT. (green highlight)
+				if (this.currentUnit.alliance == "ally" && GameBoard.unitsMovedThisTurn.length < GameBoard.unitMoves || this.currentUnit.alliance == "ally" && (listContains(GameBoard.unitsMovedThisTurn, this.currentUnit) == true || this.currentUnit.turnCost == false) ) {
 				
 					 context.globalAlpha = 1;
 					context.drawImage(Images[137], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
