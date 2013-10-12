@@ -139,7 +139,7 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 	}
 	
 	// Unit abilities
-	if (ClientsTurn == true && ability.castMode == true) {
+	if (ClientsTurn == true && ability.castMode == true && this.gridClick()) {
 		
 		if (PlacementStage == false) { 
 			this.WhichGrid(Mouse, WhichClick); 
@@ -702,5 +702,18 @@ Board.prototype.AreaSelect = function(CentreGrid, Radius)
 			return gridList;
 			
 }
-	  
-  
+
+
+// returns true if last click was on a grid tile, returns false if not
+Board.prototype.gridClick = function() {
+	
+	for (var x = 0; x < GridSpot.length; x++) {
+	
+		for (var y = 0; y < GridSpot[x].length; y++) {
+			if (GridSpot[x][y].Contains(_.mouse)) { return true; }	
+		}		
+		
+	}
+	
+	return false;	
+} 
