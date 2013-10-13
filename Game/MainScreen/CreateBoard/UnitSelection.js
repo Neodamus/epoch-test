@@ -148,12 +148,12 @@
 					
 				}
 				
-			} else if (this.currentPick == this.numPicks) {   // generals pick
+			/* } else if (this.currentPick == this.numPicks) {   // generals pick
  
  				this.unitsShown = "generals";
 				this.createUnitSelectionBoxes();
 				
-				sendPacket("endTurn");
+				sendPacket("endTurn"); */
  
 			} else {	// end phase		
 			
