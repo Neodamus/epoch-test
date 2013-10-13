@@ -202,9 +202,11 @@
 		
 		canvas = _.canvas;
 		
-		canvas.addEventListener('mousemove', mouseMoveHandler, false)	
+		canvas.addEventListener('mousemove', mouseMoveHandler, false);
 		
-		canvas.addEventListener('click', mouseClickHandler, false)	
+		canvas.addEventListener('click', mouseClickHandler, false);
+		
+		_.canvas.addEventListener('dblclick', doubleClickHandler, false);
 		
 		canvas.addEventListener('mouseup', function(evt) {
 		  Mouse = getMousePos(canvas, evt);
@@ -280,6 +282,20 @@
 		}
 		
 	}
+	
+function doubleClickHandler() {
+
+	switch(_.currentMode.id) {
+		
+		case "selection":
+		
+			_.currentMode.doubleClick();
+		
+		break;
+	
+	}
+	
+}
 	
 	function mouseWheelHandler(mouse) {
 		

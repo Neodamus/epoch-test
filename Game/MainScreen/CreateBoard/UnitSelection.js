@@ -39,21 +39,26 @@
 	  
 	  SelectionScreen.prototype.ReceivePick = function(ElementType, ElementValue)
 	  {
-		var ElementalUnitGroup;
-		if (ElementType == "Fire") { ElementalUnitGroup = this.FireUnits;}
-		if (ElementType == "Air") { ElementalUnitGroup = this.AirUnits;}
-		if (ElementType == "Earth") { ElementalUnitGroup = this.EarthUnits;}
-		if (ElementType == "Lightning") { ElementalUnitGroup = this.LightningUnits;}
-		if (ElementType == "Water") { ElementalUnitGroup = this.WaterUnits;}
-		for (var i = 0; i < numberOfUnits; i++)
-			{
-				if (this.pickRectangles[i + numberOfUnits].customValue[0] == null)
-				{ this.enemyPick = i; break;}
-			}
-		
-		this.pickRectangles[numberOfUnits + this.enemyPick].customValue[0] = ElementalUnitGroup;
-		this.pickRectangles[numberOfUnits + this.enemyPick].customValue[1] = ElementValue;
-		this.pickRectangles[numberOfUnits + this.enemyPick].customValue[2] = ElementType;
+		  if (ElementValue != undefined) {
+			var ElementalUnitGroup;
+			if (ElementType == "Fire") { ElementalUnitGroup = this.FireUnits;}
+			if (ElementType == "Air") { ElementalUnitGroup = this.AirUnits;}
+			if (ElementType == "Earth") { ElementalUnitGroup = this.EarthUnits;}
+			if (ElementType == "Lightning") { ElementalUnitGroup = this.LightningUnits;}
+			if (ElementType == "Water") { ElementalUnitGroup = this.WaterUnits;}
+			for (var i = 0; i < numberOfUnits; i++)
+				{
+					if (this.pickRectangles[i + numberOfUnits].customValue[0] == null)
+					{ this.enemyPick = i; break;}
+				}
+			
+			this.pickRectangles[numberOfUnits + this.enemyPick].customValue[0] = ElementalUnitGroup;
+			this.pickRectangles[numberOfUnits + this.enemyPick].customValue[1] = ElementValue;
+			this.pickRectangles[numberOfUnits + this.enemyPick].customValue[2] = ElementType;
+		  } else {
+			  var unitName = ElementType;
+			  this.enemyPicks.push(UnitStats.returnUnitByName(unitName));			  
+		  }
 	  }
 	  
 	  
@@ -82,23 +87,36 @@
 	  SelectionScreen.prototype.AddPick = function()
 	  {
 		  if (ClientsTurn == true) {
+			  
+			  if (this.unitsShown == "units") {
 		  
-			  for (var i = 0; i < numberOfUnits; i++) //figures out where the selected unit goes...
-				  {
-					  if (this.pickRectangles[i].customValue[0] == null)
-					  { this.currentPick = i; break;}
-				  }
-				  if (this.currentPick < numberOfUnits && this.pickCount > 0) { 
-				  var SendElement = this.ClickedObject.customValue[2];
-				  var SendValue = this.ClickedObject.customValue[1];
-				  this.pickRectangles[this.currentPick].customValue[0] = this.ClickedObject.customValue[0];
-				  this.pickRectangles[this.currentPick].customValue[1] = this.ClickedObject.customValue[1];
-				  this.pickRectangles[this.currentPick].customValue[2] = this.ClickedObject.customValue[2];
-				  sendPacket3("selectUnit", SendElement, SendValue)
+				  for (var i = 0; i < numberOfUnits; i++) //figures out where the selected unit goes...
+					  {
+						  if (this.pickRectangles[i].customValue[0] == null)
+						  { this.currentPick = i; break;}
+					  }
+					  if (this.currentPick < numberOfUnits && this.pickCount > 0) { 
+					  var SendElement = this.ClickedObject.customValue[2];
+					  var SendValue = this.ClickedObject.customValue[1];
+					  this.pickRectangles[this.currentPick].customValue[0] = this.ClickedObject.customValue[0];
+					  this.pickRectangles[this.currentPick].customValue[1] = this.ClickedObject.customValue[1];
+					  this.pickRectangles[this.currentPick].customValue[2] = this.ClickedObject.customValue[2];
+					  sendPacket3("selectUnit", SendElement, SendValue)
+					  
+					  this.currentPick++;
+					  this.pickCount--;
+					  }
+					  
+			  } else if (this.unitsShown == "generals") {
+				
+					if (this.ClickedObject != null) {
+					
+						this.allyPicks.push(this.ClickedObject.object);
+						sendPacket("selectUnit", this.ClickedObject.name);
+						
+					}
 				  
-				  this.currentPick++;
-				  this.pickCount--;
-				  }	
+			  }
 				  
 		  }
 	  }
@@ -169,8 +187,7 @@ SelectionScreen.prototype.UnitClicked = function(Mouse) {
 		{
 			if (this.ClickableRectangles[i].Contains(Mouse) == true)
 			{
-				//if (this.ClickedObject != null && this.ClickedObject.clicked == true && this.ClickedObject == this.ClickableRectangles[i])
-				if (this.ClickedObject == this.ClickableRectangles[i]) { this.AddPick();}
+				// if (this.ClickedObject == this.ClickableRectangles[i]) { this.AddPick();}
 				this.ClickedObject = this.ClickableRectangles[i]; 
 				this.ClickedObject.clicked = true;
 				
@@ -499,6 +516,7 @@ SelectionScreen.prototype.createUnitSelectionBoxes = function() {
 				case "Fire":
 				
 					unitBox = new Rectangle(fireUnitX, fireUnitY + (boxHeight + vspacer) * fireCount, boxWidth, boxHeight, currentUnit.image);
+					unitBox.object = currentUnit;
 				
 					this.unitSelectionBoxes.push(unitBox);
 					fireCount++;
@@ -551,4 +569,8 @@ SelectionScreen.prototype.createUnitSelectionBoxes = function() {
 }
 	 
 
-	 
+SelectionScreen.prototype.doubleClick = function() {
+	
+	this.AddPick();
+	
+}

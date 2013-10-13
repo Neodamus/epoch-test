@@ -548,3 +548,15 @@ var Rainmaker = new Array(
 		
 		return ability;
 }
+
+
+// will return a unit object based on name entered, returns -1 if no unit is found by that name
+UnitStats.prototype.getUnitByName = function (name) {
+	
+	for (var i = 0; i < this.generals.length; i++) {
+		if (this.generals[i].name == name) { return this.generals[i]; }
+	}
+	
+	return -1;
+	
+}

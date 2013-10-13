@@ -9,6 +9,8 @@ function Rectangle(x, y, width, height, image) {
 	
 	if (image != undefined) { this.image = image; }
 	
+	this.object;
+	
 	this.clicked = false;
 	this.customValue = new Array();
 	
