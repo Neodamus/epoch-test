@@ -67,6 +67,7 @@ function globals() {
 	
 	this.userName;
 	this.host;
+	this.observer;
 	
 }
 

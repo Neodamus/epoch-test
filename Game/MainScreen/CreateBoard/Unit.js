@@ -40,7 +40,7 @@
 				this.object.attackAbilities,		// 10
 				this.object.blockAbilities,			// 11
 				this.object.auras,					// 12
-				this.object.castAbilities,			// 13
+				this.object.castAbilities			// 13
 			];
 			
 			this.currentStats = this.baseStats.clone();	

@@ -111,6 +111,32 @@ function messageHandler(message) {
 			_.host = false;
 			break;
 			
+		case "observe":
+		
+			var phase = data[0];
+			var players = data[1];
+			var packetList = data[2];
+			
+			switch(phase) {
+				
+				case "selection": 
+					UnitSelection = new SelectionScreen(); 
+					UnitSelection.allyName = players[0];
+					UnitSelection.enemyName = players[1];
+					console.warn(UnitSelection.allyName + " " + UnitSelection.enemyName);
+					_.currentMode = UnitSelection; 					
+				break;
+				
+				case "game": 
+				
+				break;	
+			}
+			
+			_.host = false;
+			_.observer = true;
+				
+		break;
+			
 		case "selectUnit":
 			UnitSelection.ReceivePick(data, data2)
 			break

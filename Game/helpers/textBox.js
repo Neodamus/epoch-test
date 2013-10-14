@@ -46,7 +46,7 @@ function textBox(x, y, width, height) {
 	this.scrollbarDown = new Rectangle(this.scrollbarRect.x, this.scrollbarRect.y + this.scrollbarRect.height - 10, 10, 10)
 	this.scrollbarDown.setImage(Images[103]);
 	
-	this.selectedRow = 0
+	this.selectedRow = 0;
 	
 	this.textWidth = this.width - this.leftPadding * 2 - this.scrollbarRect.width
 	this.textHeight = this.height - this.topPadding * 2
@@ -270,7 +270,7 @@ textBox.prototype.fade = function(index) {
 
 textBox.prototype.inputObjects = function(objectArray, objProps) {
 	
-	console.warn ("Using outdated .inputObjects in textBox, please update");
+	alert ("Using outdated .inputObjects in textBox, please update");
 	
 	/* this.text = new Array()
 	

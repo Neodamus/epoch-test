@@ -9,20 +9,32 @@ function lobby() {
 	this.lobbyHeight = Math.floor(this.canvas.height)
 	
 	// buttons
-	this.joinGame = new Rectangle(this.lobbyWidth * 0.1, this.lobbyHeight * 0.43, this.lobbyWidth * 0.2, this.lobbyHeight * 0.04);
+	this.joinGame = new Rectangle(this.lobbyWidth * 0.1, this.lobbyHeight * 0.43, this.lobbyWidth * 0.15, this.lobbyHeight * 0.04);
 	this.joinGame.setText("Join", "#fff", this.joinGame.width * 0.35, this.joinGame.height * 0.7);	
 	this.joinGame.setFontSize(_.fontSize * 0.8);
 	
-	this.createGame = new Rectangle(this.lobbyWidth * 0.5, this.lobbyHeight * 0.43, this.lobbyWidth * 0.2, this.lobbyHeight * 0.04);
+	this.createGame = new Rectangle(this.lobbyWidth * 0.5, this.lobbyHeight * 0.43, this.lobbyWidth * 0.15, this.lobbyHeight * 0.04);
 	this.createGame.setText("Create", "#fff", this.createGame.width * 0.35, this.createGame.height * 0.7);
 	this.createGame.setFontSize(_.fontSize * 0.8);
 	this.createGame.clickfxn = function() { UnitSelection = new SelectionScreen(); _.currentMode = UnitSelection; sendPacket("createRoom"); }
+	
+	this.observeGame = new Rectangle(this.lobbyWidth * 0.3, this.lobbyHeight * 0.43, this.lobbyWidth * 0.15, this.lobbyHeight * 0.04);
+	this.observeGame.setText("Observe", "#fff", this.observeGame.width * 0.35, this.observeGame.height * 0.7);
+	this.observeGame.setFontSize(_.fontSize * 0.8);
+	this.observeGame.clickfxn = function() { 
+		if (_.currentMode.gamesList.selectedRow != 0) {
+			var rowText = _.currentMode.gamesList.text[0];
+			var room = rowText.substr(5);
+			room = parseInt(room);
+			sendPacket("observe", room);
+		} else { alert("You must select a room to observe"); }
+	}
 	
 	// games list
 	this.gamesList = new textBox(this.lobbyWidth * 0.05, this.lobbyHeight * 0.1, this.lobbyWidth * 0.7, this.lobbyHeight * 0.3)
 	this.gamesList.setFontSize(_.fontSize * 0.8);
 	this.gamesList.setColumns( [0, 0.35, 0.7] );
-	this.gamesList.textBoxColor =  "rgba(40, 40, 40, 0.88)"; //
+	this.gamesList.textBoxColor =  "rgba(40, 40, 40, 0.88)";
 	gamesListRequest()
 	
 	// users list init
@@ -32,10 +44,10 @@ function lobby() {
 	
 	this.connectedUsersList = new textBox(this.lobbyWidth * 0.8, this.lobbyHeight * 0.2, this.lobbyWidth * 0.15, this.lobbyHeight * 0.7);
 	this.connectedUsersList.setFontSize(Math.floor(this.lobbyHeight * 0.025));
-	this.connectedUsersList.textBoxColor =  "rgba(40, 40, 40, 0.88)"; //
+	this.connectedUsersList.textBoxColor =  "rgba(40, 40, 40, 0.88)"; 
 	
 	this.numUsers = 0
-	sendPacket("getUsersList")
+	sendPacket("getUsersList");
 	
 	// chat init
 	this.chatBar = new inputBox(this.lobbyWidth * 0.05, this.lobbyHeight * 0.85, this.lobbyWidth * 0.7, this.lobbyHeight * 0.05)
@@ -49,7 +61,7 @@ function lobby() {
 	this.chatRoom.setColumns( [0, 0.125, 0.3] )
 	this.chatRoom.textReverse = true
 	this.chatRoom.textBoxColor = "rgba(40, 40, 40, 0.88)"; //
-	sendPacket("getChat")
+	sendPacket("getChat");
 	
 }
 
@@ -62,6 +74,7 @@ lobby.prototype.draw = function() {
 	
 	this.createGame.draw();	
 	this.joinGame.draw();	
+	this.observeGame.draw();
 	this.gamesList.draw();	
 	this.connectedUsers.draw();	
 	this.connectedUsersList.draw();
@@ -184,11 +197,12 @@ function lobbyClick() {
 	
 	var lobby = _.currentMode
 	
-	var gamesList = lobby.gamesList
-	var joinGame = lobby.joinGame
-	var createGame = lobby.createGame
-	var chatRoom = lobby.chatRoom
-	var chatBar = lobby.chatBar	
+	var gamesList = lobby.gamesList;
+	var joinGame = lobby.joinGame;
+	var createGame = lobby.createGame;
+	var observeGame = lobby.observeGame;
+	var chatRoom = lobby.chatRoom;
+	var chatBar = lobby.chatBar;	
 	
 	// determine where in the gamesList user clicks
 	var x = Math.floor(Mouse.x) - gamesList.x
@@ -257,11 +271,10 @@ function lobbyClick() {
 	}
 	
 	// create game
-	if (createGame.Contains(Mouse)) {
-		
-		createGame.clickfxn();	
-		
-	}
+	if (createGame.Contains(Mouse)) { createGame.clickfxn(); }
+	
+	// observe game
+	if (observeGame.Contains(Mouse)) { observeGame.clickfxn(); }
 }
 
 function login() {

@@ -3,6 +3,9 @@ function SelectionScreen() {
 	this.id = "selection"	  
 	
 	this.waiting = false;	// true if waiting for another player to join
+	
+	this.allyName;
+	this.enemyName;
 	  
 	this.CreateRectanglesAndOrganizeUnits();
 	this.ClickedObject = this.MainUnitBox;
@@ -12,7 +15,7 @@ function SelectionScreen() {
 	this.elementBox; 			// holds a rectangle that's the template for all element boxes
 	this.unitBox;
 	this.generalBox;
-	this.size();
+	this.initialize();
 	
 	this.allyPicks = [];	// holds generals for now --- should hold all units later
 	this.enemyPicks = [];
@@ -33,7 +36,7 @@ function SelectionScreen() {
 }
 
 
-SelectionScreen.prototype.size = function() {
+SelectionScreen.prototype.initialize = function() {
 	
 	var hspacer = _.canvas.width * 0.037;
 	
@@ -52,15 +55,17 @@ SelectionScreen.prototype.size = function() {
 	  }
 	  
 	  
-	  SelectionScreen.prototype.ReceivePick = function(ElementType, ElementValue)
+	  SelectionScreen.prototype.ReceivePick = function(ElementType)
 	  {
-		  if (ElementValue != undefined) {
+		  var elements = ["Fire", "Air", "Earth", "Lightning", "Water"];
+		  
+		  if (elements.indexOf(ElementType[0]) != -1) {
 			var ElementalUnitGroup;
-			if (ElementType == "Fire") { ElementalUnitGroup = this.FireUnits;}
-			if (ElementType == "Air") { ElementalUnitGroup = this.AirUnits;}
-			if (ElementType == "Earth") { ElementalUnitGroup = this.EarthUnits;}
-			if (ElementType == "Lightning") { ElementalUnitGroup = this.LightningUnits;}
-			if (ElementType == "Water") { ElementalUnitGroup = this.WaterUnits;}
+			if (ElementType[0] == "Fire") { ElementalUnitGroup = this.FireUnits;}
+			if (ElementType[0] == "Air") { ElementalUnitGroup = this.AirUnits;}
+			if (ElementType[0] == "Earth") { ElementalUnitGroup = this.EarthUnits;}
+			if (ElementType[0] == "Lightning") { ElementalUnitGroup = this.LightningUnits;}
+			if (ElementType[0] == "Water") { ElementalUnitGroup = this.WaterUnits;}
 			for (var i = 0; i < numberOfUnits; i++)
 				{
 					if (this.pickRectangles[i + numberOfUnits].customValue[0] == null)
@@ -68,8 +73,8 @@ SelectionScreen.prototype.size = function() {
 				}
 			
 			this.pickRectangles[numberOfUnits + this.enemyPick].customValue[0] = ElementalUnitGroup;
-			this.pickRectangles[numberOfUnits + this.enemyPick].customValue[1] = ElementValue;
-			this.pickRectangles[numberOfUnits + this.enemyPick].customValue[2] = ElementType;
+			this.pickRectangles[numberOfUnits + this.enemyPick].customValue[1] = ElementType[1];
+			this.pickRectangles[numberOfUnits + this.enemyPick].customValue[2] = ElementType[0];
 		  } else {
 			  var unitName = ElementType;
 			  this.enemyPicks.push(UnitStats.getUnitByName(unitName));			  
@@ -83,7 +88,7 @@ SelectionScreen.prototype.size = function() {
 			  var number = this.pickRectangles.indexOf(this.ClickedObject);
 			  if (number < numberOfUnits && number != -1)          //Add stipulation of unit is inside current pickphase
 			  {
-				  sendPacket2("removeUnit", number)
+				  sendPacket("removeUnit", number)
 	  
 				  var Removing = this.pickRectangles[number];
 				  
@@ -116,7 +121,8 @@ SelectionScreen.prototype.size = function() {
 					  this.pickRectangles[this.currentPick].customValue[0] = this.ClickedObject.customValue[0];
 					  this.pickRectangles[this.currentPick].customValue[1] = this.ClickedObject.customValue[1];
 					  this.pickRectangles[this.currentPick].customValue[2] = this.ClickedObject.customValue[2];
-					  sendPacket3("selectUnit", SendElement, SendValue)
+					  this.pickRectangles[this.currentPick].customValue[3] = this.ClickedObject.customValue[3];
+					  sendPacket("selectUnit", [SendElement, SendValue]);
 					  
 					  this.currentPick++;
 					  this.pickCount--;
