@@ -27,7 +27,7 @@ function SelectionScreen() {
 	this.enemyPick = 0;		
 	this.numPicks = 9;	// replaces numberOfUnits
 	
-	this.pickOrder = [9, 9, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1]; 	// holds the pick order array
+	this.pickOrder = [1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1]; 	// holds the pick order array
 	this.pickIndex = 0; // determines where in the pick order
 	this.pickCount = this.pickOrder[this.pickIndex]; // determines how many units have been picked for current turn
 	this.pickHidden = [0, 8, 9, 17]; // determines which unit picks are hidden from other player, uses pickIndex
@@ -169,12 +169,12 @@ SelectionScreen.prototype.initialize = function() {
 					
 				}
 				
-			} else if (this.currentPick == this.numPicks && this.allyPicks.length == 0) {   // generals pick
+			/* } else if (this.currentPick == this.numPicks && this.allyPicks.length == 0) {   // generals pick
  
  				this.unitsShown = "generals";
 				this.createUnitSelectionBoxes();
 				
-				sendPacket("endTurn");
+				sendPacket("endTurn"); */
  
 			} else {	// end phase		
 			
