@@ -3,21 +3,58 @@
 	    this.alliance = Alliance;
 		this.x = x;
 		this.y = y;
-
-	    this.baseStats = returnUnitStats(Name);
-		this.buffStats = new Array(this.baseStats.length);
-		this.currentStats = new Array(this.baseStats.length);
-		for (var i = 0; i < this.baseStats.length; i++)
-		{
-			this.currentStats[i] = this.baseStats[i];
-		    if (i > 0 && i < 10) {
-			this.baseStats[i] = parseInt(this.baseStats[i], 10); 
-			this.currentStats[i] = parseInt(this.baseStats[i], 10);
+		
+		this.object = UnitStats.getUnitByName(Name);
+		
+		if (this.object == -1) {
+			this.baseStats = returnUnitStats(Name);
+			this.buffStats = new Array(this.baseStats.length);
+			this.currentStats = new Array(this.baseStats.length);
+			for (var i = 0; i < this.baseStats.length; i++)
+			{
+				this.currentStats[i] = this.baseStats[i];
+				if (i > 0 && i < 10) {
+				this.baseStats[i] = parseInt(this.baseStats[i], 10); 
+				this.currentStats[i] = parseInt(this.baseStats[i], 10);
+				}
+				this.buffStats[i] = 0;
 			}
-			this.buffStats[i] = 0;
+		
+			this.auraNames = stringParseForList(this.currentStats[12]);
+			
+			var abilityName = stringParseForList(this.currentStats[13]);
+			
+		} else { 
+		
+			this.baseStats = [
+				this.object.name,					// 0
+				this.object.life,					// 1
+				this.object.damage,					// 2
+				this.object.defense,				// 3
+				this.object.speed,					// 4
+				this.object.sight,					// 5
+				this.object.range,					// 6
+				this.object.reveal,					// 7
+				this.object.attacks,				// 8
+				this.object.blocks,					// 9
+				this.object.attackAbilities,		// 10
+				this.object.blockAbilities,			// 11
+				this.object.auras,					// 12
+				this.object.castAbilities,			// 13
+			];
+			
+			this.currentStats = this.baseStats.clone();	
+			
+			this.buffStats = new Array(this.baseStats.length);
+			for (var i = 0; i < this.buffStats.length; i++) { this.buffStats[i] = 0; }
+			
+			this.auraNames = this.object.auras;	
+			
+			var abilityName = this.object.castAbilities;
+		
 		}
 		
-		this.auraNames = stringParseForList(this.currentStats[12]); //if (this.auras[0] == "") { this.auras = null; }
+		 //if (this.auras[0] == "") { this.auras = null; }
 		this.auras = new Array();
 		/* for (var i = 0; i < this.auraNames.length; i++) {
 		if (this.auraNames[i] != "" && this.auraNames[i] != "0" && this.auraNames[i] != 0)
@@ -35,8 +72,7 @@
 		this.currentAuras = [];
 		
 		
-		this.genericGridList = new Array();//used for stuff like auras and abilities...
-		var abilityName = stringParseForList(this.currentStats[13]);
+		this.genericGridList = new Array();//used for stuff like auras and abilities...		
 		
 		this.ability = new Array();
 		for (var i = 0; i < abilityName.length; i++) {

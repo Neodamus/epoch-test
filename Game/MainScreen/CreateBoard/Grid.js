@@ -159,8 +159,14 @@
 		   this.visible == true && this.currentUnit.unitStealth == true && this.currentUnit.alliance == "ally" || GameBoard.observer == true)){
 			// UNIT DRAWING
 			if (this.currentUnit.unitStealth == true) { context.globalAlpha = 0.3; }
+				if (this.currentUnit.object == -1) {
 				context.drawImage(Images[ReturnUnitImage(this.currentUnit.name)], this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width,
 				this.ThisRectangle.height); 
+				} else { // unit has an object
+					_.context.drawImage(this.currentUnit.object.image, this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width,
+						this.ThisRectangle.height); 
+				}
+				
 				if (this.currentUnit.unitStealth == true) {context.globalAlpha = 1; } 
 				
 				if (this.currentUnit.summon == true && (this.currentUnit.alliance == "ally" || GameBoard.observer == true)) {

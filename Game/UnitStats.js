@@ -34,9 +34,13 @@ UnitStats.prototype.initializeStats = function(unitType) {
 				speed: 5,
 				sight: 5,
 				reveal: 2,
+				range: 2,
 				attacks: 1,
 				blocks: 3,
+				attackAbilities: [],
+				blockAbilities: [],
 				castAbilities: ["Sixth Sense", "Heat Shield", "Meteor"],
+				auras: [],
 				element: "Fire"			
 			});	
 		
@@ -49,9 +53,13 @@ UnitStats.prototype.initializeStats = function(unitType) {
 				speed: 5,
 				sight: 5,
 				reveal: 2,
+				range: 2,
 				attacks: 1,
 				blocks: 3,
+				attackAbilities: [],
+				blockAbilities: [],
 				castAbilities: ["Sixth Sense", "Heat Shield", "Meteor"],
+				auras: [],
 				element: "Air"			
 			});	
 		
@@ -64,9 +72,13 @@ UnitStats.prototype.initializeStats = function(unitType) {
 				speed: 5,
 				sight: 5,
 				reveal: 2,
+				range: 2,
 				attacks: 1,
 				blocks: 3,
+				attackAbilities: [],
+				blockAbilities: [],
 				castAbilities: ["Sixth Sense", "Heat Shield", "Meteor"],
+				auras: [],
 				element: "Earth"			
 			});	
 		
@@ -79,9 +91,13 @@ UnitStats.prototype.initializeStats = function(unitType) {
 				speed: 5,
 				sight: 5,
 				reveal: 2,
+				range: 2,
 				attacks: 1,
 				blocks: 3,
+				attackAbilities: [],
+				blockAbilities: [],
 				castAbilities: ["Sixth Sense", "Heat Shield", "Meteor"],
+				auras: [],
 				element: "Lightning"			
 			});	
 		
@@ -94,9 +110,13 @@ UnitStats.prototype.initializeStats = function(unitType) {
 				speed: 5,
 				sight: 5,
 				reveal: 2,
+				range: 2,
 				attacks: 1,
 				blocks: 3,
+				attackAbilities: [],
+				blockAbilities: [],
 				castAbilities: ["Sixth Sense", "Heat Shield", "Meteor"],
+				auras: [],
 				element: "Water"			
 			});			
 		

@@ -1,9 +1,11 @@
 
 	  
 	  
-	  function Ui(pickedUnits) {
+	  function Ui(pickedUnits, allyPicks, enemyPicks) {
 	  
 		this.unitPicks = pickedUnits;
+		this.allyPicks = allyPicks;
+		this.enemyPicks = enemyPicks;
 		//different Board Ui's
 		if (this.unitPicks == "sandbox") { this.unitPicks = null; this.sandboxUi(); }
 		else { this.createPlacementUi(); }
@@ -148,15 +150,22 @@ Ui.prototype.setTooltips = function() {
 	  
 		//UnitPlacement selection
 		if (this.unitPicks != null) {
-		 for (var i = 0; i < numberOfUnits; i++)
+		 for (var i = 0; i < this.unitPicks.length; i++)
 		 {
 			if (this.unitPicks[i].Contains(Mouse) == true ) 
 			{ 
-				if (this.unitPicks[i].customValue[0] != null)
-				{
-			 this.SelectedUnit = this.unitPicks[i];
-			 this.SelectedUnit.clicked = true;
-			 return true; } } } }
+				if (this.unitPicks[i].customValue.length > 0) {
+					if (this.unitPicks[i].customValue[0] != null) {
+					   this.SelectedUnit = this.unitPicks[i];
+					   this.SelectedUnit.clicked = true;
+				 		return true; 
+				 	} 
+				} else if (this.unitPicks[i].object != null) {  // general
+					this.SelectedUnit = this.unitPicks[i];
+					this.SelectedUnit.clicked = true;
+					return true;					
+				}
+			} } }
 		 
 		 //sandbox selection
 		if (this.unitPicks == null && this.sandboxRectangle != null){
@@ -223,10 +232,11 @@ Ui.prototype.setTooltips = function() {
 		// End placement box
 		if (this.unitUiBox != 'undefined' && this.unitUiBox != null && this.finishPlacementBox.Contains(Mouse) == true && PlacementStage == true) {
 				var allUnitsPlacedBool = true;
-				for (var i = 0; i < this.unitPicks.length / 2; i++) {
+				for (var i = 0; i < this.unitPicks.length / 2 - 1; i++) {
 					
 					if (this.unitPicks[i].customValue[0] != null) { allUnitsPlacedBool = false; }
 				}
+				if (this.unitPicks[18].customValue[0] != null) { allUnitsPlacedBool = false; }	// make sure general is placed
 			if (allUnitsPlacedBool == true) {
 			PlacementStage = false; this.unitUiBox.x = -500; //temporary moving of sidebar
 			GameBoard.spawnZones("off");
@@ -274,6 +284,20 @@ Ui.prototype.setTooltips = function() {
 			this.unitPicks[i].width = sizeX;
 			this.unitPicks[i].height = sizeY;
 			x++; if (x == unitsPerRow) { y++; x = 0; } }
+			
+
+		var general = {
+				x: PositionX + (sizeX + PositionSpacer) * 4 - sizeX * 0.2,
+				y: PositionY + sizeY + PositionSpacer * 1.2,
+				w: sizeX * 1.4,
+				h: sizeX * 1.4
+		};
+		
+		var generalRect = new Rectangle(general.x, general.y, general.w, general.h);
+		generalRect.customValue[0] = 0;
+		generalRect.object = this.allyPicks[0];
+		
+		this.unitPicks.push(generalRect);
 	  }
 	  
 	  //Create Sandbox Ui
@@ -370,8 +394,8 @@ Ui.prototype.setTooltips = function() {
 		//Unit Placement
 		if (this.unitPicks != null && PlacementStage == true) {
 		this.unitUiBox.draw();
-		var tempBool = true;
-		for (var i = 0; i < this.unitPicks.length; i++) { if (this.unitPicks[i].customValue[0] != null) { /* tempBool = false; */ }}  }
+		var tempBool = true; }
+		//for (var i = 0; i < this.unitPicks.length; i++) { if (this.unitPicks[i].customValue[0] != undefined) { /* tempBool = false; */ }}  }
 		
 		//Main UiBox
 		this.standardUiBox.draw();
@@ -453,7 +477,21 @@ Ui.prototype.setTooltips = function() {
 			for (var i = 0; i < numberOfUnits; i++) {
 			if (this.unitPicks[i].customValue[0] != null){
 			context.drawImage(Images[ReturnUnitImage(this.unitPicks[i].customValue[0][this.unitPicks[i].customValue[1]][0])], this.unitPicks[i].x,
-			this.unitPicks[i].y, this.unitPicks[i].width, this.unitPicks[i].height); } } }
+			this.unitPicks[i].y, this.unitPicks[i].width, this.unitPicks[i].height); } } 
+		
+			// draw general
+			if (this.unitPicks[this.unitPicks.length - 1].customValue[0] != null) {
+				var generalRect = this.unitPicks[this.unitPicks.length - 1];
+				var image = generalRect.object.image;
+				var x = generalRect.x;			
+				var y = generalRect.y;
+				var w = generalRect.width;
+				var h = generalRect.height;
+				
+				_.context.drawImage(image, x, y, w, h);
+			}
+			
+		}
 		
 		//Current Selection on Ui Units
 		if (this.SelectedUnit != null && PlacementStage == true) { //Cannot use rectangle.setImage() because SelectedUnit is dynamic!
@@ -462,8 +500,9 @@ Ui.prototype.setTooltips = function() {
 		//End Turn & Finished Placement Boxes
 		if (PlacementStage == true && GameBoard.gameType == "normal") { 
 			var allUnitsPlacedBool = true; //make sure all units are placed before drawing
-			for (var i = 0; i < this.unitPicks.length / 2; i++) {
+			for (var i = 0; i < this.unitPicks.length / 2 - 1; i++) {
 			if (this.unitPicks[i].customValue[0] != null) {allUnitsPlacedBool = false; } } //make sure all units are placed before drawing
+			if (this.unitPicks[18].customValue[0] != null) {allUnitsPlacedBool = false; }	// check if general is placed
 				context.save();
 				if (allUnitsPlacedBool == true) {
 			 context.font = globalFont;

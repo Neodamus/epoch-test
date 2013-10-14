@@ -1,31 +1,46 @@
-	   function SelectionScreen()
-	  {
-		this.id = "selection"	  
-		
-		this.waiting = false;	// true if waiting for another player to join
-		  
-		this.CreateRectanglesAndOrganizeUnits();
-		this.ClickedObject = this.MainUnitBox;
-		this.Element; this.Value = -1;
-		this.pickRectangles;
-		
-		this.allyPicks = [];	// holds generals for now --- should hold all units later
-		this.enemyPicks = [];
-		
-		this.unitsShown = "units";  // units if showing units, generals if showing generals
-		this.unitSelectionBoxes = [];
-		
-		this.currentPick = 0;
-		this.enemyPick = 0;		
-		this.numPicks = 9;	// replaces numberOfUnits
-		
-		this.pickOrder = [9, 9, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1]; 	// holds the pick order array
-		this.pickIndex = 0; // determines where in the pick order
-		this.pickCount = this.pickOrder[this.pickIndex]; // determines how many units have been picked for current turn
-		this.pickHidden = [0, 8, 9, 17]; // determines which unit picks are hidden from other player, uses pickIndex
-		
-		Screen = "UnitSelection";
-	  }
+function SelectionScreen() {
+	
+	this.id = "selection"	  
+	
+	this.waiting = false;	// true if waiting for another player to join
+	  
+	this.CreateRectanglesAndOrganizeUnits();
+	this.ClickedObject = this.MainUnitBox;
+	this.Element; this.Value = -1;
+	this.pickRectangles;
+	
+	this.elementBox; 			// holds a rectangle that's the template for all element boxes
+	this.unitBox;
+	this.generalBox;
+	this.size();
+	
+	this.allyPicks = [];	// holds generals for now --- should hold all units later
+	this.enemyPicks = [];
+	
+	this.unitsShown = "units";  // units if showing units, generals if showing generals
+	this.unitSelectionBoxes = [];
+	
+	this.currentPick = 0;
+	this.enemyPick = 0;		
+	this.numPicks = 9;	// replaces numberOfUnits
+	
+	this.pickOrder = [9, 9, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1]; 	// holds the pick order array
+	this.pickIndex = 0; // determines where in the pick order
+	this.pickCount = this.pickOrder[this.pickIndex]; // determines how many units have been picked for current turn
+	this.pickHidden = [0, 8, 9, 17]; // determines which unit picks are hidden from other player, uses pickIndex
+	
+	Screen = "UnitSelection";
+}
+
+
+SelectionScreen.prototype.size = function() {
+	
+	var hspacer = _.canvas.width * 0.037;
+	
+	this.elementBox = { width: _.canvas.width * 0.2 - hspacer, height: _.canvas.height * 0.48 };
+	this.generalBox = { width: this.elementBox.width * 0.4, height: this.elementBox.width * 0.4 };
+	
+}
 	  
 	  
 	   SelectionScreen.prototype.ReceiveRemove = function(RemoveNumber)
@@ -57,7 +72,7 @@
 			this.pickRectangles[numberOfUnits + this.enemyPick].customValue[2] = ElementType;
 		  } else {
 			  var unitName = ElementType;
-			  this.enemyPicks.push(UnitStats.returnUnitByName(unitName));			  
+			  this.enemyPicks.push(UnitStats.getUnitByName(unitName));			  
 		  }
 	  }
 	  
@@ -112,7 +127,7 @@
 					if (this.ClickedObject != null) {
 					
 						this.allyPicks.push(this.ClickedObject.object);
-						sendPacket("selectUnit", this.ClickedObject.name);
+						sendPacket("selectUnit", this.ClickedObject.object.name);
 						
 					}
 				  
@@ -148,18 +163,18 @@
 					
 				}
 				
-			/* } else if (this.currentPick == this.numPicks) {   // generals pick
+			} else if (this.currentPick == this.numPicks && this.allyPicks.length == 0) {   // generals pick
  
  				this.unitsShown = "generals";
 				this.createUnitSelectionBoxes();
 				
-				sendPacket("endTurn"); */
+				sendPacket("endTurn");
  
 			} else {	// end phase		
 			
 				ClientsTurn = false;
 				sendPacket2("endPhase", "selection");
-				GameBoard = new Board(this.pickRectangles); 
+				GameBoard = new Board(this.pickRectangles, this.allyPicks, this.enemyPicks); 
 			}
 		}
 			
@@ -328,6 +343,48 @@ SelectionScreen.prototype.UnitClicked = function(Mouse) {
 			context.fillText("Enemy Picks", this.PickLine.x + this.PickLine.width * 0.91 / 2, this.PickLine.y + this.PickLine.height * 3 * 3.2);
 			context.font = globalFont;
 			
+			// draw from ally picks
+			for (var i = 0; i < this.allyPicks.length; i++) {
+			
+				if (i < this.allyPicks.length - 1) { // draw units -- not used yet
+				
+				} else { 	// draw generals
+				
+					var lastDrawnUnit = this.pickRectangles[this.pickRectangles.length * 0.5 - 1];
+				
+					var general = this.allyPicks[i];
+					var image = general.image;
+					var generalX = lastDrawnUnit.x + lastDrawnUnit.width * 1.5;
+					var generalY = lastDrawnUnit.y + lastDrawnUnit.height - this.generalBox.height;
+					var generalWidth = this.generalBox.width;
+					var generalHeight = this.generalBox.height;
+					
+					_.context.drawImage(image, generalX, generalY, generalWidth, generalHeight);
+				
+				}				
+			}
+			
+			// draw from enemy picks
+			for (var i = 0; i < this.enemyPicks.length; i++) {
+			
+				if (i < this.enemyPicks.length - 1) { // draw units -- not used yet
+				
+				} else { 	// draw generals
+				
+					var lastDrawnUnit = this.pickRectangles[this.pickRectangles.length - 1];
+				
+					var general = this.enemyPicks[i];
+					var image = general.image;
+					var generalX = lastDrawnUnit.x + lastDrawnUnit.width * 1.5;
+					var generalY = lastDrawnUnit.y + lastDrawnUnit.height - this.generalBox.height;
+					var generalWidth = this.generalBox.width;
+					var generalHeight = this.generalBox.height;
+					
+					_.context.drawImage(image, generalX, generalY, generalWidth, generalHeight);
+				
+				}				
+			}
+			
 		// Draw waiting box		
 		if (this.waiting) {
 				
@@ -342,7 +399,11 @@ SelectionScreen.prototype.UnitClicked = function(Mouse) {
 			_.context.fillStyle = "#FFF";
 			_.context.font = _.font
 			if (ClientsTurn) { 
-				_.context.fillText("Your turn to pick - " + this.pickCount, this.StatsInfoBox.width * 0.2, this.StatsInfoBox.y * 1.07);
+				if (this.unitsShown == "units") {
+					_.context.fillText("Your turn to pick - " + this.pickCount, this.StatsInfoBox.width * 0.2, this.StatsInfoBox.y * 1.07);
+				} else if (this.unitsShown == "generals") {
+					_.context.fillText("Pick your General", this.StatsInfoBox.width * 0.2, this.StatsInfoBox.y * 1.07)	
+				}
 			} else {
 				_.context.fillText("Enemy picking", this.StatsInfoBox.width * 0.2, this.StatsInfoBox.y * 1.07);
 			}
@@ -487,9 +548,9 @@ SelectionScreen.prototype.createUnitSelectionBoxes = function() {
 		var lightningCount = 0;
 		var waterCount = 0;
 		
-		var vspacer = this.FireUnitBox.height * 0.05;
-		var boxWidth = this.FireUnitBox.width * 0.4;
-		var boxHeight = boxWidth;
+		var vspacer = this.elementBox.height * 0.05;
+		var boxWidth = this.generalBox.width;
+		var boxHeight = this.generalBox.height;
 	
 		var fireUnitX = this.FireUnitBox.x + this.FireUnitBox.width * 0.3;
 		var fireUnitY = this.FireUnitBox.y + this.FireUnitBox.height * 0.05;
@@ -526,6 +587,7 @@ SelectionScreen.prototype.createUnitSelectionBoxes = function() {
 				case "Air":
 				
 					unitBox = new Rectangle(airUnitX, airUnitY + (boxHeight + vspacer) * airCount, boxWidth, boxHeight, currentUnit.image);
+					unitBox.object = currentUnit;
 				
 					this.unitSelectionBoxes.push(unitBox);
 					airCount++;
@@ -535,6 +597,7 @@ SelectionScreen.prototype.createUnitSelectionBoxes = function() {
 				case "Earth":
 				
 					unitBox = new Rectangle(earthUnitX, earthUnitY + (boxHeight + vspacer) * earthCount, boxWidth, boxHeight, currentUnit.image);
+					unitBox.object = currentUnit;
 				
 					this.unitSelectionBoxes.push(unitBox);
 					earthCount++;
@@ -545,6 +608,7 @@ SelectionScreen.prototype.createUnitSelectionBoxes = function() {
 				
 					unitBox = new Rectangle(lightningUnitX, lightningUnitY + (boxHeight + vspacer) * lightningCount, 
 						boxWidth, boxHeight, currentUnit.image);
+					unitBox.object = currentUnit;
 				
 					this.unitSelectionBoxes.push(unitBox);
 					lightningCount++;
@@ -554,6 +618,7 @@ SelectionScreen.prototype.createUnitSelectionBoxes = function() {
 				case "Water":
 				
 					unitBox = new Rectangle(waterUnitX, waterUnitY + (boxHeight + vspacer) * waterCount, boxWidth, boxHeight, currentUnit.image);
+					unitBox.object = currentUnit;
 				
 					this.unitSelectionBoxes.push(unitBox);
 					waterCount++;

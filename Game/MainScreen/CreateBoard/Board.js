@@ -7,8 +7,11 @@ var ability
 var gridSpotList;
 
 //initialize board requirements
-function Board(userPicks)
+function Board(userPicks, allyPicks, enemyPicks)
 {
+	this.allyPicks = allyPicks;
+	this.enemyPicks = enemyPicks;
+	
 	this.alliance = "ally"; //using this for sandbox...
 	this.observer = false;
 	this.sec = 0;
@@ -31,7 +34,7 @@ function Board(userPicks)
 	this.gameType = "normal";
 	if (userPicks == "sandbox") { this.gameType = "sandbox"; this.observer = true; this.BoardY += 120; this.UpdateBoardPosition();}
 	
-	Ui = new Ui(userPicks);
+	Ui = new Ui(userPicks, allyPicks, enemyPicks);
   
 	ability = new ability(); //initialize abilities
 	
@@ -115,8 +118,8 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 	//Unit Placement
 	if (PlacementStage == true) {this.UnitPlacement(Mouse, WhichClick); }
 	
-		//Turn On Selection
-		if (WhichClick == "0" && this.WhichGrid(Mouse, WhichClick) == true && ability.castMode == false) {
+	//Turn On Selection
+	if (WhichClick == "0" && this.WhichGrid(Mouse, WhichClick) == true && ability.castMode == false) {
 		
 		CurrentSelectedGrid.Select("on"); 
 		if (CurrentSelectedGrid.currentUnit != null && (CurrentSelectedGrid.allyVision.length > 0 || this.observer == true)) {
@@ -482,25 +485,47 @@ Board.prototype.ClickGrid = function(Mouse, WhichClick)
 				if (CurrentTarget != null && GridSpot[CurrentTarget.x][CurrentTarget.y].currentUnit == null)
 				{
 				//Add unit to the board
+				
+				var name;
 				if (Ui.unitPicks != null) {
-				var name = Ui.SelectedUnit.customValue[0][Ui.SelectedUnit.customValue[1]][0]; }
+					if (Ui.SelectedUnit.customValue[0] != 0) {
+						name = Ui.SelectedUnit.customValue[0][Ui.SelectedUnit.customValue[1]][0]; 
+					} else { // general
+						name = Ui.SelectedUnit.object.name;
+					}
+				}
 				
-				if (Ui.unitPicks == null) { var name = Ui.SelectedUnit.customValue[0]; } //sandbox
+				if (Ui.unitPicks == null) { name = Ui.SelectedUnit.customValue[0]; } //sandbox
 				
-				if (CurrentTarget != null && CurrentTarget.spawnMarker == true || this.gameType == "sandbox")
-					{
-				//send data
-				var CreateUnitArray = new Array("ally", name, CurrentTarget.x, CurrentTarget.y, Ui.SelectedUnit.customValue[0], Ui.SelectedUnit.customValue[1]);
-				if (this.gameType == "normal") { sendPacket2("createUnit", CreateUnitArray); }
+				if (CurrentTarget != null && CurrentTarget.spawnMarker == true || this.gameType == "sandbox") { //send data
+					if (Ui.SelectedUnit.customValue[0] != 0) {
+					var CreateUnitArray = new Array("ally", name, CurrentTarget.x, CurrentTarget.y, Ui.SelectedUnit.customValue[0], Ui.SelectedUnit.customValue[1]); 
+					
+					} else { // general				
+						
+						var CreateUnitArray = new Array("ally", name, CurrentTarget.x, CurrentTarget.y);
+						
+					}
+										
+					if (this.gameType == "normal") { sendPacket("createUnit", CreateUnitArray); 
+				}
 				
-				this.CreateUnit(this.alliance, name, CurrentTarget.x, CurrentTarget.y, Ui.SelectedUnit.customValue[0], Ui.SelectedUnit.customValue[1]);
+				if (Ui.SelectedUnit.customValue[0] != 0) {
+				this.CreateUnit(this.alliance, name, CurrentTarget.x, CurrentTarget.y, Ui.SelectedUnit.customValue[0], Ui.SelectedUnit.customValue[1]); 
+				} else { // general
+					this.CreateUnit(this.alliance, name, CurrentTarget.x, CurrentTarget.y);
+				}
 				
 				if (Ui.unitPicks != null) { //game mode
 					Ui.SelectedUnit.customValue[0] = null; 
 					Ui.SelectedUnit.clicked = false; Ui.SelectedUnit = null; 
 						for (var i = 0; i < Ui.unitPicks.length / 2; i++) {
 							var nextUnit;
-							if (Ui.unitPicks[i].customValue[0] != null) { nextUnit = Ui.unitPicks[i]; break; } 
+							if (Ui.unitPicks[i].customValue[0] != null) { 
+								if (i == 9) { i = 18; }	// all units picked, switch to general
+								nextUnit = Ui.unitPicks[i];
+								if (nextUnit.customValue[0] == null) { nextUnit = null; }
+								break; } 
 						}
 					
 					if (nextUnit != null) { Ui.SelectedUnit = nextUnit; Ui.SelectedUnit.clicked = true; }
