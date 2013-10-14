@@ -591,7 +591,7 @@ Ui.prototype.setTooltips = function() {
 		context.fillStyle = "rgba(250, 250, 250, 0.5)";
 		context.fillText("Total: " + this.clockTime(GameBoard.hour) + ":" + this.clockTime(GameBoard.min) + ":" + this.clockTime(GameBoard.sec), _.canvas.width * 0.84,  _.canvas.height * 0.985);
 		if (ClientsTurn == true && GameBoard.turnTimer.toggle == true) { 
-		if (GameBoard.turnTimer.min < 1 && GameBoard.turnTimer.sec < 42) { context.fillStyle = "red"; context.font = '25px Arial'; }
+		if (GameBoard.turnTimer.min < 1 && GameBoard.turnTimer.sec < 30) { context.fillStyle = "red"; context.font = '25px Arial'; if ( GameBoard.turnTimer.sec < 11) { context.font = '35px Arial';} }
 		context.fillText( this.clockTime(GameBoard.turnTimer.min) + ":" + this.clockTime(GameBoard.turnTimer.sec), _.canvas.width * 0.40, 40);
 		}
 	  }
