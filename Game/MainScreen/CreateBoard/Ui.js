@@ -40,7 +40,7 @@
 		this.combatLogRectangle.setImage(Images[8]);
 		
 		//createAbilityBoxes
-		this.setAbilityBoxes();
+		this.setAbilityBoxes(); this.buffCount = 0;
 		
 		//Other arrays and Bools
 		this.currentUnit;
@@ -62,22 +62,47 @@ Ui.prototype.setTooltips = function() {
 
 	if (this.currentUnit != null) {
 	
-		this.tooltipList = new Array() 
-		for (var i = 0; i < this.currentUnit.abilityStats.length; i++) {
-		var string = "nothing is here";
-			if (this.currentUnit.abilityStats[i] != undefined && 
-			this.currentUnit.abilityStats[i].abilityTooltip != undefined &&
-			this.currentUnit.abilityStats[i].abilityTooltip != "") {
+			this.tooltipList = new Array();
 			
-				string = this.currentUnit.abilityStats[i].abilityTooltip;
-				}
+			//abilities
+			for (var i = 0; i < this.currentUnit.abilityStats.length; i++) {
+			
+				var string = "nothing is here";
 				
-			//push all ability tooltips
-		var tooltip = this.currentAbilities[i].setTooltip(string, 300, "left");
-		this.tooltipList.push(tooltip);
-			//
-		//this.currentAbilities[i].setTooltip("no information", 200, "left");
+				if (this.currentUnit.abilityStats[i] != undefined && 
+					this.currentUnit.abilityStats[i].abilityTooltip != undefined &&
+					this.currentUnit.abilityStats[i].abilityTooltip != "") {
+				
+						string = this.currentUnit.abilityStats[i].abilityTooltip;
+					}
+
+			var tooltip = this.currentAbilities[i].setTooltip(string, 300, "left");
+			this.tooltipList.push(tooltip);
 		}
+		
+		//buffs
+		this.buffCount = 0;
+		for (var i = 0; i < this.currentBuffs.length; i++) {
+			
+			this.currentBuffs[i].setTooltip(string, 300, "left");
+			var string = "";
+			
+			if (this.currentUnit.buffList[i] != null) {
+			
+				string += this.currentUnit.buffList[i].buffType; 
+				this.buffCount++;
+			}
+			
+			if (this.currentUnit.buffList[i] != null && this.currentUnit.buffList[i].buffStats.buffTooltip != undefined) {
+			
+				string = this.currentUnit.buffList[i].buffStats.buffTooltip;
+			}
+			
+			if (string != "") {
+			var tooltip = this.currentBuffs[i].setTooltip(string, 300, "left");
+			this.tooltipList.push(tooltip); }
+		}
+		
 	}
 }
 	  
@@ -85,6 +110,25 @@ Ui.prototype.setTooltips = function() {
 	  
 	  //Mouse
 		if (this.currentUnit != null) {
+			for (var i = 0; i < this.tooltipList.length; i++) {
+				
+				if (this.tooltipList[i] != undefined) {
+					this.tooltipList[i].tooltip = false;
+					if (this.tooltipList[i].tooltipOf.Contains(Mouse) == true) { this.tooltipList[i].tooltip = true; }
+				}
+			
+			}
+		}
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	/*	if (this.currentUnit != null) {
 			for (var i = 0; i < this.currentAbilities.length; i++) {
 				
 				if (this.tooltipList[i] != undefined) {
@@ -92,7 +136,15 @@ Ui.prototype.setTooltips = function() {
 					if (this.currentAbilities[i].Contains(Mouse) == true) { this.tooltipList[i].tooltip = true; }
 				}
 			}
-		}
+			
+			for (var i = 0; i < this.currentBuffs.length; i++) {
+				
+				if (this.tooltipList[i] != undefined) {
+					this.tooltipList[i].tooltip = false;
+					if (this.currentBuffs[i].Contains(Mouse) == true) { this.tooltipList[i].tooltip = true; }
+				}
+			}
+		}*/
 			
 	  }
 	  
@@ -194,43 +246,11 @@ Ui.prototype.setTooltips = function() {
 		 
 		 //End turn box
 		 if (ClientsTurn == true && this.finishTurnBox.Contains(Mouse) == true && ClientsTurn == true) {
-			var endTurn = new Array();
-			endTurn.push("end");
-			
-			for (var i = 0; i < GameBoard.tileModifierList.length; i++) { var theSame = GameBoard.tileModifierList[i]; GameBoard.tileModifierList[i].turnRefresh("enemy");
-			if (theSame != GameBoard.tileModifierList[i]) { i--; } } //fixing index error
-			
-			GameBoard.sendUnitInstruction(endTurn);
-			if (GameBoard.gameType == "normal") { 
-				ClientsTurn = false; 
-				GameBoard.unitsMovedThisTurn = new Array();
-				
-				for (var i = 0; i < GameBoard.EnemyUnits.length; i++) {  var theSame = GameBoard.EnemyUnits[i]; GameBoard.EnemyUnits[i].turnFunction(); 
-				if (theSame != GameBoard.EnemyUnits[i]) { i--; } } //fixing index error}				
-				
-				for (var i = 0; i < GameBoard.auraList.length; i++) { 
-					if (GameBoard.auraList[i].sourceUnit.alliance == "enemy") {
-						GameBoard.auraList[i].turn(); 
-					}
-				}
-				
-			} else if (GameBoard.gameType == "sandbox") {
-				GameBoard.unitsMovedThisTurn = new Array();
-				
-				for (var i = 0; i < GameBoard.AllyUnits.length; i++) { var theSame = GameBoard.AllyUnits[i]; GameBoard.AllyUnits[i].turnFunction();
-					if (theSame != GameBoard.AllyUnits[i]) { i--; } } //fixing index error}				}	
-				
-				for (var i = 0; i < GameBoard.auraList.length; i++) { 
-					if (GameBoard.auraList[i].sourceUnit.alliance == "ally") {
-						GameBoard.auraList[i].turn(); 
-					}
-				}
-			}
-			combatLog.push("Turn End.");
-			return; }
+			this.endTurn(); return true;
+		}
 			
 		// End placement box
-		if (this.unitUiBox != 'undefined' && this.unitUiBox != null && this.finishPlacementBox.Contains(Mouse) == true && PlacementStage == true) {
+		if (this.unitUiBox != undefined && this.unitUiBox != null && this.finishPlacementBox.Contains(Mouse) == true && PlacementStage == true) {
 				var allUnitsPlacedBool = true;
 				for (var i = 0; i < this.unitPicks.length / 2 - 1; i++) {
 					
@@ -264,7 +284,44 @@ Ui.prototype.setTooltips = function() {
 			this.currentAbilities[i].boxColor = "Black";}
 	  }
 	  
+	
+	  Ui.prototype.endTurn = function() {
 	  
+			var endTurn = new Array();
+			endTurn.push("end");
+			
+			for (var i = 0; i < GameBoard.tileModifierList.length; i++) { var theSame = GameBoard.tileModifierList[i]; GameBoard.tileModifierList[i].turnRefresh("enemy");
+			if (theSame != GameBoard.tileModifierList[i]) { i--; } } //fixing index error
+			
+			GameBoard.sendUnitInstruction(endTurn);
+			if (GameBoard.gameType == "normal") { 
+				ClientsTurn = false; 
+				GameBoard.unitsMovedThisTurn = new Array();
+				
+				for (var i = 0; i < GameBoard.EnemyUnits.length; i++) {  var theSame = GameBoard.EnemyUnits[i]; GameBoard.EnemyUnits[i].turnFunction(); 
+				if (theSame != GameBoard.EnemyUnits[i]) { i--; } } //fixing index error}				
+				
+				for (var i = 0; i < GameBoard.auraList.length; i++) { 
+					if (GameBoard.auraList[i].sourceUnit.alliance == "enemy") {
+						GameBoard.auraList[i].turn(); 
+					}
+				}
+				
+			} else if (GameBoard.gameType == "sandbox") {
+				GameBoard.unitsMovedThisTurn = new Array();
+				
+				for (var i = 0; i < GameBoard.AllyUnits.length; i++) { var theSame = GameBoard.AllyUnits[i]; GameBoard.AllyUnits[i].turnFunction();
+					if (theSame != GameBoard.AllyUnits[i]) { i--; } } //fixing index error}				}	
+				
+				for (var i = 0; i < GameBoard.auraList.length; i++) { 
+					if (GameBoard.auraList[i].sourceUnit.alliance == "ally") {
+						GameBoard.auraList[i].turn(); 
+					}
+				}
+			}
+			combatLog.push("Turn End.");
+			GameBoard.timerReset();
+	  }
 	  
 	  //Create&Adjust Placement Ui
 	   Ui.prototype.createPlacementUi = function() {
@@ -458,7 +515,7 @@ Ui.prototype.setTooltips = function() {
 				//Display Unit Buffs
 				
 				for (var i = 0; i < this.currentUnit.buffList.length; i++) { //may need reworking
-				if (this.currentBuffs.length > i) { this.currentBuffs[i].draw();
+				if (this.currentBuffs.length >= i) { this.currentBuffs[i].draw();
 					context.font = '7px Arial';
 				context.fillStyle = "White";
 					context.fillText(this.currentUnit.buffList[i].buffType, this.currentBuffs[i].x, this.currentBuffs[i].y + 8 + ((i % 4) * 5));
@@ -468,6 +525,7 @@ Ui.prototype.setTooltips = function() {
 					context.fillText(this.currentUnit.buffList[i].buffStats.duration, this.currentBuffs[i].x + 14, this.currentBuffs[i].y + 22); }
 				}
 				}
+				if (this.currentUnit.buffList.length > this.buffCount) { this.setTooltips(); } //refresh tooltips...
 			
 		
 		}
@@ -532,5 +590,9 @@ Ui.prototype.setTooltips = function() {
 	    context.font = '18px Arial';
 		context.fillStyle = "rgba(250, 250, 250, 0.5)";
 		context.fillText( GameBoard.hour + ":" + GameBoard.min + ":" + GameBoard.sec, _.canvas.width * 0.40, 20);
+		if (ClientsTurn == true && GameBoard.turnTimer.toggle == true) {
+		
+		context.fillText( GameBoard.turnTimer.min + ":" + GameBoard.turnTimer.sec, _.canvas.width * 0.40, 40);
+		}
 	  }
 			

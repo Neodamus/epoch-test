@@ -432,9 +432,11 @@ ability.prototype.abilityStats = function(abilityName)
 				duration: 3,
 				hitpoints: 2, //life
 				range: 4,
-				abilityTooltip: ""
+				abilityTooltip: "",
+				buffTooltip: ""
 			}
-			stats.abilityTooltip = clr +  abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ duration: " + stats.duration + " ^ life per turn: " + stats.hitpoints; 
+			stats.abilityTooltip = clr + abilityName + " ^ cooldown: " + stats.cooldown + " ^ Movement cost: " + stats.movementCost + " ^ duration: " + stats.duration + " ^ life per turn: " + stats.hitpoints; 
+			stats.buffTooltip = clr + abilityName;
 			return stats;	
 					
 		case "Static":	

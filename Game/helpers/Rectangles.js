@@ -33,6 +33,7 @@ function Rectangle(x, y, width, height, image) {
 	this.textX;
 	this.textY;
 	
+	this.tooltipOf;
 }
 	   
 //Contains method checks for Points or Rectangles
@@ -72,6 +73,7 @@ Rectangle.prototype.Contains = function(Object) {
 	this.tooltipBox.tooltipString = new advancedString(wordWrap(text, width - 30), this.tooltipBox.x + 15, this.tooltipBox.y + 25);
 	this.tooltipBox.tooltip = false;
 	this.tooltipBox.boxColor = "rgba(20, 20, 20, 0.90)";
+	this.tooltipBox.tooltipOf = this;
 	//this.tooltipBox.setText(text, "black");
 	return this.tooltipBox;
 	

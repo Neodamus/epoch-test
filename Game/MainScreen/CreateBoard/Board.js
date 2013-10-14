@@ -18,6 +18,8 @@ function Board(userPicks, allyPicks, enemyPicks)
 	this.min = 0;
 	this.hour = 0;
 	
+	this.turnTimer = { toggle: true, min: 1, sec: 30 };
+	
 	this.timer = setInterval(function(){ GameBoard.stopwatch() }, 1000);
 	
 	this.id = "game";
@@ -73,9 +75,23 @@ Board.prototype.stopwatch = function() {
   if (this.min == 60) {
    this.min = 0;
    this.hour += 1; }
- //  console.warn(this.sec);
+   
+   if (this.turnTimer.toggle == true && ClientsTurn == true) {
+		
+		if (this.turnTimer.sec == 0) {
+		
+			if (this.turnTimer.min > 0) {
+				this.turnTimer.min--; this.turnTimer.sec = 59;
+			} 
+			else { Ui.endTurn(); }
+		} else { this.turnTimer.sec--; }
+   }
 }
+Board.prototype.timerReset = function() {
 
+this.turnTimer.min = 1;
+this.turnTimer.sec = 30; 
+}
 
 
 	  
