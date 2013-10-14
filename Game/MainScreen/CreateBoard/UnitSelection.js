@@ -169,12 +169,12 @@ SelectionScreen.prototype.initialize = function() {
 					
 				}
 				
-			/* } else if (this.currentPick == this.numPicks && this.allyPicks.length == 0) {   // generals pick
+			} else if (this.currentPick == this.numPicks && this.allyPicks.length == 0) {   // generals pick
  
  				this.unitsShown = "generals";
 				this.createUnitSelectionBoxes();
 				
-				sendPacket("endTurn"); */
+				sendPacket("endTurn");
  
 			} else {	// end phase		
 			
