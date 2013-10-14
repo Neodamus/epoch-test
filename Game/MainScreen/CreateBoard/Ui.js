@@ -589,10 +589,12 @@ Ui.prototype.setTooltips = function() {
 		}
 	    context.font = '18px Arial';
 		context.fillStyle = "rgba(250, 250, 250, 0.5)";
-		context.fillText( GameBoard.hour + ":" + GameBoard.min + ":" + GameBoard.sec, _.canvas.width * 0.40, 20);
-		if (ClientsTurn == true && GameBoard.turnTimer.toggle == true) {
-		
-		context.fillText( GameBoard.turnTimer.min + ":" + GameBoard.turnTimer.sec, _.canvas.width * 0.40, 40);
+		context.fillText("Total: " + this.clockTime(GameBoard.hour) + ":" + this.clockTime(GameBoard.min) + ":" + this.clockTime(GameBoard.sec), _.canvas.width * 0.84,  _.canvas.height * 0.985);
+		if (ClientsTurn == true && GameBoard.turnTimer.toggle == true) { 
+		if (GameBoard.turnTimer.min < 1 && GameBoard.turnTimer.sec < 42) { context.fillStyle = "red"; context.font = '25px Arial'; }
+		context.fillText( this.clockTime(GameBoard.turnTimer.min) + ":" + this.clockTime(GameBoard.turnTimer.sec), _.canvas.width * 0.40, 40);
 		}
 	  }
+	  
+	  Ui.prototype.clockTime = function(time) { if (time < 10) { return "0" + time; } else { return time; } }
 			

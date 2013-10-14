@@ -18,7 +18,8 @@ function Board(userPicks, allyPicks, enemyPicks)
 	this.min = 0;
 	this.hour = 0;
 	
-	this.turnTimer = { toggle: true, min: 1, sec: 30 };
+	timerReset = { min: 1, sec: 10 };
+	this.turnTimer = { toggle: true, min: timerReset.min, sec: timerReset.sec };
 	
 	this.timer = setInterval(function(){ GameBoard.stopwatch() }, 1000);
 	
@@ -89,8 +90,8 @@ Board.prototype.stopwatch = function() {
 }
 Board.prototype.timerReset = function() {
 
-this.turnTimer.min = 1;
-this.turnTimer.sec = 30; 
+this.turnTimer.min = timerReset.min;
+this.turnTimer.sec = timerReset.sec; 
 }
 
 
