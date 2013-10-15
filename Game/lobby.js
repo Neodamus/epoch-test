@@ -23,9 +23,7 @@ function lobby() {
 	this.observeGame.setFontSize(_.fontSize * 0.8);
 	this.observeGame.clickfxn = function() { 
 		if (_.currentMode.gamesList.selectedRow != 0) {
-			var rowText = _.currentMode.gamesList.text[0];
-			var room = rowText.substr(5);
-			room = parseInt(room);
+			var room = _.currentMode.gamesList.text[0];
 			sendPacket("observe", room);
 		} else { alert("You must select a room to observe"); }
 	}

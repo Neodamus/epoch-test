@@ -27,7 +27,7 @@ function SelectionScreen() {
 	this.enemyPick = 0;		
 	this.numPicks = 9;	// replaces numberOfUnits
 	
-	this.pickOrder = [1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1]; 	// holds the pick order array
+	this.pickOrder = [9, 9, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1]; 	// holds the pick order array
 	this.pickIndex = 0; // determines where in the pick order
 	this.pickCount = this.pickOrder[this.pickIndex]; // determines how many units have been picked for current turn
 	this.pickHidden = [0, 8, 9, 17]; // determines which unit picks are hidden from other player, uses pickIndex
@@ -41,43 +41,174 @@ SelectionScreen.prototype.initialize = function() {
 	var hspacer = _.canvas.width * 0.037;
 	
 	this.elementBox = { width: _.canvas.width * 0.2 - hspacer, height: _.canvas.height * 0.48 };
+	
+	this.unitBox = { width: _.canvas.width * 0.045, height: _.canvas.height * 0.065 };
+		
 	this.generalBox = { width: this.elementBox.width * 0.4, height: this.elementBox.width * 0.4 };
+	
+	this.pickList = { x: _.canvas.width * 0.22, y: _.canvas.height * 0.83, hspace: 20, vspace: 20 }
 	
 }
 	  
 	  
-	   SelectionScreen.prototype.ReceiveRemove = function(RemoveNumber)
-	  {
+SelectionScreen.prototype.ReceiveRemove = function(RemoveNumber) {		  
+	
+	if (RemoveNumber instanceof Array == false) {
 		var Removing = this.pickRectangles[RemoveNumber + numberOfUnits];
 		Removing.customValue[0] = null;
 		Removing.customValue[1] = null;
 		Removing.customValue[2] = null;
-	  }
+	} else { // observer
+	
+		var index = RemoveNumber[0];
+		var user = RemoveNumber[1];
+		
+		if (user = this.allyName) {
+			this.allyPicks[index] = null;
+		} else if (user = this.enemyName) {
+			this.enemyPicks[index] = null;	
+		}
+	
+	}
+}
 	  
 	  
 	  SelectionScreen.prototype.ReceivePick = function(ElementType)
 	  {
 		  var elements = ["Fire", "Air", "Earth", "Lightning", "Water"];
 		  
-		  if (elements.indexOf(ElementType[0]) != -1) {
-			var ElementalUnitGroup;
-			if (ElementType[0] == "Fire") { ElementalUnitGroup = this.FireUnits;}
-			if (ElementType[0] == "Air") { ElementalUnitGroup = this.AirUnits;}
-			if (ElementType[0] == "Earth") { ElementalUnitGroup = this.EarthUnits;}
-			if (ElementType[0] == "Lightning") { ElementalUnitGroup = this.LightningUnits;}
-			if (ElementType[0] == "Water") { ElementalUnitGroup = this.WaterUnits;}
-			for (var i = 0; i < numberOfUnits; i++)
-				{
-					if (this.pickRectangles[i + numberOfUnits].customValue[0] == null)
-					{ this.enemyPick = i; break;}
+		  user = null;
+		  if (ElementType[1] == this.allyName || ElementType[1] == this.enemyName) { user = ElementType[1]; }
+		  
+		  if (user == null) {
+			  
+			  if (elements.indexOf(ElementType[0]) != -1) {
+				var ElementalUnitGroup;
+				if (ElementType[0] == "Fire") { ElementalUnitGroup = this.FireUnits;}
+				if (ElementType[0] == "Air") { ElementalUnitGroup = this.AirUnits;}
+				if (ElementType[0] == "Earth") { ElementalUnitGroup = this.EarthUnits;}
+				if (ElementType[0] == "Lightning") { ElementalUnitGroup = this.LightningUnits;}
+				if (ElementType[0] == "Water") { ElementalUnitGroup = this.WaterUnits;}
+				for (var i = 0; i < numberOfUnits; i++)
+					{
+						if (this.pickRectangles[i + numberOfUnits].customValue[0] == null)
+						{ this.enemyPick = i; break;}
+					}
+				
+				this.pickRectangles[numberOfUnits + this.enemyPick].customValue[0] = ElementalUnitGroup;
+				this.pickRectangles[numberOfUnits + this.enemyPick].customValue[1] = ElementType[1];
+				this.pickRectangles[numberOfUnits + this.enemyPick].customValue[2] = ElementType[0];
+			  } else {
+				  var unitName = ElementType;
+				  this.enemyPicks.push(UnitStats.getUnitByName(unitName));			  
+			  }
+			  
+		  } else {	// observer receive		  	
+				
+			var pickedUnit;
+		  
+		  	if (ElementType[0] instanceof Array) {
+				
+				var element = ElementType[0][0];
+				var unitIndex = ElementType[0][1];
+				
+				switch (element) {
+				
+					case "Fire":
+					
+						switch(unitIndex) {
+						
+							case 0: pickedUnit = "Vangaurd"; break;
+							case 1: pickedUnit = "Nightmare"; break;
+							case 2: pickedUnit = "Firebringer"; break;
+							case 3: pickedUnit = "Seer"; break;
+							
+						}
+					
+					break;
+				
+					case "Air":
+					
+						switch(unitIndex) {
+						
+							case 0: pickedUnit = "Assassin"; break;
+							case 1: pickedUnit = "Infiltrator"; break;
+							case 2: pickedUnit = "Sensei"; break;
+							case 3: pickedUnit = "Illusionist"; break;
+							
+						}
+					
+					break;
+				
+					case "Earth":
+					
+						switch(unitIndex) {
+						
+							case 0: pickedUnit = "Crossbowman"; break;
+							case 1: pickedUnit = "Sharpshooter"; break;
+							case 2: pickedUnit = "Ranger"; break;
+							case 3: pickedUnit = "Grovekeeper"; break;
+							
+						}
+					
+					break;
+				
+					case "Lightning":
+					
+						switch(unitIndex) {
+						
+							case 0: pickedUnit = "Charger"; break;
+							case 1: pickedUnit = "Ironfist"; break;
+							case 2: pickedUnit = "Inductor"; break;
+							case 3: pickedUnit = "Titan"; break;
+							
+						}
+					
+					break;
+				
+					case "Water":
+					
+						switch(unitIndex) {
+						
+							case 0: pickedUnit = "Ice Spirit"; break;
+							case 1: pickedUnit = "Theurgist"; break;
+							case 2: pickedUnit = "Healer"; break;
+							case 3: pickedUnit = "Rainmaker"; break;
+							
+						}
+					
+					break;
+									
 				}
-			
-			this.pickRectangles[numberOfUnits + this.enemyPick].customValue[0] = ElementalUnitGroup;
-			this.pickRectangles[numberOfUnits + this.enemyPick].customValue[1] = ElementType[1];
-			this.pickRectangles[numberOfUnits + this.enemyPick].customValue[2] = ElementType[0];
-		  } else {
-			  var unitName = ElementType;
-			  this.enemyPicks.push(UnitStats.getUnitByName(unitName));			  
+			} else {
+				var unitName = ElementType[0];
+				pickedUnit = UnitStats.getUnitByName(unitName);
+			}
+		  
+		  	if (user == this.allyName) {
+				
+				var nullCheck = false;
+				for (var i = 0; i < this.allyPicks.length; i++) { if (this.allyPicks[i] == null) { nullCheck = i; } }
+				
+				if (nullCheck == false) { 
+					this.allyPicks.push(pickedUnit);
+				} else {
+					this.allyPicks[nullCheck] = pickedUnit;
+				}
+				
+			} else {
+				
+				var nullCheck = false;
+				for (var i = 0; i < this.enemyPicks.length; i++) { if (this.enemyPicks[i] == null) { nullCheck = i; } }
+				
+				if (nullCheck == false) { 
+					this.enemyPicks.push(pickedUnit);
+				} else {
+					this.enemyPicks[nullCheck] = pickedUnit;
+				}
+				
+			}
+		  
 		  }
 	  }
 	  
@@ -343,53 +474,106 @@ SelectionScreen.prototype.UnitClicked = function(Mouse) {
 				}
 				if (this.pickRectangles[i].clicked == true) {context.drawImage(Images[3], this.ClickedObject.x, this.ClickedObject.y, this.ClickedObject.width, this.ClickedObject.height); }
 			}
-			context.fillStyle = "rgba(100, 255, 100, 1)";
-			context.fillText("Your Picks", this.PickLine.x + this.PickLine.width * 0.920 / 2, this.PickLine.y * 0.91);
-			context.fillStyle = "rgba(255, 100, 100, 1)";
-			context.fillText("Enemy Picks", this.PickLine.x + this.PickLine.width * 0.91 / 2, this.PickLine.y + this.PickLine.height * 3 * 3.2);
+			
+			// draw generals for players -- DOESN'T DRAW UNITS FOR PLAYERS -- also draws units and generals for observers
+			if (_.observer) {
+				
+				for (var i = 0; i < this.allyPicks.length; i++) {
+					
+					if (this.allyPicks[i] != null) {
+						if (this.allyPicks[i].image == undefined) { 
+							var image = Images[ReturnUnitImage(this.allyPicks[i])];
+						} else {
+							var image = this.allyPicks[i].image;
+						}
+						var x = this.pickList.x + (this.unitBox.width + this.pickList.hspace) * i;
+						var y = this.pickList.y;
+						var w = this.unitBox.width;
+						var h = this.unitBox.height;
+					
+						_.context.drawImage(image, x, y, w, h);
+					}
+					
+				}
+				
+				for (var i = 0; i < this.enemyPicks.length; i++) {
+					
+					if (this.enemyPicks[i] != null) {
+						if (this.enemyPicks[i].image == undefined) { 
+							var image = Images[ReturnUnitImage(this.enemyPicks[i])];
+						} else {
+							var image = this.enemyPicks[i].image;
+						}
+						var x = this.pickList.x + (this.unitBox.width + this.pickList.hspace) * i;
+						var y = this.pickList.y + this.unitBox.height + this.pickList.vspace;
+						var w = this.unitBox.width;
+						var h = this.unitBox.height;
+					
+						_.context.drawImage(image, x, y, w, h);
+					}
+					
+				}
+				
+			} else {
+				
+				// draw from ally picks
+				for (var i = 0; i < this.allyPicks.length; i++) {
+				
+					if (i < this.allyPicks.length - 1) { // draw units -- not used yet
+					
+					} else { 	// draw generals
+					
+						var lastDrawnUnit = this.pickRectangles[this.pickRectangles.length * 0.5 - 1];
+					
+						var general = this.allyPicks[i];
+						var image = general.image;
+						var generalX = lastDrawnUnit.x + lastDrawnUnit.width * 1.5;
+						var generalY = lastDrawnUnit.y + lastDrawnUnit.height - this.generalBox.height;
+						var generalWidth = this.generalBox.width;
+						var generalHeight = this.generalBox.height;
+						
+						_.context.drawImage(image, generalX, generalY, generalWidth, generalHeight);
+					
+					}				
+				}
+				
+				// draw from enemy picks
+				for (var i = 0; i < this.enemyPicks.length; i++) {
+				
+					if (i < this.enemyPicks.length - 1) { // draw units -- not used yet
+					
+					} else { 	// draw generals
+					
+						var lastDrawnUnit = this.pickRectangles[this.pickRectangles.length - 1];
+					
+						var general = this.enemyPicks[i];
+						var image = general.image;
+						var generalX = lastDrawnUnit.x + lastDrawnUnit.width * 1.5;
+						var generalY = lastDrawnUnit.y + lastDrawnUnit.height - this.generalBox.height;
+						var generalWidth = this.generalBox.width;
+						var generalHeight = this.generalBox.height;
+						
+						_.context.drawImage(image, generalX, generalY, generalWidth, generalHeight);
+					
+					}				
+				}
+			}
+			
+			// draw user names
+			if (_.observer) {			
+				context.fillStyle = "rgba(100, 255, 100, 1)";
+				context.fillText(this.allyName + " Picks", this.PickLine.x + this.PickLine.width * 0.920 / 2, this.PickLine.y * 0.91);
+				context.fillStyle = "rgba(255, 100, 100, 1)";
+				context.fillText(this.enemyName + " Picks", this.PickLine.x + this.PickLine.width * 0.91 / 2, 
+					this.PickLine.y + this.PickLine.height * 3 * 3.2);								
+			} else {			
+				context.fillStyle = "rgba(100, 255, 100, 1)";
+				context.fillText("Your Picks", this.PickLine.x + this.PickLine.width * 0.920 / 2, this.PickLine.y * 0.91);
+				context.fillStyle = "rgba(255, 100, 100, 1)";
+				context.fillText("Enemy Picks", this.PickLine.x + this.PickLine.width * 0.91 / 2, this.PickLine.y + this.PickLine.height * 3 * 3.2);
+			}
+			
 			context.font = globalFont;
-			
-			// draw from ally picks
-			for (var i = 0; i < this.allyPicks.length; i++) {
-			
-				if (i < this.allyPicks.length - 1) { // draw units -- not used yet
-				
-				} else { 	// draw generals
-				
-					var lastDrawnUnit = this.pickRectangles[this.pickRectangles.length * 0.5 - 1];
-				
-					var general = this.allyPicks[i];
-					var image = general.image;
-					var generalX = lastDrawnUnit.x + lastDrawnUnit.width * 1.5;
-					var generalY = lastDrawnUnit.y + lastDrawnUnit.height - this.generalBox.height;
-					var generalWidth = this.generalBox.width;
-					var generalHeight = this.generalBox.height;
-					
-					_.context.drawImage(image, generalX, generalY, generalWidth, generalHeight);
-				
-				}				
-			}
-			
-			// draw from enemy picks
-			for (var i = 0; i < this.enemyPicks.length; i++) {
-			
-				if (i < this.enemyPicks.length - 1) { // draw units -- not used yet
-				
-				} else { 	// draw generals
-				
-					var lastDrawnUnit = this.pickRectangles[this.pickRectangles.length - 1];
-				
-					var general = this.enemyPicks[i];
-					var image = general.image;
-					var generalX = lastDrawnUnit.x + lastDrawnUnit.width * 1.5;
-					var generalY = lastDrawnUnit.y + lastDrawnUnit.height - this.generalBox.height;
-					var generalWidth = this.generalBox.width;
-					var generalHeight = this.generalBox.height;
-					
-					_.context.drawImage(image, generalX, generalY, generalWidth, generalHeight);
-				
-				}				
-			}
 			
 		// Draw waiting box		
 		if (this.waiting) {
@@ -643,5 +827,24 @@ SelectionScreen.prototype.createUnitSelectionBoxes = function() {
 SelectionScreen.prototype.doubleClick = function() {
 	
 	this.AddPick();
+	
+}
+
+
+SelectionScreen.prototype.syncObserver = function(packetList) {
+
+	for (var i = 0; i < packetList.length; i++) {
+	
+		var id = packetList[i].id;
+		var data = packetList[i].data;
+		
+		switch (id) {
+		
+			case "selectUnit": this.ReceivePick(data); break;
+			case "removeUnit": this.ReceiveRemove(data); break;
+			
+		}
+		
+	}
 	
 }

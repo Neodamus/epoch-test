@@ -123,8 +123,8 @@ function messageHandler(message) {
 					UnitSelection = new SelectionScreen(); 
 					UnitSelection.allyName = players[0];
 					UnitSelection.enemyName = players[1];
-					console.warn(UnitSelection.allyName + " " + UnitSelection.enemyName);
-					_.currentMode = UnitSelection; 					
+					_.currentMode = UnitSelection; 
+					UnitSelection.syncObserver(packetList);				
 				break;
 				
 				case "game": 
