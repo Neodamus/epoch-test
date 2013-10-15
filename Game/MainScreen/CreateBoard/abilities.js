@@ -18,8 +18,7 @@ function ability() {
 
 ability.prototype.abilityStats = function(abilityName)
 {
-	var clr = "`rgba(140, 140, 140, 1)`";
-	
+	var clr = "`rgba(140, 140, 140, 1)`";	
 	
 	switch(abilityName){
 		

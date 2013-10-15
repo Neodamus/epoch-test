@@ -43,15 +43,6 @@ function startSocket() {
 		
 }
 
-function game_packet(id) {
-	this.id = id	
-}
-
-function game_packet(id, data) {
-	this.id = id
-	this.data = data	
-}
-
 function game_packet(id, data, data2) {
         this.id = id;
         this.data = data;
@@ -111,6 +102,24 @@ function messageHandler(message) {
 			_.host = false;
 			break;
 			
+		case "loadState":
+					
+			if (data == 0) { 
+				alert("No game state saved by that name"); 
+			} else {		
+				var state = data.state;
+				if (GameBoard != null) { 
+					GameBoard.loadState(state) 
+				} else { 
+					alert("hello");
+					GameBoard = new Board("sandbox");
+					_.currentMode = GameBoard;
+					GameBoard.loadState(state);
+				}
+			}
+		
+		break;
+			
 		case "observe":
 		
 			var phase = data[0];
@@ -135,6 +144,18 @@ function messageHandler(message) {
 			_.host = false;
 			_.observer = true;
 				
+		break;
+		
+		case "requestState":
+		
+			var saveName = data;
+			
+			if (GameBoard != null) {
+				var saveState = GameBoard.saveState();
+				var packet = { name: saveName, state: saveState };
+				sendPacket("saveState", packet);
+			}
+		
 		break;
 			
 		case "selectUnit":

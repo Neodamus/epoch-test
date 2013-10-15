@@ -763,3 +763,64 @@ Board.prototype.gridClick = function() {
 	
 	return false;	
 } 
+
+
+// gets the current state of the board -- [ gridtiles, unitname, alliance ]
+Board.prototype.saveState = function() {
+
+	var state = [];
+	
+	for (var i = 0; i < this.AllyUnits.length; i++) {
+		
+		var currentUnit = this.AllyUnits[i]; 
+		
+		var gridTile = { x: currentUnit.x, y: currentUnit.y };
+		var unitName = currentUnit.name;
+		var unitAlliance = currentUnit.alliance;
+		
+		var unitObject = { grid: gridTile, name: unitName, alliance: unitAlliance };
+		
+		state.push(unitObject);
+		
+	}
+	
+	for (var i = 0; i < this.EnemyUnits.length; i++) {
+		
+		var currentUnit = this.EnemyUnits[i]; 
+		
+		var gridTile = { x: currentUnit.x, y: currentUnit.y };
+		var unitName = currentUnit.name;
+		var unitAlliance = currentUnit.alliance;
+		
+		var unitObject = { grid: gridTile, name: unitName, alliance: unitAlliance };
+		
+		state.push(unitObject);
+		
+	}
+	
+	return state;
+	
+}
+
+// loads state of board from a saveState
+Board.prototype.loadState = function(saveState) {
+	
+	for (var i = 0; i < this.AllyUnits.length; i++) { this.AllyUnits[i].Delete(); i--; }
+	for (var i = 0; i < this.EnemyUnits.length; i++) { this.EnemyUnits[i].Delete(); i--; }
+	
+	//this.AllyUnits = [];
+	//this.EnemyUnits = [];
+	
+	for (var i = 0; i < saveState.length; i++) {
+	
+		var currentUnit = saveState[i];
+		
+		var gridTile = currentUnit.grid;
+		var unitName = currentUnit.name;
+		var unitAlliance = currentUnit.alliance;
+		
+		this.CreateUnit(unitAlliance, unitName, gridTile.x, gridTile.y);
+		
+	}
+	
+}
