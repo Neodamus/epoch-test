@@ -21,6 +21,7 @@ function Rectangle(x, y, width, height, image) {
 	this.outlineFont = false;
 	
 	this.drawBehind = false;
+	this.imageRect;
 	
 	this.boxColor = "#000";
 	
@@ -114,13 +115,16 @@ Rectangle.prototype.draw = function() {
 	
 	
 	if (this.hasImage) {
-	
+		//DRAW a rect behind
 		if (this.drawBehind == true) {
 			if (this.boxColor != null) { _.context.fillStyle = this.boxColor; }
-			_.context.fillRect(this.x + 5, this.y + 4, this.width - 7, this.height - 10);	
-		}//draws a smaller rectangle behind image
+			_.context.fillRect(this.x, this.y, this.width, this.height);	
+		}
+		//making image a different size than the box(as an option)
+		var rect = { x: this.x, y: this.y, width: this.width, height: this.height };
+		if (this.imageRect != null) { rect = { x: this.imageRect.x, y: this.imageRect.y, width: this.imageRect.width, height: this.imageRect.height }; }
 		
-		_.context.drawImage(this.image, this.x, this.y, this.width, this.height);	  
+		_.context.drawImage(this.image, rect.x, rect.y, rect.width, rect.height);	  
 		
 	} else {
 	

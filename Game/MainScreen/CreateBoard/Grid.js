@@ -296,15 +296,17 @@
 			context.strokeText(this.abilityCastList[0], this.ThisRectangle.x - this.ThisRectangle.width * 0.40, this.ThisRectangle.y + this.ThisRectangle.height * 0.6);
 			context.fillText(this.abilityCastList[0], this.ThisRectangle.x - this.ThisRectangle.width * 0.40, this.ThisRectangle.y + this.ThisRectangle.height * 0.6);
 			if (this.castAnimation >= 70) { this.abilityCastList.splice(0, 1); this.castAnimation = 0;}
-		} }
+		} } else { this.abilityCastList = new Array(); }
 		context.globalAlpha = 1;
 		//dull vision except for selected unit's
 		if (CurrentSelectedGrid != undefined && CurrentSelectedGrid.currentUnit != null && 
-		CurrentSelectedGrid.currentUnit.alliance != "enemy" &&
-		this.visible == true && listContains(this.allyVision, CurrentSelectedGrid.currentUnit) == false) { 
-			context.globalAlpha = 0.3;
-		context.drawImage(Images[7],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
-		context.globalAlpha = 1; }
+			CurrentSelectedGrid.currentUnit.alliance != "enemy" &&
+			this.visible == true && listContains(this.allyVision, CurrentSelectedGrid.currentUnit) == false) { 
+			
+				context.globalAlpha = 0.3;
+				context.drawImage(Images[7],this.ThisRectangle.x, this.ThisRectangle.y, this.ThisRectangle.width, this.ThisRectangle.height);
+				context.globalAlpha = 1; 
+		}
 		
 		context.restore();
 		//this.centreRect.draw();

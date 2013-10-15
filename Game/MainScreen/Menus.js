@@ -29,7 +29,7 @@ function CreateMenus(Width, Height) {
 	  this.CreateBox.setImage(Images[135]); this.CreateBox.drawBehind = true;
 	  
 	  this.FindBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 2 - MenuY, this.StartOptionBox.width, MenuHeight);  this.FindBox.boxColor =  this.color1
-	  this.FindBox.setImage(Images[135]); this.FindBox.drawBehind = true;
+	  this.FindBox.setImage(Images[135]); this.FindBox.drawBehind = true; this.FindBox.imageRect = { x: this.FindBox.x - 4, y: this.FindBox.y - 4, width: this.FindBox.width + 8, height: this.FindBox.height + 8};
 	  
 	  this.quickGameBox = new Rectangle(this.StartOptionBox.x, this.StartOptionBox.y + MenuYSpace * 1 - MenuY, this.StartOptionBox.width, MenuHeight);  this.quickGameBox.boxColor =  this.color1
 	   this.quickGameBox.setImage(Images[135]); this.quickGameBox.drawBehind = true;

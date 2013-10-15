@@ -56,7 +56,7 @@
 	 // myAudio.currentTime = 0;
 	  //  myAudio.play();
 	 
-	  myAudio.volume = 0.40;
+	  myAudio.volume = 1.0;
 	  
 	  // initialize message box --- change to initialize when initialize is added to textBox
 	  _.messages = new textBox(_.canvas.width * 0.05, _.canvas.height * 0.05, _.canvas.width * 0.9, _.canvas.height * 0.5);
