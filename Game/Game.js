@@ -20,7 +20,7 @@
 	 var UnitStats;
 	 var UnitSelection;
 	 var GameBoard;
-	 
+	 var ability;
 	 
 	 var Screen;
 	 
@@ -40,7 +40,7 @@
 	  
 	  LoadImageContent();
 	  UnitStats = new UnitStats(); //initialize unitstats
-	  
+	  ability = new ability();
 	  //Start Draw updates
 	  globalFont = (Canvas.height * 0.031).toString() + 'px FLORI';
 	  globalFontSize = Canvas.height * 0.031;

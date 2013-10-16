@@ -1,6 +1,6 @@
 var CurrentSelectedGrid; //make this private?
 var CurrentTarget;
-
+var timer;
 var PlacementStage = true;
 var combatLog = new Array();
 
@@ -19,9 +19,10 @@ function Board(userPicks, allyPicks, enemyPicks)
 	this.hour = 0;
 	
 	timerReset = { min: 1, sec: 10 };
+	
 	this.turnTimer = { toggle: true, min: timerReset.min, sec: timerReset.sec };
 	
-	this.timer = setInterval(function(){ GameBoard.stopwatch() }, 1000);
+	if (timer == null) { timer = setInterval( function(){ GameBoard.stopwatch() }, 1000); }
 	
 	this.id = "game";
 	
@@ -36,15 +37,9 @@ function Board(userPicks, allyPicks, enemyPicks)
 	cg = CreateGrid();
 	this.gameType = "normal";
 	if (userPicks == "sandbox") { this.gameType = "sandbox"; this.observer = true; this.BoardY += 120; this.UpdateBoardPosition();}
-<<<<<<< HEAD
-=======
 	
 	this.Ui = new Ui(userPicks, allyPicks, enemyPicks);
->>>>>>> 61b000c32341246f5113879b659a9611cb7fc4c6
-  
-	
-	
-	Ui = new Ui(userPicks, allyPicks, enemyPicks);
+ 
 	
 	this.AllyUnits = new Array();
 	this.EnemyUnits = new Array();
