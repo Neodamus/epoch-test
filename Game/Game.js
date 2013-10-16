@@ -244,7 +244,7 @@
 				
 			case "GameBoard":
 				ability.castModeHighlight();
-				Ui.tooltips();
+				GameBoard.Ui.tooltips();
 				break;		
 		
 		}
@@ -414,7 +414,7 @@ function keyDownHandler(key) {
 		}
 		if (Screen == "GameBoard")
 		{
-			if (Ui.ClickisWithin(Mouse) == true)
+			if (GameBoard.Ui.ClickisWithin(Mouse) == true)
 			{ return; }
 			GameBoard.ClickGrid(Mouse, WhichClick);
 		}

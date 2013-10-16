@@ -937,7 +937,7 @@ ability.prototype.targetCast = function(targetSpot) //if finished returns true, 
 	} else {
 		
 		this.removeMarkers();
-		Ui.abilityClickOff();
+		GameBoard.Ui.abilityClickOff();
 		
 	}
 	
@@ -1028,7 +1028,7 @@ ability.prototype.removeMarkers = function()
 {
 	if (this.castMode == true) {
 		this.sourceUnit.abilityMarkers("off", this.currentAbilityStats.range);
-		Ui.abilityClickOff();
+		GameBoard.Ui.abilityClickOff();
 		this.castMode = false;
 		this.castTarget.abilitySelectMarker = false;
 	}
