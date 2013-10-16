@@ -36,10 +36,10 @@ function Board(userPicks, allyPicks, enemyPicks)
 	cg = CreateGrid();
 	this.gameType = "normal";
 	if (userPicks == "sandbox") { this.gameType = "sandbox"; this.observer = true; this.BoardY += 120; this.UpdateBoardPosition();}
-	
-	Ui = new Ui(userPicks, allyPicks, enemyPicks);
   
 	ability = new ability(); //initialize abilities
+	
+	Ui = new Ui(userPicks, allyPicks, enemyPicks);
 	
 	this.AllyUnits = new Array();
 	this.EnemyUnits = new Array();
