@@ -1,16 +1,16 @@
 function ability() { 
  
 	this.abilityName;
-	this.currentAbility;					// { name, cooldown }
-	this.currentAbilityStats;				// holds the current ability's stats (changeable)
+	this.currentAbility;								// { name, cooldown }
+	this.currentAbilityStats;							// holds the current ability's stats (changeable)
 	this.specialAbilityList(); 
 	this.sourceUnit;
 	
-	this.castMode = false;					// true if in castmode, false if not
-	this.castType = "single";				// type of casting area, ie: single, line, radius, chain
-	this.castTarget = GridSpot[0][0];		// holds current targeted gridspot, also the center of a highlight area
-	this.castTargetList = []; 				// holds list of targeted gridspots
-	this.castTargeOption = 0;				// used for changing the area select, ie: turning line cast different ways, determining radius
+	this.castMode = false;								// true if in castmode, false if not
+	this.castType = "single";							// type of casting area, ie: single, line, radius, chain
+	this.castTarget = new Grid(-1, -1, 0, 0, 0, 0);		// holds current targeted gridspot, also the center of a highlight area
+	this.castTargetList = []; 							// holds list of targeted gridspots
+	this.castTargeOption = 0;							// used for changing the area select, ie: turning line cast different ways, radius
 
 }
 
