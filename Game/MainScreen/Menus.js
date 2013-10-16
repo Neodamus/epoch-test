@@ -47,21 +47,15 @@ function CreateMenus(Width, Height) {
 	this.clickableObjects.push(e);
 	
 	e = this.tutorial = new Rectangle(this.menuBox.width * 0.13, (this.menuBox.y + bSpaceHeight) + bHeight * 4, this.menuBox.width * 0.87, this.menuBox.height * 0.1); e.boxColor = "gray"; e.setText("tutorial", "white");
+	this.clickableObjects.push(e);
 	
 	e = this.ladder = new Rectangle(this.menuBox.width * 0.13, (this.menuBox.y + bSpaceHeight) + bHeight * 5, this.menuBox.width * 0.87, this.menuBox.height * 0.1); e.boxColor = "gray"; e.setText("ladder", "white");
+	this.clickableObjects.push(e);
 	
 	e = this.tournament = new Rectangle(this.menuBox.width * 0.13, (this.menuBox.y + bSpaceHeight) + bHeight * 6, this.menuBox.width * 0.87, this.menuBox.height * 0.1); e.boxColor = "gray"; e.setText("tournament", "white");
+	this.clickableObjects.push(e);
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	e = this.chatBox = new Rectangle(this.menuBox.width, this.namePlate.height * 1.6, _.canvas.width - this.menuBox.width * 2.25, _.canvas.height - this.namePlate.height); 
 	e.boxColor = "rgba(250, 0, 0, 0.2)"; e.setText("chatBox", "white");
 	
@@ -69,11 +63,11 @@ function CreateMenus(Width, Height) {
 }
 	  
 		
-CreateMenus.prototype.ClickisWithin = function(Mouse){
+CreateMenus.prototype.ClickisWithin = function(){
 
 	for (var i = 0; i < this.clickableObjects.length; i++) {
 	
-		if (this.clickableObjects[i].Contains(Mouse) == true) {
+		if (this.clickableObjects[i].Contains(_.mouse) == true) {
 		
 			switch(this.clickableObjects[i]) {
 			
@@ -102,15 +96,11 @@ CreateMenus.prototype.ClickisWithin = function(Mouse){
 }
 	  
 
-CreateMenus.prototype.mousePosition = function(mousePos){
+CreateMenus.prototype.mousePosition = function(){
 
 }
 	  
 CreateMenus.prototype.Draw = function() {
-
-	if (this.menus == true) {
-		_.context.drawImage(Images[0], (_.canvas.width * 0.0238) * 0.5, _.canvas.height * 0.2585, _.canvas.width * 0.986 , _.canvas.height * 0.9612); 
-	}
 	
 	this.namePlate.draw();
 	this.nameLevel.draw();

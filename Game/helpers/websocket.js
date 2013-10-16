@@ -30,7 +30,7 @@ function startSocket() {
 			
 		} else {		
 			
-			_.currentMode = new CreateMenus(document.getElementById('Mycanvas').width, document.getElementById('Mycanvas').height)
+			Menus = new CreateMenus(document.getElementById('Mycanvas').width, document.getElementById('Mycanvas').height)
 			sendPacket2("loginRequest", _.userName)
 			_.connectionStatus = 2			
 			

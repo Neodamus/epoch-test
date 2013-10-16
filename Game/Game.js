@@ -238,14 +238,7 @@
         };
 		
 		Mouse = _.mouse;
-			
-		switch (_.currentMode.id) { 
 		
-			case "menus":
-				_.currentMode.mousePosition(Mouse)
-				break
-				
-		}
 		
 		switch (Screen) {
 				
@@ -259,6 +252,8 @@
 	}
 	
 	function mouseClickHandler(mouse) {
+		
+		if (Menus.ClickisWithin() == true) { return; }
 		
 		switch(_.currentMode.id) {
 			
@@ -466,10 +461,6 @@ function keyDownHandler(key) {
 			
 			case "login":
 				_.currentMode.draw();
-				break;
-				
-			case "menus":
-				_.currentMode.Draw();
 				break;
 				
 			case "blank":
