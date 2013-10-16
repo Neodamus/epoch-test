@@ -453,7 +453,7 @@ function keyDownHandler(key) {
 		
 
 		switch(Screen) {
-			case "Menus": Menus.Draw(context, canvas); alert ("Drawing menus from screen"); break;				
+		//	case "Menus": Menus.Draw(context, canvas); alert ("Drawing menus from screen"); break;				
 			case "UnitSelection": UnitSelection.Draw(context, canvas); break;
 			case "GameBoard": GameBoard.Draw(context, canvas); break;
 		}
@@ -497,8 +497,8 @@ function keyDownHandler(key) {
 				
 			case 2:
 
-				context.fillText("Logged in as " + _.userName, 5, _.fontSize)
-				
+				//context.fillText("Logged in as " + _.userName, 5, _.fontSize)
+				Menus.Draw(context, canvas);
 				break
 			
 		}
