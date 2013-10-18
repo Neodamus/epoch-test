@@ -30,12 +30,12 @@ function CreateMenus(Width, Height) {
 	
 	
 	
-	e = this.bottomBar = new Rectangle(0, _.canvas.height * 0.95, _.canvas.width, _.canvas.height * 0.05); e.boxColor = "rgba(50, 50, 0, 1)"; e.setText("BottomBar", "white"); e.setImage(Images[146]);
+	e = this.bottomBar = new Rectangle(0, _.canvas.height * 0.965, _.canvas.width, _.canvas.height * 0.05); e.boxColor = "rgba(50, 50, 0, 1)"; e.setText("BottomBar", "white"); e.setImage(Images[146]);
 	
 	e = this.currency = new Rectangle(0, _.canvas.height * 0.95, _.canvas.width * 0.168, _.canvas.height * 0.05); e.boxColor = "rgba(50, 50, 200, 1)"; e.setText("Currency", "white");
 	
 	//Menu options
-	e = this.menuBox = new Rectangle(0, 0, this.namePlate.width * 0.5, _.canvas.height - this.namePlate.height * 0.8); e.setImage(Images[142]);
+	e = this.menuBox = new Rectangle(0, 0, this.namePlate.width * 0.5, _.canvas.height - this.namePlate.height * 0.5); e.setImage(Images[142]);
 	
 	var bHeight = this.menuBox.height * 0.13; 
 	var bSpaceFromTop = this.menuBox.height * 0.071;
@@ -70,7 +70,7 @@ function CreateMenus(Width, Height) {
 	e = this.chatBox = new Rectangle(this.menuBox.width, this.namePlate.height * 1.6, _.canvas.width - this.menuBox.width * 2.25, _.canvas.height - this.namePlate.height); 
 	e.setImage(Images[143]);
 	
-	e = this.chatBar = new Rectangle(this.menuBox.width * 1.01, this.chatBox.y + this.chatBox.height * 0.86, this.chatBox.width * 0.985, this.chatBox.height * 0.05); 
+	e = this.chatBar = new Rectangle(this.menuBox.width * 0.98, this.chatBox.y + this.chatBox.height * 0.876, this.chatBox.width * 0.995, this.chatBox.height * 0.05); 
 	e.setImage(Images[145]);
 	
 	e = this.motdBar = new Rectangle(this.menuBox.width * 1.03, this.chatBox.y * 1.05, this.chatBox.width * 0.986, this.chatBox.height * 0.05); 
