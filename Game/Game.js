@@ -148,6 +148,20 @@
 	  Images[135].src = "Game/Images/menu.png";
 	  Images[136].src = "Game/Images/enemy.png";
 	  Images[137].src = "Game/Images/moveable.png";
+	  
+	  //new menu images!
+	   Images[140].src = "Game/Images/Menus/107.77.button.bg.png";
+	   Images[141].src = "Game/Images/Menus/107.77.button.border.png";
+	   Images[142].src = "Game/Images/Menus/706.163.left.png";
+	   Images[143].src = "Game/Images/Menus/611.686.menus.png";
+	   Images[144].src = "Game/Images/Menus/196.708.players.bg.png";
+	   Images[145].src = "Game/Images/Menus/607.39.chatbar.bg.png";
+	   Images[146].src = "Game/Images/Menus/970.34.bottombar.bg.png";
+	   Images[147].src = "Game/Images/Menus/gearborder.png";
+	   Images[148].src = "Game/Images/Menus/gear.bg.png";
+	   Images[149].src = "Game/Images/Menus/midgear.png";
+	   Images[150].src = "Game/Images/Menus/name.border.png";
+	  
 	}
 	
 	function returnTileImage(name)
@@ -343,7 +357,7 @@ function keyDownHandler(key) {
 		break;
 			
 	}
-	
+	Menus.keyDown(key);
 	switch(_.currentMode.id) {
 	
 		case "login": 

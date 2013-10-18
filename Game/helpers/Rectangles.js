@@ -107,6 +107,8 @@ Rectangle.prototype.setImage = function(image) {
 
 	this.hasImage = true;
 	this.image = image;
+	this.bgImage;
+	this.midImage;
 }
 	  
 Rectangle.prototype.draw = function() {		  
@@ -123,6 +125,9 @@ Rectangle.prototype.draw = function() {
 		//making image a different size than the box(as an option)
 		var rect = { x: this.x, y: this.y, width: this.width, height: this.height };
 		if (this.imageRect != null) { rect = { x: this.imageRect.x, y: this.imageRect.y, width: this.imageRect.width, height: this.imageRect.height }; }
+		
+		if (this.bgImage != undefined && this.bgImage != null) { _.context.drawImage(this.bgImage, rect.x, rect.y, rect.width, rect.height); }
+		if (this.midImage != undefined && this.midImage != null) { _.context.drawImage(this.midImage, rect.x, rect.y, rect.width, rect.height); }
 		
 		_.context.drawImage(this.image, rect.x, rect.y, rect.width, rect.height);	  
 		
