@@ -74,7 +74,7 @@ function CreateMenus(Width, Height) {
 	e.setImage(Images[145]);
 	
 	e = this.motdBar = new Rectangle(this.menuBox.width * 1.03, this.chatBox.y * 1.05, this.chatBox.width * 0.986, this.chatBox.height * 0.05); 
-	e.setImage(Images[146]);
+	e.setImage(Images[146]); e.setText("Welcome to Epoch of Elements!", "orange");
 	
 	//chatbar  Images[145]
 	
@@ -91,7 +91,8 @@ CreateMenus.prototype.ClickisWithin = function(){
 		
 			switch(this.clickableObjects[i]) {
 			
-				case this.menuGear: this.menus = (this.menus == true) ? false : true; break;
+				case this.menuGear: 
+					this.menus = (this.menus == true) ? false : true; break;
 				
 				case this.quickmatch: if (this.menus == true) {
 					sendPacket("quickGame"); break; }
@@ -106,8 +107,7 @@ CreateMenus.prototype.ClickisWithin = function(){
 					localStorage.clear();
 					_.currentMode = new login();
 					_.currentMode.loginInput.text = "Guest";
-					_.connectionStatus = 1;
-					break; }
+					_.connectionStatus = 1; break; }
 				
 				
 			}
